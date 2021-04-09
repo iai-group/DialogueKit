@@ -1,2 +1,8 @@
-# dialoguekit
-DialogueKit
+# DialogueKit
+
+Terminology:
+
+  * Agent
+  * User
+  * Utterance
+  * Dialogue Manager
