@@ -4,4 +4,14 @@
 
 We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/master/python).
 
-Contributors: Krisztian Balog, Shuo Zhang 
+## Terminology
+
+  * Agent
+  * User
+  * Utterance
+  * Dialogue Manager
+
+
+## Contributors
+
+Krisztian Balog, Shuo Zhang
