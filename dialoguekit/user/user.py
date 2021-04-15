@@ -4,9 +4,13 @@ For communicating with an agent, the specific user instance needs to be
 connected with a DialogueManager by invoking `register_dialogue_manager()`.
 """
 
+from __future__ import annotations
 from enum import Enum
 
 from dialoguekit.utterance.utterance import Utterance
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from dialoguekit.manager.dialogue_manager import DialogueManager
 
 
 class UserType(Enum):
@@ -28,7 +32,7 @@ class User:
         self._dialogue_manager = None
         # TODO: add user_id, history
 
-    def register_dialogue_manager(self, dialogue_manager) -> None:
+    def register_dialogue_manager(self, dialogue_manager: DialogueManager) -> None:
         """Registers the Dialogue Manager instance for the user.
 
         Args:

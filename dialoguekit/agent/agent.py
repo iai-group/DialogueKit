@@ -7,10 +7,13 @@ An agent instance needs to be connected with a DialogueManager by invoking
 `register_dialogue_manager()`.
 """
 
+from __future__ import annotations
 from enum import Enum
 
-# from dialoguekit.manager.dialogue_manager import DialogueManager
 from dialoguekit.utterance.utterance import Utterance, UtteranceType
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from dialoguekit.manager.dialogue_manager import DialogueManager
 
 
 class AgentType(Enum):
@@ -35,7 +38,7 @@ class Agent:
         self._agent_type = agent_type
         self._dialogue_manager = None
 
-    def register_dialogue_manager(self, dialogue_manager) -> None:
+    def register_dialogue_manager(self, dialogue_manager: DialogueManager) -> None:
         """Registers the Dialogue Manager instance for the agent.
 
         Args:
