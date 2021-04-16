@@ -32,9 +32,9 @@ class DialogueManager:
             platform: An instance of Platform.
         """
         self.__agent = agent
-        self.__agent.register_dialogue_manager(self)
+        self.__agent.connect_dialogue_manager(self)
         self.__user = user
-        self.__user.register_dialogue_manager(self)
+        self.__user.connect_dialogue_manager(self)
         self.__platform = platform
 
     def register_user_utterance(self, utterance: Utterance) -> None:

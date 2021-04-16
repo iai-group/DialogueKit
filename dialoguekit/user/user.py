@@ -28,8 +28,8 @@ class User:
         self._dialogue_manager = None
         # TODO: add user_id, history
 
-    def register_dialogue_manager(self, dialogue_manager) -> None:
-        """Registers the Dialogue Manager instance for the user.
+    def connect_dialogue_manager(self, dialogue_manager) -> None:
+        """Connects the Dialogue Manager instance for the user.
 
         Args:
             dialogue_manager: A DialogueManager instance.

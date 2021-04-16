@@ -35,8 +35,8 @@ class Agent:
         self._agent_type = agent_type
         self._dialogue_manager = None
 
-    def register_dialogue_manager(self, dialogue_manager) -> None:
-        """Registers the Dialogue Manager instance for the agent.
+    def connect_dialogue_manager(self, dialogue_manager) -> None:
+        """Connects the Dialogue Manager instance for the agent.
 
         Args:
             dialogue_manager: A DialogueManager instance.
