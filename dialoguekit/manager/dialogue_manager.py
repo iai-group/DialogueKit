@@ -2,7 +2,7 @@
 
 The DialogueManager is instantiated with an Agent and a User.  These are then
 connected with the particular DialogueManager instance by calling their
-respective `register_dialogue_manager()` methods.
+respective `connect_dialogue_manager()` methods.
 
 By definition, the communication starts with the Agent's welcome message.
 Each agent/user utterance is sent to the other party via their respective
@@ -17,6 +17,7 @@ the User, the DialogueManager sends it to the other party by calling their
 from dialoguekit.agent.agent import Agent
 from dialoguekit.user.user import User
 from dialoguekit.utterance.utterance import Utterance, UtteranceType
+from dialoguekit.manager.dialogue_history import DialogueHistory
 from dialoguekit.platform.platform import Platform
 
 
@@ -36,6 +37,7 @@ class DialogueManager:
         self.__user = user
         self.__user.connect_dialogue_manager(self)
         self.__platform = platform
+        self.__dialogue_history = DialogueHistory(agent.agent_id, user.user_id)
 
     def register_user_utterance(self, utterance: Utterance) -> None:
         """Registers an utterance from the user.
@@ -43,6 +45,7 @@ class DialogueManager:
         Args:
             utterance: User utterance.
         """
+        self.__dialogue_history.add_user_utterance(utterance)
         self.__platform.display_user_utterance(utterance)
         # TODO: This is temp; should be moved to ParrotAgent.
         # Also, termination should be solved more generally.
@@ -57,6 +60,7 @@ class DialogueManager:
         Args:
             utterance: Agent utterance.
         """
+        self.__dialogue_history.add_agent_utterance(utterance)
         self.__platform.display_agent_utterance(utterance)
         if utterance.utterance_type != UtteranceType.EXIT:
             self.__user.receive_agent_utterance(utterance)
@@ -64,6 +68,12 @@ class DialogueManager:
     def start(self) -> None:
         """Starts the conversation."""
         self.__agent.welcome()
+        # TODO: Add some error handling (if connecting the user/agent fails)
+
+    def close(self) -> None:
+        """Closes the conversation."""
+        pass
+        # TODO: save dialogue history, subject to config parameters
 
 
 if __name__ == "__main__":
@@ -72,3 +82,4 @@ if __name__ == "__main__":
     platform = Platform()
     dm = DialogueManager(agent, user, platform)
     dm.start()
+    dm.close()

@@ -26,14 +26,21 @@ class Agent:
     TODO: Make abstract class and move current functionality to ParrotAgent.
     """
 
-    def __init__(self, agent_type: AgentType = AgentType.BOT) -> None:
+    def __init__(
+        self, agent_id: str, agent_type: AgentType = AgentType.BOT
+    ) -> None:
         """Initializes the agent.
 
         Args:
             agent_type: Agent type (default: BOT).
         """
+        self.__agent_id = agent_id
         self._agent_type = agent_type
         self._dialogue_manager = None
+
+    @property
+    def agent_id(self):
+        return self.__agent_id
 
     def connect_dialogue_manager(self, dialogue_manager) -> None:
         """Connects the Dialogue Manager instance for the agent.
