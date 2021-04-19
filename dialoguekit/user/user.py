@@ -9,12 +9,14 @@ from enum import Enum
 
 from dialoguekit.utterance.utterance import Utterance
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from dialoguekit.manager.dialogue_manager import DialogueManager
 
 
 class UserType(Enum):
     """Represents different types of users (humans vs. simulated users)."""
+
     HUMAN = 0
     SIMULATOR = 1
 
@@ -22,18 +24,26 @@ class UserType(Enum):
 class User:
     """Represents a user."""
 
-    def __init__(self, user_type: UserType = UserType.HUMAN) -> None:
+    def __init__(
+        self, user_id: str, user_type: UserType = UserType.HUMAN
+    ) -> None:
         """Initializes the user.
 
         Args:
             user_type: User type (default: HUMAN).
         """
+        self.__user_id = user_id
         self._user_type = user_type
         self._dialogue_manager = None
-        # TODO: add user_id, history
 
-    def register_dialogue_manager(self, dialogue_manager: DialogueManager) -> None:
-        """Registers the Dialogue Manager instance for the user.
+    @property
+    def user_id(self):
+        return self.__user_id
+
+    def connect_dialogue_manager(
+        self, dialogue_manager: DialogueManager
+    ) -> None:
+        """Connects the Dialogue Manager instance for the user.
 
         Args:
             dialogue_manager: A DialogueManager instance.

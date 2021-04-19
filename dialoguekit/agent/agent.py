@@ -12,6 +12,7 @@ from enum import Enum
 
 from dialoguekit.utterance.utterance import Utterance, UtteranceType
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from dialoguekit.manager.dialogue_manager import DialogueManager
 
@@ -29,17 +30,26 @@ class Agent:
     TODO: Make abstract class and move current functionality to ParrotAgent.
     """
 
-    def __init__(self, agent_type: AgentType = AgentType.BOT) -> None:
+    def __init__(
+        self, agent_id: str, agent_type: AgentType = AgentType.BOT
+    ) -> None:
         """Initializes the agent.
 
         Args:
             agent_type: Agent type (default: BOT).
         """
+        self.__agent_id = agent_id
         self._agent_type = agent_type
         self._dialogue_manager = None
 
-    def register_dialogue_manager(self, dialogue_manager: DialogueManager) -> None:
-        """Registers the Dialogue Manager instance for the agent.
+    @property
+    def agent_id(self):
+        return self.__agent_id
+
+    def connect_dialogue_manager(
+        self, dialogue_manager: DialogueManager
+    ) -> None:
+        """Connects the Dialogue Manager instance for the agent.
 
         Args:
             dialogue_manager: A DialogueManager instance.
