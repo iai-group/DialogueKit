@@ -6,15 +6,17 @@ connected with a DialogueManager by invoking `register_dialogue_manager()`.
 
 from __future__ import annotations
 from enum import Enum
+from typing import TYPE_CHECKING
 
 from dialoguekit.utterance.utterance import Utterance
-from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
     from dialoguekit.manager.dialogue_manager import DialogueManager
 
 
 class UserType(Enum):
     """Represents different types of users (humans vs. simulated users)."""
+
     HUMAN = 0
     SIMULATOR = 1
 
@@ -32,13 +34,13 @@ class User:
         self._dialogue_manager = None
         # TODO: add user_id, history
 
-    def register_dialogue_manager(self, dialogue_manager: DialogueManager) -> None:
+    def register_dialogue_manager(
+        self, dialogue_manager: DialogueManager
+    ) -> None:
         """Registers the Dialogue Manager instance for the user.
 
         Args:
             dialogue_manager: A DialogueManager instance.
-
-        TODO: Add type annotation for dialogue_manager.
         """
         self._dialogue_manager = dialogue_manager
 
