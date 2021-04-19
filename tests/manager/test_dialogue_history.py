@@ -8,17 +8,32 @@ from dialoguekit.manager.dialogue_history import (
 )
 from dialoguekit.utterance.utterance import Utterance
 
+
 # Dialogue history object to be shared across multiple test cases.
 @pytest.fixture
 def dialogue_history_1():
     agent_id = "agent-001"
     user_id = "USR01"
+    agent_utterance_1 = "Hello"
+    user_utterance_1 = "Hi"
+    agent_utterance_2 = "Can I help you?"
+    user_utterance_2 = "No, thank you. Bye"
+    agent_utterance_3 = "Bye."
+    utterances = [
+        (DialogueParticipant.AGENT, agent_utterance_1),
+        (DialogueParticipant.USER, user_utterance_1),
+        (DialogueParticipant.AGENT, agent_utterance_2),
+        (DialogueParticipant.USER, user_utterance_2),
+        (DialogueParticipant.AGENT, agent_utterance_3),
+    ]
+
     dialogue_history = DialogueHistory(agent_id, user_id)
-    dialogue_history.add_agent_utterance(Utterance("Hello"))
-    dialogue_history.add_user_utterance(Utterance("Hi"))
-    dialogue_history.add_agent_utterance(Utterance("Can I help you?"))
-    dialogue_history.add_user_utterance(Utterance("No, thank you. Bye"))
-    dialogue_history.add_agent_utterance(Utterance("Bye."))
+    for sender, text in utterances:
+        if sender == DialogueParticipant.AGENT:
+            dialogue_history.add_agent_utterance(Utterance(text))
+        elif sender == DialogueParticipant.USER:
+            dialogue_history.add_user_utterance(Utterance(text))
+
     return dialogue_history
 
 
@@ -28,7 +43,9 @@ def test_ids(dialogue_history_1):
 
 
 def test_utterances(dialogue_history_1):
-    assert len(dialogue_history_1.utterances) == 5
+    assert len(dialogue_history_1.utterances) == len(
+        dialogue_history_1.utterances
+    )
     assert dialogue_history_1.utterances[0]["utterance"].text == "Hello"
     assert (
         dialogue_history_1.utterances[0]["sender"] == DialogueParticipant.AGENT
