@@ -26,10 +26,7 @@ class AgentType(Enum):
 
 
 class Agent(ABC):
-    """Represents an agent.
-
-    TODO: Make abstract class and move current functionality to ParrotAgent.
-    """
+    """Represents an agent."""
 
     def __init__(
         self, agent_id: str, agent_type: AgentType = AgentType.BOT
@@ -37,6 +34,7 @@ class Agent(ABC):
         """Initializes the agent.
 
         Args:
+            agent_id: Agent ID.
             agent_type: Agent type (default: BOT).
         """
         self.__agent_id = agent_id

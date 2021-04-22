@@ -7,9 +7,13 @@ from dialoguekit.utterance.utterance import Utterance, UtteranceType
 class ParrotAgent(Agent):
     """Parrot agent."""
 
-    def __init__(self):
-        """Initializes agent."""
-        super().__init__()
+    def __init__(self, agent_id: str):
+        """Initializes agent.
+
+        Args:
+            agent_id: Agent id.
+        """
+        super().__init__(agent_id)
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""

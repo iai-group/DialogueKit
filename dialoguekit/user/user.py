@@ -30,6 +30,7 @@ class User:
         """Initializes the user.
 
         Args:
+            user_id: User ID.
             user_type: User type (default: HUMAN).
         """
         self.__user_id = user_id

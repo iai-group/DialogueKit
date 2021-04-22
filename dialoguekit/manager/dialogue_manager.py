@@ -78,8 +78,8 @@ class DialogueManager:
 
 
 if __name__ == "__main__":
-    agent = ParrotAgent()
-    user = User()
+    agent = ParrotAgent("A01")
+    user = User("U01")
     platform = Platform()
     dm = DialogueManager(agent, user, platform)
     dm.start()
