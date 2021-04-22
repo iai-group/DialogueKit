@@ -8,10 +8,11 @@ An agent instance needs to be connected with a DialogueManager by invoking
 """
 
 from __future__ import annotations
+from abc import ABC, abstractmethod
 from enum import Enum
-
-from dialoguekit.utterance.utterance import Utterance, UtteranceType
 from typing import TYPE_CHECKING
+
+from dialoguekit.utterance.utterance import Utterance
 
 if TYPE_CHECKING:
     from dialoguekit.manager.dialogue_manager import DialogueManager
@@ -24,7 +25,7 @@ class AgentType(Enum):
     WOZ = 1
 
 
-class Agent:
+class Agent(ABC):
     """Represents an agent.
 
     TODO: Make abstract class and move current functionality to ParrotAgent.
@@ -53,33 +54,24 @@ class Agent:
 
         Args:
             dialogue_manager: A DialogueManager instance.
-
-        TODO: Add type annotation for dialogue_manager.
         """
         self._dialogue_manager = dialogue_manager
 
+    @abstractmethod
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
-        # TODO: move particular implementation to ParrotAgent
-        utterance = Utterance(
-            "Hello, I'm Parrot. What can I help u with?", UtteranceType.WELCOME
-        )
-        self._dialogue_manager.register_agent_utterance(utterance)
+        pass
 
+    @abstractmethod
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
-        # TODO: move particular implementation to ParrotAgent
-        utterance = Utterance(
-            "It was nice talking to you. Bye", UtteranceType.EXIT
-        )
-        self._dialogue_manager.register_agent_utterance(utterance)
+        pass
 
+    @abstractmethod
     def receive_user_utterance(self, utterance: Utterance) -> None:
         """This method is called each time there is a new user utterance.
 
         Args:
             utterance: User utterance.
         """
-        # TODO: move particular implementation to ParrotAgent
-        response = Utterance("Parrot " + utterance.text)
-        self._dialogue_manager.register_agent_utterance(response)
+        pass

@@ -6,9 +6,9 @@ connected with a DialogueManager by invoking `register_dialogue_manager()`.
 
 from __future__ import annotations
 from enum import Enum
+from typing import TYPE_CHECKING
 
 from dialoguekit.utterance.utterance import Utterance
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from dialoguekit.manager.dialogue_manager import DialogueManager
@@ -47,8 +47,6 @@ class User:
 
         Args:
             dialogue_manager: A DialogueManager instance.
-
-        TODO: Add type annotation for dialogue_manager.
         """
         self._dialogue_manager = dialogue_manager
 
