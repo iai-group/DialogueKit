@@ -5,7 +5,8 @@ from enum import Enum
 
 class UtteranceType(Enum):
     """Represents different types of utterances."""
-    # TODO: These should be replaced with dialogue acts.
+
+    # TODO: These should be replaced with intents.
     MESSAGE = 0
     WELCOME = 1
     EXIT = 2

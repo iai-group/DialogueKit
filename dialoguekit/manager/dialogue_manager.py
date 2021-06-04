@@ -40,6 +40,10 @@ class DialogueManager:
         self.__platform = platform
         self.__dialogue_history = Dialogue(agent.agent_id, user.user_id)
 
+    @property
+    def dialogue_history(self):
+        return self.__dialogue_history
+
     def register_user_utterance(self, utterance: Utterance) -> None:
         """Registers an utterance from the user.
 
