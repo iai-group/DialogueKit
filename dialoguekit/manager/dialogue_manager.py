@@ -18,7 +18,7 @@ from dialoguekit.agent.agent import Agent
 from dialoguekit.agent.parrot_agent import ParrotAgent
 from dialoguekit.user.user import User
 from dialoguekit.utterance.utterance import Utterance, UtteranceType
-from dialoguekit.manager.dialogue_history import DialogueHistory
+from dialoguekit.dialogue.dialogue import Dialogue
 from dialoguekit.platform.platform import Platform
 
 
@@ -38,7 +38,7 @@ class DialogueManager:
         self.__user = user
         self.__user.connect_dialogue_manager(self)
         self.__platform = platform
-        self.__dialogue_history = DialogueHistory(agent.agent_id, user.user_id)
+        self.__dialogue_history = Dialogue(agent.agent_id, user.user_id)
 
     def register_user_utterance(self, utterance: Utterance) -> None:
         """Registers an utterance from the user.

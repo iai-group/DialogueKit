@@ -14,7 +14,7 @@ class DialogueParticipant(Enum):
     USER = 1
 
 
-class DialogueHistory:
+class Dialogue:
     """Represents a dialogue."""
 
     def __init__(self, agent_id: str, user_id: str) -> None:

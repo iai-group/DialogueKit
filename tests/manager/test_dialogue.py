@@ -2,8 +2,8 @@
 
 import pytest
 
-from dialoguekit.manager.dialogue_history import (
-    DialogueHistory,
+from dialoguekit.dialogue.dialogue import (
+    Dialogue,
     DialogueParticipant,
 )
 from dialoguekit.utterance.utterance import Utterance
@@ -27,7 +27,7 @@ def dialogue_history_1():
         (DialogueParticipant.AGENT, agent_utterance_3),
     ]
 
-    dialogue_history = DialogueHistory(agent_id, user_id)
+    dialogue_history = Dialogue(agent_id, user_id)
     for sender, text in utterances:
         if sender == DialogueParticipant.AGENT:
             dialogue_history.add_agent_utterance(Utterance(text))
