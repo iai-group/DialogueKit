@@ -2,11 +2,11 @@
 
 import pytest
 
-from dialoguekit.dialogue.dialogue import (
+from dialoguekit.core.dialogue import (
     Dialogue,
     DialogueParticipant,
 )
-from dialoguekit.utterance.utterance import Utterance
+from dialoguekit.core.utterance import Utterance
 
 
 # Dialogue history object to be shared across multiple test cases.

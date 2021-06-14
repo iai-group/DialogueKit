@@ -1,7 +1,7 @@
 """The Platform facilitates the exchange of utterances between the user and the
 agent."""
 
-from dialoguekit.utterance.utterance import Utterance
+from dialoguekit.core.utterance import Utterance
 
 
 class Platform:

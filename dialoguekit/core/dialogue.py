@@ -4,7 +4,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Dict, List
 
-from dialoguekit.utterance.utterance import Utterance
+from dialoguekit.core.utterance import Utterance
 
 
 class DialogueParticipant(Enum):

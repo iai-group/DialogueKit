@@ -1,4 +1,4 @@
-from dialoguekit.utterance.utterance import Utterance
+from dialoguekit.core.utterance import Utterance
 
 
 class NLU:

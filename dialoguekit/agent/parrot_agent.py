@@ -1,7 +1,7 @@
 """Simplest possible agent that parrots back everything the user says."""
 
 from dialoguekit.agent.agent import Agent
-from dialoguekit.utterance.utterance import Utterance, UtteranceType
+from dialoguekit.core.utterance import Utterance, UtteranceType
 
 
 class ParrotAgent(Agent):
