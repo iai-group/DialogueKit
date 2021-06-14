@@ -1,6 +1,6 @@
 """Tests for the Utterance class."""
 
-from dialoguekit.utterance.utterance import Utterance
+from dialoguekit.core.utterance import Utterance
 
 
 def test_utterance_text():

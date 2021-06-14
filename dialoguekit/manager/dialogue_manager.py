@@ -17,8 +17,8 @@ the User, the DialogueManager sends it to the other party by calling their
 from dialoguekit.agent.agent import Agent
 from dialoguekit.agent.parrot_agent import ParrotAgent
 from dialoguekit.user.user import User
-from dialoguekit.utterance.utterance import Utterance, UtteranceType
-from dialoguekit.dialogue.dialogue import Dialogue
+from dialoguekit.core.utterance import Utterance, UtteranceType
+from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.platform.platform import Platform
 
 

@@ -8,7 +8,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import TYPE_CHECKING
 
-from dialoguekit.utterance.utterance import Utterance
+from dialoguekit.core.utterance import Utterance
 
 if TYPE_CHECKING:
     from dialoguekit.manager.dialogue_manager import DialogueManager
