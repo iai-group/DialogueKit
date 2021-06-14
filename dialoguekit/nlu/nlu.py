@@ -13,7 +13,6 @@ class NLU:
         # TODO: Add Intent class
         pass
 
-    def get_entities(self, utterance: Utterance):
-        """Detects entities a given agent utterance."""
-        # TODO: Add Entity class
+    def get_slot_values(self, utterance: Utterance):
+        """Extracts slot-value pairs from a given utterance."""
         pass
