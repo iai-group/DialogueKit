@@ -1,7 +1,7 @@
 """Interface representing a domain ontology."""
 
-import yaml
 import os
+import yaml
 
 
 class Ontology:

@@ -1,4 +1,7 @@
+"""Abstract representation of user preference modeling."""
+
 from typing import Dict
+
 
 class PreferenceModel:
     """Representation of the user's preferences."""
@@ -12,15 +15,18 @@ class PreferenceModel:
         pass
 
     def initialize_preferences(self) -> None:
-        """Initializes the user's preferences via sampling items"""
+        """Initializes the user's preferences via sampling items."""
         pass
 
     def rate_item(self, slots: Dict) -> int:
         """Rates the items"""
         pass
 
-    def next_user_slots(self, agent_intent: str, agent_slot_values: Dict) -> Dict:
-        """Determins the next user slots via loading from the inialized preferences or sampling."""
+    def next_user_slots(
+        self, agent_intent: str, agent_slot_values: Dict
+    ) -> Dict:
+        """Determines the next user slots via loading from the initialized
+        preferences or sampling."""
         pass
 
     def update_preferences(self, agent_slot_values: Dict, rating: int) -> None:
