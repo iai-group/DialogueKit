@@ -26,11 +26,26 @@ class Utterance:
         """
         self._text = text
         self._utterance_type = utterance_type
+        self._annotations = []
 
     @property
-    def text(self):
+    def text(self) -> str:
         return self._text
 
     @property
-    def utterance_type(self):
+    def utterance_type(self) -> UtteranceType:
         return self._utterance_type
+
+    def add_annotation(self, annotation) -> None:
+        """Adds an annotation to the utterance.
+
+        Args:
+            annotation: Annotation instance.
+        """
+        self._annotations.append(annotation)
+
+    def get_text_placeholders(self) -> str:
+        """Returns the utterance text with annotations replaces with
+        placeholders."""
+        # TODO
+        return ""
