@@ -8,7 +8,7 @@ class Intent:
         """Initializes the intent.
 
         Args:
-            label: intent label
+            Label: intent label.
         """
         self.__label = label
 
