@@ -4,10 +4,14 @@
 class Intent:
     """Represents an intent."""
 
-    def __init__(self, intent: str) -> None:
-        """Initializes the intent."""
-        self._intent = intent
+    def __init__(self, label: str) -> None:
+        """Initializes the intent.
+
+        Args:
+            label: intent label
+        """
+        self.__label = label
 
     @property
-    def intent(self):
-        return self._intent
+    def label(self) -> str:
+        return self.__label
