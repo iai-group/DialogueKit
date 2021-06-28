@@ -2,6 +2,7 @@
 
 import os
 import yaml
+from typing import List
 
 
 class Ontology:
@@ -18,6 +19,10 @@ class Ontology:
         with open(config_file) as yaml_file:
             self._config = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
-    def get_slot_names(self):
-        """Returns the list of slot names."""
+    def get_slot_names(self) -> List[str]:
+        """Returns the list of slot names.
+
+        Returns:
+            List of slot names.
+        """
         return list(self._config["slot_names"].keys())

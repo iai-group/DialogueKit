@@ -17,3 +17,11 @@ class Annotation:
         self.__value = value
         self.__start = start
         self.__end = end
+
+    @property
+    def slot(self) -> str:
+        return self.__slot
+
+    @property
+    def value(self) -> str:
+        return self.__value

@@ -1,6 +1,9 @@
 """Interface representing the basic unit of communication."""
 
 from enum import Enum
+from typing import List
+
+from dialoguekit.core.annotation import Annotation
 
 
 class UtteranceType(Enum):
@@ -24,17 +27,17 @@ class Utterance:
             text: Utterance text.
             utterance_type: Utterance type (default: MESSAGE).
         """
-        self._text = text
-        self._utterance_type = utterance_type
-        self._annotations = []
+        self.__text = text
+        self.__utterance_type = utterance_type
+        self.__annotations = []
 
     @property
     def text(self) -> str:
-        return self._text
+        return self.__text
 
     @property
     def utterance_type(self) -> UtteranceType:
-        return self._utterance_type
+        return self.__utterance_type
 
     def add_annotation(self, annotation) -> None:
         """Adds an annotation to the utterance.
@@ -42,7 +45,14 @@ class Utterance:
         Args:
             annotation: Annotation instance.
         """
-        self._annotations.append(annotation)
+        self.__annotations.append(annotation)
+
+    def get_annotations(self) -> List[Annotation]:
+        """Returns the available annotations for the utterance.
+
+        Return: List of Annotation instances.
+        """
+        return self.__annotations
 
     def get_text_placeholders(self) -> str:
         """Returns the utterance text with annotations replaces with
