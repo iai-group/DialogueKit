@@ -13,7 +13,7 @@ from typing import Optional, Dict, Tuple
 from dialoguekit.core.ontology import Ontology
 
 
-def load_db(config_file: str, item_file: str) -> Tuple[Dict, Dict]:
+def load_db(ontology: Ontology, item_file: str) -> Tuple[Dict, Dict]:
     """Loads db/json file as backend knowledge.
 
     Arg:
@@ -22,7 +22,6 @@ def load_db(config_file: str, item_file: str) -> Tuple[Dict, Dict]:
     Return:
         List of items with ratings and list of user preferences.
     """
-    ontology = Ontology(config_file)
     if not os.path.isfile(item_file):
         raise FileNotFoundError(f"Item file not found: {item_file}")
 
@@ -72,14 +71,13 @@ def load_db(config_file: str, item_file: str) -> Tuple[Dict, Dict]:
     return items, crowd_user_preferences
 
 
-class PreferenceModel:
+class UserPreferences:
     """Representation of the user's preferences."""
 
-    def __init__(self, ontology: Ontology, config_file: str, item_file: str) -> None:
+    def __init__(self, ontology: Ontology, item_file: str) -> None:
         """Initializes the user's preference model.
         Args:
             ontology: An ontology.
-            config_file: Config file for ontology.
             item_file: Items records with ratings.
         """
         # The user can have preferences for specific values for each slot.
@@ -87,7 +85,7 @@ class PreferenceModel:
             slot_name: {} for slot_name in ontology.get_slot_names()
         }
         self.items, self.crowd_user_preferences = load_db(
-            config_file, item_file
+            ontology, item_file
         )
         self.user_preferences = self.initialize_preferences()
 
@@ -135,10 +133,6 @@ class PreferenceModel:
         random_user_id, random_user_preference = random.choice(entry_list)
         self.user_preferences = random_user_preference
         return random_user_preference
-
-    def rate_item(self, slots: Dict) -> int:
-        """Rates the items."""
-        pass
 
     def next_user_slots(
         self, agent_intent: str, agent_slot_values: Dict

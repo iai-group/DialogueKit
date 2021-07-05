@@ -11,5 +11,5 @@ def sample_ontology():
     return Ontology("tests/data/ontology.yaml")
 
 
-def test_slot_names(sample_ontology):
+def test_class_names(sample_ontology):
     assert sample_ontology.get_slot_names() == ["TITLE", "GENRE", "ACTOR"]
