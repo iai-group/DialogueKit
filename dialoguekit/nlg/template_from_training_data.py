@@ -2,41 +2,43 @@
 
 import os
 import json
-from typing import Dict
+from typing import Dict, List
 
 
-def replace_slot_with_placeholder(utterance: str, slot_values: str) -> str:
+def replace_slot_with_placeholder(utterance: str, slot_values: List) -> str:
     """Replaces the slot values with place holder.
 
     Args:
-        Utterance: user utterance in string, e.g., I like action or fantasy movies.
-        Slot_values: slot values in string, e.g., 'GENRE:action;GENRE:fantasy'.
+        utterance: User utterance in string, e.g., I like action or fantasy movies.
+        slot_values: Slot values in List, e.g., [['GENRE','action'],['GENRE','fantasy']].
 
     Returns:
-        User response template with slot replaced by placeholder, e.g., I like {GENER} or {GENER} movies.
+        User response template with slot replaced by placeholder,
+        e.g., I like {GENRE} or {GENRE} movies.
     """
-    for slot in slot_values.split(";"):
-        placeholder_label, value = slot.split(":")
-        utterance = utterance.replace(value, "{" + placeholder_label + "}")
+    for slot in slot_values:
+        placeholder_label, value = slot
+        utterance = utterance.replace(value, f"{{{placeholder_label}}}")
     return utterance
 
 
-def extract_utterance_template(annotated_dialog_file) -> Dict:
-    """Extracts utterance template for each intent.
+def extract_utterance_template(annotated_dialogue_file: str) -> Dict[str, List]:
+    """Extracts utterance templates for each intent.
 
     Args:
         Annotated_dialog_file: annotated dialogue json file.
 
     Returns:
-        Response template: {user_intent: [template...]}
+        A dictionary with user_intents and keys and a list of templates as values,
+        e.g., {user_intent: [template...]}
     """
-    if not os.path.isfile(annotated_dialog_file):
+    if not os.path.isfile(annotated_dialogue_file):
         raise FileNotFoundError(
-            f"Annotated dialog file not found: {annotated_dialog_file}"
+            f"Annotated dialog file not found: {annotated_dialogue_file}"
         )
 
     response_templates = dict()
-    with open(annotated_dialog_file) as input_file:
+    with open(annotated_dialogue_file) as input_file:
         annotated_dialogs = json.load(input_file)
         for dialog in annotated_dialogs:
             for utterance_record in dialog.get("conversation"):

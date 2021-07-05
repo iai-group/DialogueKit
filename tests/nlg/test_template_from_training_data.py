@@ -8,35 +8,34 @@ from dialoguekit.nlg.template_from_training_data import (
 )
 
 
-# Sample annotated dialogues to be shared across multiple test cases.
-@pytest.fixture
-def sample_annotated_dialogue_file():
-    return "../../tests/data/annotated_dialogues.json"
+ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
 
-# Annotated utterance and its slots.
-@pytest.fixture
-def annotated_utterance():
-    return [
+def test_replace_slot_with_placeholder():
+    # Given
+    annotated_utterance = [
         (
             "I like action or fantasy movies.",
-            "GENRE:action;GENRE:fantasy",
+            [
+                ["GENRE", "action"],
+                ["GENRE", "fantasy"]
+            ],
             "I like {GENRE} or {GENRE} movies.",
         ),
-        ("How about old street?", "TITLE:old street", "How about {TITLE}?"),
+        ("How about old street?", [["TITLE", "old street"]], "How about {TITLE}?"),
     ]
 
-
-def test_replace_slot_with_placeholder(annotated_utterance):
     for utterance, slot_values, expected_template in annotated_utterance:
+        # When
         extracted_template = replace_slot_with_placeholder(
             utterance, slot_values
         )
+        # Then
         assert extracted_template == expected_template
 
 
-def test_extract_utterance_template(sample_annotated_dialogue_file):
-    templates = extract_utterance_template(sample_annotated_dialogue_file)
+def test_extract_utterance_template():
+    templates = extract_utterance_template(ANNOTATED_DIALOGUE_FILE)
     from pprint import pprint
     pprint(templates)
     assert templates
