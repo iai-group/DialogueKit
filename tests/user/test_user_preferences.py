@@ -9,8 +9,8 @@ from dialoguekit.core.ontology import Ontology
 # User preferences instance to be shared across multiple test cases.
 @pytest.fixture
 def user_preferences():
-    ontology = Ontology("../../tests/data/ontology.yaml")
-    return UserPreferences(ontology, "../../tests/data/example_movies.json")
+    ontology = Ontology("tests/data/ontology.yaml")
+    return UserPreferences(ontology, "tests/data/example_movies.json")
 
 
 def test_unknown_slot(user_preferences):
@@ -31,8 +31,8 @@ def test_update_preference(user_preferences):
 
 def test_load_db(user_preferences):
     # Given
-    ontology = Ontology("../../tests/data/ontology.yaml")
-    item_file = "../../tests/data/example_movies.json"
+    ontology = Ontology("tests/data/ontology.yaml")
+    item_file = "tests/data/example_movies.json"
     user_id = "USER 7"
     expected_user_preferences = {
         "ACTOR": {"Actor 5": [3], "Actor 6": [3], "Actor 7": [3]},
