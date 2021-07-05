@@ -1,9 +1,14 @@
-"""Abstract representation of user preference modeling."""
+"""Representation of user preferences.
+Preferences are stored for possible values of slots, as defined by an ontology.
+For each slot value, preference is represented as an integer, with negative and
+positive numbers corresponding to different degrees of likes and dislikes
+(zero means neutral).
+"""
 
 import os
 import json
 import random
-from typing import Dict, Tuple
+from typing import Optional, Dict, Tuple
 
 from dialoguekit.core.ontology import Ontology
 
@@ -70,12 +75,48 @@ def load_db(config_file: str, item_file: str) -> Tuple[Dict, Dict]:
 class PreferenceModel:
     """Representation of the user's preferences."""
 
-    def __init__(self, config_file: str, item_file: str) -> None:
-        """Initializes the user's preference model."""
+    def __init__(self, ontology: Ontology, config_file: str, item_file: str) -> None:
+        """Initializes the user's preference model.
+        Args:
+            ontology: An ontology.
+            config_file: Config file for ontology.
+            item_file: Items records with ratings.
+        """
+        # The user can have preferences for specific values for each slot.
+        self.__preferences = {
+            slot_name: {} for slot_name in ontology.get_slot_names()
+        }
         self.items, self.crowd_user_preferences = load_db(
             config_file, item_file
         )
         self.user_preferences = self.initialize_preferences()
+
+    def set_preference(
+        self, slot_name: str, slot_value: str, preference: int
+    ) -> None:
+        """Sets (or updates) preference for a given entity.
+        Args:
+            slot_name: Slot name.
+            slot_value: Slot value (for which preference is set).
+            preference: Preference, represented as an int (negative
+                value=dislike, 0=neutral, positive value=like).
+        Raises:
+            ValueError: Unknown slot (not present in the ontology).
+        """
+        if slot_name not in self.__preferences:
+            raise ValueError(f"Unknown slot: {slot_name}")
+        self.__preferences[slot_name][slot_value] = preference
+
+    def get_preference(self, slot_name: str, slot_value: str) -> Optional[int]:
+        """Determines the preference for a given entity.
+        Args:
+            slot_name: Slot name.
+            slot_value: Slot value.
+        Returns:
+            Preference, as an int (negative value=dislike, 0=neutral,
+                positive value=like) or None .
+        """
+        return self.__preferences[slot_name][slot_value]
 
     def initialize_preferences(self, **kwargs) -> None:
         """Initializes the user's preferences via sampling items.
