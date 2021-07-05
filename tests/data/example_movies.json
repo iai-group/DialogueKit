@@ -1,0 +1,34 @@
+[
+  {
+    "TITLE": "Movie 1",
+    "GENRE": ["Genre 1", "Genre 2"],
+    "ACTOR": ["Actor 1", "Actor 2"],
+    "RATINGS": {
+      "USER 1": 5,
+      "USER 2": 3,
+      "USER 3": 4
+    }
+  },
+  {
+    "TITLE": "Movie 2",
+    "GENRE": ["Genre 1", "Genre 3"],
+    "ACTOR": ["Actor 3", "Actor 4"],
+    "RATINGS": {
+      "USER 1": 5,
+      "USER 2": 5,
+      "USER 4": 5,
+      "USER 5": 4
+    }
+  },
+  {
+    "TITLE": "Movie 3",
+    "GENRE": ["Genre 2", "Genre 4", "Genre 5"],
+    "ACTOR": ["Actor 5", "Actor 6", "Actor 7"],
+    "RATINGS": {
+      "USER 1": 1,
+      "USER 3": 2,
+      "USER 6": 1,
+      "USER 7": 3
+    }
+  }
+]

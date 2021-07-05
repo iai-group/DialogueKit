@@ -1,22 +1,94 @@
 """Abstract representation of user preference modeling."""
 
-from typing import Dict
+import os
+import json
+import random
+from typing import Dict, Tuple
+
+from dialoguekit.core.ontology import Ontology
+
+
+def load_db(config_file: str, item_file: str) -> Tuple[Dict, Dict]:
+    """Loads db/json file as backend knowledge.
+
+    Arg:
+        item_file: JSON file containing list of items with ratings.
+
+    Return:
+        List of items with ratings and list of user preferences.
+    """
+    ontology = Ontology(config_file)
+    if not os.path.isfile(item_file):
+        raise FileNotFoundError(f"Item file not found: {item_file}")
+
+    # Loads items with ratings from the crowd, a running example:
+    # {"TITLE": movie title; "GENRE": ["GENRE 1", "GENRE 2"]; "ACTOR": ["ACTOR 1"]; "RATINGS": {"USER 1": 5}}.
+    items = json.load(open(item_file))
+
+    # Loads slot names from ontology, i.e, ["TITLE", "GENRE", "ACTOR"].
+    slot_names = ontology.get_slot_names()
+
+    # Makes sure the slot names are consistent with the keys in items.
+    assert len(items) > 0
+    assert list(items[0].keys()) == slot_names + ["RATINGS"]
+
+    crowd_user_preferences = dict()
+
+    # Loads ratings from the crowd, i.e., user id and its rating for this item.
+    for item in items:
+        for user_id, rating in item.get("RATINGS").items():
+            if user_id not in crowd_user_preferences:
+                # Initializes user preferences, i.e. {"TITLE": {}, "GENRE": {}, "ACTOR": {}}.
+                crowd_user_preferences[user_id] = {
+                    slot_name: dict() for slot_name in slot_names
+                }
+
+            # Loads ratings towards each slot name from the rated items.
+            for slot_name in slot_names:
+                # Slot name's values is a string, e.g., TITLE is a string.
+                if isinstance(item.get(slot_name), str):
+                    crowd_user_preferences[user_id][slot_name][
+                        item.get(slot_name)
+                    ] = rating
+                # Slot name's values is a list, e.g. A TITLE has multiple GENRE and ACTOR.
+                elif isinstance(item.get(slot_name), list):
+                    for value in item.get(slot_name):
+                        if (
+                            value
+                            not in crowd_user_preferences[user_id][slot_name]
+                        ):
+                            crowd_user_preferences[user_id][slot_name][
+                                value
+                            ] = list()
+                        crowd_user_preferences[user_id][slot_name][
+                            value
+                        ].append(rating)
+
+    return items, crowd_user_preferences
 
 
 class PreferenceModel:
     """Representation of the user's preferences."""
 
-    def __init__(self) -> None:
+    def __init__(self, config_file: str, item_file: str) -> None:
         """Initializes the user's preference model."""
-        pass
+        self.items, self.crowd_user_preferences = load_db(
+            config_file, item_file
+        )
+        self.user_preferences = self.initialize_preferences()
 
-    def load_db(self) -> None:
-        """Loads db/csv file as backend knowledge."""
-        pass
-
-    def initialize_preferences(self) -> None:
+    def initialize_preferences(self, **kwargs) -> None:
         """Initializes the user's preferences via sampling items."""
-        pass
+
+        crowd_user_preferences = (
+            kwargs.get("kwargs") if kwargs else self.crowd_user_preferences
+        )
+
+        entry_list = list(crowd_user_preferences.items())
+        # Randomly samples one user as our initial preferences.
+        random_user_id, random_user_preference = random.choice(entry_list)
+        self.user_preferences = random_user_preference
+        return random_user_preference
 
     def rate_item(self, slots: Dict) -> int:
         """Rates the items"""
@@ -31,4 +103,11 @@ class PreferenceModel:
 
     def update_preferences(self, agent_slot_values: Dict, rating: int) -> None:
         """Updates user preferences via adding like/disliked items."""
-        pass
+        for slot_name, values in agent_slot_values.items():
+            if isinstance(values, str):
+                self.user_preferences[slot_name][values] = rating
+            elif isinstance(values, list):
+                for value in values:
+                    if value not in self.user_preferences[slot_name]:
+                        self.user_preferences[slot_name][value] = list()
+                    self.user_preferences[slot_name][value].append(rating)
