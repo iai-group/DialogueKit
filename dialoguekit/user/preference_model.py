@@ -78,7 +78,12 @@ class PreferenceModel:
         self.user_preferences = self.initialize_preferences()
 
     def initialize_preferences(self, **kwargs) -> None:
-        """Initializes the user's preferences via sampling items."""
+        """Initializes the user's preferences via sampling items.
+
+        Arg:
+            kwargs: This is intended for debug via assigning preferences
+            as this function will randomly sample preferences.
+        """
 
         crowd_user_preferences = (
             kwargs.get("kwargs") if kwargs else self.crowd_user_preferences
