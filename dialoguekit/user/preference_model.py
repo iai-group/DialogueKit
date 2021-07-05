@@ -91,7 +91,7 @@ class PreferenceModel:
         return random_user_preference
 
     def rate_item(self, slots: Dict) -> int:
-        """Rates the items"""
+        """Rates the items."""
         pass
 
     def next_user_slots(
@@ -102,7 +102,11 @@ class PreferenceModel:
         pass
 
     def update_preferences(self, agent_slot_values: Dict, rating: int) -> None:
-        """Updates user preferences via adding like/disliked items."""
+        """Updates user preferences via adding like/disliked items.
+
+        Args:
+            agent_slot_values: Agent slot values, e.g. {"TITLE": "name", "GENRE": ["3", "4"]}.
+        """
         for slot_name, values in agent_slot_values.items():
             if isinstance(values, str):
                 self.user_preferences[slot_name][values] = rating
