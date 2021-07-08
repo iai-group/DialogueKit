@@ -10,7 +10,11 @@ from dialoguekit.core.ontology import Ontology
 @pytest.fixture
 def user_preferences():
     ontology = Ontology("tests/data/ontology.yaml")
-    return UserPreferences(ontology, "tests/data/example_movies.json")
+    return UserPreferences(
+        ontology,
+        "tests/data/example_movies.json",
+        "tests/data/example_ratings.json",
+    )
 
 
 def test_unknown_slot(user_preferences):
@@ -33,6 +37,7 @@ def test_load_db(user_preferences):
     # Given
     ontology = Ontology("tests/data/ontology.yaml")
     item_file = "tests/data/example_movies.json"
+    rating_file = "tests/data/example_ratings.json"
     user_id = "USER 7"
     expected_user_preferences = {
         "ACTOR": {"Actor 5": [3], "Actor 6": [3], "Actor 7": [3]},
@@ -42,7 +47,7 @@ def test_load_db(user_preferences):
 
     # When
     user_items, crowd_user_preferences = load_db(
-        ontology, item_file
+        ontology, item_file, rating_file
     )
 
     # Then
@@ -101,6 +106,5 @@ def test_update_preferences(user_preferences):
     # Then
     assert user_preferences_dict == assigned_user_preferences.get(test_user_id)
     assert (
-        user_preferences.user_preferences
-        == expected_updated_user_preferences
+        user_preferences.user_preferences == expected_updated_user_preferences
     )

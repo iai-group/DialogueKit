@@ -13,7 +13,9 @@ from typing import Optional, Dict, Tuple, Any
 from dialoguekit.core.ontology import Ontology
 
 
-def load_db(ontology: Ontology, item_file: str) -> Tuple[Dict, Dict]:
+def load_db(
+    ontology: Ontology, item_file: str, rating_file: str
+) -> Tuple[Dict, Dict]:
     """Loads db/json file as backend knowledge.
 
     Arg:
@@ -25,24 +27,35 @@ def load_db(ontology: Ontology, item_file: str) -> Tuple[Dict, Dict]:
     if not os.path.isfile(item_file):
         raise FileNotFoundError(f"Item file not found: {item_file}")
 
-    # Loads items with ratings from the crowd, a running example:
-    # {"TITLE": movie title; "GENRE": ["GENRE 1", "GENRE 2"]; "ACTOR": ["ACTOR 1"]; "RATINGS": {"USER 1": 5}}.
+    if not os.path.isfile(rating_file):
+        raise FileNotFoundError(f"Rating file not found: {rating_file}")
+
+    # Loads items, a running example:
+    # item_id: {"TITLE": title; "GENRE": ["GENRE 1"]; "ACTOR": ["ACTOR 1"]}.
     items = json.load(open(item_file))
+
+    # Loads ratings from the crowd, a running example:
+    # item_id: {"USER 1": 5}
+    ratings = json.load(open(rating_file))
 
     # Loads slot names from ontology, i.e, ["TITLE", "GENRE", "ACTOR"].
     slot_names = ontology.get_slot_names()
 
     # Makes sure the slot names are consistent with the keys in items.
-    assert len(items) > 0
-    assert list(items[0].keys()) == slot_names + ["RATINGS"]
+    assert len(items.keys()) > 0
+    assert len(ratings.keys()) > 0
+    # At least one item have ratings.
+    assert len(set(items.keys()).intersection(set(ratings.keys()))) > 0
 
     crowd_user_preferences = dict()
 
     # Loads ratings from the crowd, i.e., user id and its rating for this item.
-    for item in items:
-        for user_id, rating in item.get("RATINGS").items():
+    for item_id, item in items.items():
+        item_ratings = ratings.get(item_id, {})
+        for user_id, rating in item_ratings.items():
             if user_id not in crowd_user_preferences:
-                # Initializes user preferences, i.e. {"TITLE": {}, "GENRE": {}, "ACTOR": {}}.
+                # Initializes user preferences,
+                # i.e. {"TITLE": {}, "GENRE": {}, "ACTOR": {}}.
                 crowd_user_preferences[user_id] = {
                     slot_name: dict() for slot_name in slot_names
                 }
@@ -54,7 +67,8 @@ def load_db(ontology: Ontology, item_file: str) -> Tuple[Dict, Dict]:
                     crowd_user_preferences[user_id][slot_name][
                         item.get(slot_name)
                     ] = rating
-                # Slot name's values is a list, e.g. A TITLE has multiple GENRE and ACTOR.
+                # Slot name's values is a list, e.g.
+                # A TITLE has multiple GENRE and ACTOR.
                 elif isinstance(item.get(slot_name), list):
                     for value in item.get(slot_name):
                         if (
@@ -74,18 +88,21 @@ def load_db(ontology: Ontology, item_file: str) -> Tuple[Dict, Dict]:
 class UserPreferences:
     """Representation of the user's preferences."""
 
-    def __init__(self, ontology: Ontology, item_file: str) -> None:
+    def __init__(
+        self, ontology: Ontology, item_file: str, rating_file: str
+    ) -> None:
         """Initializes the user's preference model.
         Args:
             ontology: An ontology.
-            item_file: Items records with ratings.
+            item_file: Items records.
+            rating_file: Ratings for items in item file.
         """
         # The user can have preferences for specific values for each slot.
         self.__preferences = {
             slot_name: {} for slot_name in ontology.get_slot_names()
         }
         self.items, self.crowd_user_preferences = load_db(
-            ontology, item_file
+            ontology, item_file, rating_file
         )
         self.user_preferences = self.initialize_preferences()
 
@@ -122,6 +139,7 @@ class UserPreferences:
         Arg:
             kwargs: This is intended for debug via assigning preferences
             as this function will randomly sample preferences.
+            Todo: to be removed by SZ after integration.
         """
 
         crowd_user_preferences = (
@@ -141,11 +159,14 @@ class UserPreferences:
         preferences or sampling."""
         pass
 
-    def update_preferences(self, agent_slot_values: Dict[str, Any], rating: int) -> None:
+    def update_preferences(
+        self, agent_slot_values: Dict[str, Any], rating: int
+    ) -> None:
         """Updates user preferences via adding like/disliked items.
 
         Args:
-            agent_slot_values: Agent slot values, e.g. {"TITLE": "name", "GENRE": ["3", "4"]}.
+            agent_slot_values: Agent slot values,
+            e.g. {"TITLE": "name", "GENRE": ["3", "4"]}.
         """
         for slot_name, values in agent_slot_values.items():
             if isinstance(values, str):
