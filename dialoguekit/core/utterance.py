@@ -1,43 +1,32 @@
 """Interface representing the basic unit of communication."""
 
-from enum import Enum
 from typing import List
 
 from dialoguekit.core.annotation import Annotation
-
-
-class UtteranceType(Enum):
-    """Represents different types of utterances."""
-
-    # TODO: These should be replaced with intents.
-    MESSAGE = 0
-    WELCOME = 1
-    EXIT = 2
+from dialoguekit.core.intent import Intent
 
 
 class Utterance:
     """Represents a utterance."""
 
-    def __init__(
-        self, text: str, utterance_type: UtteranceType = UtteranceType.MESSAGE
-    ) -> None:
+    def __init__(self, text: str, intent: Intent = None) -> None:
         """Initializes an utterance.
 
         Args:
             text: Utterance text.
             utterance_type: Utterance type (default: MESSAGE).
         """
-        self.__text = text
-        self.__utterance_type = utterance_type
-        self.__annotations = []
+        self._text = text
+        self._intent = intent
+        self._annotations = []
 
     @property
     def text(self) -> str:
-        return self.__text
+        return self._text
 
     @property
-    def utterance_type(self) -> UtteranceType:
-        return self.__utterance_type
+    def intent(self) -> Intent:
+        return self._intent
 
     def add_annotation(self, annotation) -> None:
         """Adds an annotation to the utterance.
@@ -45,14 +34,14 @@ class Utterance:
         Args:
             annotation: Annotation instance.
         """
-        self.__annotations.append(annotation)
+        self._annotations.append(annotation)
 
     def get_annotations(self) -> List[Annotation]:
         """Returns the available annotations for the utterance.
 
         Return: List of Annotation instances.
         """
-        return self.__annotations
+        return self._annotations
 
     def get_text_placeholders(self) -> str:
         """Returns the utterance text with annotations replaces with
