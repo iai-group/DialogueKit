@@ -17,7 +17,7 @@ the User, the DialogueManager sends it to the other party by calling their
 from dialoguekit.agent.agent import Agent
 from dialoguekit.agent.parrot_agent import ParrotAgent
 from dialoguekit.user.user import User
-from dialoguekit.core.utterance import Utterance, UtteranceType
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.platform.platform import Platform
 
@@ -67,7 +67,9 @@ class DialogueManager:
         """
         self.__dialogue_history.add_agent_utterance(utterance)
         self.__platform.display_agent_utterance(utterance)
-        if utterance.utterance_type != UtteranceType.EXIT:
+        # TODO: Replace with appropriate intent (make sure all intent schemes
+        # have an EXIT intent.)
+        if utterance.intent != "EXIT":
             self.__user.receive_agent_utterance(utterance)
 
     def start(self) -> None:
