@@ -8,7 +8,7 @@ positive numbers corresponding to different degrees of likes and dislikes
 import os
 import json
 import random
-from typing import Optional, Dict, Tuple
+from typing import Optional, Dict, Tuple, Any
 
 from dialoguekit.core.ontology import Ontology
 
@@ -141,7 +141,7 @@ class UserPreferences:
         preferences or sampling."""
         pass
 
-    def update_preferences(self, agent_slot_values: Dict, rating: int) -> None:
+    def update_preferences(self, agent_slot_values: Dict[str, Any], rating: int) -> None:
         """Updates user preferences via adding like/disliked items.
 
         Args:
