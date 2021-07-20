@@ -1,0 +1,17 @@
+{
+  "movie 1": {
+    "TITLE": "Movie 1",
+    "GENRE": ["Genre 1", "Genre 2"],
+    "ACTOR": ["Actor 1", "Actor 2"]
+  },
+  "movie 2": {
+    "TITLE": "Movie 2",
+    "GENRE": ["Genre 1", "Genre 3"],
+    "ACTOR": ["Actor 3", "Actor 4"]
+  },
+  "movie 3": {
+    "TITLE": "Movie 3",
+    "GENRE": ["Genre 2", "Genre 4", "Genre 5"],
+    "ACTOR": ["Actor 5", "Actor 6", "Actor 7"]
+  }
+}
