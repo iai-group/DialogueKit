@@ -1,6 +1,5 @@
 """Tests for ItemCollection."""
 
-# from dialoguekit.core.recsys.item import Item
 from dialoguekit.core.recsys.item_collection import ItemCollection
 
 ITEM_CSV_FILE = "tests/data/movielens-20m-sample/movies.csv"
