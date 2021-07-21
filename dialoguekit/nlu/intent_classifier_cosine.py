@@ -27,6 +27,8 @@ class IntentClassifierCosine(IntentClassifier):
             utterances: List of Utterance instances.
             labels: List of associated intent labels.
         """
+        # Makes sure we have matching labels for all training utterances.
+        assert len(utterances) == len(labels)
         self._labels = labels
         # Converts the training utterances into a TF-IDF-weighted term-document
         # matrix.
