@@ -12,3 +12,7 @@ class Intent:
 
     def __str__(self) -> str:
         return self._label
+
+    @property
+    def label(self) -> str:
+        return self._label
