@@ -3,9 +3,9 @@
 import pytest
 
 from dialoguekit.nlg.nlg import NLG
-from tests.nlg.test_template_from_training_data import (
-    ANNOTATED_DIALOGUE_FILE,
-)
+
+
+ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
 
 # nlg class shared across tests.

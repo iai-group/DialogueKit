@@ -1,6 +1,5 @@
 """Tests for extracting templates from training data."""
 
-import pytest
 
 from dialoguekit.nlg.template_from_training_data import (
     replace_slot_with_placeholder,
@@ -16,13 +15,14 @@ def test_replace_slot_with_placeholder():
     annotated_utterance = [
         (
             "I like action or fantasy movies.",
-            [
-                ["GENRE", "action"],
-                ["GENRE", "fantasy"]
-            ],
+            [["GENRE", "action"], ["GENRE", "fantasy"]],
             "I like {GENRE} or {GENRE} movies.",
         ),
-        ("How about old street?", [["TITLE", "old street"]], "How about {TITLE}?"),
+        (
+            "How about old street?",
+            [["TITLE", "old street"]],
+            "How about {TITLE}?",
+        ),
     ]
 
     for utterance, slot_values, expected_template in annotated_utterance:
@@ -37,6 +37,7 @@ def test_replace_slot_with_placeholder():
 def test_extract_utterance_template():
     templates = extract_utterance_template(ANNOTATED_DIALOGUE_FILE)
     from pprint import pprint
+
     pprint(templates)
     assert templates
     assert templates.get("COMPLETE") == [
@@ -44,6 +45,4 @@ def test_extract_utterance_template():
         "/exit\n",
         "I would like to quit now.\n",
     ]
-    assert templates.get("REVEAL.EXPAND") == [
-        "something like the {TITLE}\n"
-    ]
+    assert templates.get("REVEAL.EXPAND") == ["something like the {TITLE}\n"]
