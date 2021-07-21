@@ -55,22 +55,22 @@ class IntentClassifierCosine(IntentClassifier):
         max_idx = np.argmax(sim_vector)
         return self._labels[max_idx]
 
-    def save_model(self, filename: str) -> None:
+    def save_model(self, file_path: str) -> None:
         """Saves the trained model to a file.
 
         Args:
-            filename: File name.
+            file_path: File path.
 
         Raises:
             NotImplementedError: If not implemented in derived class.
         """
         raise NotImplementedError
 
-    def load_model(self, filename: str) -> None:
+    def load_model(self, file_path: str) -> None:
         """Loads a model from a file.
 
         Args:
-            filename: Name of saved model file.
+            file_path: File path.
 
         Raises:
             NotImplementedError: If not implemented in derived class.

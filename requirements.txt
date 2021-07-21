@@ -2,4 +2,4 @@ black
 flake8
 pre-commit
 pytest
-sklearn
+sklearn >= 0.24
