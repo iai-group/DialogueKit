@@ -30,6 +30,8 @@ def load_db(
     if not os.path.isfile(rating_file):
         raise FileNotFoundError(f"Rating file not found: {rating_file}")
 
+    # TODO: Use ItemCollection instead
+    # See https://github.com/iai-group/dialoguekit/issues/37
     # Loads items, a running example:
     # item_id: {"TITLE": title; "GENRE": ["GENRE 1"]; "ACTOR": ["ACTOR 1"]}.
     items = json.load(open(item_file))
