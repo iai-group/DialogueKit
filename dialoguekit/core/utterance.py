@@ -28,6 +28,9 @@ class Utterance:
     def intent(self) -> Intent:
         return self._intent
 
+    def __str__(self) -> str:
+        return self._text
+
     def add_annotation(self, annotation) -> None:
         """Adds an annotation to the utterance.
 
@@ -44,7 +47,7 @@ class Utterance:
         return self._annotations
 
     def get_text_placeholders(self) -> str:
-        """Returns the utterance text with annotations replaces with
+        """Returns the utterance text with annotations replaced with
         placeholders."""
-        # TODO
+        # TODO See: https://github.com/iai-group/dialoguekit/issues/35
         return ""
