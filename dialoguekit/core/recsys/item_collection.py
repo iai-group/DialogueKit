@@ -22,6 +22,17 @@ class ItemCollection:
         """
         return self._items.get(item_id)
 
+    def exists(self, item_id: str) -> bool:
+        """Checks if a given item exists in the item collection.
+
+        Args:
+            item_id: Item ID.
+
+        Returns:
+            True if the item exists in the collection.
+        """
+        return item_id in self._items
+
     def num_items(self) -> int:
         """Returns the number of items in the collection.
 

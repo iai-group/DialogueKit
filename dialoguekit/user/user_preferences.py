@@ -36,6 +36,8 @@ def load_db(
     # item_id: {"TITLE": title; "GENRE": ["GENRE 1"]; "ACTOR": ["ACTOR 1"]}.
     items = json.load(open(item_file))
 
+    # TODO: Use Ratings instead
+    # See https://github.com/iai-group/dialoguekit/issues/39
     # Loads ratings from the crowd, a running example:
     # item_id: {"USER 1": 5}
     ratings = json.load(open(rating_file))
