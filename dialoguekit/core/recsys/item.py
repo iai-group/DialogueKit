@@ -17,6 +17,9 @@ class Item:
             properties: Dictionary of item properties (key-value pairs).
                 Defaults to None.
         """
+        # TODO Optionally, connect items to an ontology and allow only for
+        # properties that correspond to ontology classes.
+        # See: https://github.com/iai-group/dialoguekit/issues/42
         self._item_id = item_id
         self._name = name
         self._properties = properties

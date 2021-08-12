@@ -14,6 +14,8 @@ class Ontology:
         Args:
             config_file: Name of YAML config file.
         """
+        # TODO Extend to multiple entity types
+        # See: https://github.com/iai-group/dialoguekit/issues/43
         if not os.path.isfile(config_file):
             raise FileNotFoundError(f"Config file not found: {config_file}")
         with open(config_file) as yaml_file:

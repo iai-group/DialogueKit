@@ -7,6 +7,7 @@ dislike, 0 is neutral, and 1 is (strong) like.
 import csv
 from collections import defaultdict
 from typing import Dict, Optional
+import random
 
 from dialoguekit.core.recsys.item_collection import ItemCollection
 
@@ -103,3 +104,11 @@ class Ratings:
             Rating as float or None.
         """
         return self._user_ratings[user_id].get(item_id, None)
+
+    def get_random_user_id(self) -> str:
+        """Returns a random user ID.
+
+        Returns:
+            User ID.
+        """
+        return random.choice(self._user_ratings.keys())
