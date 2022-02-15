@@ -3,7 +3,9 @@
 import pytest
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.intent import Intent
-from dialoguekit.nlu.intent_classifier_cosine import IntentClassifierCosine
+from dialoguekit.nlu.models.intent_classifier_cosine import (
+    IntentClassifierCosine,
+)
 
 PLACEHOLDER = "(.*)"
 
