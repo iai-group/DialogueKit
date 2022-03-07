@@ -3,9 +3,7 @@
 import pytest
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.intent import Intent
-from dialoguekit.nlu.models.intent_classifier_cosine import (
-    IntentClassifierCosine,
-)
+from dialoguekit.nlu.models.diet_classifier_rasa import IntentClassifierRasa
 
 PLACEHOLDER = "(.*)"
 
@@ -41,7 +39,7 @@ def utterances_2():
         Utterance(text)
         for text in [
             f"You should give {PLACEHOLDER} a try!",
-            f"You might want to check {PLACEHOLDER}",
+            f"You might want to check out {PLACEHOLDER}",
         ]
     ]
 
@@ -52,7 +50,7 @@ def labels_2():
 
 
 def test_get_intent_exact_patterns(intents, utterances_1, labels_1):
-    intent_classifier = IntentClassifierCosine(intents)
+    intent_classifier = IntentClassifierRasa(intents)
     intent_classifier.train_model(utterances_1, labels_1)
     for utterance_template, intent in zip(utterances_1, labels_1):
         utterance_text = utterance_template.text.replace(
@@ -66,7 +64,7 @@ def test_get_intent_exact_patterns(intents, utterances_1, labels_1):
 def test_get_intent_similar_patterns(
     intents, utterances_1, labels_1, utterances_2, labels_2
 ):
-    intent_classifier = IntentClassifierCosine(intents)
+    intent_classifier = IntentClassifierRasa(intents)
     intent_classifier.train_model(utterances_1, labels_1)
     for utterance_template, intent in zip(utterances_2, labels_2):
         utterance_text = utterance_template.text.replace(
