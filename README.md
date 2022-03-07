@@ -59,14 +59,18 @@ We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/t
 
 ### Natural Language Understanding (NLU)
 
-### Intent classification
+#### Intent classification
 
 Thus far two different nlu pipelines are implemented for intent classification
 
 * intent_classifier_cosine
 * diet_classifier_rasa
 
-An explanation of the implementation of diet_classifier_rasa can be read [here](example.com)
+An explanation of the implementation of diet_classifier_rasa can be read [here](docs/rasa_component_library.md)
+
+#### Entity Extraction
+
+As of now only one implementation exists, the rasa diet classifier.
 
 ## Contributors
 
