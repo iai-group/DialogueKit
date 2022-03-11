@@ -76,7 +76,7 @@ class AnnotationConverterRasa(AnnotationConverter):
                 This file represents the AGENT utterances with intents
 
         Returns:
-            Dict[str,str]: Filename, path to file
+            Filename: path to file pairs
         """
 
         if len(self._slot_value_pairs.values()) <= 0:
