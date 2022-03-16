@@ -1,4 +1,4 @@
-"""Tests for IntentClassifierCosine."""
+"""Tests for IntentClassifierRasa."""
 
 import pytest
 from dialoguekit.core.utterance import Utterance
@@ -23,14 +23,13 @@ def utterances_1():
             f"Also check out {PLACEHOLDER}!",
             f"I found {PLACEHOLDER} for you!",
             f"I also found {PLACEHOLDER}!",
-            f"I think you should give {PLACEHOLDER} a shot!",
         ]
     ]
 
 
 @pytest.fixture
 def labels_1():
-    return [Intent(f"intent {i}") for i in range(1, 7)]
+    return [Intent(f"intent {i}") for i in range(1, 6)]
 
 
 @pytest.fixture
