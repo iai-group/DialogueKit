@@ -2,7 +2,7 @@
 """
 
 from __future__ import annotations
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import TYPE_CHECKING
 
 from dialoguekit.core.utterance import Utterance
@@ -42,7 +42,6 @@ class Participant(ABC):
         """
         self._dialogue_manager = dialogue_manager
 
-    @abstractmethod
     def receive_utterance(self, utterance: Utterance) -> None:
         """This method is called each time there is a new utterance.
 
