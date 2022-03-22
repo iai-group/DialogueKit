@@ -15,7 +15,7 @@ the User, the DialogueManager sends it to the other party by calling their
 """
 
 from dialoguekit.agent.agent import Agent
-from dialoguekit.agent.parrot_agent import ParrotAgent
+from dialoguekit.agent.rasa_parrot_agent import RasaParrotAgent
 from dialoguekit.user.user import User
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.dialogue import Dialogue
@@ -38,7 +38,7 @@ class DialogueManager:
         self.__user = user
         self.__user.connect_dialogue_manager(self)
         self.__platform = platform
-        self.__dialogue_history = Dialogue(agent.agent_id, user.user_id)
+        self.__dialogue_history = Dialogue(agent.id, user.user_id)
 
     @property
     def dialogue_history(self):
@@ -52,12 +52,7 @@ class DialogueManager:
         """
         self.__dialogue_history.add_user_utterance(utterance)
         self.__platform.display_user_utterance(utterance)
-        # TODO: This is temp; should be moved to ParrotAgent.
-        # Also, termination should be solved more generally.
-        if utterance.text == "bye":
-            self.__agent.goodbye()
-        else:
-            self.__agent.receive_user_utterance(utterance)
+        self.__agent.receive_user_utterance(utterance)
 
     def register_agent_utterance(self, utterance: Utterance) -> None:
         """Registers an utterance from the agent.
@@ -69,8 +64,12 @@ class DialogueManager:
         self.__platform.display_agent_utterance(utterance)
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
-        if utterance.intent != "EXIT":
+        if utterance.intent is None:
             self.__user.receive_agent_utterance(utterance)
+        if utterance.intent is not None and utterance.intent.label != "EXIT":
+            self.__user.receive_agent_utterance(utterance)
+        else:
+            self.close()
 
     def start(self) -> None:
         """Starts the conversation."""
@@ -84,7 +83,7 @@ class DialogueManager:
 
 
 if __name__ == "__main__":
-    agent = ParrotAgent("A01")
+    agent = RasaParrotAgent(agent_id="TestId")
     user = User("U01")
     platform = Platform()
     dm = DialogueManager(agent, user, platform)
