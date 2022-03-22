@@ -6,12 +6,9 @@ connected with a DialogueManager by invoking `register_dialogue_manager()`.
 
 from __future__ import annotations
 from enum import Enum
-from typing import TYPE_CHECKING
 
 from dialoguekit.core.utterance import Utterance
-
-if TYPE_CHECKING:
-    from dialoguekit.manager.dialogue_manager import DialogueManager
+from dialoguekit.participant.participant import Participant
 
 
 class UserType(Enum):
@@ -21,37 +18,19 @@ class UserType(Enum):
     SIMULATOR = 1
 
 
-class User:
+class User(Participant):
     """Represents a user."""
 
-    def __init__(
-        self, user_id: str, user_type: UserType = UserType.HUMAN
-    ) -> None:
+    def __init__(self, id: str, type: UserType = UserType.HUMAN) -> None:
         """Initializes the user.
 
         Args:
             user_id: User ID.
             user_type: User type (default: HUMAN).
         """
-        self.__user_id = user_id
-        self._user_type = user_type
-        self._dialogue_manager = None
+        super().__init__(id=id, type=type)
 
-    @property
-    def user_id(self):
-        return self.__user_id
-
-    def connect_dialogue_manager(
-        self, dialogue_manager: DialogueManager
-    ) -> None:
-        """Connects the Dialogue Manager instance for the user.
-
-        Args:
-            dialogue_manager: A DialogueManager instance.
-        """
-        self._dialogue_manager = dialogue_manager
-
-    def receive_agent_utterance(self, utterance: Utterance) -> None:
+    def receive_utterance(self, utterance: Utterance) -> None:
         """This method is called each time there is a new agent utterance.
 
         Args:
