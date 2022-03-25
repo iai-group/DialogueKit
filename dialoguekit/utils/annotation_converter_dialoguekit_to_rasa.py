@@ -1,21 +1,57 @@
 import json
 import yaml
+import time
 from collections import defaultdict
 from yaml.representer import SafeRepresenter
 from yaml.nodes import ScalarNode
 from typing import Optional, Dict, List
 
+from dialoguekit.core.utterance import Utterance
+from dialoguekit.core.intent import Intent
 from dialoguekit.utils.annotation_converter import AnnotationConverter
+
+
+# Used for yml formating
+class LiteralString(str):
+    pass
 
 
 class AnnotationConverterRasa(AnnotationConverter):
     def __init__(
-        self, filepath: str, save_to_path: Optional[str] = None
+        self, filepath: Optional[str] = "", save_to_path: Optional[str] = None
     ) -> None:
         super().__init__(filepath, save_to_path)
         self._intent_examples = {"USER": {}, "AGENT": {}}
         self._slot_value_pairs = defaultdict(set)
         self._data = {}
+
+    def rasa_string(self, v: List[str]) -> str:
+        formated_string = LiteralString(
+            "".join(
+                [
+                    "- " + s.strip() + "\n"
+                    if i > 0
+                    else "- " + s.strip() + "\n"
+                    for i, s in enumerate(v)
+                ]
+            )
+        )
+        return formated_string
+
+    def change_style(self, style: str, representer: ScalarNode):
+        """Used to change the python yml data representation
+        Args:
+            style (str): Style used to represent type
+            representer (ScalarNode): representer type ->
+                        (SafeRepresenter.represent_str)
+        """
+
+        def new_representer(dumper, data):
+            scalar = representer(dumper, data)
+            scalar.style = style
+            return scalar
+
+        return new_representer
 
     def read_original(self) -> None:
         f = open(self._filepath)
@@ -130,21 +166,15 @@ class AnnotationConverterRasa(AnnotationConverter):
         )
         yaml.add_representer(LiteralString, represent_literal_list)
 
-        def rasa_string(v: List[str]) -> str:
-            formated_string = LiteralString(
-                "".join(["- " + s.strip() + "\n" for i, s in enumerate(v)])
-            )
-            return formated_string
-
         # Create dict with rasa compatible format
         rasa_dict_user = {"version": "3.0", "nlu": []}
         rasa_dict_agent = {"version": "3.0", "nlu": []}
         for k, v in self._intent_examples["USER"].items():
-            formated_dict = {"intent": k, "examples": rasa_string(v)}
+            formated_dict = {"intent": k, "examples": self.rasa_string(v)}
             rasa_dict_user["nlu"].append(formated_dict)
 
         for k, v in self._intent_examples["AGENT"].items():
-            formated_dict = {"intent": k, "examples": rasa_string(v)}
+            formated_dict = {"intent": k, "examples": self.rasa_string(v)}
             rasa_dict_agent["nlu"].append(formated_dict)
 
         # Save rasa compatible format
@@ -161,6 +191,31 @@ class AnnotationConverterRasa(AnnotationConverter):
             yaml.dump(rasa_dict_agent, outfile, default_flow_style=False)
 
         return return_dictionary
+
+    def dialoguekit_to_rasa(
+        self, utterances: List[Utterance], intents: List[Intent]
+    ) -> str:
+
+        rasa_dict = {"version": "3.0", "nlu": []}
+        for u, i in zip(utterances, intents):
+            formated_dict = {
+                "intent": i.label,
+                "examples": self.rasa_string([u.text]),
+            }
+            rasa_dict["nlu"].append(formated_dict)
+
+        represent_literal_list = self.change_style(
+            "|", SafeRepresenter.represent_str
+        )
+        yaml.add_representer(LiteralString, represent_literal_list)
+        # Save rasa compatible format
+        filepath = (
+            self._save_to_path + "_" + str(int(time.time())) + "_rasa.yml"
+        )
+        with open(filepath, "w") as outfile:
+            yaml.dump(rasa_dict, outfile, default_flow_style=False)
+
+        return filepath
 
 
 if __name__ == "__main__":

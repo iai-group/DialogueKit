@@ -1,6 +1,33 @@
+"""Tests for AnnotationConverterRasa."""
+
+import pytest
+from dialoguekit.core.utterance import Utterance
+from dialoguekit.core.intent import Intent
 from dialoguekit.utils.annotation_converter_dialoguekit_to_rasa import (
     AnnotationConverterRasa,
 )
+
+PLACEHOLDER = "(.*)"
+
+
+@pytest.fixture
+def utterances_1():
+    return [
+        Utterance(text)
+        for text in [
+            f"You should try {PLACEHOLDER}!",
+            f"There's also {PLACEHOLDER}!",
+            f"Also check out {PLACEHOLDER}!",
+            f"I found {PLACEHOLDER} for you!",
+            f"I also found {PLACEHOLDER}!",
+            f"I think you should give {PLACEHOLDER} a shot!",
+        ]
+    ]
+
+
+@pytest.fixture
+def labels_1():
+    return [Intent(f"intent {i}") for i in range(1, 7)]
 
 
 def test_read_original(tmp_path):
@@ -47,3 +74,15 @@ def test_run(tmp_path):
     assert len(files) == 4
     # TODO validate generated yml files.
     # https://github.com/iai-group/dialoguekit/issues/57
+
+
+def test_dialoguekit_to_rasa(tmp_path, utterances_1, labels_1):
+    save_to_dir = tmp_path
+    full_path = save_to_dir.absolute()
+    my_path = full_path.as_posix()
+
+    converter = AnnotationConverterRasa(
+        filepath="tests/data/annotated_dialogues.json",
+        save_to_path=my_path + "/",
+    )
+    converter.dialoguekit_to_rasa(intents=labels_1, utterances=utterances_1)
