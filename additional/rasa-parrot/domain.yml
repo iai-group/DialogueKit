@@ -2,6 +2,7 @@ version: "3.0"
 
 intents:
   - out_of_scope
+  - quit
 
 actions:
   - action_parrot
