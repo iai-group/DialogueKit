@@ -138,3 +138,7 @@ testing/*
 
 # VS Code
 .vscode/*
+
+# rasa-parrot
+additional/rasa-parrot/models/*
+additional/rasa-parrot/.rasa/cache/*
