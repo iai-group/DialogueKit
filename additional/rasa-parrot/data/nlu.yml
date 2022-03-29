@@ -1,0 +1,27 @@
+version: "3.0"
+
+nlu:
+- intent: out_of_scope
+  examples: |
+    - I want to order food
+    - What is 2 + 2?
+    - Who's the US President?
+    - Hi!
+    - I want to watch a movie
+    - Whats the weather like?
+    - How are you?
+    - I am good, thanks
+    - Obama
+    - Norway
+    - This is a test
+    - I am a bot
+
+- intent: quit
+  examples: |
+    - quit
+    - stop
+
+
+
+
+    
