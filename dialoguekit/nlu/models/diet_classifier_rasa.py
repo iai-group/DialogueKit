@@ -1,8 +1,11 @@
-"""Abstract interface for intent classification.
+"""Rasa DIET classifier.
 
-This interface assumes a single intent per utterance, i.a., approaches the
-task as a single-label classification problem.
-The generalization to multi-label classification is left to future work."""
+More information about the DIET classifier
+https://rasa.com/docs/rasa/reference/rasa/nlu/classifiers/diet_classifier/
+
+A short description of how we use Rasa as a component library can be seen inn
+the docs/rasa_component_library.md
+"""
 
 from typing import Any, Dict, List, Text, Type, Optional
 from pathlib import Path
@@ -37,65 +40,76 @@ class IntentClassifierRasa(IntentClassifier):
         self,
         intents: List[Intent],
         traning_data_path: Optional[str] = "",
-        model_path: Optional[
-            str
-        ] = "/Users/aleksanderdrzewiecki/Documents/GitHub/dialoguekit/.rasa/",
+        model_path: Optional[str] = ".rasa",
     ) -> None:
         """Initializes the intent classifier.
 
+        The traning data path may be used with a Rasa nlu.yml file. It is also
+        possible to use the self.train_model function with a list of Utterance
+        and a list of Intent.
+
         Args:
             intents: List of allowed intents.
-            model_path Optional[str]: path to where rasa trained model
-                                        will be stored.
+            traning_data_path Optional[str]: path to the traning data yml.
+            model_path Optional[str]: path to where rasa trained model will be
+                                        stored.
         """
         self._intents = {i.label: i for i in intents}
-        self.model_path = Path(model_path)
-        self.def_model_storage = LocalModelStorage.create(self.model_path)
-        self.def_resource = Resource(name="rasa_diet_resource")
+        self._model_path = Path(model_path)
+        self._def_model_storage = LocalModelStorage.create(self._model_path)
+        self._def_resource = Resource(name="rasa_diet_resource")
 
-        self.training_data = None
+        self._training_data = None
 
-        self.traning_data_path = traning_data_path
+        self._traning_data_path = traning_data_path
         self.init_pipeline()
 
     def init_pipeline(self) -> None:
+        """Creates classifier and initialize.
+
+        A component pipeline of Rasa components gets created and initialized.
+        The DIET classifier object then gets created with the pipeline.
+
+        Raises:
+            TypeError if traning_data_path is not a string
+        """
         pipeline = [
             {"component": WhitespaceTokenizer},
             {"component": CountVectorsFeaturizer},
         ]
-        if isinstance(self.traning_data_path, str):
+        if isinstance(self._traning_data_path, str):
             importer = RasaFileImporter(
-                training_data_paths=[self.traning_data_path]
+                training_data_paths=[self._traning_data_path]
             )
-            self.training_data: TrainingData = importer.get_nlu_data()
+            self._training_data: TrainingData = importer.get_nlu_data()
         else:
             raise TypeError("Provided 'traning_data_path' is not a string!")
 
-        self.component_pipeline = [
+        self._component_pipeline = [
             self.create_component(
                 component.pop("component"),
                 component,
                 idx,
-                model_storage=self.def_model_storage,
+                model_storage=self._def_model_storage,
             )
             for idx, component in enumerate(copy.deepcopy(pipeline))
         ]
 
-        for component in self.component_pipeline:
+        for component in self._component_pipeline:
             if hasattr(component, "train"):
-                component.train(self.training_data)
+                component.train(self._training_data)
             if hasattr(component, "process_training_data"):
-                component.process_training_data(self.training_data)
+                component.process_training_data(self._training_data)
 
-        self.diet = DIETClassifier.create(
+        self._diet = DIETClassifier.create(
             {**DIETClassifier.get_default_config()},
-            model_storage=self.def_model_storage,
+            model_storage=self._def_model_storage,
             execution_context=ExecutionContext(
                 GraphSchema({}), node_name="diet_1"
             ),
-            resource=self.def_resource,
+            resource=self._def_resource,
         )
-        self.processes_utterances = {}
+        self._processes_utterances = {}
 
     def train_model(
         self,
@@ -124,11 +138,11 @@ class IntentClassifierRasa(IntentClassifier):
             rasa_file = converter.dialoguekit_to_rasa(
                 utterances=utterances, intents=labels
             )
-            self.traning_data_path = rasa_file
+            self._traning_data_path = rasa_file
             self.init_pipeline()
 
         self._labels = labels
-        self.diet.train(self.training_data)
+        self._diet.train(self._training_data)
 
     def get_intent(self, utterance: Utterance) -> Intent:
         """Classifies the intent of an utterance.
@@ -145,31 +159,15 @@ class IntentClassifierRasa(IntentClassifier):
             Intent: Predicted intent.
 
         """
-        # Check if utterance is in the processed cache
-        if self.processes_utterances.get(utterance.text, None) is None:
-            message_text = utterance.text
-            message = Message(data={TEXT: message_text})
-            message = self.process_message(
-                self.component_pipeline, message=message
-            )
+        self.process_utterance(utterance=utterance)
 
-            classified_message = self.diet.process([message])[0]
-
-            # Add to cache
-            self.processes_utterances[
-                classified_message.data["text"]
-            ] = classified_message
-
-        found_intent = self.processes_utterances.get(utterance.text).data[
+        found_intent = self._processes_utterances.get(utterance.text).data[
             "intent"
         ]["name"]
-        if found_intent in self._intents.keys():
-            return self._intents[found_intent]
-        else:
-            return None
+        return self._intents.get(found_intent, None)
 
     def get_entities(self, utterance: Utterance) -> List[SlotValueAnnotation]:
-        """Entity extracion using rasa DIET classifier
+        """Entity extracion using rasa DIET classifier.
 
         Extracts entities using rasa DIET. Since this model
         does both intent classification and entity extraction,
@@ -183,21 +181,9 @@ class IntentClassifierRasa(IntentClassifier):
         Returns:
             List[SlotValueAnnotation]: List of extracted entities
         """
-        if self.processes_utterances.get(utterance.text, None) is not None:
-            message_text = utterance.text
-            message = Message(data={TEXT: message_text})
-            message = self.process_message(
-                self.component_pipeline, message=message
-            )
+        self.process_utterance(utterance=utterance)
 
-            classified_message = self.diet.process([message])[0]
-
-            # Add to cache
-            self.processes_utterances[
-                classified_message.data["text"]
-            ] = classified_message
-
-        entities = self.processes_utterances.get(utterance.text).data[
+        entities = self._processes_utterances.get(utterance.text).data[
             "entities"
         ]
         slot_value_annotation = [
@@ -218,7 +204,7 @@ class IntentClassifierRasa(IntentClassifier):
         idx: int,
         model_storage: LocalModelStorage,
     ) -> GraphComponent:
-        """Creates a Rasa pipeline component
+        """Creates a Rasa pipeline component.
 
         Args:
             component_class (Type[GraphComponent]):
@@ -242,10 +228,34 @@ class IntentClassifierRasa(IntentClassifier):
             execution_context=execution_context,
         )
 
+    def process_utterance(self, utterance: Utterance) -> None:
+        """Processes utterance and adds to cache.
+
+        If it is the first time this utterance is processed it gets added to
+        the cache. Next time the same utterance wants to get processed it gets
+        skipped, as its processing result is in the cache.
+
+        Args:
+            utterance: Agent or User Utterance
+        """
+        if utterance.text not in self._processes_utterances:
+            message_text = utterance.text
+            message = Message(data={TEXT: message_text})
+            message = self.process_message(
+                self._component_pipeline, message=message
+            )
+
+            classified_message = self._diet.process([message])[0]
+
+            # Add to cache
+            self._processes_utterances[
+                classified_message.data["text"]
+            ] = classified_message
+
     def process_message(
         self, loaded_pipeline: List[GraphComponent], message: Message
     ) -> Message:
-        """Process a Rasa Message through a pipeline
+        """Processes a Rasa Message through a pipeline.
 
         Args:
             loaded_pipeline (List[GraphComponent]): Rasa pipeline
