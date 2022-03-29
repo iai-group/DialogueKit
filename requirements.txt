@@ -3,3 +3,4 @@ flake8
 pre-commit
 pytest
 sklearn >= 0.24
+rasa == 3.0.8
