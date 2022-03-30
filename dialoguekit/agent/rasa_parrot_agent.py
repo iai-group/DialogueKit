@@ -1,4 +1,8 @@
-"""Simplest possible agent that parrots back everything the user says."""
+"""Simplest possible agent that parrots back everything the user says.
+
+This agent depends on Rasa parrot project to parrot back.
+See docs/rasa-parrot.md for more information
+"""
 
 import requests
 from dialoguekit.agent.agent import Agent
@@ -7,7 +11,7 @@ from dialoguekit.core.intent import Intent
 
 
 class RasaParrotAgent(Agent):
-    """Parrot agent."""
+    """Rasa Parrot agent."""
 
     def __init__(self, agent_id: str):
         """Initializes agent.
