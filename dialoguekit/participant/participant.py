@@ -1,8 +1,8 @@
-"""Interface defining core Participant functionality
-"""
+"""Interface defining core Participant functionality."""
 
 from __future__ import annotations
 from abc import ABC
+import enum
 from typing import TYPE_CHECKING
 
 from dialoguekit.core.utterance import Utterance
@@ -17,7 +17,7 @@ class Participant(ABC):
     Both Agents and Users are Participants.
     """
 
-    def __init__(self, id: str, type) -> None:
+    def __init__(self, id: str, type: enum) -> None:
         """Initializes the agent.
 
         Args:
@@ -46,6 +46,6 @@ class Participant(ABC):
         """This method is called each time there is a new utterance.
 
         Args:
-            utterance: The other Participants Utterance
+            utterance: The other Participant's Utterance.
         """
         pass
