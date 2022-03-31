@@ -3,6 +3,9 @@ import setuptools
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+
+# packages = setuptools.find_packages(where="dialoguekit")
+
 setuptools.setup(
     name="dialoguekit",
     version="0.0.1",
@@ -22,6 +25,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     package_dir={"": "dialoguekit"},
-    packages=setuptools.find_packages(where="dialoguekit"),
+    packages=["dialoguekit"],
     python_requires=">=3.6",
 )
