@@ -1,3 +1,1 @@
-from dialoguekit.user.user import User
-
-__all__ = ["User"]
+__all__ = ["user"]
