@@ -24,8 +24,8 @@ setuptools.setup(
         "License :: OSI Approved :: Apache 2.0",
         "Operating System :: OS Independent",
     ],
-    package_dir={"": "dialoguekit"},
-    packages=setuptools.find_packages(where="dialoguekit"),
+    package_dir={"": "src"},
+    packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
     zip_safe=False,
 )
