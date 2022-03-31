@@ -27,5 +27,5 @@ setuptools.setup(
     package_dir={"": "dialoguekit"},
     packages=setuptools.find_packages(where="dialoguekit"),
     python_requires=">=3.6",
-    zip_safe=True,
+    zip_safe=False,
 )
