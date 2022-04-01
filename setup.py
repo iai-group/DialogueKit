@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 
-# packages = setuptools.find_packages(where="dialoguekit")
+packages = setuptools.find_packages(where="dialoguekit")
 
 setuptools.setup(
     name="dialoguekit",
@@ -28,6 +28,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     python_requires=">=3.6",
     zip_safe=False,
+    install_requires=["rasa==3.0.8"],
 )
 
 # package_dir={"": "src"},
