@@ -1,6 +1,6 @@
 """Tests for extracting templates from training data."""
 
-
+import pytest
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlg.template_from_training_data import (
@@ -75,6 +75,26 @@ def test_build_template_from_instances_overide():
     assert template
     assert len(template.keys()) == 2
     assert len(template["Test1"]) == 3
+
+
+def test_build_template_from_instances_overide_exception():
+    intents = [
+        Intent(label="Test1"),
+        Intent(label="Test1"),
+        Intent(label="Test1"),
+        Intent(label="Test2"),
+        Intent(label="Test2"),
+    ]
+    utterances = [
+        Utterance(text="Test Utterance 1-1"),
+        Utterance(text="Test Utterance 1-2"),
+        Utterance(text="Test Utterance 1-3"),
+        Utterance(text="Test Utterance 2-1"),
+        Utterance(text="Test Utterance 2-2"),
+        Utterance(text="Test Utterance 2-3"),
+    ]
+    with pytest.raises(IndexError):
+        build_template_from_instances(intents=intents, utterances=utterances)
 
 
 def test_build_template_from_instances_utterace_only():
