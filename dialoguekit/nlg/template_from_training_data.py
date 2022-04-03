@@ -87,6 +87,26 @@ def extract_utterance_template(annotated_dialogue_file: str) -> Dict[str, List]:
 def build_template_from_instances(
     utterances: List[Utterance], intents: Optional[List[Intent]] = None
 ) -> Dict[Text, List[Text]]:
+    """Builds the NLG template.
+
+    If the list of intents is specified those intents will overide the intent
+    the utterances allready comes with.
+
+    If the list of intents is NOT specified, the intent the utterance comes with
+    will be used. If no intent is present for an utterance it will be skipped
+
+    Args:
+        utterances : List of Utterances
+        intents (Optional): Optional list of Intents
+
+    Raises:
+        IndexError: If the length of intents and utterances does not match a
+            IndexError will be raised.
+
+    Returns:
+        Dict with intent (as string) and lists with corresponding
+        utterances (strings).
+    """
 
     template = defaultdict(list)
 

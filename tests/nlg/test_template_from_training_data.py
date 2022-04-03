@@ -52,6 +52,7 @@ def test_extract_utterance_template():
 
 
 def test_build_template_from_instances_overide():
+    """Tests if overriding works correctly."""
     intents = [
         Intent(label="Test1"),
         Intent(label="Test1"),
@@ -78,6 +79,7 @@ def test_build_template_from_instances_overide():
 
 
 def test_build_template_from_instances_overide_exception():
+    """Tests if exception gets raised if length is missmatched."""
     intents = [
         Intent(label="Test1"),
         Intent(label="Test1"),
@@ -98,6 +100,7 @@ def test_build_template_from_instances_overide_exception():
 
 
 def test_build_template_from_instances_utterace_only():
+    """Tests if template gets built with only utterances."""
     utterances = [
         Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
         Utterance(text="Test Utterance 1-2", intent=Intent(label="Test1")),
@@ -114,6 +117,7 @@ def test_build_template_from_instances_utterace_only():
 
 
 def test_build_template_from_instances_skip_no_intent():
+    """Tests if Utterance without Intents gets skipped."""
     utterances = [
         Utterance(text="Skip"),
         Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
@@ -133,6 +137,7 @@ def test_build_template_from_instances_skip_no_intent():
 
 
 def test_build_template_from_instances_duplicate_deletion():
+    """Tests if duplicate Utterance for same Intent gets removed."""
     utterances = [
         Utterance(text="Skip"),
         Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
