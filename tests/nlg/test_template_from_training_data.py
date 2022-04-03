@@ -1,9 +1,12 @@
 """Tests for extracting templates from training data."""
 
 
+from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlg.template_from_training_data import (
     replace_slot_with_placeholder,
     extract_utterance_template,
+    build_template_from_instances,
 )
 
 
@@ -46,3 +49,64 @@ def test_extract_utterance_template():
         "I would like to quit now.\n",
     ]
     assert templates.get("REVEAL.EXPAND") == ["something like the {TITLE}\n"]
+
+
+def test_build_template_from_instances_overide():
+    intents = [
+        Intent(label="Test1"),
+        Intent(label="Test1"),
+        Intent(label="Test1"),
+        Intent(label="Test2"),
+        Intent(label="Test2"),
+        Intent(label="Test2"),
+    ]
+    utterances = [
+        Utterance(text="Test Utterance 1"),
+        Utterance(text="Test Utterance 1"),
+        Utterance(text="Test Utterance 1"),
+        Utterance(text="Test Utterance 2"),
+        Utterance(text="Test Utterance 2"),
+        Utterance(text="Test Utterance 2"),
+    ]
+
+    template = build_template_from_instances(
+        intents=intents, utterances=utterances
+    )
+    assert template
+    assert len(template.keys()) == 2
+    assert len(template["Test1"]) == 3
+
+
+def test_build_template_from_instances_utterace_only():
+    utterances = [
+        Utterance(text="Test Utterance 1", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 1", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 1", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
+    ]
+
+    template = build_template_from_instances(utterances=utterances)
+    assert template is not None
+    assert len(template.keys()) == 2
+    assert len(template["Test1"]) == 3
+
+
+def test_build_template_from_instances_skip_no_intent():
+    utterances = [
+        Utterance(text="Skip"),
+        Utterance(text="Test Utterance 1", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 1", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
+    ]
+
+    template = build_template_from_instances(utterances=utterances)
+    assert template
+    assert "Skip" not in [
+        utterance
+        for utterances in template.values()
+        for utterance in utterances
+    ]
