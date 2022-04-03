@@ -99,7 +99,6 @@ def build_template_from_instances(
 
         for utterance, intent in zip(utterances, intents):
             template[intent.label].append(utterance.text)
-        return template
 
     else:
         for utterance in utterances:
@@ -110,4 +109,8 @@ def build_template_from_instances(
                     f'Utterance was skipped.\nUtterance "{utterance.text}", \
                         does not have an associated intent.'
                 )
-        return template
+
+    template = {
+        intent: list(set(utterance)) for intent, utterance in template.items()
+    }
+    return template

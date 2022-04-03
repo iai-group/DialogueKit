@@ -61,12 +61,12 @@ def test_build_template_from_instances_overide():
         Intent(label="Test2"),
     ]
     utterances = [
-        Utterance(text="Test Utterance 1"),
-        Utterance(text="Test Utterance 1"),
-        Utterance(text="Test Utterance 1"),
-        Utterance(text="Test Utterance 2"),
-        Utterance(text="Test Utterance 2"),
-        Utterance(text="Test Utterance 2"),
+        Utterance(text="Test Utterance 1-1"),
+        Utterance(text="Test Utterance 1-2"),
+        Utterance(text="Test Utterance 1-3"),
+        Utterance(text="Test Utterance 2-1"),
+        Utterance(text="Test Utterance 2-2"),
+        Utterance(text="Test Utterance 2-3"),
     ]
 
     template = build_template_from_instances(
@@ -79,12 +79,12 @@ def test_build_template_from_instances_overide():
 
 def test_build_template_from_instances_utterace_only():
     utterances = [
-        Utterance(text="Test Utterance 1", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 1", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 1", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
-        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
-        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 1-2", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 1-3", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 2-1", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 2-2", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 2-3", intent=Intent(label="Test2")),
     ]
 
     template = build_template_from_instances(utterances=utterances)
@@ -96,11 +96,11 @@ def test_build_template_from_instances_utterace_only():
 def test_build_template_from_instances_skip_no_intent():
     utterances = [
         Utterance(text="Skip"),
-        Utterance(text="Test Utterance 1", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 1", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
-        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
-        Utterance(text="Test Utterance 2", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 1-2", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 2-1", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 2-2", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 2-3", intent=Intent(label="Test2")),
     ]
 
     template = build_template_from_instances(utterances=utterances)
@@ -110,3 +110,18 @@ def test_build_template_from_instances_skip_no_intent():
         for utterances in template.values()
         for utterance in utterances
     ]
+
+
+def test_build_template_from_instances_duplicate_deletion():
+    utterances = [
+        Utterance(text="Skip"),
+        Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
+        Utterance(text="Test Utterance 2-1", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 2-2", intent=Intent(label="Test2")),
+        Utterance(text="Test Utterance 2-3", intent=Intent(label="Test2")),
+    ]
+
+    template = build_template_from_instances(utterances=utterances)
+    assert template
+    assert len(template["Test1"]) == 1
