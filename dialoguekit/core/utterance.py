@@ -35,6 +35,8 @@ class Utterance:
             if annotation not in __o._annotations:
                 return False
 
+        return True
+
     @property
     def text(self) -> str:
         return self._text
