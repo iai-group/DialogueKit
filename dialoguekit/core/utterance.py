@@ -20,6 +20,21 @@ class Utterance:
         self._intent = intent
         self._annotations = []
 
+    def __eq__(self, __o: object) -> bool:
+        if not isinstance(__o, Utterance):
+            return False
+        if self._text != __o._text:
+            return False
+        if self._intent != __o._intent:
+            return False
+
+        if len(self._annotations) != len(__o._annotations):
+            return False
+
+        for annotation in self._annotations:
+            if annotation not in __o._annotations:
+                return False
+
     @property
     def text(self) -> str:
         return self._text

@@ -13,6 +13,13 @@ class Intent:
     def __str__(self) -> str:
         return self._label
 
+    def __eq__(self, __o: object) -> bool:
+        if not isinstance(__o, Intent):
+            return False
+        if self._label != __o._label:
+            return False
+        return True
+
     @property
     def label(self) -> str:
         return self._label
