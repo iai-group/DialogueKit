@@ -15,7 +15,6 @@ the User, the DialogueManager sends it to the other party by calling their
 """
 
 from dialoguekit.agent.agent import Agent
-from dialoguekit.agent.parrot_agent import ParrotAgent
 from dialoguekit.user.user import User
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.dialogue import Dialogue
@@ -84,9 +83,4 @@ class DialogueManager:
 
 
 if __name__ == "__main__":
-    agent = ParrotAgent("A01")
-    user = User("U01")
-    platform = Platform()
-    dm = DialogueManager(agent, user, platform)
-    dm.start()
-    dm.close()
+    pass
