@@ -95,7 +95,7 @@ def test_build_template_from_instances_overide_exception():
         Utterance(text="Test Utterance 2-2"),
         Utterance(text="Test Utterance 2-3"),
     ]
-    with pytest.raises(IndexError):
+    with pytest.raises(ValueError):
         build_template_from_instances(intents=intents, utterances=utterances)
 
 

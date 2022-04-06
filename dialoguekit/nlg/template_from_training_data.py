@@ -96,8 +96,8 @@ def build_template_from_instances(
     will be used. If no intent is present for an utterance it will be skipped
 
     Args:
-        utterances : List of Utterances
-        intents (Optional): Optional list of Intents
+        utterances : List of Utterances.
+        intents (Optional): Optional list of Intents.
 
     Raises:
         IndexError: If the length of intents and utterances does not match a
@@ -112,7 +112,7 @@ def build_template_from_instances(
 
     if intents:
         if len(utterances) != len(intents):
-            raise IndexError(
+            raise ValueError(
                 f"Length of utterances {len(utterances)}, does not match \
                     length of intents {len(intents)}"
             )
