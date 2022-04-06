@@ -37,7 +37,7 @@ class DialogueManager:
         self.__user = user
         self.__user.connect_dialogue_manager(self)
         self.__platform = platform
-        self.__dialogue_history = Dialogue(agent.agent_id, user.user_id)
+        self.__dialogue_history = Dialogue(agent.id, user.user_id)
 
     @property
     def dialogue_history(self):
@@ -51,12 +51,7 @@ class DialogueManager:
         """
         self.__dialogue_history.add_user_utterance(utterance)
         self.__platform.display_user_utterance(utterance)
-        # TODO: This is temp; should be moved to ParrotAgent.
-        # Also, termination should be solved more generally.
-        if utterance.text == "bye":
-            self.__agent.goodbye()
-        else:
-            self.__agent.receive_user_utterance(utterance)
+        self.__agent.receive_user_utterance(utterance)
 
     def register_agent_utterance(self, utterance: Utterance) -> None:
         """Registers an utterance from the agent.
@@ -68,8 +63,12 @@ class DialogueManager:
         self.__platform.display_agent_utterance(utterance)
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
-        if utterance.intent != "EXIT":
+        if utterance.intent is None:
             self.__user.receive_agent_utterance(utterance)
+        if utterance.intent is not None and utterance.intent.label != "EXIT":
+            self.__user.receive_agent_utterance(utterance)
+        else:
+            self.close()
 
     def start(self) -> None:
         """Starts the conversation."""

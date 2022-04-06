@@ -1,12 +1,17 @@
-"""Simplest possible agent that parrots back everything the user says."""
+"""Simplest possible agent that parrots back everything the user says.
 
+This agent depends on Rasa parrot project to parrot back.
+See docs/rasa-parrot.md for more information
+"""
+
+import requests
 from dialoguekit.agent.agent import Agent
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.intent import Intent
 
 
-class ParrotAgent(Agent):
-    """Parrot agent."""
+class RasaParrotAgent(Agent):
+    """Rasa Parrot agent."""
 
     def __init__(self, agent_id: str):
         """Initializes agent.
@@ -15,10 +20,11 @@ class ParrotAgent(Agent):
             agent_id: Agent id.
         """
         super().__init__(agent_id)
+        self._RASA_URI = "http://localhost:5002/webhooks/rest/webhook"
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
-        utterance = Utterance("Hello, I'm Parrot. What can I help u with?")
+        utterance = Utterance("Hello, I'm Rasa Parrot. What can I help u with?")
         self._dialogue_manager.register_agent_utterance(utterance)
 
     def goodbye(self) -> None:
@@ -34,5 +40,15 @@ class ParrotAgent(Agent):
         Args:
             utterance: User utterance.
         """
-        response = Utterance("(Parroting) " + utterance.text)
+        if utterance.text.lower() in ["quit", "stop", "exit"]:
+            return
+
+        r = requests.post(
+            self._RASA_URI,
+            json={
+                "sender": "RasaParrotAgent",
+                "message": "(Rasa Parroting) " + utterance.text,
+            },
+        )
+        response = Utterance(r.json()[0]["text"])
         self._dialogue_manager.register_agent_utterance(response)
