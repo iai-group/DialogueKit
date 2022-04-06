@@ -20,7 +20,7 @@ class RasaParrotAgent(Agent):
             agent_id: Agent id.
         """
         super().__init__(agent_id)
-        self.__rasa_uri = "http://localhost:5002/webhooks/rest/webhook"
+        self._RASA_URI = "http://localhost:5002/webhooks/rest/webhook"
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
@@ -44,7 +44,7 @@ class RasaParrotAgent(Agent):
             return
 
         r = requests.post(
-            self.__rasa_uri,
+            self._RASA_URI,
             json={
                 "sender": "RasaParrotAgent",
                 "message": "(Rasa Parroting) " + utterance.text,
