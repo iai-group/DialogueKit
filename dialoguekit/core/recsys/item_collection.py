@@ -69,7 +69,7 @@ class ItemCollection:
         # TODO Optionally, connect items to an ontology and allow only for
         # properties that correspond to ontology classes.
         # See: https://github.com/iai-group/dialoguekit/issues/42
-        with open(file_path, "r") as csvfile:
+        with open(file_path, "r", encoding="utf-8") as csvfile:
             csvreader = csv.reader(csvfile, delimiter=delimiter)
             next(csvreader)  # Skips header row.
             for values in csvreader:
