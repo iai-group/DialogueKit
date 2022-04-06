@@ -21,6 +21,7 @@ class Utterance:
         self._annotations = []
 
     def __eq__(self, __o: object) -> bool:
+        """Comparison function."""
         if not isinstance(__o, Utterance):
             return False
         if self._text != __o._text:

@@ -14,6 +14,7 @@ class Intent:
         return self._label
 
     def __eq__(self, __o: object) -> bool:
+        """Comparison function."""
         if not isinstance(__o, Intent):
             return False
         if self._label != __o._label:

@@ -26,6 +26,7 @@ class SlotValueAnnotation:
         return self._value
 
     def __eq__(self, __o: object) -> bool:
+        """Comparison function."""
         if not isinstance(__o, SlotValueAnnotation):
             return False
         if self._slot != __o._slot:
