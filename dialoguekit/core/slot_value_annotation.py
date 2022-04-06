@@ -26,6 +26,8 @@ class SlotValueAnnotation:
         return self._value
 
     def __eq__(self, __o: object) -> bool:
+        if not isinstance(__o, SlotValueAnnotation):
+            return False
         if self._slot != __o._slot:
             return False
         elif self._value != __o._value:
