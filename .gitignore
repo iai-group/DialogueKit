@@ -135,3 +135,11 @@ testing/*
 
 # DS Store
 .DS_STORE
+
+
+# VS Code
+.vscode/*
+
+# rasa-parrot
+additional/rasa-parrot/models/*
+additional/rasa-parrot/.rasa/cache/*
