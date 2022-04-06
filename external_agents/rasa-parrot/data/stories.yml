@@ -1,0 +1,12 @@
+version: "3.0"
+
+stories:
+
+- story: Parrot any utterance
+  steps:
+  - intent: out_of_scope
+  - action: action_parrot
+
+- story: Quit/Stop parrot
+  steps:
+  - intent: quit
