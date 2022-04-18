@@ -16,7 +16,7 @@ the User, the DialogueManager sends it to the other party by calling their
 
 from dialoguekit.agent.agent import Agent
 from dialoguekit.user.user import User
-from dialoguekit.core.utterance import Utterance
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.platform.platform import Platform
 
@@ -43,7 +43,7 @@ class DialogueManager:
     def dialogue_history(self):
         return self.__dialogue_history
 
-    def register_user_utterance(self, utterance: Utterance) -> None:
+    def register_user_utterance(self, utterance: AnnotatedUtterance) -> None:
         """Registers an utterance from the user.
 
         Args:
@@ -51,9 +51,9 @@ class DialogueManager:
         """
         self.__dialogue_history.add_user_utterance(utterance)
         self.__platform.display_user_utterance(utterance)
-        self.__agent.receive_user_utterance(utterance)
+        self.__agent.receive_user_utterance(utterance.utterance)
 
-    def register_agent_utterance(self, utterance: Utterance) -> None:
+    def register_agent_utterance(self, utterance: AnnotatedUtterance) -> None:
         """Registers an utterance from the agent.
 
         Args:
@@ -64,9 +64,9 @@ class DialogueManager:
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
         if utterance.intent is None:
-            self.__user.receive_agent_utterance(utterance)
+            self.__user.receive_agent_utterance(utterance.utterance)
         if utterance.intent is not None and utterance.intent.label != "EXIT":
-            self.__user.receive_agent_utterance(utterance)
+            self.__user.receive_agent_utterance(utterance.utterance)
         else:
             self.close()
 

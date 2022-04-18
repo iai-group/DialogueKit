@@ -34,6 +34,10 @@ class AnnotatedUtterance(Utterance):
     def intent(self) -> Intent:
         return self._intent
 
+    @property
+    def utterance(self) -> Utterance:
+        return Utterance(self.text)
+
     def __str__(self) -> str:
         return self._text
 

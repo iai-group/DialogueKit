@@ -7,6 +7,7 @@ See docs/rasa-parrot.md for more information
 import requests
 from dialoguekit.agent.agent import Agent
 from dialoguekit.core.utterance import Utterance
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
 
 
@@ -24,12 +25,14 @@ class RasaParrotAgent(Agent):
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
-        utterance = Utterance("Hello, I'm Rasa Parrot. What can I help u with?")
+        utterance = AnnotatedUtterance(
+            "Hello, I'm Rasa Parrot. What can I help u with?"
+        )
         self._dialogue_manager.register_agent_utterance(utterance)
 
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
-        utterance = Utterance(
+        utterance = AnnotatedUtterance(
             "It was nice talking to you. Bye", intent=Intent("EXIT")
         )
         self._dialogue_manager.register_agent_utterance(utterance)
@@ -50,5 +53,5 @@ class RasaParrotAgent(Agent):
                 "message": "(Rasa Parroting) " + utterance.text,
             },
         )
-        response = Utterance(r.json()[0]["text"])
+        response = AnnotatedUtterance(r.json()[0]["text"])
         self._dialogue_manager.register_agent_utterance(response)
