@@ -18,15 +18,6 @@ class Utterance:
             return False
         if self._text != __o._text:
             return False
-        if self._intent != __o._intent:
-            return False
-
-        if len(self._annotations) != len(__o._annotations):
-            return False
-
-        for annotation in self._annotations:
-            if annotation not in __o._annotations:
-                return False
 
         return True
 
