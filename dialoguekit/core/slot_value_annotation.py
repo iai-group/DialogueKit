@@ -24,3 +24,18 @@ class SlotValueAnnotation:
     @property
     def value(self) -> str:
         return self._value
+
+    def __eq__(self, __o: object) -> bool:
+        """Comparison function."""
+        if not isinstance(__o, SlotValueAnnotation):
+            return False
+        if self._slot != __o._slot:
+            return False
+        elif self._value != __o._value:
+            return False
+        elif self._start != __o._start:
+            return False
+        elif self._end != __o._end:
+            return False
+
+        return True
