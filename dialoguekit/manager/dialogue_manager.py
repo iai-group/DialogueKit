@@ -44,7 +44,10 @@ class DialogueManager:
         return self.__dialogue_history
 
     def register_user_utterance(self, utterance: AnnotatedUtterance) -> None:
-        """Registers an utterance from the user.
+        """Registers an annotated utterance from the user.
+
+        As the agent is not supposed to have access to the users intent,
+        a utterance without the annotation will be sent to the agent.
 
         Args:
             utterance: User utterance.
@@ -54,7 +57,13 @@ class DialogueManager:
         self.__agent.receive_user_utterance(utterance.utterance)
 
     def register_agent_utterance(self, utterance: AnnotatedUtterance) -> None:
-        """Registers an utterance from the agent.
+        """Registers an annotated utterance from the agent.
+
+        As the user is not supposed to have access to the agents intent,
+        a utterance without the annotation will be sent to the user.
+
+        If the Intent label is 'EXIT' the dialoguemanager will close. Thus it is
+        only the agent that can close the dialoguemanager.
 
         Args:
             utterance: Agent utterance.
