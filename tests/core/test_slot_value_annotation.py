@@ -1,3 +1,5 @@
+"""Tests slot_value_annotation class"""
+import pytest
 from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
 
 
@@ -43,3 +45,11 @@ def test_comparison():
     a1 = SlotValueAnnotation(value="test1", slot="slot1", start=0, end=1)
     a2 = SlotValueAnnotation(value="test1", slot="slot1", start=0, end=2)
     assert a1 != a2
+
+
+def test_hash():
+    a1 = SlotValueAnnotation(value="test1", slot="slot1", start=0, end=1)
+    try:
+        hash(a1)
+    except TypeError:
+        pytest.fail("SlotValueAnnotation hashing failed")

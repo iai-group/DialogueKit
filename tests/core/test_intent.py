@@ -1,3 +1,5 @@
+"""Test Intent class"""
+import pytest
 from dialoguekit.core.intent import Intent
 
 
@@ -10,6 +12,14 @@ def test_initialization():
 def test_label_property():
     i1 = Intent("test1")
     assert i1.label == "test1"
+
+
+def test_hash():
+    i1 = Intent("Test1")
+    try:
+        hash(i1)
+    except TypeError:
+        pytest.fail("Intent hashing failed")
 
 
 def test_comparison():
