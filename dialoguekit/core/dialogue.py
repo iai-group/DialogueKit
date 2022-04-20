@@ -34,12 +34,6 @@ class Dialogue:
     def __repr__(self) -> Text:
         return f"Dialogue(agent_id={self.__agent_id}, user_id={self.__user_id})"
 
-    def __hash__(self) -> int:
-        hashed_utterances = "".join(
-            [hash(annotation) for annotation in self.__utterances]
-        )
-        return hash((self.__agent_id, self.__user_id, hashed_utterances))
-
     def __eq__(self, __o: object) -> bool:
         if not isinstance(__o, Dialogue):
             return False
