@@ -1,7 +1,14 @@
 import random
-from typing import Dict
+from typing import Dict, List
 
-from dialoguekit.nlg.template_from_training_data import extract_utterance_template
+from dialoguekit.core.annotation import Annotation
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.intent import Intent
+
+from dialoguekit.nlg.template_from_training_data import (
+    extract_utterance_template,
+    extract_utterance_template_typed,
+)
 
 
 class NLG:
@@ -10,6 +17,9 @@ class NLG:
     def __init__(self, template_file: str) -> None:
         """Initializes the NLG component."""
         self.__response_templates = extract_utterance_template(template_file)
+        self.__response_templates_typed = extract_utterance_template_typed(
+            template_file
+        )
 
     def generate_utterance_text(self, intent: str, slot_values: Dict) -> str:
         """Turns a structured utterance into a textual one.
@@ -25,5 +35,29 @@ class NLG:
         templates = self.__response_templates.get(intent)
         response_text = random.choice(templates)
         for placeholder, value in slot_values.items():
-            response_text = response_text.replace("{"+placeholder+"}", value)
+            response_text = response_text.replace(
+                "{" + placeholder + "}", value
+            )
         return response_text
+
+    def generate_utterance_text_typed(
+        self, intent: Intent, annotations: List[Annotation]
+    ) -> AnnotatedUtterance:
+        """Turns a structured utterance into a textual one.
+
+        Args:
+            intent: intent label string.
+            slot values: slot value dict, e.g. {"GENRE": "action"}.
+
+        Returns:
+            generated response text using templates.
+        """
+        # Todo: match the needed slots with the template
+        templates = self.__response_templates_typed.get(intent)
+        response_utterance = random.choice(templates)
+        for annotation in annotations:
+            response_utterance._text = response_utterance._text.replace(
+                "{" + annotation.slot + "}", annotation.value
+            )
+            response_utterance.add_annotation(annotation)
+        return response_utterance

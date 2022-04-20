@@ -1,11 +1,15 @@
 """Tests for extracting templates from training data."""
 
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.nlg.template_from_training_data import (
+    extract_utterance_template_typed,
     replace_slot_with_placeholder,
     extract_utterance_template,
     build_template_from_instances,
+    build_template_from_instances_typed,
+    replace_slot_with_placeholder_typed,
 )
 
 
@@ -148,3 +152,90 @@ def test_build_template_from_instances_duplicate_deletion():
     template = build_template_from_instances(utterances=utterances)
     assert template
     assert len(template["Test1"]) == 1
+
+
+def test_build_template_from_instances_default_typed():
+    """Tests if overriding works correctly."""
+    utterances = [
+        AnnotatedUtterance(
+            text="Test Utterance 1-1", intent=Intent(label="Test1")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 1-2", intent=Intent(label="Test1")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 1-3", intent=Intent(label="Test1")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-1", intent=Intent(label="Test2")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-2", intent=Intent(label="Test2")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-3", intent=Intent(label="Test2")
+        ),
+    ]
+
+    template = build_template_from_instances_typed(utterances=utterances)
+    assert template
+    assert len(template.keys()) == 2
+    assert len(template[Intent(label="Test1")]) == 3
+
+
+def test_replace_slot_with_placeholder_typed():
+    # Given
+    a1 = AnnotatedUtterance(text="I like action or fantasy movies.")
+    a1.add_annotation(
+        Annotation(
+            slot="GENRE",
+            value="action",
+        )
+    )
+    a1.add_annotation(
+        Annotation(
+            slot="GENRE",
+            value="fantasy",
+        )
+    )
+
+    a2 = AnnotatedUtterance(text="How about old street?")
+    a2.add_annotation(
+        Annotation(
+            slot="TITLE",
+            value="old street",
+        )
+    )
+    """"
+    I like {GENRE} or {GENRE} movies."
+    "How about {TITLE}?"
+    """
+    annotated_utterances = [
+        (a1, "I like {GENRE} or {GENRE} movies."),
+        (a2, "How about {TITLE}?"),
+    ]
+
+    for utterance, expected_text in annotated_utterances:
+        extracted_utterance = replace_slot_with_placeholder_typed(utterance)
+        assert extracted_utterance.text == expected_text
+
+
+def test_extract_utterance_template_typed():
+    templates = extract_utterance_template_typed(ANNOTATED_DIALOGUE_FILE)
+    from pprint import pprint
+
+    pprint(templates)
+    assert templates
+    assert templates.get(Intent("COMPLETE")) == [
+        AnnotatedUtterance(text="thank you", intent=Intent(label="COMPLETE")),
+        AnnotatedUtterance(text="/exit", intent=Intent(label="COMPLETE")),
+        AnnotatedUtterance(
+            text="I would like to quit now.", intent=Intent(label="COMPLETE")
+        ),
+    ]
+    test_annotation = AnnotatedUtterance(
+        text="something like the {TITLE}",
+        intent=Intent(label="REVEAL.EXPAND"),
+    )
+
+    assert templates.get(Intent("REVEAL.EXPAND")) == [test_annotation]
