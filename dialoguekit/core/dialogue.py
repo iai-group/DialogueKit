@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List
+from typing import Dict, List, Text
 
 from dialoguekit.core.utterance import Utterance
 
@@ -27,6 +27,33 @@ class Dialogue:
         self.__agent_id = agent_id
         self.__user_id = user_id
         self.__utterances = []
+
+    def __str__(self) -> Text:
+        return f"Dialogue(agent_id={self.__agent_id}, user_id={self.__user_id})"
+
+    def __repr__(self) -> Text:
+        return f"Dialogue(agent_id={self.__agent_id}, user_id={self.__user_id})"
+
+    def __hash__(self) -> int:
+        hashed_utterances = "".join(
+            [hash(annotation) for annotation in self.__utterances]
+        )
+        return hash((self.__agent_id, self.__user_id, hashed_utterances))
+
+    def __eq__(self, __o: object) -> bool:
+        if not isinstance(__o, Dialogue):
+            return False
+        if self.__agent_id != __o.__agent_id:
+            return False
+        if self.__user_id != __o.__user_id:
+            return False
+        if len(self.__utterances) != len(__o.__utterances):
+            return False
+        for annotation in self.__utterances:
+            if annotation not in __o.__utterances:
+                return False
+
+        return True
 
     @property
     def agent_id(self) -> str:

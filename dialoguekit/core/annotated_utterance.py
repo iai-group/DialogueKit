@@ -1,6 +1,6 @@
 """Interface representing the basic unit of communication."""
 
-from typing import List, Optional
+from typing import List, Optional, Text
 
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
@@ -26,20 +26,17 @@ class AnnotatedUtterance(Utterance):
         self._intent = intent
         self._annotations = []
 
-    @property
-    def text(self) -> str:
+    def __str__(self) -> Text:
         return self._text
 
-    @property
-    def intent(self) -> Intent:
-        return self._intent
+    def __repr__(self) -> Text:
+        return f"AnnotatedUtterance({self._text})"
 
-    @property
-    def utterance(self) -> Utterance:
-        return Utterance(self.text)
-
-    def __str__(self) -> str:
-        return self._text
+    def __hash__(self) -> int:
+        hashed_annotations = "".join(
+            [hash(annotation) for annotation in self._annotations]
+        )
+        return hash((self._text, self._intent, hashed_annotations))
 
     def __eq__(self, __o: object) -> bool:
         """Comparison function."""
@@ -56,8 +53,19 @@ class AnnotatedUtterance(Utterance):
         for annotation in self._annotations:
             if annotation not in __o._annotations:
                 return False
-
         return True
+
+    @property
+    def text(self) -> str:
+        return self._text
+
+    @property
+    def intent(self) -> Intent:
+        return self._intent
+
+    @property
+    def utterance(self) -> Utterance:
+        return Utterance(self.text)
 
     def add_annotation(self, annotation) -> None:
         """Adds an annotation to the utterance.

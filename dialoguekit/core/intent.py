@@ -1,6 +1,9 @@
 """Interface representing an intent."""
 
 
+from typing import Text
+
+
 class Intent:
     def __init__(self, label: str) -> None:
         """Initializes the intent.
@@ -10,8 +13,14 @@ class Intent:
         """
         self._label = label
 
-    def __str__(self) -> str:
+    def __str__(self) -> Text:
         return self._label
+
+    def __repr__(self) -> Text:
+        return f"Intent({self._label})"
+
+    def __hash__(self) -> int:
+        return hash(self._label)
 
     def __eq__(self, __o: object) -> bool:
         """Comparison function."""
