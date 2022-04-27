@@ -14,7 +14,9 @@ ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 # nlg class shared across tests.
 @pytest.fixture
 def nlg_class():
-    return NLG(ANNOTATED_DIALOGUE_FILE)
+    nlg = NLG()
+    nlg.template_from_file(ANNOTATED_DIALOGUE_FILE)
+    return nlg
 
 
 def test_generate_utterance_text(nlg_class):
