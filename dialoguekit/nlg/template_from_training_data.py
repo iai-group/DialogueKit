@@ -16,13 +16,10 @@ def replace_slot_with_placeholder(
     """Replaces the slot values with placeholder.
 
     Args:
-        utterance: User utterance in string, e.g.,
-            I like action or fantasy movies.
-        slot_values: Slot values in List, e.g.,
-            [['GENRE','action'],['GENRE','fantasy']].
+        utterance: User utterance with annotations
 
     Returns:
-        User response template with slot replaced by placeholder,
+        User response template annotation with slot replaced by placeholder,
         e.g., I like {GENRE} or {GENRE} movies.
     """
     annotations = utterance.get_annotations()
