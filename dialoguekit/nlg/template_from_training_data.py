@@ -3,14 +3,14 @@
 from collections import defaultdict
 import os
 import json
-from typing import Dict, List, Text
+from typing import Dict, List
 
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 
 
-def replace_slot_with_placeholder_typed(
+def replace_slot_with_placeholder(
     utterance: AnnotatedUtterance,
 ) -> AnnotatedUtterance:
     """Replaces the slot values with placeholder.
@@ -35,9 +35,9 @@ def replace_slot_with_placeholder_typed(
     return utterance
 
 
-def build_template_from_instances_typed(
+def build_template_from_instances(
     utterances: List[AnnotatedUtterance],
-) -> Dict[Text, List[Text]]:
+) -> Dict[Intent, List[AnnotatedUtterance]]:
     """Builds the NLG template.
 
     The Intent the Utterance comes with will be used. If no intent is present
@@ -66,9 +66,9 @@ def build_template_from_instances_typed(
     return template
 
 
-def extract_utterance_template_typed(
+def extract_utterance_template(
     annotated_dialogue_file: str,
-) -> Dict[str, List]:
+) -> Dict[Intent, List[AnnotatedUtterance]]:
     """Extracts utterance templates for each intent.
 
     Args:
@@ -113,7 +113,7 @@ def extract_utterance_template_typed(
                         annotated_utterance.add_annotation(
                             Annotation(slot=slot, value=value)
                         )
-                    extracted_template = replace_slot_with_placeholder_typed(
+                    extracted_template = replace_slot_with_placeholder(
                         annotated_utterance
                     )
                     if (

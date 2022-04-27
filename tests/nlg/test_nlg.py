@@ -17,7 +17,7 @@ def nlg_class():
     return NLG(ANNOTATED_DIALOGUE_FILE)
 
 
-def test_generate_utterance_text_typed(nlg_class):
+def test_generate_utterance_text(nlg_class):
     # A corner case where only one template found, i.e., REVEAL.EXPAND only has
     # something like the {TITLE}.
     expected_response1 = AnnotatedUtterance(
@@ -35,7 +35,7 @@ def test_generate_utterance_text_typed(nlg_class):
         )
     ]
     for intent, slot_values, expected_response in sample_response_text:
-        generated_response = nlg_class.generate_utterance_text_typed(
+        generated_response = nlg_class.generate_utterance_text(
             intent, slot_values
         )
         assert generated_response == expected_response

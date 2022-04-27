@@ -6,7 +6,7 @@ from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
 
 from dialoguekit.nlg.template_from_training_data import (
-    extract_utterance_template_typed,
+    extract_utterance_template,
 )
 
 
@@ -15,24 +15,22 @@ class NLG:
 
     def __init__(self, template_file: str) -> None:
         """Initializes the NLG component."""
-        self.__response_templates_typed = extract_utterance_template_typed(
-            template_file
-        )
+        self.__response_templates = extract_utterance_template(template_file)
 
-    def generate_utterance_text_typed(
+    def generate_utterance_text(
         self, intent: Intent, annotations: List[Annotation]
     ) -> AnnotatedUtterance:
         """Turns a structured utterance into a textual one.
 
         Args:
-            intent: intent label string.
-            slot values: slot value dict, e.g. {"GENRE": "action"}.
+            intent: The intent of the wanted Utterance
+            annotations: The wanted annotations in the respone Utterance
 
         Returns:
-            generated response text using templates.
+            Generated response utterance using templates.
         """
         # Todo: match the needed slots with the template
-        templates = self.__response_templates_typed.get(intent)
+        templates = self.__response_templates.get(intent)
         response_utterance = random.choice(templates)
         for annotation in annotations:
             response_utterance._text = response_utterance._text.replace(

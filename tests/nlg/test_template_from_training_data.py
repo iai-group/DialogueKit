@@ -4,16 +4,16 @@ from dialoguekit.core.intent import Intent
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.nlg.template_from_training_data import (
-    extract_utterance_template_typed,
-    build_template_from_instances_typed,
-    replace_slot_with_placeholder_typed,
+    extract_utterance_template,
+    build_template_from_instances,
+    replace_slot_with_placeholder,
 )
 
 
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
 
-def test_build_template_from_instances_default_typed():
+def test_build_template_from_instances_default():
     """Tests if overriding works correctly."""
     utterances = [
         AnnotatedUtterance(
@@ -36,13 +36,13 @@ def test_build_template_from_instances_default_typed():
         ),
     ]
 
-    template = build_template_from_instances_typed(utterances=utterances)
+    template = build_template_from_instances(utterances=utterances)
     assert template
     assert len(template.keys()) == 2
     assert len(template[Intent(label="Test1")]) == 3
 
 
-def test_build_template_from_instances_no_intents_typed():
+def test_build_template_from_instances_no_intents():
     """Tests if exception gets raised if length is missmatched."""
     utterances = [
         AnnotatedUtterance(text="Test Utterance 1-1"),
@@ -53,11 +53,11 @@ def test_build_template_from_instances_no_intents_typed():
         AnnotatedUtterance(text="Test Utterance 2-3"),
     ]
 
-    template = build_template_from_instances_typed(utterances=utterances)
+    template = build_template_from_instances(utterances=utterances)
     assert len(template) == 0
 
 
-def test_build_template_from_instances_skip_no_intent_typed():
+def test_build_template_from_instances_skip_no_intent():
     """Tests if Utterance without Intents gets skipped."""
     utterances = [
         AnnotatedUtterance(text="Skip"),
@@ -78,7 +78,7 @@ def test_build_template_from_instances_skip_no_intent_typed():
         ),
     ]
 
-    template = build_template_from_instances_typed(utterances=utterances)
+    template = build_template_from_instances(utterances=utterances)
     assert template
     assert "Skip" not in [
         utterance
@@ -87,7 +87,7 @@ def test_build_template_from_instances_skip_no_intent_typed():
     ]
 
 
-def test_build_template_from_instances_duplicate_deletion_typed():
+def test_build_template_from_instances_duplicate_deletion():
     """Tests if duplicate Utterance for same Intent gets removed."""
     utterances = [
         AnnotatedUtterance(text="Skip"),
@@ -108,12 +108,12 @@ def test_build_template_from_instances_duplicate_deletion_typed():
         ),
     ]
 
-    template = build_template_from_instances_typed(utterances=utterances)
+    template = build_template_from_instances(utterances=utterances)
     assert template
     assert len(template[Intent("Test1")]) == 1
 
 
-def test_replace_slot_with_placeholder_typed():
+def test_replace_slot_with_placeholder():
     # Given
     a1 = AnnotatedUtterance(text="I like action or fantasy movies.")
     a1.add_annotation(
@@ -146,12 +146,12 @@ def test_replace_slot_with_placeholder_typed():
     ]
 
     for utterance, expected_text in annotated_utterances:
-        extracted_utterance = replace_slot_with_placeholder_typed(utterance)
+        extracted_utterance = replace_slot_with_placeholder(utterance)
         assert extracted_utterance.text == expected_text
 
 
-def test_extract_utterance_template_typed():
-    templates = extract_utterance_template_typed(ANNOTATED_DIALOGUE_FILE)
+def test_extract_utterance_template():
+    templates = extract_utterance_template(ANNOTATED_DIALOGUE_FILE)
     from pprint import pprint
 
     pprint(templates)
