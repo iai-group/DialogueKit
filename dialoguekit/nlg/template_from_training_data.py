@@ -50,7 +50,8 @@ def build_template_from_instances(
     template = defaultdict(list)
     for utterance in utterances:
         if isinstance(utterance.intent, Intent):
-            template[utterance.intent].append(utterance)
+            extracted_template = replace_slot_with_placeholder(utterance)
+            template[utterance.intent].append(extracted_template)
         else:
             print(
                 f'Utterance was skipped.\nUtterance "{utterance.text}", \
