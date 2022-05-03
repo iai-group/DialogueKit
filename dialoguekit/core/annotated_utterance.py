@@ -1,4 +1,4 @@
-"""Interface representing the basic unit of communication."""
+"""Interface extending utterances with annotations."""
 
 from typing import List, Optional, Text
 
