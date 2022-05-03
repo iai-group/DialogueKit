@@ -102,7 +102,11 @@ class MathAgent(Agent):
         except ValueError:
             pass
 
-        if not answered:  # Later check if right INTENT
+        if utterance.text == "EXIT":
+            self.goodbye()
+            return
+
+        elif not answered:  # Later check if right INTENT
             number_1 = random.randint(1, 10)
             number_2 = random.randint(1, 10)
             operation = random.choice(list(Operation))
