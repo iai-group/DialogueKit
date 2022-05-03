@@ -93,10 +93,10 @@ class DialogueManager:
 if __name__ == "__main__":
     from dialoguekit.core.utterance import Utterance
     from dialoguekit.user.user import User
-    from dialoguekit.agent.parrot_agent import ParrotAgent
+    from dialoguekit.agent.mathematics_agent import MathAgent
 
     # Participants
-    agent = ParrotAgent("A01")
+    agent = MathAgent("A01")
     user = User("U01")
 
     platform = Platform()
