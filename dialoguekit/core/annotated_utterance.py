@@ -1,4 +1,4 @@
-"""Interface representing the basic unit of communication."""
+"""Interface extending utterances with annotations."""
 
 from typing import List, Optional
 
@@ -59,7 +59,7 @@ class AnnotatedUtterance(Utterance):
 
         return True
 
-    def add_annotation(self, annotation) -> None:
+    def add_annotation(self, annotation: Annotation) -> None:
         """Adds an annotation to the utterance.
 
         Args:
