@@ -23,8 +23,8 @@ class NLG:
         """Turns a structured utterance into a textual one.
 
         Args:
-            intent: The intent of the wanted Utterance
-            annotations: The wanted annotations in the respone Utterance
+            intent: The intent of the wanted Utterance.
+            annotations: The wanted annotations in the respone Utterance.
 
         Returns:
             Generated response utterance using templates.
@@ -34,7 +34,7 @@ class NLG:
         response_utterance = random.choice(templates)
         for annotation in annotations:
             response_utterance._text = response_utterance._text.replace(
-                "{" + annotation.slot + "}", annotation.value
+                f"{{{annotation.slot}}}", annotation.value
             )
             response_utterance.add_annotation(annotation)
         return response_utterance

@@ -184,7 +184,7 @@ class AnnotationConverterRasa(AnnotationConverter):
         with open(return_dictionary[filename], "w") as outfile:
             yaml.dump(rasa_dict_user, outfile, default_flow_style=False)
 
-        extention = "_rasa_agent.yml.yml"
+        extention = "_rasa_agent.yml"
         filename = save_name_base + extention
         return_dictionary[filename] = save_path_name + extention
         with open(return_dictionary[filename], "w") as outfile:

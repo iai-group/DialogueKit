@@ -136,10 +136,7 @@ def test_replace_slot_with_placeholder():
             value="old street",
         )
     )
-    """"
-    I like {GENRE} or {GENRE} movies."
-    "How about {TITLE}?"
-    """
+
     annotated_utterances = [
         (a1, "I like {GENRE} or {GENRE} movies."),
         (a2, "How about {TITLE}?"),
@@ -156,13 +153,19 @@ def test_extract_utterance_template():
 
     pprint(templates)
     assert templates
-    assert templates.get(Intent("COMPLETE")) == [
-        AnnotatedUtterance(text="thank you", intent=Intent(label="COMPLETE")),
-        AnnotatedUtterance(text="/exit", intent=Intent(label="COMPLETE")),
-        AnnotatedUtterance(
-            text="I would like to quit now.", intent=Intent(label="COMPLETE")
-        ),
-    ]
+    assert set(templates.get(Intent("COMPLETE"))) == set(
+        [
+            AnnotatedUtterance(
+                text="thank you", intent=Intent(label="COMPLETE")
+            ),
+            AnnotatedUtterance(text="/exit", intent=Intent(label="COMPLETE")),
+            AnnotatedUtterance(
+                text="I would like to quit now.",
+                intent=Intent(label="COMPLETE"),
+            ),
+        ]
+    )
+
     test_annotation = AnnotatedUtterance(
         text="something like the {TITLE}",
         intent=Intent(label="REVEAL.EXPAND"),
