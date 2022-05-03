@@ -90,10 +90,10 @@ def build_template_from_instances(
     """Builds the NLG template.
 
     The Intent the Utterance comes with will be used. If no intent is present
-    for an utterance it will be skipped
+    for an utterance it will be skipped.
 
     Args:
-        utterances : List of AnnotatedUtterance.
+        utterances : List of AnnotatedUtterance-s.
 
     Returns:
         Dict with intent (as string) and lists with corresponding
