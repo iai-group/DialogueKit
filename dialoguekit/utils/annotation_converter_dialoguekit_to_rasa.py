@@ -141,10 +141,6 @@ class AnnotationConverterRasa(AnnotationConverter):
         with open(return_dictionary[filename], "w") as outfile:
             yaml.dump(self._slot_value_pairs, outfile, default_flow_style=False)
 
-        # Used for yml formating
-        class LiteralString(str):
-            pass
-
         def change_style(style: str, representer: ScalarNode):
             """Used to change the python yml data representation
 
