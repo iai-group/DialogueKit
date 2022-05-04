@@ -39,7 +39,7 @@ def test_build_template_from_instances_default():
     template = build_template_from_instances(utterances=utterances)
     assert template
     assert len(template.keys()) == 2
-    assert len(template[Intent(label="Test1")]) == 3
+    assert len(template[Intent("Test1")]) == 3
 
 
 def test_build_template_from_instances_no_intents():
