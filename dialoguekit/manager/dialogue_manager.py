@@ -37,7 +37,7 @@ class DialogueManager:
         self.__user = user
         self.__user.connect_dialogue_manager(self)
         self.__platform = platform
-        self.__dialogue_history = Dialogue(agent.id, user.user_id)
+        self.__dialogue_history = Dialogue(agent.id, user.id)
 
     @property
     def dialogue_history(self):
@@ -107,4 +107,22 @@ class DialogueManager:
 
 
 if __name__ == "__main__":
-    pass
+    from dialoguekit.core.utterance import Utterance
+    from dialoguekit.user.user import User
+    from dialoguekit.agent.parrot_agent import ParrotAgent
+
+    # Participants
+    agent = ParrotAgent("A01")
+    user = User("U01")
+
+    platform = Platform()
+    dm = DialogueManager(agent, user, platform)
+
+    user.connect_dialogue_manager(dm)
+    agent.connect_dialogue_manager(dm)
+    dm.start()
+
+    # Send in user utterance
+    dm.register_user_utterance(utterance=Utterance("Hi"))
+
+    dm.close()
