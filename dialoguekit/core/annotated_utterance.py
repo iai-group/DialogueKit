@@ -1,6 +1,6 @@
 """Interface extending utterances with annotations."""
 
-from typing import List, Optional, Text
+from typing import List, Optional, Text, Union
 
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
@@ -10,7 +10,12 @@ from dialoguekit.core.utterance import Utterance
 class AnnotatedUtterance(Utterance):
     """Represents an utterance, with additional info."""
 
-    def __init__(self, text: str, intent: Optional[Intent] = None) -> None:
+    def __init__(
+        self,
+        text: str,
+        intent: Optional[Intent] = None,
+        annotations: Optional[List] = None,
+    ) -> None:
         """Initializes an AnnotatedUtterance.
 
         The AnnotatedUtterance is a Utterance with additional information.
@@ -20,11 +25,15 @@ class AnnotatedUtterance(Utterance):
         Args:
             text: Utterance text.
             intent: The intent of the utterance.
+            annotations: Annotations of the Utterance text.
         """
 
         super().__init__(text=text)
         self._intent = intent
-        self._annotations = []
+        if annotations is None:
+            self._annotations = []
+        else:
+            self._annotations = annotations
 
     def __str__(self) -> Text:
         return self._text
@@ -34,7 +43,7 @@ class AnnotatedUtterance(Utterance):
 
     def __hash__(self) -> int:
         hashed_annotations = "".join(
-            [str(hash(annotation)) for annotation in self._annotations]
+            [hash(annotation) for annotation in self._annotations]
         )
         return hash((self._text, self._intent, hashed_annotations))
 
@@ -67,13 +76,24 @@ class AnnotatedUtterance(Utterance):
     def utterance(self) -> Utterance:
         return Utterance(self.text)
 
-    def add_annotation(self, annotation) -> None:
+    def add_annotation(
+        self, annotation: Union[Annotation, List[Annotation]]
+    ) -> None:
         """Adds an annotation to the utterance.
 
         Args:
             annotation: Annotation instance.
         """
-        self._annotations.append(annotation)
+        if isinstance(annotation, List):
+            for a in annotation:
+                self._annotations.append(a)
+        elif isinstance(annotation, Annotation):
+            self._annotations.append(annotation)
+        else:
+            raise TypeError(
+                "Provided annotation is not of type Annotation or \
+                    List[Annotation]"
+            )
 
     def get_annotations(self) -> List[Annotation]:
         """Returns the available annotations for the utterance.
