@@ -5,7 +5,7 @@ from abc import ABC
 import enum
 from typing import TYPE_CHECKING
 
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.utterance import Utterance
 
 if TYPE_CHECKING:
     from dialoguekit.manager.dialogue_manager import DialogueManager
@@ -42,9 +42,7 @@ class Participant(ABC):
         """
         self._dialogue_manager = dialogue_manager
 
-    def receive_utterance(
-        self, annotated_utterance: AnnotatedUtterance
-    ) -> None:
+    def receive_utterance(self, utterance: Utterance) -> None:
         """This method is called each time there is a new utterance.
 
         Args:

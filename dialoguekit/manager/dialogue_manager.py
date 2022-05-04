@@ -70,15 +70,15 @@ class DialogueManager:
     ) -> None:
         """Registers an annotated utterance from the agent.
 
-        In most cases the User should not know about the Agents Intent and
-        Annotation-s. But for some usecases this additional information may
-        become usefull, depending on the UI etc.
-        Thus the complete AnnotatedUtterance will be sent to the User. It is
-        the Users responsability to only use the information it is supposed
-        to.
+        This method takes a AnnotatedUtterance but only a Utterance gets sent to
+        the User. The AnnotatedUtterance gets used to store the conversation for
+        future reference, and if the Agent wants to end the conversation with
+        the "EXIT" Intent, the DialogueMangager will end the conversation with
+        the close() method.
 
-        If the Intent label is 'EXIT' the dialoguemanager will close. Thus it is
-        only the agent that can close the dialoguemanager.
+        Note:
+            If the Intent label is 'EXIT' the dialoguemanager will close. Thus
+            it is only the agent that can close the dialoguemanager.
 
         Args:
             utterance: Agent utterance.
