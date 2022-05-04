@@ -96,7 +96,7 @@ class MathAgent(Agent):
         answered = False
         try:
             response_answer = float(utterance.text)
-            if float(response_answer) != self.__expected_answer:
+            if not math.isclose(float(response_answer), self.__expected_answer):
                 answered = True
                 response = self.__nlg.generate_utterance_text(
                     intent=Intent("WRONG"), annotations=[]
