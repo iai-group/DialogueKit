@@ -6,7 +6,7 @@ from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.nlg.template_from_training_data import (
     extract_utterance_template,
     build_template_from_instances,
-    replace_slot_with_placeholder,
+    _replace_slot_with_placeholder,
 )
 
 
@@ -39,7 +39,7 @@ def test_build_template_from_instances_default():
     template = build_template_from_instances(utterances=utterances)
     assert template
     assert len(template.keys()) == 2
-    assert len(template[Intent(label="Test1")]) == 3
+    assert len(template[Intent("Test1")]) == 3
 
 
 def test_build_template_from_instances_no_intents():
@@ -136,18 +136,14 @@ def test_replace_slot_with_placeholder():
             value="old street",
         )
     )
-    """"
-    I like {GENRE} or {GENRE} movies."
-    "How about {TITLE}?"
-    """
     annotated_utterances = [
         (a1, "I like {GENRE} or {GENRE} movies."),
         (a2, "How about {TITLE}?"),
     ]
 
     for utterance, expected_text in annotated_utterances:
-        extracted_utterance = replace_slot_with_placeholder(utterance)
-        assert extracted_utterance.text == expected_text
+        _replace_slot_with_placeholder(utterance)
+        assert utterance.text == expected_text
 
 
 def test_extract_utterance_template():
@@ -156,13 +152,19 @@ def test_extract_utterance_template():
 
     pprint(templates)
     assert templates
-    assert templates.get(Intent("COMPLETE")) == [
-        AnnotatedUtterance(text="thank you", intent=Intent(label="COMPLETE")),
-        AnnotatedUtterance(text="/exit", intent=Intent(label="COMPLETE")),
-        AnnotatedUtterance(
-            text="I would like to quit now.", intent=Intent(label="COMPLETE")
-        ),
-    ]
+    assert set(templates.get(Intent("COMPLETE"))) == set(
+        [
+            AnnotatedUtterance(
+                text="thank you", intent=Intent(label="COMPLETE")
+            ),
+            AnnotatedUtterance(text="/exit", intent=Intent(label="COMPLETE")),
+            AnnotatedUtterance(
+                text="I would like to quit now.",
+                intent=Intent(label="COMPLETE"),
+            ),
+        ]
+    )
+
     test_annotation = AnnotatedUtterance(
         text="something like the {TITLE}",
         intent=Intent(label="REVEAL.EXPAND"),

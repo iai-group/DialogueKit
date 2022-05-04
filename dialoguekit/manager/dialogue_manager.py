@@ -43,41 +43,54 @@ class DialogueManager:
     def dialogue_history(self):
         return self.__dialogue_history
 
-    def register_user_utterance(self, utterance: AnnotatedUtterance) -> None:
+    def register_user_utterance(
+        self, annotated_utterance: AnnotatedUtterance
+    ) -> None:
         """Registers an annotated utterance from the user.
 
-        As the agent is not supposed to have access to the users intent,
-        a utterance without the annotation will be sent to the agent.
+        In most cases the Agent should not know about the Users Intent and
+        Annotation-s. But for some usecases this additional information may
+        become usefull, depending on the UI etc.
+        Thus the complete AnnotatedUtterance will be sent to the Agent. It is
+        the Agents responsability to only use the information it is supposed
+        to.
 
         Args:
             utterance: User utterance.
         """
-        self.__dialogue_history.add_user_utterance(utterance)
-        self.__platform.display_user_utterance(utterance)
-        self.__agent.receive_user_utterance(utterance.utterance)
+        self.__dialogue_history.add_user_utterance(annotated_utterance)
+        self.__platform.display_user_utterance(annotated_utterance)
+        self.__agent.receive_user_utterance(annotated_utterance)
 
-    def register_agent_utterance(self, utterance: AnnotatedUtterance) -> None:
+    def register_agent_utterance(
+        self, annotated_utterance: AnnotatedUtterance
+    ) -> None:
         """Registers an annotated utterance from the agent.
 
-        As the user is not supposed to have access to the agents intent,
-        a utterance without the annotation will be sent to the user.
+        This method takes a AnnotatedUtterance but only a Utterance gets sent to
+        the User. The AnnotatedUtterance gets used to store the conversation for
+        future reference, and if the Agent wants to end the conversation with
+        the "EXIT" Intent, the DialogueMangager will end the conversation with
+        the close() method.
 
-        If the Intent label is 'EXIT' the dialoguemanager will close. Thus it is
-        only the agent that can close the dialoguemanager.
+        Note:
+            If the Intent label is 'EXIT' the dialoguemanager will close. Thus
+            it is only the agent that can close the dialoguemanager.
 
         Args:
             utterance: Agent utterance.
         """
-        self.__dialogue_history.add_agent_utterance(utterance)
-        self.__platform.display_agent_utterance(utterance)
+        self.__dialogue_history.add_agent_utterance(annotated_utterance)
+        self.__platform.display_agent_utterance(annotated_utterance)
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
-        if utterance.intent is None:
-            self.__user.receive_utterance(utterance.utterance)
-        if utterance.intent is not None and utterance.intent.label != "EXIT":
-            self.__user.receive_utterance(utterance.utterance)
-        else:
+        if (
+            annotated_utterance.intent is not None
+            and annotated_utterance.intent.label == "EXIT"
+        ):
             self.close()
+        else:
+            self.__user.receive_agent_utterance(annotated_utterance.utterance)
 
     def start(self) -> None:
         """Starts the conversation."""

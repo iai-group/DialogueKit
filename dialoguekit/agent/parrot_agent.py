@@ -1,7 +1,6 @@
 """Simplest possible agent that parrots back everything the user says."""
 
 from dialoguekit.agent.agent import Agent
-from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
 
@@ -31,11 +30,13 @@ class ParrotAgent(Agent):
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
-    def receive_user_utterance(self, utterance: Utterance) -> None:
+    def receive_user_utterance(
+        self, annotated_utterance: AnnotatedUtterance
+    ) -> None:
         """This method is called each time there is a new user utterance.
 
         Args:
             utterance: User utterance.
         """
-        response = AnnotatedUtterance("(Parroting) " + utterance.text)
+        response = AnnotatedUtterance("(Parroting) " + annotated_utterance.text)
         self._dialogue_manager.register_agent_utterance(response)

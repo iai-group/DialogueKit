@@ -7,7 +7,6 @@ connected with a DialogueManager by invoking `register_dialogue_manager()`.
 from __future__ import annotations
 from enum import Enum
 
-from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.participant.participant import Participant
 
@@ -31,7 +30,9 @@ class User(Participant):
         """
         super().__init__(id=id, type=type)
 
-    def receive_utterance(self, utterance: Utterance) -> None:
+    def receive_utterance(
+        self, annotated_utterance: AnnotatedUtterance
+    ) -> None:
         """This method is called each time there is a new agent utterance.
 
 
