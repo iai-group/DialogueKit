@@ -13,11 +13,11 @@ from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg import NLG
 
 
-class Operation(Enum):
-    plus = 0
-    minus = 1
-    multiplication = 2
-    division = 3
+class OPERATION(Enum):
+    ADDITION = 0
+    SUBTRACTION = 1
+    MULTIPLICATION = 2
+    DIVISION = 3
 
 
 class MathAgent(Agent):
@@ -51,22 +51,48 @@ class MathAgent(Agent):
         be created in this method.
         """
         if self.__nlg is None:
+
             a1 = AnnotatedUtterance(
-                intent=Intent("QUESTION"), text="What is 5 + 6 ?"
-            )
-            a1.add_annotation(annotation=Annotation(slot="NUMBER", value="6"))
-            a1.add_annotation(annotation=Annotation(slot="NUMBER", value="5"))
-            a1.add_annotation(
-                annotation=Annotation(slot="OPERATION", value="+")
+                intent=Intent("OPERATION.ADDITION"),
+                text="What is 5 + 6 ?",
+                annotations=[
+                    Annotation(slot="NUMBER", value="6"),
+                    Annotation(slot="NUMBER", value="5"),
+                ],
             )
             a2 = AnnotatedUtterance(
+                intent=Intent("OPERATION.SUBTRACTION"),
+                text="What is 5 - 6 ?",
+                annotations=[
+                    Annotation(slot="NUMBER", value="6"),
+                    Annotation(slot="NUMBER", value="5"),
+                ],
+            )
+            a3 = AnnotatedUtterance(
+                intent=Intent("OPERATION.MULTIPLICATION"),
+                text="What is 5 * 6 ?",
+                annotations=[
+                    Annotation(slot="NUMBER", value="6"),
+                    Annotation(slot="NUMBER", value="5"),
+                ],
+            )
+            a4 = AnnotatedUtterance(
+                intent=Intent("OPERATION.DIVISION"),
+                text="What is 5 / 6 ?",
+                annotations=[
+                    Annotation(slot="NUMBER", value="6"),
+                    Annotation(slot="NUMBER", value="5"),
+                ],
+            )
+
+            a5 = AnnotatedUtterance(
                 intent=Intent("WRONG"),
                 text="Thats not quite right! \nTry again.",
             )
-            a3 = AnnotatedUtterance(
+            a6 = AnnotatedUtterance(
                 intent=Intent("WRONG"), text="Thats wrong. \nTry again."
             )
-            utterances = [a1, a2, a3]
+            utterances = [a1, a2, a3, a4, a5, a6, a6]
 
             self.__nlg = NLG()
             self.__nlg.template_from_objects(utterances=utterances)
@@ -75,7 +101,8 @@ class MathAgent(Agent):
         """Sends the agent's welcome message."""
         utterance = AnnotatedUtterance(
             """Hello, I'm a bot in need of some help.
-            Can you help me with some mathematics?"""
+            Can you help me with some mathematics?""",
+            intent=Intent("WELCOME"),
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
@@ -112,19 +139,15 @@ class MathAgent(Agent):
         elif not answered:  # Later check if right INTENT
             number_1 = random.randint(1, 10)
             number_2 = random.randint(1, 10)
-            operation = random.choice(list(Operation))
+            operation = random.choice(list(OPERATION))
             if operation.value == 0:
                 self.__expected_answer = number_1 + number_2
-                operation_symbol = "+"
             elif operation.value == 1:
                 self.__expected_answer = number_1 - number_2
-                operation_symbol = "-"
             elif operation.value == 2:
                 self.__expected_answer = number_1 * number_2
-                operation_symbol = "*"
             elif operation.value == 3:
                 self.__expected_answer = number_1 / number_2
-                operation_symbol = "/"
 
             # TODO Add better comparison
             self.__expected_answer = (
@@ -132,10 +155,9 @@ class MathAgent(Agent):
             )
 
             response = self.__nlg.generate_utterance_text(
-                intent=Intent("QUESTION"),
+                intent=Intent(str(operation)),
                 annotations=[
                     Annotation(slot="NUMBER", value=str(number_1)),
-                    Annotation(slot="OPERATION", value=operation_symbol),
                     Annotation(slot="NUMBER", value=str(number_2)),
                 ],
             )
