@@ -93,7 +93,7 @@ class DialogueManager:
         ):
             self.close()
         else:
-            self.__user.receive_agent_utterance(annotated_utterance)
+            self.__user.receive_agent_utterance(annotated_utterance.utterance)
 
     def start(self) -> None:
         """Starts the conversation."""
