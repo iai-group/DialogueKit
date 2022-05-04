@@ -104,7 +104,6 @@ class DialogueManager:
 
 
 if __name__ == "__main__":
-    from dialoguekit.core.utterance import Utterance
     from dialoguekit.user.user import User
     from dialoguekit.agent.mathematics_agent import MathAgent
 
@@ -118,8 +117,5 @@ if __name__ == "__main__":
     user.connect_dialogue_manager(dm)
     agent.connect_dialogue_manager(dm)
     dm.start()
-
-    # Send in user utterance
-    dm.register_user_utterance(utterance=Utterance("Hi"))
 
     dm.close()
