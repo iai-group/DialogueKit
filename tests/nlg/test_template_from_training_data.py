@@ -6,7 +6,7 @@ from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.nlg.template_from_training_data import (
     extract_utterance_template,
     build_template_from_instances,
-    replace_slot_with_placeholder,
+    _replace_slot_with_placeholder,
 )
 
 
@@ -143,8 +143,8 @@ def test_replace_slot_with_placeholder():
     ]
 
     for utterance, expected_text in annotated_utterances:
-        extracted_utterance = replace_slot_with_placeholder(utterance)
-        assert extracted_utterance.text == expected_text
+        _replace_slot_with_placeholder(utterance)
+        assert utterance.text == expected_text
 
 
 def test_extract_utterance_template():

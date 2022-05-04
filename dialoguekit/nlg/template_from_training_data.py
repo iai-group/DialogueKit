@@ -22,28 +22,6 @@ def _replace_slot_with_placeholder(
         annotated_utterance._annotations = []
 
 
-def replace_slot_with_placeholder(
-    annotated_utterance: AnnotatedUtterance,
-) -> AnnotatedUtterance:
-    """Replaces the slot values with placeholder.
-
-    Args:
-        utterance: User utterance with annotations.
-
-    Returns:
-        User response template annotation with slot replaced by placeholder,
-        e.g., I like {GENRE} or {GENRE} movies.
-    """
-    annotations = annotated_utterance.get_annotations()
-    for annotation in annotations:
-        placeholder_label, value = annotation.slot, annotation.value
-        annotated_utterance._text = annotated_utterance.text.replace(
-            value, f"{{{placeholder_label}}}"
-        )
-        annotated_utterance._annotations = []
-    return annotated_utterance
-
-
 def build_template_from_instances(
     utterances: List[AnnotatedUtterance],
 ) -> Dict[Intent, List[AnnotatedUtterance]]:
