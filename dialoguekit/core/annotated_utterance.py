@@ -43,7 +43,7 @@ class AnnotatedUtterance(Utterance):
 
     def __hash__(self) -> int:
         hashed_annotations = "".join(
-            [hash(annotation) for annotation in self._annotations]
+            [str(hash(annotation)) for annotation in self._annotations]
         )
         return hash((self._text, self._intent, hashed_annotations))
 
