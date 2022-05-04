@@ -1,8 +1,7 @@
 """Tests for extracting templates from training data."""
 
-import pytest
 from dialoguekit.core.intent import Intent
-from dialoguekit.core.utterance import Utterance
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.nlg.template_from_training_data import (
     replace_slot_with_placeholder,
     extract_utterance_template,
@@ -51,80 +50,69 @@ def test_extract_utterance_template():
     assert templates.get("REVEAL.EXPAND") == ["something like the {TITLE}\n"]
 
 
-def test_build_template_from_instances_overide():
+def test_build_template_from_instances_default():
     """Tests if overriding works correctly."""
-    intents = [
-        Intent(label="Test1"),
-        Intent(label="Test1"),
-        Intent(label="Test1"),
-        Intent(label="Test2"),
-        Intent(label="Test2"),
-        Intent(label="Test2"),
-    ]
     utterances = [
-        Utterance(text="Test Utterance 1-1"),
-        Utterance(text="Test Utterance 1-2"),
-        Utterance(text="Test Utterance 1-3"),
-        Utterance(text="Test Utterance 2-1"),
-        Utterance(text="Test Utterance 2-2"),
-        Utterance(text="Test Utterance 2-3"),
+        AnnotatedUtterance(
+            text="Test Utterance 1-1", intent=Intent(label="Test1")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 1-2", intent=Intent(label="Test1")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 1-3", intent=Intent(label="Test1")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-1", intent=Intent(label="Test2")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-2", intent=Intent(label="Test2")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-3", intent=Intent(label="Test2")
+        ),
     ]
 
-    template = build_template_from_instances(
-        intents=intents, utterances=utterances
-    )
+    template = build_template_from_instances(utterances=utterances)
     assert template
     assert len(template.keys()) == 2
     assert len(template["Test1"]) == 3
 
 
-def test_build_template_from_instances_overide_exception():
+def test_build_template_from_instances_no_intents():
     """Tests if exception gets raised if length is missmatched."""
-    intents = [
-        Intent(label="Test1"),
-        Intent(label="Test1"),
-        Intent(label="Test1"),
-        Intent(label="Test2"),
-        Intent(label="Test2"),
-    ]
     utterances = [
-        Utterance(text="Test Utterance 1-1"),
-        Utterance(text="Test Utterance 1-2"),
-        Utterance(text="Test Utterance 1-3"),
-        Utterance(text="Test Utterance 2-1"),
-        Utterance(text="Test Utterance 2-2"),
-        Utterance(text="Test Utterance 2-3"),
-    ]
-    with pytest.raises(ValueError):
-        build_template_from_instances(intents=intents, utterances=utterances)
-
-
-def test_build_template_from_instances_utterace_only():
-    """Tests if template gets built with only utterances."""
-    utterances = [
-        Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 1-2", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 1-3", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 2-1", intent=Intent(label="Test2")),
-        Utterance(text="Test Utterance 2-2", intent=Intent(label="Test2")),
-        Utterance(text="Test Utterance 2-3", intent=Intent(label="Test2")),
+        AnnotatedUtterance(text="Test Utterance 1-1"),
+        AnnotatedUtterance(text="Test Utterance 1-2"),
+        AnnotatedUtterance(text="Test Utterance 1-3"),
+        AnnotatedUtterance(text="Test Utterance 2-1"),
+        AnnotatedUtterance(text="Test Utterance 2-2"),
+        AnnotatedUtterance(text="Test Utterance 2-3"),
     ]
 
     template = build_template_from_instances(utterances=utterances)
-    assert template is not None
-    assert len(template.keys()) == 2
-    assert len(template["Test1"]) == 3
+    assert len(template) == 0
 
 
 def test_build_template_from_instances_skip_no_intent():
     """Tests if Utterance without Intents gets skipped."""
     utterances = [
-        Utterance(text="Skip"),
-        Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 1-2", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 2-1", intent=Intent(label="Test2")),
-        Utterance(text="Test Utterance 2-2", intent=Intent(label="Test2")),
-        Utterance(text="Test Utterance 2-3", intent=Intent(label="Test2")),
+        AnnotatedUtterance(text="Skip"),
+        AnnotatedUtterance(
+            text="Test Utterance 1-1", intent=Intent(label="Test1")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 1-2", intent=Intent(label="Test1")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-1", intent=Intent(label="Test2")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-2", intent=Intent(label="Test2")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-3", intent=Intent(label="Test2")
+        ),
     ]
 
     template = build_template_from_instances(utterances=utterances)
@@ -139,12 +127,22 @@ def test_build_template_from_instances_skip_no_intent():
 def test_build_template_from_instances_duplicate_deletion():
     """Tests if duplicate Utterance for same Intent gets removed."""
     utterances = [
-        Utterance(text="Skip"),
-        Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 1-1", intent=Intent(label="Test1")),
-        Utterance(text="Test Utterance 2-1", intent=Intent(label="Test2")),
-        Utterance(text="Test Utterance 2-2", intent=Intent(label="Test2")),
-        Utterance(text="Test Utterance 2-3", intent=Intent(label="Test2")),
+        AnnotatedUtterance(text="Skip"),
+        AnnotatedUtterance(
+            text="Test Utterance 1-1", intent=Intent(label="Test1")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 1-1", intent=Intent(label="Test1")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-1", intent=Intent(label="Test2")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-2", intent=Intent(label="Test2")
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 2-3", intent=Intent(label="Test2")
+        ),
     ]
 
     template = build_template_from_instances(utterances=utterances)

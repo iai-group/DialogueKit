@@ -7,6 +7,7 @@ connected with a DialogueManager by invoking `register_dialogue_manager()`.
 from __future__ import annotations
 from enum import Enum
 
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.participant import Participant
 
@@ -33,10 +34,11 @@ class User(Participant):
     def receive_utterance(self, utterance: Utterance) -> None:
         """This method is called each time there is a new agent utterance.
 
+
         Args:
             utterance: Agent utterance.
         """
         # TODO: Move input part to Platform.
         text = input("Your response: ")
-        response = Utterance(text)
+        response = AnnotatedUtterance(text)
         self._dialogue_manager.register_user_utterance(response)
