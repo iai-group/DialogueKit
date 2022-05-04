@@ -1,4 +1,4 @@
-"""Simplest possible agent that parrots back everything the user says."""
+"""Simple mathematics agent, that asks math questions."""
 
 import random
 from typing import Optional
@@ -11,7 +11,6 @@ from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg import NLG
-from dialoguekit.nlu.nlu import NLU
 
 
 class Operation(Enum):
@@ -22,31 +21,35 @@ class Operation(Enum):
 
 
 class MathAgent(Agent):
-    """Parrot agent."""
+    """Mathematics agent.
+
+    This Agent will ask for help with some simple math questions. These
+    questions are of the form "What is 5 + 1?" if the User responds with the
+    right answer it will ask a new question. If the User responds with the wrong
+    answer the MathAgent will answer that the provided answer was wrong.
+    """
 
     def __init__(
         self,
         agent_id: str,
-        nlu: Optional[NLU] = None,
         nlg: Optional[NLG] = None,
     ):
-        """Initializes agent.
+        """Initializes the agent.
 
         Args:
             agent_id: Agent id.
-            nlu: if set it will overide the internal nlu
             nlg: if set it will overide the internal nlg
         """
         super().__init__(agent_id)
-        self.__nlu = nlu
         self.__nlg = nlg
         self.__initialize_nlu_nlg()
 
     def __initialize_nlu_nlg(self):
+        """Initializes the NLG module
 
-        if self.__nlu is None:
-            # intents = [Intent("QUESTION"), Intent("ANSWER")]
-            pass
+        If no nlg template was set in as a parameter, a basic nlg template will
+        be created in this method.
+        """
         if self.__nlg is None:
             a1 = AnnotatedUtterance(
                 intent=Intent("QUESTION"), text="What is 5 + 6 ?"
@@ -138,7 +141,3 @@ class MathAgent(Agent):
             )
 
         self._dialogue_manager.register_agent_utterance(response)
-
-
-if __name__ == "__main__":
-    agent = MathAgent(agent_id="test")
