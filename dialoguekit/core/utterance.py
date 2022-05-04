@@ -1,6 +1,9 @@
 """Interface representing the basic unit of communication."""
 
 
+from typing import Text
+
+
 class Utterance:
     """Represents an utterance."""
 
@@ -11,6 +14,15 @@ class Utterance:
             text: Utterance text.
         """
         self._text = text
+
+    def __str__(self) -> Text:
+        return self._text
+
+    def __repr__(self) -> Text:
+        return f"Utterance({self._text})"
+
+    def __hash__(self) -> int:
+        return hash(self._text)
 
     def __eq__(self, __o: object) -> bool:
         """Comparison function."""
@@ -23,7 +35,4 @@ class Utterance:
 
     @property
     def text(self) -> str:
-        return self._text
-
-    def __str__(self) -> str:
         return self._text

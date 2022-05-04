@@ -1,5 +1,5 @@
 """Tests for the Utterance class."""
-
+import pytest
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
 
@@ -7,6 +7,14 @@ from dialoguekit.core.intent import Intent
 def test_utterance_text():
     u = AnnotatedUtterance("Hello world")
     assert u.text == "Hello world"
+
+
+def test_hash():
+    u1 = AnnotatedUtterance("Test1", intent=Intent("1"))
+    try:
+        hash(u1)
+    except TypeError:
+        pytest.fail("AnnotatedUtterance hashing failed")
 
 
 def test_comparison():

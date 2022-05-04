@@ -8,7 +8,6 @@ from __future__ import annotations
 from enum import Enum
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.participant import Participant
 
 
@@ -31,7 +30,9 @@ class User(Participant):
         """
         super().__init__(id=id, type=type)
 
-    def receive_utterance(self, utterance: Utterance) -> None:
+    def receive_utterance(
+        self, annotated_utterance: AnnotatedUtterance
+    ) -> None:
         """This method is called each time there is a new agent utterance.
 
 

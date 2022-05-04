@@ -1,7 +1,11 @@
 """Interface representing slot-value annotations."""
 
 
-class SlotValueAnnotation:
+from typing import Text
+from dialoguekit.core.annotation import Annotation
+
+
+class SlotValueAnnotation(Annotation):
     """Represents slot-value annotation."""
 
     def __init__(
@@ -12,18 +16,20 @@ class SlotValueAnnotation:
         end: int = None,
     ) -> None:
         # TODO Connect to Ontology (and restrict to slots in there)?
-        self._slot = slot
-        self._value = value
+        super().__init__(slot=slot, value=value)
         self._start = start
         self._end = end
 
-    @property
-    def slot(self) -> str:
-        return self._slot
+    def __str__(self) -> Text:
+        return f"SlotValueAnnotation({self._slot}, {self._value}, \
+            {self._start}, {self._end})"
 
-    @property
-    def value(self) -> str:
-        return self._value
+    def __repr__(self) -> Text:
+        return f"SlotValueAnnotation({self._slot}, {self._value}, \
+            {self._start}, {self._end})"
+
+    def __hash__(self) -> int:
+        return hash((super().__hash__(), self._start, self._end))
 
     def __eq__(self, __o: object) -> bool:
         """Comparison function."""
