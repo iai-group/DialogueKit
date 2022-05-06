@@ -166,7 +166,9 @@ class IntentClassifierRasa(IntentClassifier):
         ]["name"]
         return self._intents.get(found_intent, None)
 
-    def get_entities(self, utterance: Utterance) -> List[SlotValueAnnotation]:
+    def get_annotations(
+        self, utterance: Utterance
+    ) -> List[SlotValueAnnotation]:
         """Entity extracion using rasa DIET classifier.
 
         Extracts entities using rasa DIET. Since this model
