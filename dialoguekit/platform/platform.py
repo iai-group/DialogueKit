@@ -25,4 +25,4 @@ class Platform:
         Args:
             utterance: An instance of Utterance.
         """
-        print(f"USER:  {utterance.text}")
+        print(f"USER:  {utterance.text}\n")
