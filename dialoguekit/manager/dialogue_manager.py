@@ -134,8 +134,12 @@ class DialogueManager:
                 "utterance": annotated_utterance.get("utterance").text.replace(
                     "\n", ""
                 ),
-                "intent": annotated_utterance.get("utterance").intent.label,
             }
+
+            if annotated_utterance.get("utterance").intent is not None:
+                utterance_info["intent"] = annotated_utterance.get(
+                    "utterance"
+                ).intent.label
 
             annotations = annotated_utterance.get("utterance").get_annotations()
             if annotations:
