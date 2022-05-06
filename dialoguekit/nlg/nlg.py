@@ -1,6 +1,6 @@
 import random
 from typing import List
-from copy import copy
+from copy import deepcopy
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
@@ -49,10 +49,12 @@ class NLG:
         # Todo: match the needed slots with the template
         templates = self.__response_templates.get(intent)
         response_utterance = random.choice(templates)
-        response_utterance = copy(response_utterance)
-        for annotation in annotations:
-            response_utterance._text = response_utterance._text.replace(
-                f"{{{annotation.slot}}}", annotation.value, 1
-            )
-            response_utterance.add_annotation(annotation)
+        response_utterance = deepcopy(response_utterance)
+
+        if annotations is not None:
+            for annotation in annotations:
+                response_utterance._text = response_utterance._text.replace(
+                    f"{{{annotation.slot}}}", annotation.value, 1
+                )
+                response_utterance.add_annotation(annotation)
         return response_utterance
