@@ -63,13 +63,23 @@ class AnnotationConverterRasa(AnnotationConverter):
                 intent = turn.get("intent", None)
                 slot_values = turn.get("slot_values", [])
                 utterance = turn.get("utterance", "").strip()
+
                 if len(slot_values) > 0:
-                    # Utterance with annotation
                     turn["utterance_annotated"] = utterance
+                    for annotation in slot_values:
+                        placeholder_label, value = annotation[0], annotation[1]
+                        turn["utterance_annotated"] = turn[
+                            "utterance_annotated"
+                        ].replace(f" {value} ", f" {{{placeholder_label}}} ", 1)
+                    # Utterance with annotation
                     for pair in slot_values:
                         turn["utterance_annotated"] = turn[
                             "utterance_annotated"
-                        ].replace(pair[1], "[{}]({})".format(pair[1], pair[0]))
+                        ].replace(
+                            f"{{{str(pair[0])}}}",
+                            "[{}]({})".format(pair[1], pair[0]),
+                            1,
+                        )
 
                         # Annotation types with examples
                         self._slot_value_pairs[pair[0]].add(pair[1])
