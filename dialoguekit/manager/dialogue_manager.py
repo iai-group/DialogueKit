@@ -13,7 +13,10 @@ but this is not required.  Whenever there is a message from either the Agent or
 the User, the DialogueManager sends it to the other party by calling their
 `receive_{agent/user}_utterance()` method.
 """
-
+import os
+import json
+import calendar
+import datetime
 from dialoguekit.agent.agent import Agent
 from dialoguekit.user.user import User
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
@@ -99,17 +102,70 @@ class DialogueManager:
 
     def close(self) -> None:
         """Closes the conversation."""
-        pass
+
+        # If conversation is empty we do not save it.
+        if len(self.__dialogue_history.utterances) == 0:
+            return
+
+        history = self.__dialogue_history
+        path = "dialogue_export"
+        file_name = f"{path}/{self.__agent.id}_{self.__user.id}.json"
+        json_file = []
+
+        # Check directory and read if exists.
+        if not os.path.exists(path):
+            os.makedirs(path)
+        if os.path.exists(file_name):
+            with open(file_name) as json_file_out:
+                json_file = json.load(json_file_out)
+
+        date = datetime.datetime.utcnow()
+        utc_time = calendar.timegm(date.utctimetuple())
+        run_conversation = {
+            "conversation ID": str(utc_time),
+            "conversation": [],
+        }
+
+        for annotated_utterance in history.utterances:
+            print(annotated_utterance)
+
+            utterance_info = {
+                "participant": annotated_utterance.get("sender").name,
+                "utterance": annotated_utterance.get("utterance").text.replace(
+                    "\n", ""
+                ),
+                "intent": annotated_utterance.get("utterance").intent.label,
+            }
+
+            annotations = annotated_utterance.get("utterance").get_annotations()
+            if annotations:
+                slot_values = []
+                for annotation in annotations:
+                    slot_values.append([annotation.slot, annotation.value])
+                utterance_info["slot_values"] = slot_values
+            run_conversation["conversation"].append(utterance_info)
+
+        json_file.append(run_conversation)
+
+        with open(file_name, "w") as outfile:
+            json.dump(json_file, outfile)
+
+        # Empty dialogue history to avoid duplicate save
+        for _ in range(len(self.__dialogue_history.utterances)):
+            self.__dialogue_history.utterances.pop()
         # TODO: save dialogue history, subject to config parameters
 
 
 if __name__ == "__main__":
-    from dialoguekit.user.user import User
+    from dialoguekit.user.user_with_intent import UserWithIntent
     from dialoguekit.agent.mathematics_agent import MathAgent
+    from dialoguekit.core.intent import Intent
 
     # Participants
-    agent = MathAgent("A01")
-    user = User("U01")
+    agent = MathAgent("MA01")
+    user = UserWithIntent(
+        "UI01", intents=[Intent("START"), Intent("ANSWER"), Intent("COMPLETE")]
+    )
 
     platform = Platform()
     dm = DialogueManager(agent, user, platform)
