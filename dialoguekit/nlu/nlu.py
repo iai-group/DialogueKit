@@ -25,4 +25,5 @@ class NLU:
         annotation_list = []
         for slot_annotator in self.__slot_annotators:
             for annotation in slot_annotator.get_annotations(utterance):
-                annotation_list.extend(annotation)
+                annotation_list.append(annotation)
+        return annotation_list
