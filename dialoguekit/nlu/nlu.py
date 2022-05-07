@@ -24,6 +24,5 @@ class NLU:
         """Annotates a given utterance."""
         annotation_list = []
         for slot_annotator in self.__slot_annotators:
-            for annotation in slot_annotator.get_annotations(utterance):
-                annotation_list.append(annotation)
+            annotation_list.extend(slot_annotator.get_annotations(utterance))
         return annotation_list
