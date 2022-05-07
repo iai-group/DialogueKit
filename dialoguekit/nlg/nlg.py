@@ -4,7 +4,6 @@ from copy import deepcopy
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
-
 from dialoguekit.nlg.template_from_training_data import (
     extract_utterance_template,
     build_template_from_instances,
@@ -19,11 +18,13 @@ class NLG:
         self.__response_templates = None
 
     def template_from_file(self, template_file: str) -> None:
-        """Generate template from moviebot json format"""
+        """Generates template from moviebot JSON format."""
         self.__response_templates = extract_utterance_template(template_file)
 
-    def template_from_objects(self, utterances: List[AnnotatedUtterance]):
-        """Generate template from instances"""
+    def template_from_objects(
+        self, utterances: List[AnnotatedUtterance]
+    ) -> None:
+        """Generates template from instances."""
         self.__response_templates = build_template_from_instances(
             utterances=utterances
         )

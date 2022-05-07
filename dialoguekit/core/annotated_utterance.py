@@ -30,10 +30,9 @@ class AnnotatedUtterance(Utterance):
 
         super().__init__(text=text)
         self._intent = intent
-        if annotations is None:
-            self._annotations = []
-        else:
-            self._annotations = annotations
+        self._annotations = []
+        if annotations:
+            self._annotations.extend(annotations)
 
     def __str__(self) -> Text:
         return self._text
@@ -85,8 +84,7 @@ class AnnotatedUtterance(Utterance):
             annotation: Annotation instance.
         """
         if isinstance(annotation, List):
-            for a in annotation:
-                self._annotations.append(a)
+            self._annotations.extend(annotation)
         elif isinstance(annotation, Annotation):
             self._annotations.append(annotation)
         else:
