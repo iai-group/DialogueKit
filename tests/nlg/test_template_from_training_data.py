@@ -136,7 +136,6 @@ def test_replace_slot_with_placeholder():
             value="old street",
         )
     )
-
     annotated_utterances = [
         (a1, "I like {GENRE} or {GENRE} movies."),
         (a2, "How about {TITLE}?"),

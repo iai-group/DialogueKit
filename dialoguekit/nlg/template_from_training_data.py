@@ -40,6 +40,7 @@ def build_template_from_instances(
     template = defaultdict(list)
     for utterance in utterances:
         if isinstance(utterance.intent, Intent):
+            _replace_slot_with_placeholder(utterance)
             template[utterance.intent].append(utterance)
         else:
             print(

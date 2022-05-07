@@ -48,9 +48,6 @@ class DialogueManager:
     ) -> None:
         """Registers an annotated utterance from the user.
 
-        As the agent is not supposed to have access to the users intent,
-        a utterance without the annotation will be sent to the agent.
-
         In most cases the Agent should not know about the Users Intent and
         Annotation-s. But for some usecases this additional information may
         become usefull, depending on the UI etc.
@@ -93,7 +90,7 @@ class DialogueManager:
         ):
             self.close()
         else:
-            self.__user.receive_agent_utterance(annotated_utterance.utterance)
+            self.__user.receive_utterance(annotated_utterance.utterance)
 
     def start(self) -> None:
         """Starts the conversation."""
@@ -107,12 +104,11 @@ class DialogueManager:
 
 
 if __name__ == "__main__":
-    from dialoguekit.core.utterance import Utterance
     from dialoguekit.user.user import User
-    from dialoguekit.agent.parrot_agent import ParrotAgent
+    from dialoguekit.agent.mathematics_agent import MathAgent
 
     # Participants
-    agent = ParrotAgent("A01")
+    agent = MathAgent("A01")
     user = User("U01")
 
     platform = Platform()
@@ -121,8 +117,5 @@ if __name__ == "__main__":
     user.connect_dialogue_manager(dm)
     agent.connect_dialogue_manager(dm)
     dm.start()
-
-    # Send in user utterance
-    dm.register_user_utterance(utterance=Utterance("Hi"))
 
     dm.close()
