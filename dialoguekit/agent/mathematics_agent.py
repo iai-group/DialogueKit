@@ -13,7 +13,7 @@ from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg import NLG
 
 
-class OPERATION(Enum):
+class Operation(Enum):
     ADDITION = 0
     SUBTRACTION = 1
     MULTIPLICATION = 2
@@ -33,24 +33,24 @@ class MathAgent(Agent):
         self,
         agent_id: str,
         nlg: Optional[NLG] = None,
-    ):
+    ) -> None:
         """Initializes the agent.
 
         Args:
             agent_id: Agent id.
-            nlg: if set it will overide the internal nlg
+            nlg: If set, it will overide the internal NLG.
         """
         super().__init__(agent_id)
-        self.__nlg = nlg
-        self.__initialize_nlu_nlg()
+        self._nlg = nlg
+        self._initialize_nlu_nlg()
 
-    def __initialize_nlu_nlg(self):
-        """Initializes the NLG module
+    def _initialize_nlu_nlg(self) -> None:
+        """Initializes the NLG module.
 
-        If no nlg template was set in as a parameter, a basic nlg template will
+        If no NLG template was set in as a parameter, a basic nlg template will
         be created in this method.
         """
-        if self.__nlg is None:
+        if self._nlg is None:
 
             a1 = AnnotatedUtterance(
                 intent=Intent("OPERATION.ADDITION"),
@@ -94,8 +94,8 @@ class MathAgent(Agent):
             )
             utterances = [a1, a2, a3, a4, a5, a6, a6]
 
-            self.__nlg = NLG()
-            self.__nlg.template_from_objects(utterances=utterances)
+            self._nlg = NLG()
+            self._nlg.template_from_objects(utterances=utterances)
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
@@ -116,16 +116,15 @@ class MathAgent(Agent):
     def receive_user_utterance(self, utterance: Utterance) -> None:
         """This method is called each time there is a new user utterance.
 
-
         Args:
             utterance: User utterance.
         """
         answered = False
         try:
             response_answer = float(utterance.text)
-            if not math.isclose(float(response_answer), self.__expected_answer):
+            if not math.isclose(float(response_answer), self._expected_answer):
                 answered = True
-                response = self.__nlg.generate_utterance_text(
+                response = self._nlg.generate_utterance_text(
                     intent=Intent("WRONG"), annotations=[]
                 )
 
@@ -139,22 +138,20 @@ class MathAgent(Agent):
         elif not answered:  # Later check if right INTENT
             number_1 = random.randint(1, 10)
             number_2 = random.randint(1, 10)
-            operation = random.choice(list(OPERATION))
-            if operation.value == 0:
-                self.__expected_answer = number_1 + number_2
-            elif operation.value == 1:
-                self.__expected_answer = number_1 - number_2
-            elif operation.value == 2:
-                self.__expected_answer = number_1 * number_2
-            elif operation.value == 3:
-                self.__expected_answer = number_1 / number_2
+            operation = random.choice(list(Operation))
+            if operation == Operation.ADDITION:
+                self._expected_answer = number_1 + number_2
+            elif operation == Operation.SUBTRACTION:
+                self._expected_answer = number_1 - number_2
+            elif operation == Operation.MULTIPLICATION:
+                self._expected_answer = number_1 * number_2
+            elif operation == Operation.DIVISION:
+                self._expected_answer = number_1 / number_2
 
             # TODO Add better comparison
-            self.__expected_answer = (
-                math.floor(self.__expected_answer * 10) / 10
-            )
+            self._expected_answer = math.floor(self._expected_answer * 10) / 10
 
-            response = self.__nlg.generate_utterance_text(
+            response = self._nlg.generate_utterance_text(
                 intent=Intent(str(operation)),
                 annotations=[
                     Annotation(slot="NUMBER", value=str(number_1)),
