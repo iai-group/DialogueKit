@@ -8,6 +8,7 @@ from typing import Dict, List
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.dialogue import DialogueParticipant
 
 
 def _replace_slot_with_placeholder(
@@ -55,7 +56,8 @@ def build_template_from_instances(
 
 
 def extract_utterance_template(
-    annotated_dialogue_file: str, participant_to_learn: str = "USER"
+    annotated_dialogue_file: str,
+    participant_to_learn: DialogueParticipant = DialogueParticipant.USER,
 ) -> Dict[Intent, List[AnnotatedUtterance]]:
     """Extracts utterance templates for each intent.
 
@@ -82,7 +84,7 @@ def extract_utterance_template(
                 )
 
                 # Only use the utterances from the wanted participant
-                if participant == participant_to_learn:
+                if participant == participant_to_learn.name:
                     # Keep the original utterance as template when it does not
                     # contain slot values.
                     if "slot_values" in utterance_record:
