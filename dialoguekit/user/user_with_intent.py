@@ -4,22 +4,24 @@ For communicating with an agent, the specific user instance needs to be
 connected with a DialogueManager by invoking `register_dialogue_manager()`.
 """
 
-from __future__ import annotations
 from enum import Enum
+
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.participant.participant import Participant
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.annotation import Annotation
 
 
+# TODO This needs to be updated to work with MathAgent
 def find_operation_type(math_agent_utterance: str):
-    if "+" in math_agent_utterance:
+    if "addition" in math_agent_utterance:
         return "ADDITION"
-    elif "-" in math_agent_utterance:
+    elif "subtraction" in math_agent_utterance:
         return "SUBTRACTION"
-    elif "*" in math_agent_utterance:
+    elif "multiplication" in math_agent_utterance:
         return "MULTIPLICATION"
-    elif "/" in math_agent_utterance:
+    elif "division" in math_agent_utterance:
         return "DIVISION"
     else:
         return None
@@ -65,13 +67,15 @@ class UserWithIntent(Participant):
         print(intent_menu)
         intent_selector = input("Select your desiered intent: ")
         selected_intent = self.__intents[int(intent_selector) - 1]
-        if find_operation_type(
-            annotated_utterance.text
-        ) is not None and selected_intent == Intent("ANSWER"):
-            selected_intent = Intent(
-                f"ANSWER.{find_operation_type(annotated_utterance.text)}"
-            )
 
         text = input("Your response: ")
         response = AnnotatedUtterance(text, intent=selected_intent)
+
+        if selected_intent == Intent("ANSWER"):
+            selected_intent = Intent(
+                f"ANSWER.{find_operation_type(annotated_utterance.text)}"
+            )
+            response._intent = selected_intent
+            response.add_annotation(Annotation(slot="NUMBER", value=text))
+
         self._dialogue_manager.register_user_utterance(response)
