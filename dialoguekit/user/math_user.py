@@ -1,16 +1,19 @@
-"""Abstract representation of core user-related data and functionality.
+"""User implementation that can specify reply Intent.
 
-For communicating with an agent, the specific user instance needs to be
-connected with a DialogueManager by invoking `register_dialogue_manager()`.
+This User takes in a list of possible reply Intents, and then is asked to
+specify the Intent of the reply. This is important to create a dialogue history
+export for training user simulators as we then have the users Intent classified.
+
+This implementation is tied to MathAgent, but can (and should) be abstracted for
+use with other Agents.
 """
 
-from enum import Enum
-
-
+from typing import List, Union
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.participant.participant import Participant
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.annotation import Annotation
+from dialoguekit.user.user import UserType
 
 
 # TODO This needs to be updated to work with MathAgent
@@ -27,18 +30,14 @@ def find_operation_type(math_agent_utterance: str):
         return None
 
 
-class UserType(Enum):
-    """Represents different types of users (humans vs. simulated users)."""
-
-    HUMAN = 0
-    SIMULATOR = 1
-
-
-class UserWithIntent(Participant):
+class MathUser(Participant):
     """Represents a user."""
 
     def __init__(
-        self, id: str, type: UserType = UserType.HUMAN, intents=None
+        self,
+        id: str,
+        type: UserType = UserType.HUMAN,
+        intents: Union[List[Intent], None] = None,
     ) -> None:
         """Initializes the user.
 
@@ -48,7 +47,7 @@ class UserWithIntent(Participant):
         """
         super().__init__(id=id, type=type)
         if intents is not None:
-            self.__intents = intents
+            self._intents = intents
         else:
             raise TypeError("You MUST define the possible intents for the User")
 
@@ -57,16 +56,15 @@ class UserWithIntent(Participant):
     ) -> None:
         """This method is called each time there is a new agent utterance.
 
-
         Args:
             utterance: Agent utterance.
         """
         intent_menu = ""
-        for i, intent in enumerate(self.__intents):
+        for i, intent in enumerate(self._intents):
             intent_menu += f"{i+1}: {intent.label}, "
         print(intent_menu)
-        intent_selector = input("Select your desiered intent: ")
-        selected_intent = self.__intents[int(intent_selector) - 1]
+        intent_selector = input("Select your desired intent: ")
+        selected_intent = self._intents[int(intent_selector) - 1]
 
         text = input("Your response: ")
         response = AnnotatedUtterance(text, intent=selected_intent)
