@@ -1,6 +1,7 @@
 """Tests for IntentClassifierCosine."""
 
 import pytest
+import os
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlu.models.intent_classifier_cosine import (
@@ -84,11 +85,11 @@ def test_save_and_load_model(tmp_path, intents, utterances_1, labels_1):
 
     intent_classifier = IntentClassifierCosine(intents)
     intent_classifier.train_model(utterances_1, labels_1)
-    intent_classifier.save_model(file_path=my_path + "/")
+    intent_classifier.save_model(file_path=os.path.join(my_path, ""))
 
     intent_classifier = None
     intent_classifier = IntentClassifierCosine(intents)
-    intent_classifier.load_model(file_path=my_path + "/")
+    intent_classifier.load_model(file_path=os.path.join(my_path, ""))
 
     for utterance_template, intent in zip(utterances_1, labels_1):
         utterance_text = utterance_template.text.replace(

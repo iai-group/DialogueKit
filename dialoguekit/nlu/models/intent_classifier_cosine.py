@@ -60,7 +60,7 @@ class IntentClassifierCosine(IntentClassifier):
     def save_model(self, file_path: str) -> None:
         """Saves the trained model to a file.
 
-        This models uses the joblib library to save the model.
+        This method uses the joblib library to save the model.
 
         Args:
             file_path: File path.
@@ -73,7 +73,7 @@ class IntentClassifierCosine(IntentClassifier):
     def load_model(self, file_path: str) -> None:
         """Loads a model from a file.
 
-        This models uses the joblib library to load the model.
+        This method uses the joblib library to load the model.
 
         Args:
             file_path: File path.
