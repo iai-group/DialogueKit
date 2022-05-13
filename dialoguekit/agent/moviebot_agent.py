@@ -12,13 +12,17 @@ from dialoguekit.core.intent import Intent
 
 
 class MovieBotAgent(Agent):
-    """Rasa Parrot agent."""
+    """MovieBot connector agent.
+
+    Uses POST requests to MovieBot server as communication platform.
+    """
 
     def __init__(self, agent_id: str, uri: str = "http://127.0.0.1:5001"):
         """Initializes agent.
 
         Args:
             agent_id: Agent id.
+            uri: MovieBot server address.
         """
         super().__init__(agent_id)
         self._MOVIEBOT_URI = uri
@@ -49,6 +53,7 @@ class MovieBotAgent(Agent):
         self._dialogue_manager.register_agent_utterance(response)
 
     def goodbye(self) -> None:
+        """Sends exit request to MovieBot"""
         r = requests.post(
             self._MOVIEBOT_URI,
             json={
