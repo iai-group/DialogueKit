@@ -179,18 +179,19 @@ class DialogueManager:
             json.dump(json_file, outfile)
 
         # Empty dialogue history to avoid duplicate save
-        for _ in range(len(self._dialogue_history.utterances)):
-            self._dialogue_history.utterances.pop()
+        for _ in range(len(self.__dialogue_history.utterances)):
+            self.__dialogue_history.utterances.pop()
+        # TODO: save dialogue history, subject to config parameters
 
 
 if __name__ == "__main__":
-    from dialoguekit.user.math_user import MathUser
+    from dialoguekit.user.user_with_intent import UserWithIntent
     from dialoguekit.agent.mathematics_agent import MathAgent
     from dialoguekit.core.intent import Intent
 
     # Participants
     agent = MathAgent("MA01")
-    user = MathUser(
+    user = UserWithIntent(
         "UI01", intents=[Intent("START"), Intent("ANSWER"), Intent("COMPLETE")]
     )
 

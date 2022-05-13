@@ -1,8 +1,8 @@
 """Implements intent classification based on cosine similarity."""
 
 from typing import List
-
 import numpy as np
+from joblib import dump, load
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -60,21 +60,25 @@ class IntentClassifierCosine(IntentClassifier):
     def save_model(self, file_path: str) -> None:
         """Saves the trained model to a file.
 
+        This method uses the joblib library to save the model.
+
         Args:
             file_path: File path.
 
-        Raises:
-            NotImplementedError: If not implemented in derived class.
         """
-        raise NotImplementedError
+        dump(self._tfidf_matrix, f"{file_path}_matrix.joblib")
+        dump(self._tfidf_vectorizer, f"{file_path}_vectorizer.joblib")
+        dump(self._labels, f"{file_path}_labels.joblib")
 
     def load_model(self, file_path: str) -> None:
         """Loads a model from a file.
 
+        This method uses the joblib library to load the model.
+
         Args:
             file_path: File path.
 
-        Raises:
-            NotImplementedError: If not implemented in derived class.
         """
-        raise NotImplementedError
+        self._tfidf_matrix = load(f"{file_path}_matrix.joblib")
+        self._tfidf_vectorizer = load(f"{file_path}_vectorizer.joblib")
+        self._labels = load(f"{file_path}_labels.joblib")
