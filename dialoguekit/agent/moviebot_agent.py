@@ -82,7 +82,7 @@ class MovieBotAgent(Agent):
         """This method is called each time there is a new user utterance.
 
         Args:
-            utterance: User utterance.
+            annotated_utterance: User annotated utterance.
         """
         if annotated_utterance.text.lower() in ["quit", "stop", "exit"]:
             self.goodbye()
