@@ -55,7 +55,7 @@ def build_template_from_instances(
 
 
 def extract_utterance_template(
-    annotated_dialogue_file: str,
+    annotated_dialogue_file: str, participant_to_learn: str = "USER"
 ) -> Dict[Intent, List[AnnotatedUtterance]]:
     """Extracts utterance templates for each intent.
 
@@ -80,20 +80,20 @@ def extract_utterance_template(
                     text=utterance_record.get("utterance").strip(),
                     intent=Intent(utterance_record.get("intent")),
                 )
-                if participant != "USER":  # Only use user utterance.
-                    continue
 
-                # Keep the original utterance as template when it does not
-                # contain slot values.
-                if "slot_values" in utterance_record:
-                    for slot, value in utterance_record.get("slot_values"):
-                        annotated_utterance.add_annotation(
-                            Annotation(slot=slot, value=value)
-                        )
-                    _replace_slot_with_placeholder(annotated_utterance)
-                response_templates[annotated_utterance.intent].add(
-                    annotated_utterance
-                )
+                # Only use the utterances from the wanted participant
+                if participant == participant_to_learn:
+                    # Keep the original utterance as template when it does not
+                    # contain slot values.
+                    if "slot_values" in utterance_record:
+                        for slot, value in utterance_record.get("slot_values"):
+                            annotated_utterance.add_annotation(
+                                Annotation(slot=slot, value=value)
+                            )
+                        _replace_slot_with_placeholder(annotated_utterance)
+                    response_templates[annotated_utterance.intent].add(
+                        annotated_utterance
+                    )
     response_templates = {
         key: list(val) for key, val in response_templates.items()
     }

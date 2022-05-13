@@ -62,7 +62,7 @@ class MathAgent(Agent):
             )
             a2 = AnnotatedUtterance(
                 intent=Intent("OPERATION.SUBTRACTION"),
-                text="What is 5 - 6 ?",
+                text="What is 5 subtraction 6 ?",
                 annotations=[
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),
@@ -70,7 +70,7 @@ class MathAgent(Agent):
             )
             a3 = AnnotatedUtterance(
                 intent=Intent("OPERATION.MULTIPLICATION"),
-                text="What is 5 * 6 ?",
+                text="What is 5 multiplication 6 ?",
                 annotations=[
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),
@@ -78,7 +78,7 @@ class MathAgent(Agent):
             )
             a4 = AnnotatedUtterance(
                 intent=Intent("OPERATION.DIVISION"),
-                text="What is 5 / 6 ?",
+                text="What is 5 division 6 ?",
                 annotations=[
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),

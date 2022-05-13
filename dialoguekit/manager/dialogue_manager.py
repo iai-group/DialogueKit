@@ -13,18 +13,29 @@ but this is not required.  Whenever there is a message from either the Agent or
 the User, the DialogueManager sends it to the other party by calling their
 `receive_{agent/user}_utterance()` method.
 """
-
+import os
+import json
+import calendar
+import datetime
 from dialoguekit.agent.agent import Agent
 from dialoguekit.user.user import User
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.platform.platform import Platform
 
+_DIALOGUE_EXPORT_PATH = "dialogue_export"
+
 
 class DialogueManager:
     """Represents a dialogue manager."""
 
-    def __init__(self, agent: Agent, user: User, platform: Platform) -> None:
+    def __init__(
+        self,
+        agent: Agent,
+        user: User,
+        platform: Platform,
+        save_dialogue_history: bool = True,
+    ) -> None:
         """Initializes the Dialogue Manager.
 
         Args:
@@ -32,16 +43,17 @@ class DialogueManager:
             user: An instance of User.
             platform: An instance of Platform.
         """
-        self.__agent = agent
-        self.__agent.connect_dialogue_manager(self)
-        self.__user = user
-        self.__user.connect_dialogue_manager(self)
-        self.__platform = platform
-        self.__dialogue_history = Dialogue(agent.id, user.id)
+        self._agent = agent
+        self._agent.connect_dialogue_manager(self)
+        self._user = user
+        self._user.connect_dialogue_manager(self)
+        self._platform = platform
+        self._dialogue_history = Dialogue(agent.id, user.id)
+        self._save_dialogue_history = save_dialogue_history
 
     @property
     def dialogue_history(self):
-        return self.__dialogue_history
+        return self._dialogue_history
 
     def register_user_utterance(
         self, annotated_utterance: AnnotatedUtterance
@@ -58,9 +70,9 @@ class DialogueManager:
         Args:
             utterance: User utterance.
         """
-        self.__dialogue_history.add_user_utterance(annotated_utterance)
-        self.__platform.display_user_utterance(annotated_utterance)
-        self.__agent.receive_user_utterance(annotated_utterance)
+        self._dialogue_history.add_user_utterance(annotated_utterance)
+        self._platform.display_user_utterance(annotated_utterance)
+        self._agent.receive_user_utterance(annotated_utterance)
 
     def register_agent_utterance(
         self, annotated_utterance: AnnotatedUtterance
@@ -80,8 +92,8 @@ class DialogueManager:
         Args:
             utterance: Agent utterance.
         """
-        self.__dialogue_history.add_agent_utterance(annotated_utterance)
-        self.__platform.display_agent_utterance(annotated_utterance)
+        self._dialogue_history.add_agent_utterance(annotated_utterance)
+        self._platform.display_agent_utterance(annotated_utterance)
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
         if (
@@ -90,26 +102,97 @@ class DialogueManager:
         ):
             self.close()
         else:
-            self.__user.receive_utterance(annotated_utterance.utterance)
+            self._user.receive_utterance(annotated_utterance.utterance)
 
     def start(self) -> None:
         """Starts the conversation."""
-        self.__agent.welcome()
+        self._agent.welcome()
         # TODO: Add some error handling (if connecting the user/agent fails)
 
     def close(self) -> None:
-        """Closes the conversation."""
-        pass
-        # TODO: save dialogue history, subject to config parameters
+        """Closes the conversation.
+
+        If '_save_dialogue_history' is set to True it will export the dialogue
+        history.
+        """
+        if self._save_dialogue_history:
+            self._dump_dialogue_history()
+
+    def _dump_dialogue_history(self):
+        """Exports the dialogue history.
+
+        The exported files will named as 'AgentID_UserID.json'
+
+        If the two participants have had a conversation previously, the new
+        conversation will be appended to the same export document.
+        """
+        # If conversation is empty we do not save it.
+        if len(self._dialogue_history.utterances) == 0:
+            return
+
+        history = self._dialogue_history
+        file_name = (
+            f"{_DIALOGUE_EXPORT_PATH}/{self._agent.id}_{self._user.id}.json"
+        )
+        json_file = []
+
+        # Check directory and read if exists.
+        if not os.path.exists(_DIALOGUE_EXPORT_PATH):
+            os.makedirs(_DIALOGUE_EXPORT_PATH)
+        if os.path.exists(file_name):
+            with open(file_name) as json_file_out:
+                json_file = json.load(json_file_out)
+
+        date = datetime.datetime.utcnow()
+        utc_time = calendar.timegm(date.utctimetuple())
+        run_conversation = {
+            "conversation ID": str(utc_time),
+            "conversation": [],
+        }
+
+        for annotated_utterance in history.utterances:
+            print(annotated_utterance)
+
+            utterance_info = {
+                "participant": annotated_utterance.get("sender").name,
+                "utterance": annotated_utterance.get("utterance").text.replace(
+                    "\n", ""
+                ),
+            }
+
+            if annotated_utterance.get("utterance").intent is not None:
+                utterance_info["intent"] = annotated_utterance.get(
+                    "utterance"
+                ).intent.label
+
+            annotations = annotated_utterance.get("utterance").get_annotations()
+            if annotations:
+                slot_values = []
+                for annotation in annotations:
+                    slot_values.append([annotation.slot, annotation.value])
+                utterance_info["slot_values"] = slot_values
+            run_conversation["conversation"].append(utterance_info)
+
+        json_file.append(run_conversation)
+
+        with open(file_name, "w") as outfile:
+            json.dump(json_file, outfile)
+
+        # Empty dialogue history to avoid duplicate save
+        for _ in range(len(self._dialogue_history.utterances)):
+            self._dialogue_history.utterances.pop()
 
 
 if __name__ == "__main__":
-    from dialoguekit.user.user import User
+    from dialoguekit.user.math_user import MathUser
     from dialoguekit.agent.mathematics_agent import MathAgent
+    from dialoguekit.core.intent import Intent
 
     # Participants
-    agent = MathAgent("A01")
-    user = User("U01")
+    agent = MathAgent("MA01")
+    user = MathUser(
+        "UI01", intents=[Intent("START"), Intent("ANSWER"), Intent("COMPLETE")]
+    )
 
     platform = Platform()
     dm = DialogueManager(agent, user, platform)

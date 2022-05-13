@@ -41,3 +41,9 @@ def test_generate_utterance_text(nlg_class):
             intent, slot_values
         )
         assert generated_response == expected_response
+
+
+def test_none_annotations(nlg_class):
+    test = nlg_class.generate_utterance_text(Intent("COMPLETE"), None)
+
+    assert test.intent == Intent("COMPLETE")

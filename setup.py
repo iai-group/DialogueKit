@@ -8,7 +8,7 @@ packages = setuptools.find_packages(where="dialoguekit")
 
 setuptools.setup(
     name="dialoguekit",
-    version="0.0.2",
+    version="0.0.3",
     author="Jafar Afzali, Krisztian Balog, Aleksander Drzewiecki \
         and Shuo Zhang",
     author_email="author@example.com",
