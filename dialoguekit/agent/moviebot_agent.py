@@ -1,7 +1,8 @@
-"""Simplest possible agent that parrots back everything the user says.
+"""Connector Agent to MovieBot.
 
-This agent depends on Rasa parrot project to parrot back.
-See docs/rasa-parrot.md for more information
+This Agent is a connector to MovieBot. It relies on MovieBot to be running.
+The messages are sent with POST requests and the response to the request is the
+utterance from MovieBot.
 """
 
 import requests
@@ -13,15 +14,14 @@ from dialoguekit.core.intent import Intent
 class MovieBotAgent(Agent):
     """Rasa Parrot agent."""
 
-    def __init__(self, agent_id: str):
+    def __init__(self, agent_id: str, uri: str = "http://127.0.0.1:5001"):
         """Initializes agent.
 
         Args:
             agent_id: Agent id.
         """
         super().__init__(agent_id)
-        self._MOVIEBOT_URI = "http://152.94.138.15:5001"  # Telegram address
-        self._MOVIEBOT_URI = "http://127.0.0.1:5001"  # Messenger address
+        self._MOVIEBOT_URI = uri
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
@@ -41,7 +41,6 @@ class MovieBotAgent(Agent):
                 ],
             },
         )
-        print(r)  # TODO problem with response here
         response_raw = r.json()
         response = AnnotatedUtterance(
             response_raw["message"]["text"],
@@ -65,7 +64,6 @@ class MovieBotAgent(Agent):
                 ],
             },
         )
-        print(r)  # TODO problem with response here
         response = AnnotatedUtterance(
             r.json()["message"]["text"], intent=Intent("EXIT")
         )
