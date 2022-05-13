@@ -87,9 +87,9 @@ class DialogueManager:
         self.__platform.display_agent_utterance(annotated_utterance)
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
-        if (
-            annotated_utterance.intent is not None
-            and annotated_utterance.intent.label == "EXIT"
+        if annotated_utterance.intent is not None and (
+            annotated_utterance.intent.label == "EXIT"
+            or annotated_utterance.intent.label == "BYE"
         ):
             self.close()
         else:
@@ -162,14 +162,18 @@ class DialogueManager:
 
 if __name__ == "__main__":
     from dialoguekit.user.user_with_intent import UserWithIntent
+    from dialoguekit.user.user import User
     from dialoguekit.agent.mathematics_agent import MathAgent
+    from dialoguekit.agent.moviebot_agent import MovieBotAgent
     from dialoguekit.core.intent import Intent
 
     # Participants
     agent = MathAgent("MA01")
+    agent = MovieBotAgent(agent_id="MovieBot01")
     user = UserWithIntent(
         "UI01", intents=[Intent("START"), Intent("ANSWER"), Intent("COMPLETE")]
     )
+    user = User(id="TEST01")
 
     platform = Platform()
     dm = DialogueManager(agent, user, platform)
