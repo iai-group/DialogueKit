@@ -17,7 +17,9 @@ class MovieBotAgent(Agent):
     Uses POST requests to MovieBot server as communication platform.
     """
 
-    def __init__(self, agent_id: str, uri: str = "http://127.0.0.1:5001"):
+    def __init__(
+        self, agent_id: str, uri: str = "http://127.0.0.1:5001"
+    ) -> None:
         """Initializes agent.
 
         Args:
