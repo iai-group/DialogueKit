@@ -1,5 +1,5 @@
 import random
-from typing import List
+from typing import List, Optional, Union
 from copy import deepcopy
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
@@ -7,6 +7,7 @@ from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.template_from_training_data import (
     extract_utterance_template,
     build_template_from_instances,
+    generate_cooperativeness_measure,
 )
 
 
@@ -29,8 +30,19 @@ class NLG:
             utterances=utterances
         )
 
+    def generate_cooperativness(self):
+        if self.__response_templates is None:
+            raise TypeError(
+                "You need to run one of the template_from_*() functions, \
+                    before running this method."
+            )
+        generate_cooperativeness_measure(self.__response_templates)
+
     def generate_utterance_text(
-        self, intent: Intent, annotations: List[Annotation]
+        self,
+        intent: Intent,
+        annotations: List[Annotation],
+        cooperativeness: Optional[Union[float, None]] = None,
     ) -> AnnotatedUtterance:
         """Turns a structured utterance into a textual one.
 
@@ -47,10 +59,18 @@ class NLG:
                 template_from methods"
             )
 
-        # Todo: match the needed slots with the template
         templates = self.__response_templates.get(intent)
-        response_utterance = random.choice(templates)
-        response_utterance = deepcopy(response_utterance)
+
+        # Select closest based on cooperativeness
+        if cooperativeness is not None:
+            response_utterance = self._select_closest_to_cooperativness(
+                templates, cooperativeness
+            )
+
+        # Todo: match the needed slots with the template
+        if cooperativeness is None:
+            response_utterance = random.choice(templates)
+            response_utterance = deepcopy(response_utterance)
 
         if annotations is not None:
             for annotation in annotations:
@@ -58,4 +78,41 @@ class NLG:
                     f"{{{annotation.slot}}}", annotation.value, 1
                 )
                 response_utterance.add_annotation(annotation)
+        return response_utterance
+
+    def _select_closest_to_cooperativness(
+        self, templates: List[AnnotatedUtterance], cooperativeness: float
+    ):
+        """Find the closest annotated utterance based on cooperativness
+
+        Args:
+            templates: AnnotatedUtterance with cooperativness.
+            cooperativeness (float): The desired cooperativness score.
+
+        Returns:
+            AnnotatedUtterance with that has the closest cooperativness score.
+        """
+        templates = sorted(templates, key=lambda item: item.cooperativeness)
+
+        closest_under = templates[0]
+        closest_over = templates[-1]
+        response_utterance = None
+        for annotated_utterance in templates:
+            if annotated_utterance.cooperativeness == cooperativeness:
+                response_utterance = deepcopy(annotated_utterance)
+                break
+            if annotated_utterance.cooperativeness < cooperativeness:
+                closest_under = annotated_utterance
+            if annotated_utterance.cooperativeness > cooperativeness:
+                closest_over = annotated_utterance
+                break
+
+        if response_utterance is None:
+            distance_down = abs(closest_under.cooperativeness - cooperativeness)
+            distance_up = abs(closest_over.cooperativeness - cooperativeness)
+            if distance_down <= distance_up:
+                response_utterance = deepcopy(closest_under)
+            else:
+                response_utterance = deepcopy(closest_over)
+
         return response_utterance
