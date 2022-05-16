@@ -1,8 +1,16 @@
-"""Connector Agent to MovieBot.
+"""Connector Agent to IAI MovieBot.
 
 This Agent is a connector to MovieBot. It relies on MovieBot to be running.
 The messages are sent with POST requests and the response to the request is the
 utterance from MovieBot.
+
+The IAI MovieBot can be downloaded from here:
+https://github.com/iai-group/moviebot
+
+As the current release of the bot does not support our usecase you need to
+checkout the 'separate-flask-server' branch. Follow the IAI MovieBot
+installation instructions. The provided config in this branch will start the
+server with the right configuration.
 """
 
 import requests
@@ -11,15 +19,16 @@ from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
 
 
+_MOVIEBOT_DEFAULT_URI = "http://127.0.0.1:5001"
+
+
 class MovieBotAgent(Agent):
     """MovieBot connector agent.
 
     Uses POST requests to MovieBot server as communication platform.
     """
 
-    def __init__(
-        self, agent_id: str, uri: str = "http://127.0.0.1:5001"
-    ) -> None:
+    def __init__(self, agent_id: str, uri: str = _MOVIEBOT_DEFAULT_URI) -> None:
         """Initializes agent.
 
         Args:
@@ -27,7 +36,7 @@ class MovieBotAgent(Agent):
             uri: MovieBot server address.
         """
         super().__init__(agent_id)
-        self._MOVIEBOT_URI = uri
+        self._MOVIEBOT_URI = _MOVIEBOT_DEFAULT_URI
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
