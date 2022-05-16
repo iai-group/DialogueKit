@@ -1,7 +1,6 @@
 """Interface extending utterances with annotations."""
 
 from typing import List, Optional, Text, Union
-
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
@@ -15,6 +14,7 @@ class AnnotatedUtterance(Utterance):
         text: str,
         intent: Optional[Intent] = None,
         annotations: Optional[List] = None,
+        cooperativeness: Optional[float] = None,
     ) -> None:
         """Initializes an AnnotatedUtterance.
 
@@ -33,6 +33,7 @@ class AnnotatedUtterance(Utterance):
         self._annotations = []
         if annotations:
             self._annotations.extend(annotations)
+        self._cooperativeness = cooperativeness
 
     def __str__(self) -> Text:
         return self._text
@@ -74,6 +75,10 @@ class AnnotatedUtterance(Utterance):
     @property
     def utterance(self) -> Utterance:
         return Utterance(self.text)
+
+    @property
+    def cooperativeness(self) -> Union[float, None]:
+        return self._cooperativeness
 
     def add_annotation(
         self, annotation: Union[Annotation, List[Annotation]]
