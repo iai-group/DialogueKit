@@ -21,7 +21,7 @@ from dialoguekit.agent.agent import Agent
 from dialoguekit.user.user import User
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
-from dialoguekit.platform.platform import Platform
+from dialoguekit.platforms.platform import Platform
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
@@ -179,8 +179,8 @@ class DialogueManager:
             json.dump(json_file, outfile)
 
         # Empty dialogue history to avoid duplicate save
-        for _ in range(len(self.__dialogue_history.utterances)):
-            self.__dialogue_history.utterances.pop()
+        for _ in range(len(self._dialogue_history.utterances)):
+            self._dialogue_history.utterances.pop()
         # TODO: save dialogue history, subject to config parameters
 
 
