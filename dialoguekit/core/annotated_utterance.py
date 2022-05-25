@@ -15,6 +15,7 @@ class AnnotatedUtterance(Utterance):
         intent: Optional[Intent] = None,
         annotations: Optional[List] = None,
         cooperativeness: Optional[float] = None,
+        satisfaction: Optional[int] = None,
     ) -> None:
         """Initializes an AnnotatedUtterance.
 
@@ -34,6 +35,7 @@ class AnnotatedUtterance(Utterance):
         if annotations:
             self._annotations.extend(annotations)
         self._cooperativeness = cooperativeness
+        self._satisfaction = satisfaction
 
     def __str__(self) -> Text:
         return self._text
@@ -79,6 +81,10 @@ class AnnotatedUtterance(Utterance):
     @property
     def cooperativeness(self) -> Union[float, None]:
         return self._cooperativeness
+
+    @property
+    def satisfaction(self) -> Union[int, None]:
+        return self._satisfaction
 
     def add_annotation(
         self, annotation: Union[Annotation, List[Annotation]]

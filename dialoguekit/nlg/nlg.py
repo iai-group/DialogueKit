@@ -4,6 +4,9 @@ from copy import deepcopy
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
+from dialoguekit.nlu.models.satisfaction_classifier import (
+    SatisfactionClassifier,
+)
 from dialoguekit.nlg.template_from_training_data import (
     extract_utterance_template,
     build_template_from_instances,
@@ -17,10 +20,22 @@ class NLG:
     def __init__(self) -> None:
         """Initializes the NLG component."""
         self.__response_templates = None
+        self._GENERATED_SATISFACTION = False
 
-    def template_from_file(self, template_file: str) -> None:
-        """Generates template from moviebot JSON format."""
-        self.__response_templates = extract_utterance_template(template_file)
+    def template_from_file(
+        self,
+        template_file: str,
+        participant_to_learn: str = "USER",
+        satisfaction_classifier: Union[None, SatisfactionClassifier] = None,
+    ) -> None:
+        """Generates template from IAI MovieBot JSON format."""
+        self.__response_templates = extract_utterance_template(
+            annotated_dialogue_file=template_file,
+            participant_to_learn=participant_to_learn,
+            satisfaction_classifier=satisfaction_classifier,
+        )
+        if satisfaction_classifier:
+            self._GENERATED_SATISFACTION = True
 
     def template_from_objects(
         self, utterances: List[AnnotatedUtterance]
@@ -43,12 +58,13 @@ class NLG:
         intent: Intent,
         annotations: List[Annotation],
         cooperativeness: Optional[Union[float, None]] = None,
+        satisfaction: Optional[Union[float, None]] = None,
     ) -> AnnotatedUtterance:
         """Turns a structured utterance into a textual one.
 
         Args:
             intent: The intent of the wanted Utterance
-            annotations: The wanted annotations in the respone Utterance
+            annotations: The wanted annotations in the response Utterance
 
         Returns:
             Generated response utterance using templates.
@@ -67,10 +83,18 @@ class NLG:
                 templates, cooperativeness
             )
 
+        if satisfaction is not None:
+            response_utterance = self._select_closest_to_satisfaction(
+                templates, satisfaction
+            )
+
         # Todo: match the needed slots with the template
-        if cooperativeness is None:
+        if cooperativeness is None and satisfaction is None:
             response_utterance = random.choice(templates)
             response_utterance = deepcopy(response_utterance)
+
+        # Clear out annotations
+        response_utterance._annotations = []
 
         if annotations is not None:
             for annotation in annotations:
@@ -79,6 +103,53 @@ class NLG:
                 )
                 response_utterance.add_annotation(annotation)
         return response_utterance
+
+    def _select_closest_to_satisfaction(
+        self, templates: List[AnnotatedUtterance], satisfaction: int
+    ):
+        """Find the closest annotated utterance based on satisfaction
+
+        Args:
+            templates: AnnotatedUtterance with satisfaction.
+            satisfaction (float): The desired satisfaction score.
+
+        Returns:
+            AnnotatedUtterance with that has the closest satisfaction score.
+        """
+        templates = sorted(templates, key=lambda item: item.satisfaction)
+
+        closest_under = templates[0]
+        closest_over = templates[-1]
+        response_utterance = []
+        for annotated_utterance in templates:
+            if annotated_utterance.satisfaction == satisfaction:
+                response_utterance.append(annotated_utterance)
+                break
+            if annotated_utterance.satisfaction < satisfaction:
+                closest_under = annotated_utterance
+            if annotated_utterance.satisfaction > satisfaction:
+                closest_over = annotated_utterance
+                break
+
+        if len(response_utterance) == 0:
+            distance_down = abs(closest_under.satisfaction - satisfaction)
+            distance_up = abs(closest_over.satisfaction - satisfaction)
+            if distance_down <= distance_up:
+                closest_under = [
+                    template
+                    for template in templates
+                    if template.satisfaction == closest_under.satisfaction
+                ]
+                response_utterance.extend(closest_under)
+            else:
+                closest_over = [
+                    template
+                    for template in templates
+                    if template.satisfaction == closest_over.satisfaction
+                ]
+                response_utterance.extend(closest_over)
+
+        return deepcopy(random.choice(response_utterance))
 
     def _select_closest_to_cooperativness(
         self, templates: List[AnnotatedUtterance], cooperativeness: float
@@ -116,3 +187,8 @@ class NLG:
                 response_utterance = deepcopy(closest_over)
 
         return response_utterance
+
+    def get_intent_annotation_specifications(
+        intent: Intent,
+    ) -> List[Annotation]:
+        pass
