@@ -11,7 +11,7 @@ from dialoguekit.core.intent import Intent
 from dialoguekit.utils.annotation_converter import AnnotationConverter
 
 
-# Used for yml formating
+# Used for yaml formating
 class LiteralString(str):
     pass
 
@@ -39,7 +39,7 @@ class AnnotationConverterRasa(AnnotationConverter):
         return formated_string
 
     def change_style(self, style: str, representer: ScalarNode):
-        """Used to change the python yml data representation
+        """Used to change the python yaml data representation
         Args:
             style (str): Style used to represent type
             representer (ScalarNode): representer type ->
@@ -106,18 +106,18 @@ class AnnotationConverterRasa(AnnotationConverter):
         The generated files are saved in the self._save_to_path.
 
         Genereted files:
-            1. <originalname>_reformat.yml
-                The original file saved as a yml
+            1. <originalname>_reformat.yaml
+                The original file saved as a yaml
 
-            2. <originalname>_types_w_examples.yml
+            2. <originalname>_types_w_examples.yaml
                 The entity types with the corresponding entities identified in
                 the text. Used to debug and give an overview
 
-            3. <originalname>_rasa_user.yml
+            3. <originalname>_rasa_user.yaml
                 Conversion of the annotation file to a rasa nlu doc.
                 This file represents the USER utterances with intents
 
-            4. <originalname>_rasa_agent.yml
+            4. <originalname>_rasa_agent.yaml
                 Conversion of the annotation file to a rasa nlu doc.
                 This file represents the AGENT utterances with intents
 
@@ -137,22 +137,22 @@ class AnnotationConverterRasa(AnnotationConverter):
         )
         save_name_base = self._filepath.split("/")[-1].split(".")[-2]
 
-        # Save original as yml
-        extention = "_reformat.yml"
+        # Save original as yaml
+        extention = "_reformat.yaml"
         filename = save_name_base + extention
         return_dictionary[filename] = save_path_name + extention
         with open(return_dictionary[filename], "w") as outfile:
             yaml.dump(self._data["original"], outfile, default_flow_style=False)
 
         # Save the intent types with examples
-        extention = "_types_w_examples.yml"
+        extention = "_types_w_examples.yaml"
         filename = save_name_base + extention
         return_dictionary[filename] = save_path_name + extention
         with open(return_dictionary[filename], "w") as outfile:
             yaml.dump(self._slot_value_pairs, outfile, default_flow_style=False)
 
         def change_style(style: str, representer: ScalarNode):
-            """Used to change the python yml data representation
+            """Used to change the python yaml data representation
 
             Args:
                 style (str): Style used to represent type
@@ -184,13 +184,13 @@ class AnnotationConverterRasa(AnnotationConverter):
             rasa_dict_agent["nlu"].append(formated_dict)
 
         # Save rasa compatible format
-        extention = "_rasa_user.yml"
+        extention = "_rasa_user.yaml"
         filename = save_name_base + extention
         return_dictionary[filename] = save_path_name + extention
         with open(return_dictionary[filename], "w") as outfile:
             yaml.dump(rasa_dict_user, outfile, default_flow_style=False)
 
-        extention = "_rasa_agent.yml"
+        extention = "_rasa_agent.yaml"
         filename = save_name_base + extention
         return_dictionary[filename] = save_path_name + extention
         with open(return_dictionary[filename], "w") as outfile:
@@ -216,7 +216,7 @@ class AnnotationConverterRasa(AnnotationConverter):
         yaml.add_representer(LiteralString, represent_literal_list)
         # Save rasa compatible format
         filepath = (
-            self._save_to_path + "_" + str(int(time.time())) + "_rasa.yml"
+            self._save_to_path + "_" + str(int(time.time())) + "_rasa.yaml"
         )
         with open(filepath, "w") as outfile:
             yaml.dump(rasa_dict, outfile, default_flow_style=False)
