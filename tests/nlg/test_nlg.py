@@ -1,5 +1,4 @@
 """Test cases for NLG."""
-
 import pytest
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
@@ -71,3 +70,21 @@ def test_generate_utterance_text_with_satisfaction(nlg_class):
     )
 
     assert test_response.satisfaction == 2
+
+
+def test_filter_templates(nlg_class):
+    test_response = nlg_class.generate_utterance_text(
+        intent=Intent("REVEAL.EXPAND"),
+        annotations=[Annotation(slot="TITLE", value="test_movie_title")],
+        satisfaction=3,
+    )
+
+    assert test_response
+    assert test_response.text == "something like the test_movie_title"
+
+    test_response = nlg_class.generate_utterance_text(
+        intent=Intent("REVEAL.EXPAND"),
+        annotations=None,
+        satisfaction=3,
+    )
+    assert test_response is False
