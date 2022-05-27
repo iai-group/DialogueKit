@@ -1,5 +1,5 @@
 import random
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Dict
 from copy import deepcopy
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
@@ -19,7 +19,7 @@ class NLG:
 
     def __init__(self) -> None:
         """Initializes the NLG component."""
-        self.__response_templates = None
+        self._response_templates = None
         self._GENERATED_SATISFACTION = False
 
     def template_from_file(
@@ -29,7 +29,7 @@ class NLG:
         satisfaction_classifier: Union[None, SatisfactionClassifier] = None,
     ) -> None:
         """Generates template from IAI MovieBot JSON format."""
-        self.__response_templates = extract_utterance_template(
+        self._response_templates = extract_utterance_template(
             annotated_dialogue_file=template_file,
             participant_to_learn=participant_to_learn,
             satisfaction_classifier=satisfaction_classifier,
@@ -41,17 +41,17 @@ class NLG:
         self, utterances: List[AnnotatedUtterance]
     ) -> None:
         """Generates template from instances."""
-        self.__response_templates = build_template_from_instances(
+        self._response_templates = build_template_from_instances(
             utterances=utterances
         )
 
     def generate_cooperativness(self):
-        if self.__response_templates is None:
+        if self._response_templates is None:
             raise TypeError(
                 "You need to run one of the template_from_*() functions, \
                     before running this method."
             )
-        generate_cooperativeness_measure(self.__response_templates)
+        generate_cooperativeness_measure(self._response_templates)
 
     def generate_utterance_text(
         self,
@@ -83,7 +83,7 @@ class NLG:
             Note: if the filtering after step 1 and 2 does not find any response
             that satisfies the criteria 'False' will be returned.
         """
-        if self.__response_templates is None:
+        if self._response_templates is None:
             raise ValueError(
                 "The template is not generated, use of of the\
                 template_from methods"
@@ -91,14 +91,14 @@ class NLG:
         if annotations is None:
             annotations = []
 
-        templates = self.__response_templates.get(intent)
+        templates = self._response_templates.get(intent)
         templates = self._filter_templates(
             templates=templates, annotations=annotations
         )
+        # Check if filtering has filtered out everything
         if len(templates) == 0:
             return False
 
-        # Select closest based on cooperativeness
         if cooperativeness is not None:
             response_utterance = self._select_closest_to_cooperativness(
                 templates, cooperativeness
@@ -109,7 +109,6 @@ class NLG:
                 templates, satisfaction
             )
 
-        # Todo: match the needed slots with the template
         if cooperativeness is None and satisfaction is None:
             response_utterance = random.choice(templates)
             response_utterance = deepcopy(response_utterance)
@@ -242,14 +241,37 @@ class NLG:
 
         return response_utterance
 
-    def generate_utterance_text_annotations():
-        pass
-
     def get_intent_annotation_specifications(
         self,
-        templates: List[AnnotatedUtterance],
         intent: Intent,
-    ) -> List[Annotation]:
+    ) -> Dict[str, Dict[str, Union[int, List[AnnotatedUtterance]]]]:
+        """Returns dictionary with the min and max annotated utterances.
+
+        The dictionary is structured as such:
+        {
+            "min":{
+                "amount": int
+                "examples": List[AnnotatedUtterance]
+            }
+            "max":{
+                "amount": int
+                "examples": List[AnnotatedUtterance]
+            }
+        }
+
+        This is useful if you want to look into which options the nlg has for a
+        specific Intent and which annotations are needed.
+
+        Args:
+            intent (Intent): Intent of the desired responses.
+
+        Returns:
+            List[Annotation]: _description_
+        """
+        templates = self._response_templates.get(intent)
+        if templates is None:
+            raise TypeError(f"Intent: {intent}, is not part of the template")
+
         min_annotations = {"amount": 1000, "examples": []}
         max_annotations = {"amount": 0, "examples": []}
         for template in templates:
@@ -265,4 +287,4 @@ class NLG:
             if len(template.get_annotations()) == min_annotations.get("amount"):
                 min_annotations["examples"].append(template)
 
-        return min_annotations["amount"]
+        return {"min": min_annotations, "max": max_annotations}
