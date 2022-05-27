@@ -5,7 +5,7 @@ import os
 import json
 import re
 import copy
-from typing import Dict, List, Union
+from typing import Dict, List, Union, Optional
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
@@ -61,12 +61,26 @@ def build_template_from_instances(
 def extract_utterance_template(
     annotated_dialogue_file: str,
     participant_to_learn: str = "USER",
-    satisfaction_classifier: Union[None, SatisfactionClassifier] = None,
+    satisfaction_classifier: Optional[
+        Union[None, SatisfactionClassifier]
+    ] = None,
 ) -> Dict[Intent, List[AnnotatedUtterance]]:
     """Extracts utterance templates for each intent.
 
+    If a Satisfaction Classifier is provided it will be used to classify the
+    utterances. The classification logic is as follows:
+        - Hold participant utterance.
+        - Hold counter-participant utterance.
+        - Concatenate participant and counter-participant utterance and
+            classify satisfaction.
+        - The next utterance from participant will be given the satisfaction
+            from the concatenated utterance from the previous utterances.
+            reflecting the satisfaction at that given point in time.
+
     Args:
         Annotated_dialog_file: annotated dialogue json file.
+        participant_to_learn: Which participant we want to create a template on.
+        satisfaction_classifier: SatisfactionClassifier
 
     Returns:
         Dict with Intents and lists with corresponding AnnotatedUtterances.
