@@ -88,3 +88,15 @@ def test_filter_templates(nlg_class):
         satisfaction=3,
     )
     assert test_response is False
+
+
+def test_get_intent_annotation_specifications(nlg_class):
+    test_response = nlg_class.get_intent_annotation_specifications(
+        intent=Intent("REVEAL.REFINE")
+    )
+    assert test_response
+
+    with pytest.raises(TypeError):
+        nlg_class.get_intent_annotation_specifications(
+            intent=Intent("NOT_A_INTENT")
+        )
