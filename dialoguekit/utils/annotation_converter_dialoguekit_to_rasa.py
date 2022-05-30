@@ -70,7 +70,7 @@ class AnnotationConverterRasa(AnnotationConverter):
                         placeholder_label, value = annotation[0], annotation[1]
                         turn["utterance_annotated"] = turn[
                             "utterance_annotated"
-                        ].replace(f" {value} ", f" {{{placeholder_label}}} ", 1)
+                        ].replace(f"{value}", f"{{{placeholder_label}}}", 1)
                     # Utterance with annotation
                     for pair in slot_values:
                         turn["utterance_annotated"] = turn[
