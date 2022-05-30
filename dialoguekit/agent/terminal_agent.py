@@ -36,7 +36,7 @@ class TerminalAgent(Participant):
         response
         self._dialogue_manager.register_agent_utterance(response)
 
-    def receive_utterance(
+    def receive_user_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
         text = input("Your response: ")
