@@ -1,15 +1,18 @@
 """Natural language understanding."""
 
-from typing import List
+from typing import Any, List
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
+from dialoguekit.nlu.intent_classifier import IntentClassifier
 
 
 class NLU:
     """Represents a Natural Language Understanding (NLU) component."""
 
-    def __init__(self, intent_classifier, slot_annotators) -> None:
+    def __init__(
+        self, intent_classifier: IntentClassifier, slot_annotators: List[Any]
+    ) -> None:
         """Initializes the NLU component."""
         self.__intent_classifier = intent_classifier
         self.__slot_annotators = slot_annotators
