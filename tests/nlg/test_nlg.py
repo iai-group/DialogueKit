@@ -48,6 +48,23 @@ def test_generate_utterance_text(nlg_class):
         assert generated_response == expected_response
 
 
+def test_generate_utterance_text_force_annotation(nlg_class):
+    # A corner case where only one template found, i.e., REVEAL.EXPAND only has
+    # something like the {TITLE}.
+
+    test = nlg_class.generate_utterance_text(
+        Intent("COMPLETE"), annotations=None, force_annotation=True
+    )
+    assert test.intent == Intent("COMPLETE")
+
+    test = nlg_class.generate_utterance_text(
+        Intent("TRAVERSE.REPEAT"),
+        annotations=[Annotation(slot="DIRECTOR", value="TEST_DIRECTOR_NAME")],
+        force_annotation=True,
+    )
+    assert test.text == "TEST_DIRECTOR_NAME name"
+
+
 def test_none_annotations(nlg_class):
     test = nlg_class.generate_utterance_text(Intent("COMPLETE"), None)
 

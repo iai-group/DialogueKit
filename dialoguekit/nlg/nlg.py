@@ -59,6 +59,7 @@ class NLG:
         annotations: Optional[Union[List[Annotation], None]] = None,
         cooperativeness: Optional[Union[float, None]] = None,
         satisfaction: Optional[Union[float, None]] = None,
+        force_annotation: Optional[bool] = False,
     ) -> Union[AnnotatedUtterance, bool]:
         """Turns a structured utterance into a textual one.
 
@@ -77,6 +78,9 @@ class NLG:
             intent: The intent of the wanted Utterance
             annotations: The wanted annotations in the response Utterance
             satisfaction: Desired satisfaction score of the response.
+            force_annotation: if 'True' and 'annotations' are provided,
+                                responses without annotations will also be
+                                filtered out during step 2.
 
         Returns:
             Generated response utterance using templates.
@@ -93,7 +97,9 @@ class NLG:
 
         templates = self._response_templates.get(intent)
         templates = self._filter_templates(
-            templates=templates, annotations=annotations
+            templates=templates,
+            annotations=annotations,
+            force_annotation=force_annotation,
         )
         # Check if filtering has filtered out everything
         if len(templates) == 0:
@@ -125,18 +131,24 @@ class NLG:
         return response_utterance
 
     def _filter_templates(
-        self, templates: List[AnnotatedUtterance], annotations: List[Annotation]
+        self,
+        templates: List[AnnotatedUtterance],
+        annotations: List[Annotation],
+        force_annotation: bool,
     ) -> List[AnnotatedUtterance]:
         """Filters available templates based on annotations.
 
         The list of annotations is used to filter the templates in such a way,
         that only the templates that are possible to create are returned.
         If a template does not contain any annotations it will remain in the
-        list of available templates.
+        list of available templates. As long as 'force_annotations' is False.
+        If its 'True' these will also be filtered out.
 
         Args:
-            templates: template annotated utterance
-            annotations: list of annotations to be used for filtering.
+            templates: Template annotated utterance.
+            annotations: List of annotations to be used for filtering.
+            force_annotation: If 'True' and annotations are provided templates
+                                without annotations will also be filtered out.
 
         Returns:
             List of annotated utterances that are possible to create with the
@@ -153,6 +165,12 @@ class NLG:
             )
             if all(x in annotations_slots for x in utterance_slots):
                 filtered_annotated_utterances.append(annotated_utterance)
+        if force_annotation and len(annotations) > 0:
+            filtered_annotated_utterances = [
+                template
+                for template in filtered_annotated_utterances
+                if len(template.get_annotations()) > 0
+            ]
         return filtered_annotated_utterances
 
     def _select_closest_to_satisfaction(
