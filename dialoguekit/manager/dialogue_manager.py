@@ -121,7 +121,7 @@ class DialogueManager:
     def _dump_dialogue_history(self):
         """Exports the dialogue history.
 
-        The exported files will named as 'AgentID_UserID.json'
+        The exported files will be named as 'AgentID_UserID.json'
 
         If the two participants have had a conversation previously, the new
         conversation will be appended to the same export document.
@@ -148,6 +148,8 @@ class DialogueManager:
         run_conversation = {
             "conversation ID": str(utc_time),
             "conversation": [],
+            "agent": self._agent.to_dict(),
+            "user": self._user.to_dict(),
         }
 
         for annotated_utterance in history.utterances:
@@ -164,6 +166,11 @@ class DialogueManager:
                 utterance_info["intent"] = annotated_utterance.get(
                     "utterance"
                 ).intent.label
+
+            if annotated_utterance.get("utterance").satisfaction is not None:
+                utterance_info["satisfaction"] = annotated_utterance.get(
+                    "utterance"
+                ).satisfaction
 
             annotations = annotated_utterance.get("utterance").get_annotations()
             if annotations:

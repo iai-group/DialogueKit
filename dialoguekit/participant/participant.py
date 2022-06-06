@@ -1,9 +1,8 @@
 """Interface defining core Participant functionality."""
 
-from __future__ import annotations
 from abc import ABC
 import enum
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 
@@ -31,6 +30,9 @@ class Participant(ABC):
     @property
     def id(self):
         return self.__id
+
+    def to_dict(self) -> Dict[str, str]:
+        return {"id": str(self.__id), "type": str(self._type.name)}
 
     def connect_dialogue_manager(
         self, dialogue_manager: DialogueManager
