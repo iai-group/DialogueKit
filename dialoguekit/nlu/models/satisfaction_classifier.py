@@ -92,7 +92,7 @@ class SatisfactionClassifier:
         complete_dialogue_text = " .".join(
             [
                 annotated_utterance["utterance"].text
-                for annotated_utterance in dialogue.utterances[:-last_n]
+                for annotated_utterance in dialogue.utterances[-last_n:]
             ]
         )
         return int(self._tokenize_predict([complete_dialogue_text])[0])
