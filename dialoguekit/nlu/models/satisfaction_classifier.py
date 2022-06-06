@@ -8,17 +8,22 @@ from joblib import load
 from typing import Union, List, Optional
 from dialoguekit.core.dialogue import Dialogue
 
+from pathlib import Path
 
-SATISFACTION_CLASSIFIER_MODEL_PATH = (
-    "dialoguekit/nlu/models/satisfaction/LinearSVC_2_0.joblib"
-)
-SATISFACTION_TOKENIZER_PATH = "dialoguekit/nlg/models/vectorizer_2_0.joblib"
+
+SATISFACTION_CLASSIFIER_MODEL_PATH = "LinearSVC_2_0.joblib"
+SATISFACTION_TOKENIZER_PATH = "vectorizer_2_0.joblib"
 
 
 class SatisfactionClassifier:
     def __init__(self) -> None:
-        self._model_svm = load(SATISFACTION_CLASSIFIER_MODEL_PATH)
-        self._tokenizer = load(SATISFACTION_TOKENIZER_PATH)
+        path_to_models = Path(__file__).parent / "satisfaction"
+        tokenizer_path = path_to_models.joinpath(SATISFACTION_TOKENIZER_PATH)
+        classifier_path = path_to_models.joinpath(
+            SATISFACTION_CLASSIFIER_MODEL_PATH
+        )
+        self._model_svm = load(str(classifier_path))
+        self._tokenizer = load(str(tokenizer_path))
 
     def _tokenize_predict(self, input_text: List[str]) -> List[int]:
         """Tokenize and classify satisfaction.
@@ -83,11 +88,6 @@ class SatisfactionClassifier:
 
         if last_n is None:
             last_n = len(dialogue.utterances)
-        elif last_n > len(dialogue.utterances):
-            raise TypeError(
-                f"last_n: {last_n} is longer then the length of the dialogue: \
-                    {len(dialogue.utterances)}."
-            )
 
         complete_dialogue_text = " .".join(
             [
