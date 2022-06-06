@@ -27,7 +27,7 @@ setuptools.setup(
     package_dir={"": "."},
     packages=setuptools.find_packages(),
     package_data={
-        "dialoguekit": [
+        "": [
             "*.joblib",
             "dialoguekit/nlu/models/satisfaction/*.joblib",
         ]
