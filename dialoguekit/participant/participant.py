@@ -1,5 +1,5 @@
 """Interface defining core Participant functionality."""
-
+from __future__ import annotations
 from abc import ABC
 import enum
 from typing import TYPE_CHECKING, Dict

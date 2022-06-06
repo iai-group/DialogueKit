@@ -7,8 +7,8 @@ An agent instance needs to be connected with a DialogueManager by invoking
 `register_dialogue_manager()`.
 """
 from __future__ import annotations
-from dialoguekit.participant.participant import Participant
 from enum import Enum
+from dialoguekit.participant.participant import Participant
 
 # TODO Some research needs to be done in how Python abstract classes work,
 # to implement them for Agent and participant

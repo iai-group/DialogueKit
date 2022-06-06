@@ -4,7 +4,6 @@ An Agent that is used for testing with different Users.
 Specifically if a User is actually a bot, it may be useful to test with the
 Terminal Agent.
 """
-from __future__ import annotations
 from dialoguekit.participant.participant import Participant
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
