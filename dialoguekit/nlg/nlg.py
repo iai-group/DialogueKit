@@ -1,4 +1,5 @@
 import random
+import json
 from typing import List, Optional, Union, Dict
 from copy import deepcopy
 from dialoguekit.core.annotation import Annotation
@@ -19,8 +20,8 @@ class NLG:
 
     def __init__(self) -> None:
         """Initializes the NLG component."""
-        self._response_templates = None
-        self._GENERATED_SATISFACTION = False
+        self._response_templates: Dict[Intent, List[AnnotatedUtterance]] = None
+        self._GENERATED_SATISFACTION: bool = False
 
     def template_from_file(
         self,
@@ -63,6 +64,11 @@ class NLG:
     ) -> Union[AnnotatedUtterance, bool]:
         """Turns a structured utterance into a textual one.
 
+        Note:
+        If the template does not contain the desired intent, a fallback will be
+        used. Stating "Sorry, I did not understand you." The response will have
+        the same 'intent'.
+
         Generating a response is a multi-step process.
             1. Responses to the desired 'intent' will be selected.
             2. Based on the list of 'annotations' only the possible responses,
@@ -96,6 +102,12 @@ class NLG:
             annotations = []
 
         templates = self._response_templates.get(intent)
+
+        # If desired 'intent' is not in the template, use fallback.
+        if templates is None:
+            return AnnotatedUtterance(
+                intent=intent, text="Sorry, I did not understand you."
+            )
         templates = self._filter_templates(
             templates=templates,
             annotations=annotations,
@@ -129,6 +141,17 @@ class NLG:
                 )
                 response_utterance.add_annotation(annotation)
         return response_utterance
+
+    def dump_template(self, filepath: str) -> None:
+        """Dump template to json"""
+        dump_dict = {}
+        for intent, utterances in self._response_templates.items():
+            dump_dict[intent.label] = [
+                annotated_utterance.text for annotated_utterance in utterances
+            ]
+
+        with open(filepath, "w") as file:
+            json.dump(dump_dict, file, indent=4)
 
     def _filter_templates(
         self,

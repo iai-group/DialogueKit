@@ -1,5 +1,6 @@
 """Test cases for NLG."""
 import pytest
+import json
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
@@ -46,6 +47,12 @@ def test_generate_utterance_text(nlg_class):
             intent, slot_values
         )
         assert generated_response == expected_response
+
+    generated_response = nlg_class.generate_utterance_text(
+        Intent("NOT_A_INTENT")
+    )
+    assert generated_response.text == "Sorry, I did not understand you."
+    assert generated_response.intent == Intent("NOT_A_INTENT")
 
 
 def test_generate_utterance_text_force_annotation(nlg_class):
@@ -115,5 +122,22 @@ def test_get_intent_annotation_specifications(nlg_class):
 
     with pytest.raises(TypeError):
         nlg_class.get_intent_annotation_specifications(
-            intent=Intent("NOT_A_INTENT")
+            intent=Intent("NOT_AN_INTENT")
         )
+
+
+def test_dump_templates(nlg_class, tmp_path):
+    save_to_dir = tmp_path
+    full_path = save_to_dir.absolute()
+    my_path = full_path.as_posix()
+
+    nlg_class.dump_template(filepath=f"{my_path}/nlg_dump.json")
+
+    with open(f"{my_path}/nlg_dump.json", "r") as file:
+        json_template = json.load(file)
+        assert len(json_template.keys()) == len(
+            nlg_class._response_templates.keys()
+        )
+
+        for intent in json_template.keys():
+            assert Intent(intent) in nlg_class._response_templates.keys()
