@@ -63,6 +63,7 @@ class AnnotationConverterRasa(AnnotationConverter):
                 intent = turn.get("intent", None)
                 slot_values = turn.get("slot_values", [])
                 utterance = turn.get("utterance", "").strip()
+                utterance = utterance.replace("\n", " ")
 
                 if len(slot_values) > 0:
                     turn["utterance_annotated"] = utterance
