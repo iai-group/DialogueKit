@@ -2,15 +2,18 @@
 import warnings
 from copy import deepcopy
 from collections import defaultdict
-from typing import List, Dict, Union, Optional
+from typing import List, Dict, Union, Optional, Any
 from dialoguekit.core.dialogue import Dialogue, DialogueParticipant
 from dialoguekit.core.intent import Intent
+from dialoguekit.nlu.models.satisfaction_classifier import (
+    SatisfactionClassifier,
+)
 
 _REWARD_CONFIG = {
     "full_set_points": 20,
     "intents": {
         "DISCLOSE": 4,
-        "REFINEMENT": 4,
+        "REVEAL.REFINE": 4,
         "INQUIRE": 4,
         "NAVIGATE": 4,
     },
@@ -95,31 +98,122 @@ class Evaluator:
     ) -> List[Union[int, float]]:
 
         warnings.warn("This function does not yet penalize 'Repeat' actions")
+
         if config is None:
             config = _REWARD_CONFIG
+
+        results = {
+            "missing_intents": [],
+            "dialogues": [
+                {
+                    "reward": config["full_set_points"],
+                    "user_turns": 0,
+                    "repeats": 0,
+                }
+                for i in range(len(dialogue_history))
+            ],
+        }
+
+        # * Check if all necessary Intents are included.
+        results = self._check_included_intents(
+            results=results, config=config, dialogue_history=dialogue_history
+        )
+
+        # * Check for Repeats
         reward = config["full_set_points"]
-
-        dialogue_intents = [
-            Intent(ut.get("utterance").intent.label.split(".")[0])
-            for dialogue in dialogue_history
-            for ut in dialogue.utterances
-        ]
-        dialogue_intents_set = set(dialogue_intents)
-
-        for intent, penalty in config.get("intents").items():
-            if Intent(intent) not in dialogue_intents_set:
-                reward -= penalty
-
-        # TODO penalize "Repeat" actions
         rewards = [reward for i in range(len(dialogue_history))]
+        for i, dialogue in enumerate(dialogue_history):
 
+            last_intent = None
+            last_sender = None
+            repeat_intents = 0
+
+            # Start dialogue with Agent first.
+            for j, utterance in enumerate(dialogue.utterances):
+                if utterance.get("sender") == DialogueParticipant.AGENT:
+                    dialogue_utterances_start_agent = dialogue.utterances[j:]
+                    break
+            for j, utterance in enumerate(dialogue_utterances_start_agent):
+                if last_sender is None:
+                    last_sender = utterance.get("sender")
+                    last_intent = utterance.get("utterance").intent
+                    continue
+                if last_sender == utterance.get("sender"):
+                    if last_intent == utterance.get("utterance").intent:
+                        repeat_intents += 1
+                        last_intent = None
+                        last_sender = utterance.get("sender")
+                        continue
+                last_intent = utterance.get("utterance").intent
+                last_sender = utterance.get("sender")
+
+            results["dialogues"][i]["repeats"] = repeat_intents
+            results["dialogues"][i]["reward"] -= repeat_intents
+            rewards[i] -= repeat_intents
+
+        # * Calculate USER/AGENT ratios.
+        results = self._user_agent_ratio(
+            results=results, config=config, dialogue_history=dialogue_history
+        )
+
+        for results_dialogue in results["dialogues"]:
+            results_dialogue["reward"] = max(0, results_dialogue["reward"])
+
+        return results
+
+    def _user_agent_ratio(
+        self,
+        dialogue_history: List[Dict[str, Any]],
+        config: Dict[str, Any],
+        results: Dict[str, Any],
+    ) -> Dict[str, Any]:
         for i, dialogue in enumerate(dialogue_history):
             num_user_acts = sum(
                 1
                 for utterance in dialogue.utterances
                 if utterance["sender"] == DialogueParticipant.USER
             )
-            rewards[i] -= num_user_acts * config.get("cost")
+            results["dialogues"][i]["user_turns"] = num_user_acts
+            results["dialogues"][i]["reward"] -= num_user_acts * config.get(
+                "cost"
+            )
+        return results
 
-        rewards = [max(0, reward) for reward in rewards]
-        return rewards
+    def _check_included_intents(
+        self,
+        dialogue_history: List[Dict[str, Any]],
+        config: Dict[str, Any],
+        results: Dict[str, Any],
+    ) -> Dict[str, Any]:
+        reward = config["full_set_points"]
+        dialogue_intents = [
+            Intent(ut.get("utterance").intent.label.split(".")[0])
+            for dialogue in dialogue_history
+            for ut in dialogue.utterances
+        ]
+        dialogue_intents.extend(
+            [
+                Intent(ut.get("utterance").intent.label)
+                for dialogue in dialogue_history
+                for ut in dialogue.utterances
+            ]
+        )
+        dialogue_intents_set = set(dialogue_intents)
+
+        for intent, penalty in config.get("intents").items():
+            if Intent(intent) not in dialogue_intents_set:
+                reward -= penalty
+                results["missing_intents"].append(intent)
+
+        for results_dialogue in results["dialogues"]:
+            results_dialogue["reward"] = reward
+
+        return results
+
+    def satisfaction(self, dialogue_history: List[Dialogue]):
+        satisfactions = []
+        sc = SatisfactionClassifier()
+        for dialogue in dialogue_history:
+            satisfactions.append(sc.classify_last_n_dialogue(dialogue=dialogue))
+
+        return satisfactions

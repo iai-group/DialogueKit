@@ -46,6 +46,15 @@ def test_user_act_ratio(dialogues):
 def test_reward(dialogues):
     ev = Evaluator()
     rewards = ev.reward(dialogue_history=dialogues)
-    assert len(rewards) == len(dialogues)
-    for reward in rewards:
-        assert reward >= 0
+    assert len(rewards["dialogues"]) == len(dialogues)
+    for reward in rewards["dialogues"]:
+        assert reward["reward"] >= 0
+
+
+def test_satisfaction_classification(dialogues):
+    ev = Evaluator()
+    satisfactions = ev.satisfaction(dialogues)
+    print(satisfactions)
+    assert satisfactions
+    for sc in satisfactions:
+        assert 1 <= sc <= 5
