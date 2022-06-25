@@ -31,36 +31,7 @@ If you want to specify a specific commit as the source of the package append the
   pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275105cc1ca7698783719551c2
   ```
 
-## Main concepts
-
-* **Participant**
-  * Represents a participant in the conversation.
-  * **User** and **Agent** are Participants
-* **Agent**
-  * Represents a bot, with its own set of logic, **NLU** and **NLG**.
-* **User**
-  * Represents a human interacting. Has the simplest form of interaction, which are strings to and from the **Dialogue Manager**.
-* **Utterance**
-  * An **utterance** by an **Agent** or **User**. The utterance holds the participant utterance as clear text and can hold additionally to the intent and or annotation.
-* **Platform**
-  * The platform is the way the **Participants** communicate with each other. This can be native to DialogueKit or other forms as REST APIs or other methods.
-* **Dialogue Manager**
-  * Holds and orchestrates the conversation between the participants.
-* **Ontology**
-  * Defines the types of entities and the set of properties ("slots") for each entity type.
-* There are two types of annotations
-  * **Intent**: represents the dialogue action.
-  * **SlotValueAnnotation**: slot-value pairs, where a slot refers to an entity or a property in the **ontology**.
-* **User preferences**
-  * Preferences are expressed for specific slot-value pairs, where slots correspond to **entities** or properties in the **ontology**.
-
-### Concepts specific to item recommendation scenarios
-
-* Item: an entity with a unique ID, canonical name, and any number of properties (represented as property-value pairs, where properties correspond to ontology classes).
-* ItemCollection: a collection of items.
-* Ratings: explicit user preferences on items (normalized into [-1,1]).
-
-### Usage example
+## Usage example
 
 **NOTE (TODO):** This usage example will shortly be outdated as of issue [#58.](https://github.com/iai-group/dialoguekit/issues/58)
 
@@ -96,21 +67,6 @@ If you want to specify a specific commit as the source of the package append the
 
       dm.close()
     ```
-
-### Natural Language Understanding (NLU)
-
-#### Intent Classification
-
-Thus far two different NLU pipelines are implemented for intent classification
-
-* [Cosine intent classifier](https://github.com/iai-group/dialoguekit/blob/main/dialoguekit/nlu/models/intent_classifier_cosine.py)
-* Rasa DIET classifier (TODO: Add link after merge)
-
-An explanation of the implementation of Rasa DIET classifier can be read [here](docs/rasa_component_library.md)
-
-#### Entity Extraction
-
-As of now only one implementation exists, the Rasa DIET classifier.
 
 ## Contributors
 
