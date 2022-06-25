@@ -21,7 +21,6 @@ def nlg_class() -> NLG:
         ANNOTATED_DIALOGUE_FILE,
         satisfaction_classifier=SatisfactionClassifierSVM(),
     )
-    nlg.generate_cooperativness()
     return nlg
 
 
@@ -76,15 +75,6 @@ def test_none_annotations(nlg_class):
     test = nlg_class.generate_utterance_text(Intent("COMPLETE"), None)
 
     assert test.intent == Intent("COMPLETE")
-
-
-def test_generate_utterance_text_with_cooperativness(nlg_class):
-
-    test_response = nlg_class.generate_utterance_text(
-        intent=Intent("COMPLETE"), annotations=None, cooperativeness=0.3
-    )
-
-    assert test_response.text == "thank you"
 
 
 def test_generate_utterance_text_with_satisfaction(nlg_class):

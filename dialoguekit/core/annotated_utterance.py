@@ -13,7 +13,7 @@ class AnnotatedUtterance(Utterance):
         self,
         text: str,
         intent: Optional[Intent] = None,
-        annotations: Optional[List] = None,
+        annotations: Optional[List[Annotation]] = None,
         cooperativeness: Optional[float] = None,
         satisfaction: Optional[int] = None,
     ) -> None:

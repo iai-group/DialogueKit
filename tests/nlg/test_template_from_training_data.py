@@ -7,7 +7,6 @@ from dialoguekit.nlg.template_from_training_data import (
     extract_utterance_template,
     build_template_from_instances,
     _replace_slot_with_placeholder,
-    generate_cooperativeness_measure,
 )
 from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifierSVM,
@@ -176,14 +175,6 @@ def test_extract_utterance_template():
     )
 
     assert templates.get(Intent("REVEAL.EXPAND")) == [test_annotation]
-
-
-def test_generate_cooperativeness_measure():
-    templates = extract_utterance_template(ANNOTATED_DIALOGUE_FILE)
-    generate_cooperativeness_measure(template=templates)
-
-    for annotated_utterance in templates[Intent("DISCLOSE")]:
-        assert 0.0 < annotated_utterance.cooperativeness <= 1.0
 
 
 def test_extract_utterance_template_with_satisfaction():

@@ -3,7 +3,6 @@
 from collections import defaultdict
 import os
 import json
-import re
 import copy
 from typing import Dict, List, Union, Optional
 from dialoguekit.core.annotation import Annotation
@@ -148,51 +147,3 @@ def extract_utterance_template(
         key: list(val) for key, val in response_templates.items()
     }
     return response_templates
-
-
-def generate_cooperativeness_measure(
-    template: Dict[Intent, List[AnnotatedUtterance]], annotation_bonus: int = 2
-) -> Dict[Intent, List[AnnotatedUtterance]]:
-    """Generates a cooperativness score for every annotated utterance.
-
-    The cooperativness score is a normalized length measure for every Intent.
-    Annotations get boosted with annotation_bonus. This bonus gets added for
-    every Annotation the Utterance contains.
-
-    Note:
-        This method does the generation innplace, but also returns the same
-        object.
-
-    Args:
-        template: Template file from extract_utterance_template() or
-                    build_template_from_instances().
-        annotation_bonus: Bonus value for every Annotation the Utterance
-                    contains.
-
-    Returns:
-        The same template that got passed as an argument, but now cooperativness
-        has been added to the AnnotatedUtterances.
-    """
-    annotation_expression = r"{.*?}"
-    for _, annotated_utterances in template.items():
-
-        max_score = 0
-        for annotated_utterance in annotated_utterances:
-            word_score = len(annotated_utterance.text.split(" "))
-            annotations_found = re.findall(
-                pattern=annotation_expression, string=annotated_utterance.text
-            )
-            if annotations_found:
-                word_score = (
-                    word_score + len(annotations_found) * annotation_bonus
-                )
-
-            annotated_utterance._cooperativeness = word_score
-            if word_score > max_score:
-                max_score = word_score
-
-        for annotated_utterance in annotated_utterances:
-            annotated_utterance._cooperativeness = (
-                annotated_utterance.cooperativeness / max_score
-            )
-    return template
