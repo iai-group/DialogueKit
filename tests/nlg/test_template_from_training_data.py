@@ -10,7 +10,7 @@ from dialoguekit.nlg.template_from_training_data import (
     generate_cooperativeness_measure,
 )
 from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifier,
+    SatisfactionClassifierSVM,
 )
 
 
@@ -189,7 +189,7 @@ def test_generate_cooperativeness_measure():
 def test_extract_utterance_template_with_satisfaction():
     templates = extract_utterance_template(
         ANNOTATED_DIALOGUE_FILE,
-        satisfaction_classifier=SatisfactionClassifier(),
+        satisfaction_classifier=SatisfactionClassifierSVM(),
     )
 
     for annotated_utterance in templates[Intent("DISCLOSE")]:

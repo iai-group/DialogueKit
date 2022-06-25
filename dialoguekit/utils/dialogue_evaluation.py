@@ -1,12 +1,14 @@
 """Evaluation module"""
 import warnings
+import yaml
+import numpy as np
 from copy import deepcopy
 from collections import defaultdict
 from typing import List, Dict, Union, Optional, Any
 from dialoguekit.core.dialogue import Dialogue, DialogueParticipant
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifier,
+    SatisfactionClassifierSVM,
 )
 
 _REWARD_CONFIG = {
@@ -34,6 +36,46 @@ class Evaluator:
             dialogue_history = [dialogue_history]
 
         self.dialogues = dialogue_history
+
+    def success(
+        self, interaction_model_path: str, dialogue_history: List[Dialogue]
+    ):
+        with open(interaction_model_path) as yaml_file:
+            self.interaction_model = yaml.load(
+                yaml_file, Loader=yaml.FullLoader
+            )
+        self.interaction_model["expected_responses"]
+        successes = []
+        for dialogue in dialogue_history:
+            last_user_utterance = None
+            dialogue_success = 0
+            agent_utterance_count = (
+                sum(
+                    1
+                    for utterance in dialogue.utterances
+                    if utterance.get("sender") == DialogueParticipant.AGENT
+                )
+                - 1
+            )
+            for utterance in dialogue.utterances:
+                if (
+                    utterance.get("sender") == DialogueParticipant.AGENT
+                    and last_user_utterance is not None
+                ):
+                    if utterance.get(
+                        "utterance"
+                    ).intent.label in self.interaction_model.get(
+                        "expected_responses"
+                    ).get(
+                        last_user_utterance.intent.label, []
+                    ):
+                        dialogue_success += 1
+
+                if utterance.get("sender") == DialogueParticipant.USER:
+                    last_user_utterance = utterance.get("utterance")
+            successes.append(dialogue_success / agent_utterance_count)
+
+        return successes
 
     def avg_turns(
         self, dialogue_history: List[Dialogue], force_rebuild: bool = True
@@ -63,7 +105,10 @@ class Evaluator:
 
                 self.dialogue_lengths.append(dialogue_turns)
 
-        return sum(self.dialogue_lengths) / len(self.dialogue_lengths)
+        return (
+            sum(self.dialogue_lengths) / len(self.dialogue_lengths),
+            np.std(self.dialogue_lengths),
+        )
 
     def user_act_ratio(
         self,
@@ -212,7 +257,7 @@ class Evaluator:
 
     def satisfaction(self, dialogue_history: List[Dialogue]):
         satisfactions = []
-        sc = SatisfactionClassifier()
+        sc = SatisfactionClassifierSVM()
         for dialogue in dialogue_history:
             satisfactions.append(sc.classify_last_n_dialogue(dialogue=dialogue))
 

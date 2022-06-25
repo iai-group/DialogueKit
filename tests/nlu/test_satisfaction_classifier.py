@@ -1,16 +1,16 @@
 """Tests for SatisfactionClassifier"""
 import pytest
 from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifier,
+    SatisfactionClassifierSVM,
 )
 
 
 def test_initialization():
-    SatisfactionClassifier()
+    SatisfactionClassifierSVM()
 
 
 def test_tokenize_predict():
-    sf = SatisfactionClassifier()
+    sf = SatisfactionClassifierSVM()
     label = sf._tokenize_predict(
         input_text=["Whats the weather like? It raining as always."]
     )
@@ -19,7 +19,7 @@ def test_tokenize_predict():
 
 
 def test_classify_text():
-    sf = SatisfactionClassifier()
+    sf = SatisfactionClassifierSVM()
 
     label_int = sf.classify_text(
         dialogue_text="Whats the weather like? It raining as always."
@@ -36,7 +36,7 @@ def test_classify_text():
 
 @pytest.mark.usefixtures("dialogue_history_1")
 def test_classify_last_n_dialogue(dialogue_history_1):
-    sf = SatisfactionClassifier()
+    sf = SatisfactionClassifierSVM()
 
     label = sf.classify_last_n_dialogue(dialogue=dialogue_history_1, last_n=2)
     assert isinstance(label, int)

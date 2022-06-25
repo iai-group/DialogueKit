@@ -6,7 +6,7 @@ from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg import NLG
 from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifier,
+    SatisfactionClassifierSVM,
 )
 
 
@@ -19,7 +19,7 @@ def nlg_class() -> NLG:
     nlg = NLG()
     nlg.template_from_file(
         ANNOTATED_DIALOGUE_FILE,
-        satisfaction_classifier=SatisfactionClassifier(),
+        satisfaction_classifier=SatisfactionClassifierSVM(),
     )
     nlg.generate_cooperativness()
     return nlg

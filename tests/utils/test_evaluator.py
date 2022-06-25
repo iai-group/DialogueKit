@@ -26,10 +26,12 @@ def test_load_dialogue(dialogues):
 
 def test_avg_turns(dialogues):
     ev = Evaluator()
-    avg_turns = ev.avg_turns(dialogue_history=dialogues, force_rebuild=True)
+    avg_turns = ev.avg_turns(dialogue_history=dialogues, force_rebuild=True)[0]
     print(avg_turns)
     assert avg_turns == pytest.approx(19.66, 0.1)
-    avg_turns2 = ev.avg_turns(dialogue_history=dialogues, force_rebuild=False)
+    avg_turns2 = ev.avg_turns(dialogue_history=dialogues, force_rebuild=False)[
+        0
+    ]
     assert avg_turns2 == pytest.approx(19.66, 0.1)
 
 
