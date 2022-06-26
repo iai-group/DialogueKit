@@ -34,7 +34,7 @@ class AnnotatedUtterance(Utterance):
         self._annotations = []
         if annotations:
             self._annotations.extend(annotations)
-        self._metadata = metadata
+        self._metadata = metadata if metadata else {}
 
     def __str__(self) -> str:
         return self._text

@@ -167,10 +167,15 @@ class DialogueManager:
                     "utterance"
                 ).intent.label
 
-            if annotated_utterance.get("utterance").satisfaction is not None:
+            if (
+                annotated_utterance.get("utterance").metadata.get(
+                    "satisfaction"
+                )
+                is not None
+            ):
                 utterance_info["satisfaction"] = annotated_utterance.get(
                     "utterance"
-                ).satisfaction
+                ).metadata.get("satisfaction")
 
             annotations = annotated_utterance.get("utterance").get_annotations()
             if annotations:
@@ -196,6 +201,7 @@ if __name__ == "__main__":
     from dialoguekit.user.user import User
     from dialoguekit.agent.mathematics_agent import MathAgent
     from dialoguekit.agent.moviebot_agent import MovieBotAgent
+    from dialoguekit.agent.terminal_agent import TerminalAgent
     from dialoguekit.core.intent import Intent
 
     # Participants
@@ -205,6 +211,9 @@ if __name__ == "__main__":
         "UI01", intents=[Intent("START"), Intent("ANSWER"), Intent("COMPLETE")]
     )
     user = User(id="TEST01")
+    agent = TerminalAgent(
+        id="WoZ", intent_recommendations=[Intent("EXIT"), Intent("RANDOM")]
+    )
 
     platform = Platform()
     dm = DialogueManager(agent, user, platform)
