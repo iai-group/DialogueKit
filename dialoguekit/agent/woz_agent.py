@@ -5,13 +5,12 @@ Specifically if a User is actually a bot, it may be useful to test with the
 WoZ Agent.
 """
 from typing import List, Optional
-from dialoguekit.participant.participant import Participant
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.agent.agent import AgentType
+from dialoguekit.agent.agent import Agent, AgentType
 
 
-class WozAgent(Participant):
+class WozAgent(Agent):
     """Represents an agent."""
 
     def __init__(
