@@ -195,36 +195,44 @@ class NLG:
         Returns:
             AnnotatedUtterance that has the closest satisfaction score.
         """
-        templates = sorted(templates, key=lambda item: item.satisfaction)
+        templates = sorted(
+            templates, key=lambda item: item.metadata.get("satisfaction")
+        )
 
         closest_under = templates[0]
         closest_over = templates[-1]
         response_utterance = []
         for annotated_utterance in templates:
-            if annotated_utterance.satisfaction == satisfaction:
+            if annotated_utterance.metadata.get("satisfaction") == satisfaction:
                 response_utterance.append(annotated_utterance)
                 break
-            if annotated_utterance.satisfaction < satisfaction:
+            if annotated_utterance.metadata.get("satisfaction") < satisfaction:
                 closest_under = annotated_utterance
-            if annotated_utterance.satisfaction > satisfaction:
+            if annotated_utterance.metadata.get("satisfaction") > satisfaction:
                 closest_over = annotated_utterance
                 break
 
         if len(response_utterance) == 0:
-            distance_down = abs(closest_under.satisfaction - satisfaction)
-            distance_up = abs(closest_over.satisfaction - satisfaction)
+            distance_down = abs(
+                closest_under.metadata.get("satisfaction") - satisfaction
+            )
+            distance_up = abs(
+                closest_over.metadata.get("satisfaction") - satisfaction
+            )
             if distance_down <= distance_up:
                 closest_under = [
                     template
                     for template in templates
-                    if template.satisfaction == closest_under.satisfaction
+                    if template.metadata.get("satisfaction")
+                    == closest_under.metadata.get("satisfaction")
                 ]
                 response_utterance.extend(closest_under)
             else:
                 closest_over = [
                     template
                     for template in templates
-                    if template.satisfaction == closest_over.satisfaction
+                    if template.metadata.get("satisfaction")
+                    == closest_over.metadata.get("satisfaction")
                 ]
                 response_utterance.extend(closest_over)
 

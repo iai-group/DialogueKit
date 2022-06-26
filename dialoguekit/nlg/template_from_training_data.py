@@ -100,7 +100,9 @@ def extract_utterance_template(
                 annotated_utterance = AnnotatedUtterance(
                     text=utterance_record.get("utterance").strip(),
                     intent=Intent(utterance_record.get("intent")),
-                    satisfaction=3,  # Satisfaction defaults to 3 (Normal)
+                    metadata={
+                        satisfaction: 3
+                    },  # Satisfaction defaults to 3 (Normal)
                 )
                 annotated_utterance_copy = copy.deepcopy(annotated_utterance)
 
@@ -111,7 +113,9 @@ def extract_utterance_template(
                         and participant_utterance
                         and satisfaction_classifier
                     ):
-                        annotated_utterance._satisfaction = satisfaction
+                        annotated_utterance._metadata[
+                            "satisfaction"
+                        ] = satisfaction
                         counter_participant_utterance = None
                         participant_utterance = None
 

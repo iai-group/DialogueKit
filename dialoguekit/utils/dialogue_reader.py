@@ -29,7 +29,7 @@ def json_to_annotated_utterance(
         text=utterance_text,
         annotations=annotations,
         intent=intent,
-        satisfaction=satisfaction,
+        metadata={"satisfaction": satisfaction},
     )
 
 

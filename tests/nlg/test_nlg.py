@@ -83,7 +83,7 @@ def test_generate_utterance_text_with_satisfaction(nlg_class):
         intent=Intent("COMPLETE"), annotations=None, satisfaction=3
     )
 
-    assert test_response.satisfaction == 2
+    assert test_response.metadata.get("satisfaction") == 2
 
 
 def test_filter_templates(nlg_class):

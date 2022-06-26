@@ -184,4 +184,4 @@ def test_extract_utterance_template_with_satisfaction():
     )
 
     for annotated_utterance in templates[Intent("DISCLOSE")]:
-        assert 0 < annotated_utterance.satisfaction <= 4
+        assert 0 < annotated_utterance.metadata.get("satisfaction") <= 4
