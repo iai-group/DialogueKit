@@ -142,3 +142,9 @@ testing/*
 # rasa-parrot
 external_agents/rasa-parrot/models/*
 external_agents/rasa-parrot/.rasa/cache/*
+
+# DialogueKit Export
+dialogue_export
+
+# Read the docs build
+doc/_build
