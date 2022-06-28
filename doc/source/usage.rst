@@ -4,19 +4,27 @@ Usage
 Simple Example
 -------------
 
-1. Define agent and user
+In this example we will have a user that is terminal-based and an agent that
+only parrots back what the user said.
+
+1. Imports
 
 .. code-block:: python
 
-    from dialoguekit.core.utterance import Utterance
-    from dialoguekit.user.user import User, UserType
+    from dialoguekit.user.user import User
     from dialoguekit.agent.parrot_agent import ParrotAgent
+    from dialoguekit.platforms.platform import Platform
+    from dialoguekit.manager.dialogue_manager import DialogueManager
+
+2. Define agent and user
+
+.. code-block:: python
 
     # Participants
     agent = ParrotAgent("A01")
     user = User("U01")
 
-2. Create and connect platform and dialogue manager
+3. Create and connect platform and dialogue manager
 
 .. code-block:: python
 
@@ -26,7 +34,7 @@ Simple Example
     user.connect_dialogue_manager(dm)
     agent.connect_dialogue_manager(dm)
 
-3. Start conversation
+4. Start conversation
 
 .. code-block:: python
 
