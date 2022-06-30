@@ -4,44 +4,41 @@
 
 We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/master/python).
 
-Other important docs to read:
-
-- [Concepts](docs/concepts.md)
-- [NLU](docs/nlu.md)
-- [Rasa Wrapper](docs/rasa_component_library.md)
+DialogueKit is a library for conversational information access. It contains based classes for fundamental [concepts](docs/concepts.md), such as dialogue participants, dialogue management, [natural language understanding](docs/nlu.md), natural language generation, etc.
+Consult the documentation for details.
 
 ## Install as a package
 
 **Note:** *Packaging is still a work in progress and may not work perfectly.*
 
-DialogueKit is finally published to PyPI, install it by running:
+DialogueKit is published to PyPI, install it by running:
 
 ```shell
 pip install dialoguekit
 ```
 
-If you want to install a dialoguekit from a specific commit or straight from github this is still possible.
+If you want to install a DialogueKit from a specific commit or straight from github this is still possible.
 
 The command will install the latest version from the main branch.
 
-- On Windows you may need to run this command before pip installing
-  
-  ```shell
-  ssh -t git github.com    
-  ```
+  * On Windows you may need to run this command before pip installing
+    
+    ```shell
+    ssh -t git github.com    
+    ```
 
-- pip install
+  * pip install
 
-  ```shell
-  pip install git+ssh://git@github.com/iai-group/dialoguekit.git
-  ```
+    ```shell
+    pip install git+ssh://git@github.com/iai-group/dialoguekit.git
+    ```
 
 If you want to specify a specific commit as the source of the package append the commit hash to the end of the command separated with a "@".
 
-- Specific commit as the source of the package.
+  * Specific commit as the source of the package.
 
-  ```shell
-  pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275105cc1ca7698783719551c2
+    ```shell
+    pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275105cc1ca7698783719551c2
   ```
 
 ## Usage example
@@ -77,4 +74,4 @@ If you want to specify a specific commit as the source of the package append the
 
 ## Contributors
 
-Jafar Afzali, Krisztian Balog, Aleksander Drzewiecki and Shuo Zhang
+(Alphabetically ordered by last name) Jafar Afzali, Krisztian Balog, Aleksander Drzewiecki and Shuo Zhang
