@@ -32,3 +32,11 @@ def test_comparison():
 
     i4 = Intent("test2")
     assert i1 != i4
+
+
+def test_subintent():
+    i1 = Intent("test1")
+    i2 = Intent("test2", parent=i1)
+
+    assert i2.parent == i1
+    assert i1.children[0] == i2
