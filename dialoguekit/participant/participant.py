@@ -45,7 +45,7 @@ class Participant(ABC):
     def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
-        """This method is called each time there is a new utterance.
+        """Responds to the user with an AnnotatedUtterance.
 
         Args:
             utterance: The other Participant's Utterance.

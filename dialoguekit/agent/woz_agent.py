@@ -1,8 +1,7 @@
-"""WoZ Agent.
+"""Wizard-of-Oz (WoZ) agent.
 
-An Agent that is used for testing with different Users.
-Specifically if a User is actually a bot, it may be useful to test with the
-WoZ Agent.
+A WoZ agent is one that is controlled by a human operator. It can be especially
+useful for human-human data collection or for testing simulated users.
 """
 from typing import List, Optional
 from dialoguekit.core.intent import Intent
@@ -10,8 +9,8 @@ from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.agent.agent import Agent, AgentType
 
 
-class WozAgent(Agent):
-    """Represents an agent."""
+class WOZAgent(Agent):
+    """Represents a WoZ agent."""
 
     def __init__(
         self,
@@ -21,8 +20,9 @@ class WozAgent(Agent):
     ) -> None:
         """Initializes the agent.
 
-        If 'intent_recommendations' are provided the WozAgent will ask the
-        operator to declare which intent the response will have.
+        If 'intent_recommendations' are provided the WOZAgent will ask the
+        operator to explicitly declare the intent of the response, before
+        prompting for the text of the utterance.
 
         Args:
             id: Agent ID.
@@ -48,11 +48,12 @@ class WozAgent(Agent):
     def receive_user_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
-        """Respond the user with an AnnotatedUtterance.
+        """Responds to the user with an AnnotatedUtterance.
 
         If 'intent_recommendations' are provided the operator of the Agent will
         be asked to declare the response intent. It is possible to declare
-        another intent then on that is provided in the list by pressing ENTER.
+        another intent then the ones that are provided in the list by pressing
+        ENTER.
 
         Args:
             annotated_utterance: The users Utterance. Not used by this agent.
