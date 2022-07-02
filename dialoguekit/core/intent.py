@@ -12,7 +12,7 @@ class Intent:
 
         Args:
             label: Intent label.
-            parent
+            parent: The parent intent.
         """
         self._label = label
         self._parent = parent
@@ -46,15 +46,19 @@ class Intent:
 
     @property
     def label(self) -> str:
+        """Returns the Intent label."""
         return self._label
 
     @property
-    def parent(self) -> Any:
+    def parent(self) -> Union[Any, None]:
+        """Return the parent Intent."""
         return self._parent
 
     @property
     def children(self) -> List[Any]:
+        "Returns a list of child Intents."
         return self._children
 
     def _add_child_intent(self, child: Any) -> None:
+        """Add a child(sub) intent."""
         self._children.append(child)
