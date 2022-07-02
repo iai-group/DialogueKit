@@ -4,7 +4,7 @@
 
 We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/master/python).
 
-DialogueKit is a library for conversational information access. It contains based classes for fundamental [concepts](docs/concepts.md), such as dialogue participants, dialogue management, [natural language understanding](docs/nlu.md), natural language generation, etc.
+DialogueKit is a library for conversational information access. It contains based classes for fundamental [concepts](docs/concepts.md), such as dialogue participants, dialogue management, [natural language understanding](docs/nlu.md), natural language generation, etc. In addition to the fundamental concepts DialogueKit contains an evaluation module, for evaluating the performance of CIS systems.
 Consult the documentation for details.
 
 ## Install as a package
