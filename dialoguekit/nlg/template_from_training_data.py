@@ -12,6 +12,9 @@ from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifier,
 )
 
+# The default satisfaction level used for classifying the nlg template.
+_DEFAULT_SATISFACTION = 3
+
 
 def _replace_slot_with_placeholder(
     annotated_utterance: AnnotatedUtterance,
@@ -101,7 +104,7 @@ def extract_utterance_template(
                     text=utterance_record.get("utterance").strip(),
                     intent=Intent(utterance_record.get("intent")),
                     metadata={
-                        satisfaction: 3
+                        satisfaction: _DEFAULT_SATISFACTION
                     },  # Satisfaction defaults to 3 (Normal)
                 )
                 annotated_utterance_copy = copy.deepcopy(annotated_utterance)

@@ -11,7 +11,7 @@ from dialoguekit.core.intent import Intent
 from dialoguekit.utils.annotation_converter import AnnotationConverter
 
 
-# Used for yaml formating
+# Used for yaml formatting
 class LiteralString(str):
     pass
 
@@ -26,7 +26,7 @@ class AnnotationConverterRasa(AnnotationConverter):
         self._data = {}
 
     def rasa_string(self, v: List[str]) -> str:
-        formated_string = LiteralString(
+        formatted_string = LiteralString(
             "".join(
                 [
                     "- " + s.strip() + "\n"
@@ -36,7 +36,7 @@ class AnnotationConverterRasa(AnnotationConverter):
                 ]
             )
         )
-        return formated_string
+        return formatted_string
 
     def change_style(self, style: str, representer: ScalarNode):
         """Used to change the python yaml data representation
@@ -53,6 +53,11 @@ class AnnotationConverterRasa(AnnotationConverter):
 
         return new_representer
 
+    def _remove_whitespace(self, utterance_text: str) -> str:
+        utterance_text = utterance_text.strip()
+        utterance_text = utterance_text.replace("\n", " ")
+        return utterance_text
+
     def read_original(self) -> None:
         f = open(self._filepath)
         data = json.load(f)
@@ -62,8 +67,7 @@ class AnnotationConverterRasa(AnnotationConverter):
             for turn in conversation["conversation"]:
                 intent = turn.get("intent", None)
                 slot_values = turn.get("slot_values", [])
-                utterance = turn.get("utterance", "").strip()
-                utterance = utterance.replace("\n", " ")
+                utterance = self._remove_whitespace(turn.get("utterance", ""))
 
                 if len(slot_values) > 0:
                     turn["utterance_annotated"] = utterance
@@ -102,11 +106,11 @@ class AnnotationConverterRasa(AnnotationConverter):
         }
 
     def run(self) -> Dict[str, str]:
-        """Generates 4 coversions of DialogueKit to Rasa compatible files.
+        """Generates 4 conversions of DialogueKit to Rasa compatible files.
 
         The generated files are saved in the self._save_to_path.
 
-        Genereted files:
+        Generated files:
             1. <originalname>_reformat.yaml
                 The original file saved as a yaml
 
@@ -139,16 +143,16 @@ class AnnotationConverterRasa(AnnotationConverter):
         save_name_base = self._filepath.split("/")[-1].split(".")[-2]
 
         # Save original as yaml
-        extention = "_reformat.yaml"
-        filename = save_name_base + extention
-        return_dictionary[filename] = save_path_name + extention
+        extension = "_reformat.yaml"
+        filename = save_name_base + extension
+        return_dictionary[filename] = save_path_name + extension
         with open(return_dictionary[filename], "w") as outfile:
             yaml.dump(self._data["original"], outfile, default_flow_style=False)
 
         # Save the intent types with examples
-        extention = "_types_w_examples.yaml"
-        filename = save_name_base + extention
-        return_dictionary[filename] = save_path_name + extention
+        extension = "_types_w_examples.yaml"
+        filename = save_name_base + extension
+        return_dictionary[filename] = save_path_name + extension
         with open(return_dictionary[filename], "w") as outfile:
             yaml.dump(self._slot_value_pairs, outfile, default_flow_style=False)
 
@@ -177,23 +181,23 @@ class AnnotationConverterRasa(AnnotationConverter):
         rasa_dict_user = {"version": "3.0", "nlu": []}
         rasa_dict_agent = {"version": "3.0", "nlu": []}
         for k, v in self._intent_examples["USER"].items():
-            formated_dict = {"intent": k, "examples": self.rasa_string(v)}
-            rasa_dict_user["nlu"].append(formated_dict)
+            formatted_dict = {"intent": k, "examples": self.rasa_string(v)}
+            rasa_dict_user["nlu"].append(formatted_dict)
 
         for k, v in self._intent_examples["AGENT"].items():
-            formated_dict = {"intent": k, "examples": self.rasa_string(v)}
-            rasa_dict_agent["nlu"].append(formated_dict)
+            formatted_dict = {"intent": k, "examples": self.rasa_string(v)}
+            rasa_dict_agent["nlu"].append(formatted_dict)
 
         # Save rasa compatible format
-        extention = "_rasa_user.yaml"
-        filename = save_name_base + extention
-        return_dictionary[filename] = save_path_name + extention
+        extension = "_rasa_user.yaml"
+        filename = save_name_base + extension
+        return_dictionary[filename] = save_path_name + extension
         with open(return_dictionary[filename], "w") as outfile:
             yaml.dump(rasa_dict_user, outfile, default_flow_style=False)
 
-        extention = "_rasa_agent.yaml"
-        filename = save_name_base + extention
-        return_dictionary[filename] = save_path_name + extention
+        extension = "_rasa_agent.yaml"
+        filename = save_name_base + extension
+        return_dictionary[filename] = save_path_name + extension
         with open(return_dictionary[filename], "w") as outfile:
             yaml.dump(rasa_dict_agent, outfile, default_flow_style=False)
 
@@ -205,11 +209,11 @@ class AnnotationConverterRasa(AnnotationConverter):
 
         rasa_dict = {"version": "3.0", "nlu": []}
         for u, i in zip(utterances, intents):
-            formated_dict = {
+            formatted_dict = {
                 "intent": i.label,
                 "examples": self.rasa_string([u.text]),
             }
-            rasa_dict["nlu"].append(formated_dict)
+            rasa_dict["nlu"].append(formatted_dict)
 
         represent_literal_list = self.change_style(
             "|", SafeRepresenter.represent_str

@@ -23,16 +23,16 @@ class Participant(ABC):
             agent_id: Agent ID.
             agent_type: Agent type (default: BOT).
         """
-        self.__id = id
+        self._id = id
         self._type = type
         self._dialogue_manager = None
 
     @property
     def id(self):
-        return self.__id
+        return self._id
 
     def to_dict(self) -> Dict[str, str]:
-        return {"id": str(self.__id), "type": str(self._type.name)}
+        return {"id": str(self._id), "type": str(self._type.name)}
 
     def connect_dialogue_manager(
         self, dialogue_manager: DialogueManager

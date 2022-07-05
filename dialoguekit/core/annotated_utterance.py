@@ -26,7 +26,7 @@ class AnnotatedUtterance(Utterance):
             text: Utterance text.
             intent: The intent of the utterance.
             annotations: Annotations of the Utterance text.
-            metadata: Dict with optional parameters (satisfaction etc.).
+            metadata: Dict with optional attributes (satisfaction etc.).
         """
 
         super().__init__(text=text)

@@ -12,7 +12,9 @@ setuptools.setup(
     author="Jafar Afzali, Krisztian Balog, Aleksander Drzewiecki \
         and Shuo Zhang",
     author_email="author@example.com",
-    description="Framework for building an evaluating CIS systems.",
+    description=(
+        "Toolkit for building conversational information access systems."
+    ),
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/iai-group/dialoguekit",

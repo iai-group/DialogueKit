@@ -14,6 +14,9 @@ class NLU:
         self, intent_classifier: IntentClassifier, slot_annotators: List[Any]
     ) -> None:
         """Initializes the NLU component."""
+        # TODO: SlotAnnotator interface that slot_annotators should implement.
+        # Type for slot_annotators would be List[SlotAnnotator].
+        # Issue: https://github.com/iai-group/dialoguekit/issues/112
         self.__intent_classifier = intent_classifier
         self.__slot_annotators = slot_annotators
 

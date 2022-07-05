@@ -2,7 +2,7 @@
 
 As of know we do not have a real integration test before publishing *DialogueKit*. Our current guidelines are as follows.
 
-* Build
+  * Build
 
     ```shell
     python -m build
@@ -10,7 +10,7 @@ As of know we do not have a real integration test before publishing *DialogueKit
 
     This will create a *wheel* and a *tar* for publishing under dist/*
 
-* Test publishing
+  * Test publishing
 
     ```shell
     python -m twine upload --repository testpypi dist/*
@@ -18,7 +18,7 @@ As of know we do not have a real integration test before publishing *DialogueKit
 
     Publishes to test-pypi.
 
-* Create a testing conda environment
+  * Create a testing conda environment
 
     ```shell
     conda create --name dk_test python=3.7.12
@@ -34,7 +34,7 @@ As of know we do not have a real integration test before publishing *DialogueKit
     This will install dialoguekit from test-pypi.
     Using this environment run the tests in the main repository.
 
-* Publish to PyPI
+  * Publish to PyPI
 
     ```shell
     python -m twine upload --repository pypi dist/*

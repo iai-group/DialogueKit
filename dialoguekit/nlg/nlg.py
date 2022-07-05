@@ -1,7 +1,9 @@
+import sys
 import random
 import json
 from typing import List, Optional, Union, Dict
 from copy import deepcopy
+from collections import defaultdict
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
@@ -28,7 +30,7 @@ class NLG:
         participant_to_learn: str = "USER",
         satisfaction_classifier: Union[None, SatisfactionClassifier] = None,
     ) -> None:
-        """Generates template from IAI MovieBot JSON format."""
+        """Generates template from DialogueKit dialogue JSON format."""
         self._response_templates = extract_utterance_template(
             annotated_dialogue_file=template_file,
             participant_to_learn=participant_to_learn,
@@ -111,8 +113,7 @@ class NLG:
             response_utterance = self._select_closest_to_satisfaction(
                 templates, satisfaction
             )
-
-        if satisfaction is None:
+        else:
             response_utterance = random.choice(templates)
             response_utterance = deepcopy(response_utterance)
 
@@ -128,7 +129,7 @@ class NLG:
         return response_utterance
 
     def dump_template(self, filepath: str) -> None:
-        """Dump template to json"""
+        """Dump template to JSON."""
         dump_dict = {}
         for intent, utterances in self._response_templates.items():
             dump_dict[intent.label] = [
@@ -147,16 +148,18 @@ class NLG:
         """Filters available templates based on annotations.
 
         The list of annotations is used to filter the templates in such a way,
-        that only the templates that are possible to create are returned.
+        that only the templates that are possible to instantiate given these
+        annotations are returned.
         If a template does not contain any annotations it will remain in the
-        list of available templates. As long as 'force_annotations' is False.
-        If its 'True' these will also be filtered out.
+        list of available templates.Templates that do not contain any
+        annotations will not be removed, as long as 'force_annotations' is set
+        to False. If its 'True' these will also be filtered out.
 
         Args:
             templates: Template annotated utterance.
             annotations: List of annotations to be used for filtering.
             force_annotation: If 'True' and annotations are provided templates
-                                without annotations will also be filtered out.
+                without annotations will also be filtered out.
 
         Returns:
             List of annotated utterances that are possible to create with the
@@ -183,7 +186,7 @@ class NLG:
 
     def _select_closest_to_satisfaction(
         self, templates: List[AnnotatedUtterance], satisfaction: int
-    ):
+    ) -> AnnotatedUtterance:
         """Find the closest annotated utterance based on satisfaction.
 
         If there are multiple possible options a random one will be selected.
@@ -199,44 +202,15 @@ class NLG:
             templates, key=lambda item: item.metadata.get("satisfaction")
         )
 
-        closest_under = templates[0]
-        closest_over = templates[-1]
-        response_utterance = []
+        distances = defaultdict(list)
         for annotated_utterance in templates:
-            if annotated_utterance.metadata.get("satisfaction") == satisfaction:
-                response_utterance.append(annotated_utterance)
-                break
-            if annotated_utterance.metadata.get("satisfaction") < satisfaction:
-                closest_under = annotated_utterance
-            if annotated_utterance.metadata.get("satisfaction") > satisfaction:
-                closest_over = annotated_utterance
-                break
-
-        if len(response_utterance) == 0:
-            distance_down = abs(
-                closest_under.metadata.get("satisfaction") - satisfaction
+            dist = abs(
+                annotated_utterance.metadata.get("satisfaction") - satisfaction
             )
-            distance_up = abs(
-                closest_over.metadata.get("satisfaction") - satisfaction
-            )
-            if distance_down <= distance_up:
-                closest_under = [
-                    template
-                    for template in templates
-                    if template.metadata.get("satisfaction")
-                    == closest_under.metadata.get("satisfaction")
-                ]
-                response_utterance.extend(closest_under)
-            else:
-                closest_over = [
-                    template
-                    for template in templates
-                    if template.metadata.get("satisfaction")
-                    == closest_over.metadata.get("satisfaction")
-                ]
-                response_utterance.extend(closest_over)
+            distances[dist].append(annotated_utterance)
 
-        return deepcopy(random.choice(response_utterance))
+        lowest_distance = sorted(list(distances.keys()))[0]
+        return deepcopy(random.choice(distances[lowest_distance]))
 
     def get_intent_annotation_specifications(
         self,
@@ -256,7 +230,7 @@ class NLG:
             }
         }
 
-        This is useful if you want to look into which options the nlg has for a
+        This is useful if you want to look into which options the NLG has for a
         specific Intent and which annotations are needed.
 
         Args:
@@ -269,19 +243,23 @@ class NLG:
         if templates is None:
             raise TypeError(f"Intent: {intent}, is not part of the template")
 
-        min_annotations = {"amount": 1000, "examples": []}
+        min_annotations = {"amount": sys.maxsize, "examples": []}
         max_annotations = {"amount": 0, "examples": []}
-        for template in templates:
-            if len(template.get_annotations()) > max_annotations.get("amount"):
-                max_annotations["amount"] = len(template.get_annotations())
-                max_annotations["examples"].append(template)
-            if len(template.get_annotations()) < min_annotations.get("amount"):
-                min_annotations["amount"] = len(template.get_annotations())
-                min_annotations["examples"].append(template)
 
-            if len(template.get_annotations()) == max_annotations.get("amount"):
-                max_annotations["examples"].append(template)
-            if len(template.get_annotations()) == min_annotations.get("amount"):
-                min_annotations["examples"].append(template)
+        template_lengths = [
+            len(template.get_annotations()) for template in templates
+        ]
+        max_annotations["amount"] = max(template_lengths)
+        min_annotations["amount"] = min(template_lengths)
+        max_annotations["examples"] = [
+            templates[i]
+            for i, _ in enumerate(template_lengths)
+            if template_lengths[i] == max_annotations["amount"]
+        ]
+        min_annotations["examples"] = [
+            templates[i]
+            for i, _ in enumerate(template_lengths)
+            if template_lengths[i] == min_annotations["amount"]
+        ]
 
         return {"min": min_annotations, "max": max_annotations}
