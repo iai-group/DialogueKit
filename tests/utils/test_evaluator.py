@@ -14,20 +14,36 @@ def dialogues():
     return export_dialogues
 
 
-def test_init():
-    Evaluator(dialogue_history=dialogues)
+@pytest.fixture
+def reward_config():
+    _REWARD_CONFIG = {
+        "full_set_points": 20,
+        "intents": {
+            "DISCLOSE": 4,
+            "REVEAL.REFINE": 4,
+            "INQUIRE": 4,
+            "NAVIGATE": 4,
+        },
+        "repeat_penalty": 1,
+        "cost": 1,
+    }
+    return _REWARD_CONFIG
 
 
-def test_avg_turns(dialogues):
-    ev = Evaluator(dialogue_history=dialogues)
+def test_init(dialogues, reward_config):
+    Evaluator(dialogue_history=dialogues, reward_config=reward_config)
+
+
+def test_avg_turns(dialogues, reward_config):
+    ev = Evaluator(dialogue_history=dialogues, reward_config=reward_config)
     avg_turns = ev.avg_turns(dialogue_history=dialogues)
     assert avg_turns == pytest.approx(19.66, 0.1)
     avg_turns2 = ev.avg_turns(dialogue_history=dialogues)
     assert avg_turns2 == pytest.approx(19.66, 0.1)
 
 
-def test_user_act_ratio(dialogues):
-    ev = Evaluator(dialogue_history=dialogues)
+def test_user_act_ratio(dialogues, reward_config):
+    ev = Evaluator(dialogue_history=dialogues, reward_config=reward_config)
     stats = ev.user_act_ratio(dialogue_history=dialogues)
 
     assert stats
@@ -36,8 +52,8 @@ def test_user_act_ratio(dialogues):
     assert stats.get("USER/AGENT") == pytest.approx(0.84, 0.1)
 
 
-def test_reward(dialogues):
-    ev = Evaluator(dialogue_history=dialogues)
+def test_reward(dialogues, reward_config):
+    ev = Evaluator(dialogue_history=dialogues, reward_config=reward_config)
     rewards = ev.reward(dialogue_history=dialogues)
     assert len(rewards["dialogues"]) == len(dialogues)
     for reward in rewards["dialogues"]:

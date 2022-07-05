@@ -10,27 +10,22 @@ from dialoguekit.core.intent import Intent
 #     SatisfactionClassifier,
 # )
 
-_REWARD_CONFIG = {
-    "full_set_points": 20,
-    "intents": {
-        "DISCLOSE": 4,
-        "REVEAL.REFINE": 4,
-        "INQUIRE": 4,
-        "NAVIGATE": 4,
-    },
-    "repeat_penalty": 1,
-    "cost": 1,
-}
-
 
 class Evaluator:
     def __init__(
-        self, dialogue_history: Union[List[Dialogue], Dialogue]
+        self,
+        dialogue_history: Union[List[Dialogue], Dialogue],
+        reward_config: Dict[str, Union[int, Dict[str, int]]],
     ) -> None:
         if isinstance(dialogue_history, Dialogue):
             dialogue_history = [dialogue_history]
         self.dialogues = dialogue_history
         self.dialogue_lengths = []
+        self.reward_config = reward_config
+        assert "full_set_points" in self.reward_config
+        assert "intents" in self.reward_config
+        assert "repeat_penalty" in self.reward_config
+        assert "cost" in self.reward_config
 
     def avg_turns(self, dialogue_history: Optional[List[Dialogue]]) -> float:
         """Calculates the AvgTurns for the dialogues
@@ -96,7 +91,6 @@ class Evaluator:
     def reward(
         self,
         dialogue_history: Optional[List[Dialogue]],
-        config: Optional[Dict[str, Union[int, float]]] = None,
     ) -> List[Union[int, float]]:
         """Computes reward for the dialogues.
 
@@ -105,16 +99,12 @@ class Evaluator:
             config: dictionary with reward mappings, e.g., _REWARD_CONFIG.
         """
         warnings.warn("This function does not yet penalize 'Repeat' actions")
-
-        if config is None:
-            config = _REWARD_CONFIG
-
         if dialogue_history is None:
             dialogue_history = self.dialogues
 
         # Initialize result by checking which intents are included
         results = self._check_included_intents(
-            config=config, dialogue_history=dialogue_history
+            dialogue_history=dialogue_history
         )
 
         # * Check for Repeats
@@ -151,7 +141,7 @@ class Evaluator:
 
         # * Calculate USER/AGENT ratios.
         results = self._user_agent_ratio(
-            results=results, config=config, dialogue_history=dialogue_history
+            results=results, dialogue_history=dialogue_history
         )
 
         for results_dialogue in results["dialogues"]:
@@ -162,7 +152,6 @@ class Evaluator:
     def _user_agent_ratio(
         self,
         dialogue_history: Optional[List[Dialogue]],
-        config: Optional[Dict[str, Any]],
         results: Dict[str, Any],
     ) -> Dict[str, Any]:
         """Computes number of user turns and reward across a list of dialogues.
@@ -172,10 +161,6 @@ class Evaluator:
             config: dictionary with reward mappings, e.g., _REWARD_CONFIG.
             results: dictionary to hold measured metrics.
         """
-
-        if config is None:
-            config = _REWARD_CONFIG
-
         if dialogue_history is None:
             dialogue_history = self.dialogues
 
@@ -186,15 +171,13 @@ class Evaluator:
                 if utterance["sender"] == DialogueParticipant.USER
             )
             results["dialogues"][i]["user_turns"] = num_user_acts
-            results["dialogues"][i]["reward"] -= num_user_acts * config.get(
-                "cost"
-            )
+            results["dialogues"][i][
+                "reward"
+            ] -= num_user_acts * self.reward_config.get("cost")
         return results
 
     def _check_included_intents(
-        self,
-        dialogue_history: List[Dialogue],
-        config: Dict[str, Any],
+        self, dialogue_history: List[Dialogue]
     ) -> Dict[str, Any]:
         """Sets initial reward for dialogues by checking which intents are
         supported.
@@ -204,10 +187,6 @@ class Evaluator:
             config: dictionary with reward mappings, e.g., _REWARD_CONFIG.
             results: dictionary to hold measured metrics.
         """
-
-        if config is None:
-            config = _REWARD_CONFIG
-
         if dialogue_history is None:
             dialogue_history = self.dialogues
 
@@ -215,7 +194,7 @@ class Evaluator:
             "missing_intents": [],
             "dialogues": [
                 {
-                    "reward": config["full_set_points"],
+                    "reward": self.reward_config["full_set_points"],
                     "user_turns": 0,
                     "repeats": 0,
                 }
@@ -224,7 +203,7 @@ class Evaluator:
         }
 
         dialogue_intents = []
-        reward = config["full_set_points"]
+        reward = self.reward_config["full_set_points"]
         for dialogue in dialogue_history:
             for ut in dialogue.utterances:
                 if ut["sender"] == DialogueParticipant.USER:
@@ -235,7 +214,7 @@ class Evaluator:
 
         dialogue_intents_set = set(dialogue_intents)
 
-        for intent_str, penalty in config.get("intents").items():
+        for intent_str, penalty in self.reward_config.get("intents").items():
             if Intent(intent_str) not in dialogue_intents_set:
                 reward -= penalty
                 results["missing_intents"].append(Intent(intent_str))
