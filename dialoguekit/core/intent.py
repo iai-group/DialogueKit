@@ -17,7 +17,7 @@ class Intent:
         self._label = label
         self._main_intent = main_intent
         if self._main_intent:
-            self._main_intent._add_sub_intent(self)
+            self._main_intent._add_sub_intent(sub_intent=self)
 
         self._sub_intents = []
 
@@ -59,6 +59,14 @@ class Intent:
         "Returns a list of child Intents."
         return self._sub_intents
 
-    def _add_sub_intent(self, child: Any) -> None:
+    @property
+    def is_main_intent(self) -> bool:
+        return True if self.main_intent is None else False
+
+    @property
+    def has_sub_intents(self) -> bool:
+        return True if self.sub_intents else False
+
+    def _add_sub_intent(self, sub_intent: Any) -> None:
         """Add a child(sub) intent."""
-        self._sub_intents.append(child)
+        self._sub_intents.append(sub_intent)
