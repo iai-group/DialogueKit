@@ -16,24 +16,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.7.12
-      - name: pwd
-        run: |
-          pwd
-      - name: ls
-        run: |
-          ls
-      - name: cd ..
-        run: |
-          cd ..
-      - name: pwd
-        run: |
-          pwd
-      - name: ls
-        run: |
-          ls
       - name: Installing the Documentation requirements
         run: |
-          pip3 install .[docs]
+          pip3 install -r requirements/docs_requirements.txt
       - name: Installing the library
         shell: bash -l {0}
         run: |
