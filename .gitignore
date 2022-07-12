@@ -147,4 +147,4 @@ external_agents/rasa-parrot/.rasa/cache/*
 dialogue_export
 
 # Read the docs build
-doc/_build
+docs/source/_build
