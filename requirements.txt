@@ -6,3 +6,4 @@ sklearn >= 0.24
 rasa == 3.0.8
 sphinx-autoapi
 sphinx_rtd_theme
+myst-parser
