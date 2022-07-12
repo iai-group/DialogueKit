@@ -6,20 +6,20 @@ from typing import Text, Optional, Any, Union, List
 
 class Intent:
     def __init__(
-        self, label: str, parent: Optional[Union[None, Any]] = None
+        self, label: str, main_intent: Optional[Union[None, Any]] = None
     ) -> None:
         """Initializes the intent.
 
         Args:
             label: Intent label.
-            parent: The parent intent.
+            main_intent: The main_intent intent.
         """
         self._label = label
-        self._parent = parent
-        if self._parent:
-            self._parent._add_child_intent(self)
+        self._main_intent = main_intent
+        if self._main_intent:
+            self._main_intent._add_sub_intent(self)
 
-        self._children = []
+        self._sub_intents = []
 
     def __str__(self) -> Text:
         return self._label
@@ -36,11 +36,11 @@ class Intent:
             return False
         if self._label != __o._label:
             return False
-        if self._parent != __o._parent:
+        if self._main_intent != __o._main_intent:
             return False
-        if len(self._children) != len(__o.children):
+        if len(self._sub_intents) != len(__o.sub_intents):
             return False
-        if len(set(self._children) - set(__o.children)) != 0:
+        if len(set(self._sub_intents) - set(__o.sub_intents)) != 0:
             return False
         return True
 
@@ -50,15 +50,15 @@ class Intent:
         return self._label
 
     @property
-    def parent(self) -> Union[Any, None]:
-        """Return the parent Intent."""
-        return self._parent
+    def main_intent(self) -> Union[Any, None]:
+        """Returns the main_intent Intent."""
+        return self._main_intent
 
     @property
-    def children(self) -> List[Any]:
+    def sub_intents(self) -> List[Any]:
         "Returns a list of child Intents."
-        return self._children
+        return self._sub_intents
 
-    def _add_child_intent(self, child: Any) -> None:
+    def _add_sub_intent(self, child: Any) -> None:
         """Add a child(sub) intent."""
-        self._children.append(child)
+        self._sub_intents.append(child)

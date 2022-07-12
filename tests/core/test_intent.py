@@ -36,7 +36,10 @@ def test_comparison():
 
 def test_subintent():
     i1 = Intent("test1")
-    i2 = Intent("test2", parent=i1)
+    i2 = Intent("test2", main_intent=i1)
 
-    assert i2.parent == i1
-    assert i1.children[0] == i2
+    assert i2.main_intent == i1
+    assert i1.sub_intents[0] == i2
+    assert len(i1.sub_intents) == 1
+    assert len(i2.sub_intents) == 0
+    assert i1.main_intent is None
