@@ -19,6 +19,18 @@ jobs:
       - name: pwd
         run: |
           pwd
+      - name: ls
+        run: |
+          ls
+      - name: cd ..
+        run: |
+          cd ..
+      - name: pwd
+        run: |
+          pwd
+      - name: ls
+        run: |
+          ls
       - name: Installing the Documentation requirements
         run: |
           pip3 install .[docs]
