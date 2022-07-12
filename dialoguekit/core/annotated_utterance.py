@@ -1,7 +1,6 @@
 """Interface extending utterances with annotations."""
 
-from typing import List, Optional, Text, Union
-
+from typing import List, Dict, Any, Optional, Union
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
@@ -14,7 +13,8 @@ class AnnotatedUtterance(Utterance):
         self,
         text: str,
         intent: Optional[Intent] = None,
-        annotations: Optional[List] = None,
+        annotations: Optional[List[Annotation]] = None,
+        metadata: Optional[Dict[str, Any]] = None,
     ) -> None:
         """Initializes an AnnotatedUtterance.
 
@@ -26,6 +26,7 @@ class AnnotatedUtterance(Utterance):
             text: Utterance text.
             intent: The intent of the utterance.
             annotations: Annotations of the Utterance text.
+            metadata: Dict with optional attributes (satisfaction etc.).
         """
 
         super().__init__(text=text)
@@ -33,11 +34,12 @@ class AnnotatedUtterance(Utterance):
         self._annotations = []
         if annotations:
             self._annotations.extend(annotations)
+        self._metadata = metadata if metadata else {}
 
-    def __str__(self) -> Text:
+    def __str__(self) -> str:
         return self._text
 
-    def __repr__(self) -> Text:
+    def __repr__(self) -> str:
         return f"AnnotatedUtterance({self._text})"
 
     def __hash__(self) -> int:
@@ -74,6 +76,10 @@ class AnnotatedUtterance(Utterance):
     @property
     def utterance(self) -> Utterance:
         return Utterance(self.text)
+
+    @property
+    def metadata(self) -> Dict[str, Any]:
+        return self._metadata
 
     def add_annotation(
         self, annotation: Union[Annotation, List[Annotation]]

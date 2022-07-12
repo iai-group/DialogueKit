@@ -14,7 +14,7 @@ server with the right configuration.
 """
 
 import requests
-from dialoguekit.agent.agent import Agent
+from dialoguekit.agent.agent import Agent, AgentType
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
 
@@ -35,7 +35,7 @@ class MovieBotAgent(Agent):
             agent_id: Agent id.
             uri: MovieBot server address.
         """
-        super().__init__(agent_id)
+        super().__init__(agent_id, type=AgentType.BOT)
         self._MOVIEBOT_URI = _MOVIEBOT_DEFAULT_URI
 
     def welcome(self) -> None:

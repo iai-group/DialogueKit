@@ -8,6 +8,9 @@ from dialoguekit.nlg.template_from_training_data import (
     build_template_from_instances,
     _replace_slot_with_placeholder,
 )
+from dialoguekit.nlu.models.satisfaction_classifier import (
+    SatisfactionClassifierSVM,
+)
 
 
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
@@ -168,6 +171,17 @@ def test_extract_utterance_template():
     test_annotation = AnnotatedUtterance(
         text="something like the {TITLE}",
         intent=Intent(label="REVEAL.EXPAND"),
+        annotations=[Annotation(slot="TITLE", value="")],
     )
 
     assert templates.get(Intent("REVEAL.EXPAND")) == [test_annotation]
+
+
+def test_extract_utterance_template_with_satisfaction():
+    templates = extract_utterance_template(
+        ANNOTATED_DIALOGUE_FILE,
+        satisfaction_classifier=SatisfactionClassifierSVM(),
+    )
+
+    for annotated_utterance in templates[Intent("DISCLOSE")]:
+        assert 0 < annotated_utterance.metadata.get("satisfaction") <= 4
