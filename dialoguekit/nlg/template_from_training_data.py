@@ -12,7 +12,7 @@ from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifier,
 )
 
-# The default satisfaction level used for classifying the nlg template.
+# The default satisfaction level used for classifying the NLG template.
 _DEFAULT_SATISFACTION = 3
 
 

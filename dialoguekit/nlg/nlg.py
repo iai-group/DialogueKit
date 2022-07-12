@@ -151,7 +151,7 @@ class NLG:
         that only the templates that are possible to instantiate given these
         annotations are returned.
         If a template does not contain any annotations it will remain in the
-        list of available templates.Templates that do not contain any
+        list of available templates. Templates that do not contain any
         annotations will not be removed, as long as 'force_annotations' is set
         to False. If its 'True' these will also be filtered out.
 
