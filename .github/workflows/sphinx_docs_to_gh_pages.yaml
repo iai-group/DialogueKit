@@ -12,6 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Sphinx docs to gh-pages
     steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+        with:
+          ref: documentation/#98-read-the-docs
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
