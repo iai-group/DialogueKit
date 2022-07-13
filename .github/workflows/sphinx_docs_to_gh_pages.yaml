@@ -27,8 +27,8 @@ jobs:
         shell: bash -l {0}
         run: |
           pip install .
-      - name: Running the Sphinx to gh-pages Action
-        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.0.0
+      - name: Sphinx docs to GitHub Pages
+        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.1.0-beta
         with:
           branch: documentation/#98-read-the-docs
           dir_docs: docs
