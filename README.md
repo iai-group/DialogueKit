@@ -4,6 +4,8 @@
 
 We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/master/python).
 
+Documentation can be seen [here.](https://iai-group.github.io/dialoguekit/)
+
 ## Install as a package
 
 **Note:** *Packaging is still a work in progress and may not work perfectly.*
