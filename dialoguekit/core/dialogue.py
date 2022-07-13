@@ -24,44 +24,45 @@ class Dialogue:
             agent_id: Agent ID.
             user_id: User ID.
         """
-        self.__agent_id = agent_id
-        self.__user_id = user_id
-        self.__utterances = []
+        self._agent_id = agent_id
+        self._user_id = user_id
+        self._utterances = []
+        self._metadata = {}
 
     def __str__(self) -> Text:
-        return f"Dialogue(agent_id={self.__agent_id}, user_id={self.__user_id})"
+        return f"Dialogue(agent_id={self._agent_id}, user_id={self._user_id})"
 
     def __repr__(self) -> Text:
-        return f"Dialogue(agent_id={self.__agent_id}, user_id={self.__user_id})"
+        return f"Dialogue(agent_id={self._agent_id}, user_id={self._user_id})"
 
-    def __eq__(self, __o: object) -> bool:
-        if not isinstance(__o, Dialogue):
+    def __eq__(self, _o: object) -> bool:
+        if not isinstance(_o, Dialogue):
             return False
-        if self.__agent_id != __o.__agent_id:
+        if self._agent_id != _o._agent_id:
             return False
-        if self.__user_id != __o.__user_id:
+        if self._user_id != _o._user_id:
             return False
-        if len(self.__utterances) != len(__o.__utterances):
+        if len(self._utterances) != len(_o._utterances):
             return False
-        for annotation in self.__utterances:
-            if annotation not in __o.__utterances:
+        for annotation in self._utterances:
+            if annotation not in _o._utterances:
                 return False
 
         return True
 
     @property
     def agent_id(self) -> str:
-        return self.__agent_id
+        return self._agent_id
 
     @property
     def user_id(self) -> str:
-        return self.__user_id
+        return self._user_id
 
     @property
     def utterances(self) -> List[Dict]:
-        return self.__utterances
+        return self._utterances
 
-    def __add_utterance(
+    def _add_utterance(
         self, sender: DialogueParticipant, utterance: Utterance
     ) -> None:
         """Adds an utterance to the history.
@@ -70,7 +71,7 @@ class Dialogue:
             sender: Sender of the utterance (AGENT or USER).
             utterance: An instance of Utterance.
         """
-        self.__utterances.append(
+        self._utterances.append(
             {
                 "sender": sender,
                 "timestamp": datetime.now(),
@@ -84,7 +85,7 @@ class Dialogue:
         Args:
             utterance: An instance of utterance.
         """
-        self.__add_utterance(DialogueParticipant.AGENT, utterance)
+        self._add_utterance(DialogueParticipant.AGENT, utterance)
 
     def add_user_utterance(self, utterance: Utterance) -> None:
         """Adds a user utterance.
@@ -92,4 +93,4 @@ class Dialogue:
         Args:
             utterance: An instance of utterance.
         """
-        self.__add_utterance(DialogueParticipant.USER, utterance)
+        self._add_utterance(DialogueParticipant.USER, utterance)

@@ -3,18 +3,27 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/master/python).
-
 Documentation can be seen [here.](https://iai-group.github.io/dialoguekit/)
+
+DialogueKit is a library for conversational information access. It contains based classes for fundamental [concepts](docs/concepts.md), such as dialogue participants, dialogue management, [natural language understanding](docs/nlu.md), natural language generation, etc. In addition to the fundamental concepts DialogueKit contains an evaluation module, for evaluating the performance of CIS systems.
+Consult the documentation for details.
 
 ## Install as a package
 
 **Note:** *Packaging is still a work in progress and may not work perfectly.*
 
-As of now DialogueKit is not published as a package, but it is still possible to install it with pip.
+DialogueKit is published to PyPI, install it by running:
+
+```shell
+pip install dialoguekit
+```
+
+If you want to install a DialogueKit from a specific commit or straight from github this is still possible.
+
 The command will install the latest version from the main branch.
 
 * On Windows you may need to run this command before pip installing
-  
+
   ```shell
   ssh -t git github.com    
   ```
@@ -33,38 +42,7 @@ If you want to specify a specific commit as the source of the package append the
   pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275105cc1ca7698783719551c2
   ```
 
-## Main concepts
-
-* **Participant**
-  * Represents a participant in the conversation.
-  * **User** and **Agent** are Participants
-* **Agent**
-  * Represents a bot, with its own set of logic, **NLU** and **NLG**.
-* **User**
-  * Represents a human interacting. Has the simplest form of interaction, which are strings to and from the **Dialogue Manager**.
-* **Utterance**
-  * An **utterance** by an **Agent** or **User**. The utterance holds the participant utterance as clear text and can hold additionally to the intent and or annotation.
-* **Platform**
-  * The platform is the way the **Participants** communicate with each other. This can be native to DialogueKit or other forms as REST APIs or other methods.
-* **Dialogue Manager**
-  * Holds and orchestrates the conversation between the participants.
-* **Ontology**
-  * Defines the types of entities and the set of properties ("slots") for each entity type.
-* There are two types of annotations
-  * **Intent**: represents the dialogue action.
-  * **SlotValueAnnotation**: slot-value pairs, where a slot refers to an entity or a property in the **ontology**.
-* **User preferences**
-  * Preferences are expressed for specific slot-value pairs, where slots correspond to **entities** or properties in the **ontology**.
-
-### Concepts specific to item recommendation scenarios
-
-* Item: an entity with a unique ID, canonical name, and any number of properties (represented as property-value pairs, where properties correspond to ontology classes).
-* ItemCollection: a collection of items.
-* Ratings: explicit user preferences on items (normalized into [-1,1]).
-
-### Usage example
-
-**NOTE (TODO):** This usage example will shortly be outdated as of issue [#58.](https://github.com/iai-group/dialoguekit/issues/58)
+## Usage example
 
 1. Define agent and user
 
@@ -92,28 +70,9 @@ If you want to specify a specific commit as the source of the package append the
 
     ```python
       dm.start()
-
-      # Send in user utterance
-      dm.register_user_utterance(utterance = Utterance("Hi"))
-
       dm.close()
     ```
 
-### Natural Language Understanding (NLU)
-
-#### Intent Classification
-
-Thus far two different NLU pipelines are implemented for intent classification
-
-* [Cosine intent classifier](https://github.com/iai-group/dialoguekit/blob/main/dialoguekit/nlu/models/intent_classifier_cosine.py)
-* Rasa DIET classifier (TODO: Add link after merge)
-
-An explanation of the implementation of Rasa DIET classifier can be read [here](docs/rasa_component_library.md)
-
-#### Entity Extraction
-
-As of now only one implementation exists, the Rasa DIET classifier.
-
 ## Contributors
 
-Jafar Afzali, Krisztian Balog, Aleksander Drzewiecki and Shuo Zhang
+(Alphabetically ordered by last name) Jafar Afzali, Krisztian Balog, Aleksander Drzewiecki and Shuo Zhang

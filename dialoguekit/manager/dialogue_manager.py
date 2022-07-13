@@ -21,7 +21,7 @@ from dialoguekit.agent.agent import Agent
 from dialoguekit.user.user import User
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
-from dialoguekit.platform.platform import Platform
+from dialoguekit.platforms.platform import Platform
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
@@ -121,7 +121,7 @@ class DialogueManager:
     def _dump_dialogue_history(self):
         """Exports the dialogue history.
 
-        The exported files will named as 'AgentID_UserID.json'
+        The exported files will be named as 'AgentID_UserID.json'
 
         If the two participants have had a conversation previously, the new
         conversation will be appended to the same export document.
@@ -148,6 +148,8 @@ class DialogueManager:
         run_conversation = {
             "conversation ID": str(utc_time),
             "conversation": [],
+            "agent": self._agent.to_dict(),
+            "user": self._user.to_dict(),
         }
 
         for annotated_utterance in history.utterances:
@@ -165,6 +167,16 @@ class DialogueManager:
                     "utterance"
                 ).intent.label
 
+            if (
+                annotated_utterance.get("utterance").metadata.get(
+                    "satisfaction"
+                )
+                is not None
+            ):
+                utterance_info["satisfaction"] = annotated_utterance.get(
+                    "utterance"
+                ).metadata.get("satisfaction")
+
             annotations = annotated_utterance.get("utterance").get_annotations()
             if annotations:
                 slot_values = []
@@ -179,8 +191,8 @@ class DialogueManager:
             json.dump(json_file, outfile)
 
         # Empty dialogue history to avoid duplicate save
-        for _ in range(len(self.__dialogue_history.utterances)):
-            self.__dialogue_history.utterances.pop()
+        for _ in range(len(self._dialogue_history.utterances)):
+            self._dialogue_history.utterances.pop()
         # TODO: save dialogue history, subject to config parameters
 
 
@@ -189,6 +201,7 @@ if __name__ == "__main__":
     from dialoguekit.user.user import User
     from dialoguekit.agent.mathematics_agent import MathAgent
     from dialoguekit.agent.moviebot_agent import MovieBotAgent
+    from dialoguekit.agent.woz_agent import WOZAgent
     from dialoguekit.core.intent import Intent
 
     # Participants
@@ -198,6 +211,9 @@ if __name__ == "__main__":
         "UI01", intents=[Intent("START"), Intent("ANSWER"), Intent("COMPLETE")]
     )
     user = User(id="TEST01")
+    agent = WOZAgent(
+        id="WoZ", intent_recommendations=[Intent("EXIT"), Intent("RANDOM")]
+    )
 
     platform = Platform()
     dm = DialogueManager(agent, user, platform)

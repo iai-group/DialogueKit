@@ -10,7 +10,7 @@ from dialoguekit.core.utterance import Utterance
 
 
 # Dialogue history object to be shared across multiple test cases.
-@pytest.fixture
+@pytest.fixture(scope="module")
 def dialogue_history_1():
     agent_id = "agent-001"
     user_id = "USR01"

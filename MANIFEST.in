@@ -1,0 +1,2 @@
+include *.joblib
+recursive-include examples *.joblib *.py
