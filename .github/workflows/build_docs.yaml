@@ -28,7 +28,7 @@ jobs:
         run: |
           pip install .
       - name: Sphinx docs to GitHub Pages
-        uses: uibcdf/action-sphinx-docs-to-gh-pages@v1.1.0-beta
+        uses: .github/actions/build_docs/
         with:
           branch: documentation/#98-read-the-docs
           dir_docs: docs
