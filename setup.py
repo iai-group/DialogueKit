@@ -28,7 +28,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     python_requires=">=3.6",
     zip_safe=False,
-    install_requires=["rasa==3.0.8"],
+    install_requires=["rasa>=3.0"],
 )
 
 # package_dir={"": "src"},
