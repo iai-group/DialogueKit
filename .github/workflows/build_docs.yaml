@@ -31,7 +31,7 @@ jobs:
         uses: ./.github/actions/build_docs/
         with:
           branch: documentation/#98-read-the-docs
-          dir_docs: docs
+          dir_docs: docs/source
           sphinxapiopts: '--separate -o . ../'
           sphinxapiexclude: '../*setup* ../*.ipynb'
           sphinxopts: ''
