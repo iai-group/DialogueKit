@@ -1,6 +1,7 @@
 """Test cases for NLG."""
 import pytest
 import json
+from dialoguekit.participant.participant import DialogueParticipant
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
@@ -30,6 +31,8 @@ def test_generate_utterance_text(nlg_class):
     expected_response1 = AnnotatedUtterance(
         text="something like the A Test Movie Title",
         intent=Intent("REVEAL.EXPAND"),
+        participant=DialogueParticipant.AGENT,
+        metadata={2: 3, "satisfaction": 2},
     )
     expected_response1.add_annotation(
         Annotation(slot="TITLE", value="A Test Movie Title")

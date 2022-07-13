@@ -2,11 +2,9 @@
 
 import pytest
 
-from dialoguekit.core.dialogue import (
-    Dialogue,
-    DialogueParticipant,
-)
+from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.utterance import Utterance
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 # Dialogue history object to be shared across multiple test cases.
@@ -30,9 +28,13 @@ def dialogue_history_1():
     dialogue_history = Dialogue(agent_id, user_id)
     for sender, text in utterances:
         if sender == DialogueParticipant.AGENT:
-            dialogue_history.add_agent_utterance(Utterance(text))
+            dialogue_history.add_agent_utterance(
+                Utterance(text, participant=DialogueParticipant.AGENT)
+            )
         elif sender == DialogueParticipant.USER:
-            dialogue_history.add_user_utterance(Utterance(text))
+            dialogue_history.add_user_utterance(
+                Utterance(text, participant=DialogueParticipant.USER)
+            )
 
     return dialogue_history
 

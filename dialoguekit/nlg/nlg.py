@@ -4,6 +4,7 @@ import json
 from typing import List, Optional, Union, Dict
 from copy import deepcopy
 from collections import defaultdict
+from dialoguekit.participant.participant import DialogueParticipant
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
@@ -98,7 +99,9 @@ class NLG:
         # If desired 'intent' is not in the template, use fallback.
         if templates is None:
             return AnnotatedUtterance(
-                intent=intent, text="Sorry, I did not understand you."
+                intent=intent,
+                text="Sorry, I did not understand you.",
+                participant=DialogueParticipant.AGENT,
             )
         templates = self._filter_templates(
             templates=templates,

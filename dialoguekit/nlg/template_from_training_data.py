@@ -5,6 +5,7 @@ import os
 import json
 import copy
 from typing import Dict, List, Union, Optional
+from dialoguekit.participant.participant import DialogueParticipant
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
@@ -106,6 +107,7 @@ def extract_utterance_template(
                     metadata={
                         satisfaction: _DEFAULT_SATISFACTION
                     },  # Satisfaction defaults to 3 (Normal)
+                    participant=DialogueParticipant.AGENT,
                 )
                 annotated_utterance_copy = copy.deepcopy(annotated_utterance)
 

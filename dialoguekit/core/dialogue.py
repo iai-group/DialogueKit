@@ -1,17 +1,10 @@
 """Interface representing the sequence of utterances in a dialogue."""
 
 from datetime import datetime
-from enum import Enum
 from typing import Dict, List, Text
 
 from dialoguekit.core.utterance import Utterance
-
-
-class DialogueParticipant(Enum):
-    """Represents possible dialogue participants."""
-
-    AGENT = 0
-    USER = 1
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 class Dialogue:
