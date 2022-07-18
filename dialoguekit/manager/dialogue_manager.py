@@ -156,28 +156,19 @@ class DialogueManager:
             print(annotated_utterance)
 
             utterance_info = {
-                "participant": annotated_utterance.get("sender").name,
-                "utterance": annotated_utterance.get("utterance").text.replace(
-                    "\n", ""
-                ),
+                "participant": annotated_utterance.participant.name,
+                "utterance": annotated_utterance.text.replace("\n", ""),
             }
 
-            if annotated_utterance.get("utterance").intent is not None:
-                utterance_info["intent"] = annotated_utterance.get(
-                    "utterance"
-                ).intent.label
+            if annotated_utterance.intent is not None:
+                utterance_info["intent"] = annotated_utterance.intent.label
 
-            if (
-                annotated_utterance.get("utterance").metadata.get(
+            if annotated_utterance.metadata.get("satisfaction") is not None:
+                utterance_info[
                     "satisfaction"
-                )
-                is not None
-            ):
-                utterance_info["satisfaction"] = annotated_utterance.get(
-                    "utterance"
-                ).metadata.get("satisfaction")
+                ] = annotated_utterance.metadata.get("satisfaction")
 
-            annotations = annotated_utterance.get("utterance").get_annotations()
+            annotations = annotated_utterance.get_annotations()
             if annotations:
                 slot_values = []
                 for annotation in annotations:
