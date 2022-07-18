@@ -56,6 +56,9 @@ class Evaluator:
 
         AvgTurns reflects the average number of system-user turn pairs in a list
         of dialogues.
+
+        Returns:
+            The computed metric as a float value.
         """
         for dialogue in self.dialogues:
             dialogue_turns = 0
@@ -75,6 +78,9 @@ class Evaluator:
 
         UserActRatio per dialogue is computed as the ratio of user actions
         observed in the dialogue.
+
+        Returns:
+            A dictionary with participant and ActRatio as key-value pairs.
         """
 
         statistics = defaultdict(float)
@@ -99,11 +105,22 @@ class Evaluator:
 
         return statistics_copy
 
-    def reward(self) -> List[Union[int, float]]:
+    def reward(self) -> Dict[str, List[Dict[str, float]]]:
         """Computes reward for the dialogues, according to the reward config.
 
         Reward is used to penalize agents that do not support a set of intents
         defined in the config file, and long dialogues.
+
+        Returns:
+            A dictionary with following structure (most important is "reward"):
+            {
+                "mising_intents": [], # List of reward config intents missing
+                "dialogues": [{
+                    "reward": int,
+                    "user_turns": int, # Number of user turns
+                    "repeats": int, # Number of times the agent repeats itself.
+                }]
+            }
         """
         warnings.warn("This function does not yet penalize 'Repeat' actions")
 
@@ -150,27 +167,12 @@ class Evaluator:
 
         return results
 
-    def _user_agent_ratio(self, results: Dict[str, Any]) -> Dict[str, Any]:
-        """Computes number of user turns and reward across a list of dialogues.
-
-        Args:
-            results: dictionary to hold measured metrics.
-        """
-        for i, dialogue in enumerate(self.dialogues):
-            num_user_acts = sum(
-                1
-                for utterance in dialogue.utterances
-                if utterance["sender"] == DialogueParticipant.USER
-            )
-            results["dialogues"][i]["user_turns"] = num_user_acts
-            results["dialogues"][i][
-                "reward"
-            ] -= num_user_acts * self.reward_config.get("cost")
-        return results
-
     def _check_included_intents(self) -> Dict[str, Any]:
         """Sets initial reward for dialogues by checking which intents are
         supported.
+
+        Returns:
+            A dictionary to hold measured metrics relevant to reward.
         """
         results = {
             "missing_intents": [],
@@ -210,11 +212,37 @@ class Evaluator:
 
         return results
 
+    def _user_agent_ratio(self, results: Dict[str, Any]) -> Dict[str, Any]:
+        """Computes number of user turns and reward across a list of dialogues.
+
+        Args:
+            results: A dictionary to hold measured metrics that are relevant to
+            compute the reward.
+
+        Returns:
+            Returns results, a dictionary to hold measured metrics. See reward
+            function for structure of this dictionary.
+        """
+        for i, dialogue in enumerate(self.dialogues):
+            num_user_acts = sum(
+                1
+                for utterance in dialogue.utterances
+                if utterance["sender"] == DialogueParticipant.USER
+            )
+            results["dialogues"][i]["user_turns"] = num_user_acts
+            results["dialogues"][i][
+                "reward"
+            ] -= num_user_acts * self.reward_config.get("cost")
+        return results
+
     def satisfaction(self) -> List[int]:
         """Classifies dialogue-level satisfaction score.
 
-        Args:
-            dialogues: list of completed Dialogue.
+        Satisfaction is scored using a SatisfactionClassifier model. Based on
+        last n turns, it computes a satisfaction score.
+
+        Returns:
+            A list with satisfaction score for each dialogue.
         """
 
         satisfactions = []
