@@ -48,7 +48,7 @@ class UserWithIntent(Participant):
         """
         super().__init__(id=id, type=type)
         if intents is not None:
-            self.__intents = intents
+            self._intents = intents
         else:
             raise TypeError("You MUST define the possible intents for the User")
 
@@ -62,11 +62,11 @@ class UserWithIntent(Participant):
             utterance: Agent utterance.
         """
         intent_menu = ""
-        for i, intent in enumerate(self.__intents):
+        for i, intent in enumerate(self._intents):
             intent_menu += f"{i+1}: {intent.label}, "
         print(intent_menu)
         intent_selector = input("Select your desiered intent: ")
-        selected_intent = self.__intents[int(intent_selector) - 1]
+        selected_intent = self._intents[int(intent_selector) - 1]
 
         text = input("Your response: ")
         response = AnnotatedUtterance(text, intent=selected_intent)
