@@ -60,10 +60,10 @@ def test_reward(dialogues, reward_config):
         assert reward["reward"] >= 0
 
 
-# def test_satisfaction_classification(dialogues):
-#     ev = Evaluator(dialogue_history=dialogues)
-#     satisfactions = ev.satisfaction(dialogues)
-#     print(satisfactions)
-#     assert satisfactions
-#     for sc in satisfactions:
-#         assert 1 <= sc <= 5
+def test_satisfaction_classification(dialogues):
+    ev = Evaluator(dialogue_history=dialogues)
+    satisfactions = ev.satisfaction(dialogues)
+    print(satisfactions)
+    assert satisfactions
+    for sc in satisfactions:
+        assert 1 <= sc <= 5
