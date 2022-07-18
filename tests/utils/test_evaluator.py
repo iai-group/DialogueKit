@@ -35,11 +35,11 @@ def test_init(dialogues, reward_config):
 
 
 def test_avg_turns(dialogues, reward_config):
-    ev = Evaluator(dialogue_history=dialogues, reward_config=reward_config)
+    ev = Evaluator(dialogues=dialogues, reward_config=reward_config)
     avg_turns = ev.avg_turns(dialogue_history=dialogues)
-    assert avg_turns == pytest.approx(19.66, 0.1)
+    assert avg_turns == pytest.approx(16.33, 0.1)
     avg_turns2 = ev.avg_turns(dialogue_history=dialogues)
-    assert avg_turns2 == pytest.approx(19.66, 0.1)
+    assert avg_turns2 == pytest.approx(16.33, 0.1)
 
 
 def test_user_act_ratio(dialogues, reward_config):

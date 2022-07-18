@@ -1,8 +1,10 @@
 """Evaluation module"""
+
 import warnings
-from copy import deepcopy
 from collections import defaultdict
-from typing import List, Dict, Union, Optional, Any
+from copy import deepcopy
+from typing import Any, Dict, List, Optional, Union
+
 from dialoguekit.core.dialogue import Dialogue, DialogueParticipant
 from dialoguekit.core.intent import Intent
 
@@ -10,65 +12,78 @@ from dialoguekit.core.intent import Intent
 #     SatisfactionClassifier,
 # )
 
+# REWARD CONFIG PARAMETERS
+# Initial points before deduction.
+_CONFIG_FULL_SET_POINTS = "full_set_points"
+
+# Intents that deduct points from _CONFIG_FULL_SET_POINTS if not present in the
+# Dialogue.
+_CONFIG_INTENTS = "intents"
+
+# Deducted points for each time the agent repeats itself, in a row. Currently
+# not used.
+_REPEAT_PENALTY = "repeat_penalty"
+
+# Deducted points for each turn.
+_COST = "cost"
+
 
 class Evaluator:
+    """Dialogue evaluator.
+
+    Evaluates a set of dialogues using standard metrics, see docs/Evaluation.md.
+
+    Attributes:
+        dialogues: A list of Dialogue objects to be evaluated.
+        reward_config: A dictionary with reward settings. Example config can be
+        seen in docs/Evaluation.md.
+    """
     def __init__(
         self,
-        dialogue_history: Union[List[Dialogue], Dialogue],
+        dialogues: List[Dialogue],
         reward_config: Dict[str, Union[int, Dict[str, int]]],
     ) -> None:
-        if isinstance(dialogue_history, Dialogue):
-            dialogue_history = [dialogue_history]
-        self.dialogues = dialogue_history
+        self.dialogues = dialogues
         self.dialogue_lengths = []
         self.reward_config = reward_config
+        assert isinstance(self.dialogues, list)
+        assert all(isinstance(dialogue, Dialogue) for dialogue in dialogues)
         assert "full_set_points" in self.reward_config
         assert "intents" in self.reward_config
         assert "repeat_penalty" in self.reward_config
         assert "cost" in self.reward_config
 
-    def avg_turns(self, dialogue_history: Optional[List[Dialogue]]) -> float:
-        """Calculates the AvgTurns for the dialogues
+    def avg_turns(self) -> float:
+        """Calculates the AvgTurns for the dialogues.
 
-        Args:
-            dialogue_history: list of completed Dialogue.
+        AvgTurns reflects the average number of system-user turn pairs in a list
+        of dialogues.
         """
-        if dialogue_history is None:
-            dialogue_history = self.dialogues
-
-        for dialogue in dialogue_history:
+        for dialogue in self.dialogues:
             dialogue_turns = 0
-            first_participant = dialogue.utterances[0].get("sender")
-            previous_participant = None
-            for dialogue_act in dialogue.utterances:
+            for i in range(len(dialogue.utterances)):
                 if (
-                    dialogue_act.get("sender") == first_participant
-                    or dialogue_act.get("sender") == previous_participant
+                    i == 0
+                    or dialogue.utterances[i - 1].get("sender")
+                    == dialogue.utterances[i].get("sender")
                 ):
-                    previous_participant = dialogue_act.get("sender")
                     continue
                 else:
                     dialogue_turns += 1
-            self.dialogue_lengths.append(dialogue_turns)
+            self.dialogue_lengths.append(dialogue_turns / 2)
 
         return sum(self.dialogue_lengths) / len(self.dialogue_lengths)
 
-    def user_act_ratio(
-        self,
-        dialogue_history: Optional[List[Dialogue]],
-    ) -> Dict[str, float]:
+    def user_act_ratio(self) -> Dict[str, float]:
         """Computes the UserActRatio for the dialogues.
 
-        Args:
-            dialogue_history: list of completed Dialogue.
+        UserActRatio per dialogue is computed as the ratio of user actions
+        observed in the dialogue.
         """
 
         statistics = defaultdict(float)
 
-        if dialogue_history is None:
-            dialogue_history = self.dialogues
-
-        for dialogue in dialogue_history:
+        for dialogue in self.dialogues:
             for utterance in dialogue.utterances:
                 sender = utterance.get("sender").name
                 statistics[sender] += 1
@@ -205,12 +220,14 @@ class Evaluator:
         dialogue_intents = []
         reward = self.reward_config["full_set_points"]
         for dialogue in dialogue_history:
-            for ut in dialogue.utterances:
-                if ut["sender"] == DialogueParticipant.USER:
+            for utterance in dialogue.utterances:
+                if utterance["sender"] == DialogueParticipant.USER:
                     dialogue_intents.append(
-                        Intent(ut.get("utterance").intent.label.split(".")[0])
+                        Intent(utterance.get("utterance").intent.label.split(
+                            "."
+                        )[0])
                     )
-                    dialogue_intents.append(ut.get("utterance").intent)
+                    dialogue_intents.append(utterance.get("utterance").intent)
 
         dialogue_intents_set = set(dialogue_intents)
 
