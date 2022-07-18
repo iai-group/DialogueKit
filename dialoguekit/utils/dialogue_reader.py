@@ -30,13 +30,13 @@ def json_to_annotated_utterance(
             Annotation(slot=slot, value=value) for slot, value in annotations
         ]
 
-    # satisfaction = json_utterance.get("satisfaction")
+    satisfaction = json_utterance.get("satisfaction")
 
     return AnnotatedUtterance(
         text=utterance_text,
         annotations=annotations,
         intent=intent,
-        # satisfaction=satisfaction,
+        metadata={"satisfaction": satisfaction}
     )
 
 
