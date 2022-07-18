@@ -192,7 +192,7 @@ if __name__ == "__main__":
     from dialoguekit.user.user import User
     from dialoguekit.agent.mathematics_agent import MathAgent
     from dialoguekit.agent.moviebot_agent import MovieBotAgent
-    from dialoguekit.agent.terminal_agent import TerminalAgent
+    from dialoguekit.agent.woz_agent import WOZAgent
     from dialoguekit.core.intent import Intent
 
     # Participants
@@ -202,7 +202,7 @@ if __name__ == "__main__":
         "UI01", intents=[Intent("START"), Intent("ANSWER"), Intent("COMPLETE")]
     )
     user = User(id="TEST01")
-    agent = TerminalAgent(
+    agent = WOZAgent(
         id="WoZ", intent_recommendations=[Intent("EXIT"), Intent("RANDOM")]
     )
 
