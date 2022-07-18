@@ -7,9 +7,7 @@ from typing import Any, Dict, List, Union
 
 from dialoguekit.core.dialogue import Dialogue, DialogueParticipant
 from dialoguekit.core.intent import Intent
-from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifier,
-)
+from dialoguekit.nlu.models.satisfaction_classifier import SatisfactionClassifier
 
 # REWARD CONFIG PARAMETERS
 # Initial points before deduction.
@@ -145,9 +143,7 @@ class Evaluator:
             results["dialogues"][i]["reward"] -= n_repeat_intents
 
         # * Calculate USER/AGENT ratios.
-        results = self._user_agent_ratio(
-            results=results, dialogue_history=self.dialogues
-        )
+        results = self._user_agent_ratio(results=results)
 
         for results_dialogue in results["dialogues"]:
             results_dialogue["reward"] = max(0, results_dialogue["reward"])
