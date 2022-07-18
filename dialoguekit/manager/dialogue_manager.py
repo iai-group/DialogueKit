@@ -70,7 +70,7 @@ class DialogueManager:
         Args:
             utterance: User utterance.
         """
-        self._dialogue_history.add_user_utterance(annotated_utterance)
+        self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_user_utterance(annotated_utterance)
         self._agent.receive_user_utterance(annotated_utterance)
 
@@ -92,7 +92,7 @@ class DialogueManager:
         Args:
             utterance: Agent utterance.
         """
-        self._dialogue_history.add_agent_utterance(annotated_utterance)
+        self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_agent_utterance(annotated_utterance)
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)

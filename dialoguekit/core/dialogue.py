@@ -1,10 +1,8 @@
 """Interface representing the sequence of utterances in a dialogue."""
 
-from datetime import datetime
-from typing import Dict, List, Text
+from typing import List, Text
 
 from dialoguekit.core.utterance import Utterance
-from dialoguekit.participant.participant import DialogueParticipant
 
 
 class Dialogue:
@@ -19,7 +17,7 @@ class Dialogue:
         """
         self._agent_id = agent_id
         self._user_id = user_id
-        self._utterances = []
+        self._utterances: Utterance = []
         self._metadata = {}
 
     def __str__(self) -> Text:
@@ -52,38 +50,13 @@ class Dialogue:
         return self._user_id
 
     @property
-    def utterances(self) -> List[Dict]:
+    def utterances(self) -> List[Utterance]:
         return self._utterances
 
-    def _add_utterance(
-        self, sender: DialogueParticipant, utterance: Utterance
-    ) -> None:
+    def add_utterance(self, utterance: Utterance) -> None:
         """Adds an utterance to the history.
 
         Args:
-            sender: Sender of the utterance (AGENT or USER).
             utterance: An instance of Utterance.
         """
-        self._utterances.append(
-            {
-                "sender": sender,
-                "timestamp": datetime.now(),
-                "utterance": utterance,
-            }
-        )
-
-    def add_agent_utterance(self, utterance: Utterance) -> None:
-        """Adds an agent utterance.
-
-        Args:
-            utterance: An instance of utterance.
-        """
-        self._add_utterance(DialogueParticipant.AGENT, utterance)
-
-    def add_user_utterance(self, utterance: Utterance) -> None:
-        """Adds a user utterance.
-
-        Args:
-            utterance: An instance of utterance.
-        """
-        self._add_utterance(DialogueParticipant.USER, utterance)
+        self._utterances.append(utterance)

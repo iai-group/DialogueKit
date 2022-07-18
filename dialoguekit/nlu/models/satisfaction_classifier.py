@@ -122,7 +122,7 @@ class SatisfactionClassifierSVM(SatisfactionClassifier):
 
         complete_dialogue_text = " .".join(
             [
-                annotated_utterance["utterance"].text
+                annotated_utterance.text
                 for annotated_utterance in dialogue.utterances[-last_n:]
             ]
         )
