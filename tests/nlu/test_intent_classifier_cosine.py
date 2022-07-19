@@ -1,13 +1,14 @@
 """Tests for IntentClassifierCosine."""
 
-import pytest
 import os
-from dialoguekit.core.utterance import Utterance
+
+import pytest
 from dialoguekit.core.intent import Intent
-from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlu.models.intent_classifier_cosine import (
     IntentClassifierCosine,
 )
+from dialoguekit.participant.participant import DialogueParticipant
 
 PLACEHOLDER = "(.*)"
 

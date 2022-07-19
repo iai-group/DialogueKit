@@ -1,7 +1,8 @@
 """Interface representing the basic unit of communication."""
 
-from typing import Text, Optional
 from datetime import datetime
+from typing import Optional, Text
+
 from dialoguekit.participant.participant import DialogueParticipant
 
 
@@ -18,7 +19,7 @@ class Utterance:
 
         Args:
             text: Utterance text.
-            participant: Who said the utterance
+            participant: Who said the utterance.
             timestamp: When was the utterance uttered.
         """
         self._text = text

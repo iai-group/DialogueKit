@@ -1,6 +1,6 @@
 """Interface representing the sequence of utterances in a dialogue."""
 
-from typing import List, Text
+from typing import List, Text, Dict, Any
 
 from dialoguekit.core.utterance import Utterance
 
@@ -60,3 +60,8 @@ class Dialogue:
             utterance: An instance of Utterance.
         """
         self._utterances.append(utterance)
+
+    def to_dict(self) -> Dict[str, Any]:
+        export = {}
+        if self._metadata:
+            export["metadata"] = self._metadata

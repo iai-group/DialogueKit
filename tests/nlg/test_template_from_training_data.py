@@ -1,18 +1,17 @@
 """Tests for extracting templates from training data."""
 
-from dialoguekit.core.intent import Intent
-from dialoguekit.core.annotation import Annotation
-from dialoguekit.participant.participant import DialogueParticipant
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.annotation import Annotation
+from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.template_from_training_data import (
-    extract_utterance_template,
-    build_template_from_instances,
     _replace_slot_with_placeholder,
+    build_template_from_instances,
+    extract_utterance_template,
 )
 from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifierSVM,
 )
-
+from dialoguekit.participant.participant import DialogueParticipant
 
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 

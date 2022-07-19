@@ -1,8 +1,8 @@
 """Tests for the Utterance class."""
 import pytest
-from dialoguekit.participant.participant import DialogueParticipant
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 def test_utterance_text():
