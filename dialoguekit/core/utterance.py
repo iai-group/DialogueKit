@@ -27,18 +27,18 @@ class Utterance:
         self._timestamp = timestamp
 
     def __str__(self) -> Text:
-        "Returns the utterance text."
+        """Returns the utterance text."""
         return self._text
 
     def __repr__(self) -> Text:
-        "Represents the utterance as a string."
+        """Represents the utterance as a string."""
         if self._timestamp:
             time = self._timestamp.strftime("%m/%d/%Y, %H:%M:%S")
             return f"Utterance({self._text}, {self._participant.value}, {time})"
         return f"Utterance({self._text}, {self._participant.value})"
 
     def __hash__(self) -> int:
-        "Represents the utterance as a hash."
+        """Represents the utterance as a hash."""
         return hash(f"{self._text}{self._participant}{self._timestamp_text()}")
 
     def __eq__(self, __o: object) -> bool:
