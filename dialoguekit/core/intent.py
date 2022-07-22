@@ -1,7 +1,7 @@
 """Interface representing an intent."""
 
 
-from typing import Text, Optional, Any, Union, List
+from typing import Any, List, Optional, Text, Union
 
 
 class Intent:
@@ -51,22 +51,22 @@ class Intent:
 
     @property
     def main_intent(self) -> Union[Any, None]:
-        """Returns the main_intent Intent."""
+        """Returns the main intent."""
         return self._main_intent
 
     @property
     def sub_intents(self) -> List[Any]:
-        "Returns a list of child Intents."
+        """Returns a list of sub-intents."""
         return self._sub_intents
 
     @property
     def is_main_intent(self) -> bool:
-        return True if self.main_intent is None else False
+        return self.main_intent is None
 
     @property
     def has_sub_intents(self) -> bool:
-        return True if self.sub_intents else False
+        return self.sub_intents
 
     def _add_sub_intent(self, sub_intent: Any) -> None:
-        """Add a child(sub) intent."""
+        """Adds a sub-intent."""
         self._sub_intents.append(sub_intent)
