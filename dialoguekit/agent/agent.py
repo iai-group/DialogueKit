@@ -7,8 +7,10 @@ An agent instance needs to be connected with a DialogueManager by invoking
 `register_dialogue_manager()`.
 """
 from __future__ import annotations
+
 from enum import Enum
-from dialoguekit.participant.participant import Participant
+
+from dialoguekit.participant.participant import DialogueParticipant, Participant
 
 # TODO Some research needs to be done in how Python abstract classes work,
 # to implement them for Agent and participant
@@ -24,14 +26,15 @@ class AgentType(Enum):
 class Agent(Participant):
     """Represents an agent."""
 
-    def __init__(self, id: str, type: AgentType = AgentType.BOT) -> None:
+    def __init__(self, id: str, agent_type: AgentType = AgentType.BOT) -> None:
         """Initializes the agent.
 
         Args:
             id: Agent ID.
             type: Agent type (default: BOT).
         """
-        super().__init__(id=id, type=type)
+        super().__init__(id=id, type=DialogueParticipant.AGENT)
+        self._agent_type = agent_type
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
