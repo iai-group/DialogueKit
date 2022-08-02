@@ -97,3 +97,11 @@ User preferences
 ----------------
 
   * Preferences are expressed for specific slot-value pairs, where slots correspond to **entities** or properties in the **ontology**.
+
+
+Concepts specific to item recommendation scenarios
+--------------------------------------------------
+
+  * Item: an entity with a unique ID, canonical name, and any number of properties (represented as property-value pairs, where properties correspond to ontology classes).
+  * ItemCollection: a collection of items.
+  * Ratings: explicit user preferences on items (normalized into [-1,1]).
