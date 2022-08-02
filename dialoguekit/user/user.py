@@ -5,10 +5,11 @@ connected with a DialogueManager by invoking `register_dialogue_manager()`.
 """
 
 from __future__ import annotations
+
 from enum import Enum
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.participant.participant import Participant
+from dialoguekit.participant.participant import DialogueParticipant, Participant
 
 
 class UserType(Enum):
@@ -21,14 +22,15 @@ class UserType(Enum):
 class User(Participant):
     """Represents a user."""
 
-    def __init__(self, id: str, type: UserType = UserType.HUMAN) -> None:
+    def __init__(self, id: str, user_type: UserType = UserType.HUMAN) -> None:
         """Initializes the user.
 
         Args:
             user_id: User ID.
             user_type: User type (default: HUMAN).
         """
-        super().__init__(id=id, type=type)
+        super().__init__(id=id, type=DialogueParticipant.USER)
+        self._user_type = user_type
 
     def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance

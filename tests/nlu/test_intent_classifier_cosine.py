@@ -1,12 +1,14 @@
 """Tests for IntentClassifierCosine."""
 
-import pytest
 import os
-from dialoguekit.core.utterance import Utterance
+
+import pytest
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlu.models.intent_classifier_cosine import (
     IntentClassifierCosine,
 )
+from dialoguekit.participant.participant import DialogueParticipant
 
 PLACEHOLDER = "(.*)"
 
@@ -19,7 +21,7 @@ def intents():
 @pytest.fixture
 def utterances_1():
     return [
-        Utterance(text)
+        Utterance(text, participant=DialogueParticipant.AGENT)
         for text in [
             f"You should try {PLACEHOLDER}!",
             f"There's also {PLACEHOLDER}!",
@@ -39,7 +41,7 @@ def labels_1():
 @pytest.fixture
 def utterances_2():
     return [
-        Utterance(text)
+        Utterance(text, participant=DialogueParticipant.AGENT)
         for text in [
             f"You should give {PLACEHOLDER} a try!",
             f"You might want to check {PLACEHOLDER}",
@@ -59,7 +61,9 @@ def test_get_intent_exact_patterns(intents, utterances_1, labels_1):
         utterance_text = utterance_template.text.replace(
             PLACEHOLDER, "RANDOM_ITEM"
         )
-        utterance = Utterance(utterance_text)
+        utterance = Utterance(
+            utterance_text, participant=DialogueParticipant.AGENT
+        )
         predicted_intent = intent_classifier.get_intent(utterance)
         assert predicted_intent.label == intent.label
 
@@ -73,7 +77,9 @@ def test_get_intent_similar_patterns(
         utterance_text = utterance_template.text.replace(
             PLACEHOLDER, "RANDOM_ITEM"
         )
-        utterance = Utterance(utterance_text)
+        utterance = Utterance(
+            utterance_text, participant=DialogueParticipant.AGENT
+        )
         predicted_intent = intent_classifier.get_intent(utterance)
         assert predicted_intent.label == intent.label
 
@@ -95,6 +101,8 @@ def test_save_and_load_model(tmp_path, intents, utterances_1, labels_1):
         utterance_text = utterance_template.text.replace(
             PLACEHOLDER, "RANDOM_ITEM"
         )
-        utterance = Utterance(utterance_text)
+        utterance = Utterance(
+            utterance_text, participant=DialogueParticipant.AGENT
+        )
         predicted_intent = intent_classifier.get_intent(utterance)
         assert predicted_intent.label == intent.label

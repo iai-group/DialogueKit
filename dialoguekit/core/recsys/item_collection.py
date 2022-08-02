@@ -66,8 +66,8 @@ class ItemCollection:
                 is used as the name (key) of the item property.
             delimiter: Field separator (default: comma).
         """
-        # TODO Optionally, connect items to an ontology and allow only for
-        # properties that correspond to ontology classes.
+        # TODO Optionally, connect items to an Domain and allow only for
+        # properties that correspond to Domain classes.
         # See: https://github.com/iai-group/dialoguekit/issues/42
         with open(file_path, "r", encoding="utf-8") as csvfile:
             csvreader = csv.reader(csvfile, delimiter=delimiter)

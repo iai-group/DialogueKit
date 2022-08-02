@@ -2,11 +2,9 @@
 
 import pytest
 
-from dialoguekit.core.dialogue import (
-    Dialogue,
-    DialogueParticipant,
-)
+from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.utterance import Utterance
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 # Dialogue history object to be shared across multiple test cases.
@@ -14,25 +12,28 @@ from dialoguekit.core.utterance import Utterance
 def dialogue_history_1():
     agent_id = "agent-001"
     user_id = "USR01"
-    agent_utterance_1 = "Hello"
-    user_utterance_1 = "Hi"
-    agent_utterance_2 = "Can I help you?"
-    user_utterance_2 = "No, thank you. Bye"
-    agent_utterance_3 = "Bye."
+    agent_utterance_1 = Utterance(
+        "Hello", participant=DialogueParticipant.AGENT
+    )
+    user_utterance_1 = Utterance("Hi", participant=DialogueParticipant.USER)
+    agent_utterance_2 = Utterance(
+        "Can I help you?", participant=DialogueParticipant.AGENT
+    )
+    user_utterance_2 = Utterance(
+        "No, thank you. Bye", participant=DialogueParticipant.USER
+    )
+    agent_utterance_3 = Utterance("Bye.", participant=DialogueParticipant.AGENT)
     utterances = [
-        (DialogueParticipant.AGENT, agent_utterance_1),
-        (DialogueParticipant.USER, user_utterance_1),
-        (DialogueParticipant.AGENT, agent_utterance_2),
-        (DialogueParticipant.USER, user_utterance_2),
-        (DialogueParticipant.AGENT, agent_utterance_3),
+        agent_utterance_1,
+        user_utterance_1,
+        agent_utterance_2,
+        user_utterance_2,
+        agent_utterance_3,
     ]
 
     dialogue_history = Dialogue(agent_id, user_id)
-    for sender, text in utterances:
-        if sender == DialogueParticipant.AGENT:
-            dialogue_history.add_agent_utterance(Utterance(text))
-        elif sender == DialogueParticipant.USER:
-            dialogue_history.add_user_utterance(Utterance(text))
+    for utterance in utterances:
+        dialogue_history.add_utterance(utterance)
 
     return dialogue_history
 
@@ -46,14 +47,16 @@ def test_utterances(dialogue_history_1):
     assert len(dialogue_history_1.utterances) == len(
         dialogue_history_1.utterances
     )
-    assert dialogue_history_1.utterances[0]["utterance"].text == "Hello"
+    assert dialogue_history_1.utterances[0].text == "Hello"
     assert (
-        dialogue_history_1.utterances[0]["sender"] == DialogueParticipant.AGENT
+        dialogue_history_1.utterances[0].participant
+        == DialogueParticipant.AGENT
     )
     assert (
-        dialogue_history_1.utterances[1]["sender"] == DialogueParticipant.USER
+        dialogue_history_1.utterances[1].participant == DialogueParticipant.USER
     )
-    assert dialogue_history_1.utterances[1]["utterance"].text == "Hi"
+    assert dialogue_history_1.utterances[1].text == "Hi"
     assert (
-        dialogue_history_1.utterances[4]["sender"] == DialogueParticipant.AGENT
+        dialogue_history_1.utterances[4].participant
+        == DialogueParticipant.AGENT
     )
