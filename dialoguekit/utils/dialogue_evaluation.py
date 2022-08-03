@@ -7,7 +7,9 @@ from typing import Any, Dict, List, Union
 
 from dialoguekit.core.dialogue import Dialogue, DialogueParticipant
 from dialoguekit.core.intent import Intent
-from dialoguekit.nlu.models.satisfaction_classifier import SatisfactionClassifier
+from dialoguekit.nlu.models.satisfaction_classifier import (
+    SatisfactionClassifier,
+)
 
 # REWARD CONFIG PARAMETERS
 # Initial points before deduction.
@@ -26,24 +28,23 @@ _COST = "cost"
 
 
 class Evaluator:
-    """Dialogue evaluator.
-
-    Evaluates a set of dialogues using standard metrics, see docs/Evaluation.md.
-
-    Attributes:
-        dialogues: A list of Dialogue objects to be evaluated.
-        reward_config: A dictionary with reward settings. Example config can be
-        seen in docs/Evaluation.md.
-    """
-
     def __init__(
         self,
         dialogues: List[Dialogue],
         reward_config: Dict[str, Union[int, Dict[str, int]]],
     ) -> None:
-        self.dialogues = dialogues
-        self.dialogue_lengths = []
-        self.reward_config = reward_config
+        """Dialogue evaluator.
+
+        Evaluates a set of dialogues using standard metrics.
+
+        Args:
+            dialogues: A list of Dialogue objects to be evaluated.
+            reward_config: A dictionary with reward settings. For an example
+              config, consult the documentation.
+        """
+        self._dialogues = dialogues
+        self._dialogue_lengths = []
+        self._reward_config = reward_config
         assert isinstance(self.dialogues, list)
         assert all(isinstance(dialogue, Dialogue) for dialogue in dialogues)
         assert _CONFIG_FULL_SET_POINTS in self.reward_config
@@ -60,7 +61,7 @@ class Evaluator:
         Returns:
             The computed metric as a float value.
         """
-        for dialogue in self.dialogues:
+        for dialogue in self._dialogues:
             dialogue_turns = 0
             for i in range(len(dialogue.utterances)):
                 if i == 0 or dialogue.utterances[i - 1].get(
@@ -69,7 +70,7 @@ class Evaluator:
                     continue
                 else:
                     dialogue_turns += 1
-            self.dialogue_lengths.append(dialogue_turns / 2)
+            self._dialogue_lengths.append(dialogue_turns / 2)
 
         return sum(self.dialogue_lengths) / len(self.dialogue_lengths)
 
@@ -85,7 +86,7 @@ class Evaluator:
 
         statistics = defaultdict(float)
 
-        for dialogue in self.dialogues:
+        for dialogue in self._dialogues:
             for utterance in dialogue.utterances:
                 sender = utterance.get("sender").name
                 statistics[sender] += 1
@@ -114,7 +115,7 @@ class Evaluator:
         Returns:
             A dictionary with following structure (most important is "reward"):
             {
-                "mising_intents": [], # List of reward config intents missing
+                "missing_intents": [], # List of reward config intents missing
                 "dialogues": [{
                     "reward": int,
                     "user_turns": int, # Number of user turns
@@ -128,7 +129,7 @@ class Evaluator:
         results = self._check_included_intents()
 
         # Check for Repeats
-        for i, dialogue in enumerate(self.dialogues):
+        for i, dialogue in enumerate(self._dialogues):
 
             previous_intent = None
             previous_sender = None
@@ -178,17 +179,17 @@ class Evaluator:
             "missing_intents": [],
             "dialogues": [
                 {
-                    "reward": self.reward_config["full_set_points"],
+                    "reward": self._reward_config["full_set_points"],
                     "user_turns": 0,
                     "repeats": 0,
                 }
-                for _ in range(len(self.dialogues))
+                for _ in range(len(self._dialogues))
             ],
         }
 
         dialogue_intents = []
-        reward = self.reward_config["full_set_points"]
-        for dialogue in self.dialogues:
+        reward = self._reward_config["full_set_points"]
+        for dialogue in self._dialogues:
             for utterance in dialogue.utterances:
                 if utterance["sender"] == DialogueParticipant.USER:
                     dialogue_intents.append(
@@ -202,7 +203,7 @@ class Evaluator:
 
         dialogue_intents_set = set(dialogue_intents)
 
-        for intent_str, penalty in self.reward_config.get("intents").items():
+        for intent_str, penalty in self._reward_config.get("intents").items():
             if Intent(intent_str) not in dialogue_intents_set:
                 reward -= penalty
                 results["missing_intents"].append(Intent(intent_str))
@@ -217,13 +218,13 @@ class Evaluator:
 
         Args:
             results: A dictionary to hold measured metrics that are relevant to
-            compute the reward.
+              compute the reward.
 
         Returns:
             Returns results, a dictionary to hold measured metrics. See reward
             function for structure of this dictionary.
         """
-        for i, dialogue in enumerate(self.dialogues):
+        for i, dialogue in enumerate(self._dialogues):
             num_user_acts = sum(
                 1
                 for utterance in dialogue.utterances
@@ -232,10 +233,12 @@ class Evaluator:
             results["dialogues"][i]["user_turns"] = num_user_acts
             results["dialogues"][i][
                 "reward"
-            ] -= num_user_acts * self.reward_config.get("cost")
+            ] -= num_user_acts * self._reward_config.get("cost")
         return results
 
-    def satisfaction(self) -> List[int]:
+    def satisfaction(
+        self, satisfaction_classifier: SatisfactionClassifier
+    ) -> List[int]:
         """Classifies dialogue-level satisfaction score.
 
         Satisfaction is scored using a SatisfactionClassifier model. Based on
@@ -247,8 +250,11 @@ class Evaluator:
 
         satisfactions = []
 
-        sc = SatisfactionClassifier()
-        for dialogue in self.dialogues:
-            satisfactions.append(sc.classify_last_n_dialogue(dialogue=dialogue))
+        for dialogue in self._dialogues:
+            satisfactions.append(
+                satisfaction_classifier.classify_last_n_dialogue(
+                    dialogue=dialogue
+                )
+            )
 
         return satisfactions

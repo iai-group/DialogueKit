@@ -1,5 +1,9 @@
-"""Tests the dialogue evaluation"""
+"""Tests the dialogue evaluation."""
+
 import pytest
+from dialoguekit.nlu.models.satisfaction_classifier import (
+    SatisfactionClassifier,
+)
 from dialoguekit.utils.dialogue_evaluation import Evaluator
 from dialoguekit.utils.dialogue_reader import json_to_dialogues
 
@@ -28,6 +32,11 @@ def reward_config():
         "cost": 1,
     }
     return _REWARD_CONFIG
+
+
+@pytest.fixture
+def satisfaction_classifier():
+    return SatisfactionClassifier()
 
 
 def test_init(dialogues, reward_config):
@@ -60,9 +69,9 @@ def test_reward(dialogues, reward_config):
         assert reward["reward"] >= 0
 
 
-def test_satisfaction_classification(dialogues):
+def test_satisfaction_classification(dialogues, satisfaction_classifier):
     ev = Evaluator(dialogue_history=dialogues)
-    satisfactions = ev.satisfaction(dialogues)
+    satisfactions = ev.satisfaction(dialogues, satisfaction_classifier)
     print(satisfactions)
     assert satisfactions
     for sc in satisfactions:

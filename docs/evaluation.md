@@ -1,6 +1,6 @@
 # Evaluator module
 
-The evaluator module in DialogueKit aims to allow for the evaluation of conversational agents by supporting standard metrics.
+The evaluator module in DialogueKit aims to allow for the evaluation of conversational agents by implementing established metrics.
 
 ## Overview
 
