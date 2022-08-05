@@ -1,6 +1,4 @@
-# Table of contents
+# Documentation
 
-  * [Fundamental concepts](concepts.md)
-  * [Natural language understanding](nlu.md)
-  * [Rasa parrot agent](rasa-parrot.md)
-  * [Rasa as a component library](rasa_component_library.md)
+Read the docs style documentation is contained in the `source` folder. That documentations is to document the **usage** of DialogueKit. While documentation related to **development** of DialogueKit is in the [Wiki](https://github.com/iai-group/dialoguekit/wiki)
+
