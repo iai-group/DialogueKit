@@ -16,7 +16,7 @@ class SlotValueAnnotation(Annotation):
         start: int = None,
         end: int = None,
     ) -> None:
-        # TODO Connect to Ontology (and restrict to slots in there)?
+        # TODO Connect to Domain (and restrict to slots in there)?
         super().__init__(slot=slot, value=value)
         self._start = start
         self._end = end

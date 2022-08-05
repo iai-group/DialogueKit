@@ -15,6 +15,7 @@ from dialoguekit.nlg.template_from_training_data import (
 from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifier,
 )
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 class NLG:
@@ -99,7 +100,9 @@ class NLG:
         # If desired 'intent' is not in the template, use fallback.
         if templates is None:
             return AnnotatedUtterance(
-                intent=intent, text="Sorry, I did not understand you."
+                intent=intent,
+                text="Sorry, I did not understand you.",
+                participant=DialogueParticipant.AGENT,
             )
         templates = self._filter_templates(
             templates=templates,

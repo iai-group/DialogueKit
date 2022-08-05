@@ -18,18 +18,18 @@ class NLU:
         # TODO: SlotAnnotator interface that slot_annotators should implement.
         # Type for slot_annotators would be List[SlotAnnotator].
         # Issue: https://github.com/iai-group/dialoguekit/issues/112
-        self.__intent_classifier = intent_classifier
-        self.__slot_annotators = slot_annotators
+        self._intent_classifier = intent_classifier
+        self._slot_annotators = slot_annotators
 
     def get_intent(self, utterance: Utterance) -> Intent:
         """Classifies the intent of a given agent utterance."""
-        return self.__intent_classifier.get_intent(utterance)
+        return self._intent_classifier.get_intent(utterance)
 
     def annotate_slot_values(
         self, utterance: Utterance
     ) -> List[SlotValueAnnotation]:
         """Annotates a given utterance."""
         annotation_list = []
-        for slot_annotator in self.__slot_annotators:
+        for slot_annotator in self._slot_annotators:
             annotation_list.extend(slot_annotator.get_annotations(utterance))
         return annotation_list

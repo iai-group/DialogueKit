@@ -1,4 +1,4 @@
-"""Interface representing a domain ontology."""
+"""Interface representing domain knowledge."""
 
 import os
 from typing import List
@@ -6,11 +6,11 @@ from typing import List
 import yaml
 
 
-class Ontology:
-    """Represents a domain ontology."""
+class Domain:
+    """Represents domain knowledge."""
 
     def __init__(self, config_file: str) -> None:
-        """Initializes the domain ontology.
+        """Initializes the domain knowledge.
 
         Args:
             config_file: Name of YAML config file.

@@ -71,7 +71,7 @@ class DialogueManager:
         Args:
             utterance: User utterance.
         """
-        self._dialogue_history.add_user_utterance(annotated_utterance)
+        self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_user_utterance(annotated_utterance)
         self._agent.receive_user_utterance(annotated_utterance)
 
@@ -93,7 +93,7 @@ class DialogueManager:
         Args:
             utterance: Agent utterance.
         """
-        self._dialogue_history.add_agent_utterance(annotated_utterance)
+        self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_agent_utterance(annotated_utterance)
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
@@ -126,6 +126,10 @@ class DialogueManager:
 
         If the two participants have had a conversation previously, the new
         conversation will be appended to the same export document.
+
+        Per dialogue, the dialogue metadata will be added. Also per utterance
+        the uterance metadata, will be added to the same level as the utterance
+        text. Intent will also be exported if provided.
         """
         # If conversation is empty we do not save it.
         if len(self._dialogue_history.utterances) == 0:
@@ -157,28 +161,17 @@ class DialogueManager:
             print(annotated_utterance)
 
             utterance_info = {
-                "participant": annotated_utterance.get("sender").name,
-                "utterance": annotated_utterance.get("utterance").text.replace(
-                    "\n", ""
-                ),
+                "participant": annotated_utterance.participant.name,
+                "utterance": annotated_utterance.text,
             }
 
-            if annotated_utterance.get("utterance").intent is not None:
-                utterance_info["intent"] = annotated_utterance.get(
-                    "utterance"
-                ).intent.label
+            if annotated_utterance.intent is not None:
+                utterance_info["intent"] = annotated_utterance.intent.label
 
-            if (
-                annotated_utterance.get("utterance").metadata.get(
-                    "satisfaction"
-                )
-                is not None
-            ):
-                utterance_info["satisfaction"] = annotated_utterance.get(
-                    "utterance"
-                ).metadata.get("satisfaction")
+            for k, v in annotated_utterance.metadata.items():
+                utterance_info[k] = v
 
-            annotations = annotated_utterance.get("utterance").get_annotations()
+            annotations = annotated_utterance.get_annotations()
             if annotations:
                 slot_values = []
                 for annotation in annotations:

@@ -12,6 +12,7 @@ from dialoguekit.core.intent import Intent
 from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifier,
 )
+from dialoguekit.participant.participant import DialogueParticipant
 
 # The default satisfaction level used for classifying the NLG template.
 _DEFAULT_SATISFACTION = 3
@@ -107,6 +108,7 @@ def extract_utterance_template(
                     metadata={
                         satisfaction: _DEFAULT_SATISFACTION
                     },  # Satisfaction defaults to 3 (Normal)
+                    participant=DialogueParticipant.AGENT,
                 )
                 annotated_utterance_copy = copy.deepcopy(annotated_utterance)
 

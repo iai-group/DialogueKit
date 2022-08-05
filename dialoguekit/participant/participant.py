@@ -1,14 +1,20 @@
 """Interface defining core Participant functionality."""
 from __future__ import annotations
 
-import enum
 from abc import ABC
+from enum import Enum
 from typing import TYPE_CHECKING, Dict
 
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-
 if TYPE_CHECKING:
+    from dialoguekit.core.annotated_utterance import AnnotatedUtterance
     from dialoguekit.manager.dialogue_manager import DialogueManager
+
+
+class DialogueParticipant(Enum):
+    """Represents possible dialogue participants."""
+
+    AGENT = 0
+    USER = 1
 
 
 class Participant(ABC):
@@ -17,7 +23,7 @@ class Participant(ABC):
     Both Agents and Users are Participants.
     """
 
-    def __init__(self, id: str, type: enum) -> None:
+    def __init__(self, id: str, type: DialogueParticipant) -> None:
         """Initializes the agent.
 
         Args:
