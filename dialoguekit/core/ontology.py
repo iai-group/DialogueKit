@@ -1,8 +1,9 @@
 """Interface representing a domain ontology."""
 
 import os
-import yaml
 from typing import List
+
+import yaml
 
 
 class Ontology:

@@ -2,6 +2,7 @@
 
 
 from typing import Text
+
 from dialoguekit.core.annotation import Annotation
 
 

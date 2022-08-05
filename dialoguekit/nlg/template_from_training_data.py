@@ -1,13 +1,14 @@
 """Extract user response utterance templates from annotated training data."""
 
-from collections import defaultdict
-import os
-import json
 import copy
-from typing import Dict, List, Union, Optional
+import json
+import os
+from collections import defaultdict
+from typing import Dict, List, Optional, Union
+
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifier,
 )

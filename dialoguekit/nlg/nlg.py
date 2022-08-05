@@ -1,18 +1,19 @@
-import sys
-import random
 import json
-from typing import List, Optional, Union, Dict
-from copy import deepcopy
+import random
+import sys
 from collections import defaultdict
-from dialoguekit.core.annotation import Annotation
+from copy import deepcopy
+from typing import Dict, List, Optional, Union
+
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
+from dialoguekit.nlg.template_from_training_data import (
+    build_template_from_instances,
+    extract_utterance_template,
+)
 from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifier,
-)
-from dialoguekit.nlg.template_from_training_data import (
-    extract_utterance_template,
-    build_template_from_instances,
 )
 
 

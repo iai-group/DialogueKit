@@ -5,6 +5,7 @@ connected with a DialogueManager by invoking `register_dialogue_manager()`.
 """
 
 from __future__ import annotations
+
 from enum import Enum
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance

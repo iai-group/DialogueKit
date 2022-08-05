@@ -1,14 +1,14 @@
 """Implements intent classification based on cosine similarity."""
 
 from typing import List
-import numpy as np
-from joblib import dump, load
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 
+import numpy as np
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlu.intent_classifier import IntentClassifier
+from joblib import dump, load
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 class IntentClassifierCosine(IntentClassifier):

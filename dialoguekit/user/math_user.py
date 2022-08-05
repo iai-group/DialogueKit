@@ -9,10 +9,11 @@ use with other Agents.
 """
 
 from typing import List, Union
+
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.participant.participant import Participant
-from dialoguekit.core.intent import Intent
 from dialoguekit.core.annotation import Annotation
+from dialoguekit.core.intent import Intent
+from dialoguekit.participant.participant import Participant
 from dialoguekit.user.user import UserType
 
 

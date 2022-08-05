@@ -1,15 +1,15 @@
 """Simple mathematics agent, that asks math questions."""
 
-import random
-from typing import Optional
-from enum import Enum
 import math
+import random
+from enum import Enum
+from typing import Optional
 
 from dialoguekit.agent.agent import Agent
-from dialoguekit.core.annotation import Annotation
-from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlg.nlg import NLG
 
 

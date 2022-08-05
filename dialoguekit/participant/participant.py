@@ -1,7 +1,8 @@
 """Interface defining core Participant functionality."""
 from __future__ import annotations
-from abc import ABC
+
 import enum
+from abc import ABC
 from typing import TYPE_CHECKING, Dict
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance

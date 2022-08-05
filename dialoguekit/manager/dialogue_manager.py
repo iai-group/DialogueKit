@@ -13,15 +13,16 @@ but this is not required.  Whenever there is a message from either the Agent or
 the User, the DialogueManager sends it to the other party by calling their
 `receive_{agent/user}_utterance()` method.
 """
-import os
-import json
 import calendar
 import datetime
+import json
+import os
+
 from dialoguekit.agent.agent import Agent
-from dialoguekit.user.user import User
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.platforms.platform import Platform
+from dialoguekit.user.user import User
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
@@ -197,12 +198,12 @@ class DialogueManager:
 
 
 if __name__ == "__main__":
-    from dialoguekit.user.user_with_intent import UserWithIntent
-    from dialoguekit.user.user import User
     from dialoguekit.agent.mathematics_agent import MathAgent
     from dialoguekit.agent.moviebot_agent import MovieBotAgent
     from dialoguekit.agent.woz_agent import WOZAgent
     from dialoguekit.core.intent import Intent
+    from dialoguekit.user.user import User
+    from dialoguekit.user.user_with_intent import UserWithIntent
 
     # Participants
     agent = MathAgent("MA01")
