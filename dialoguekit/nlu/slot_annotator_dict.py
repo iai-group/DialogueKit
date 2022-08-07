@@ -6,7 +6,7 @@ class SlotAnnotatorDict:
         """Initializes the class.
 
         Args:
-            slot_name: Name of the slot (ontology class).
+            slot_name: Name of the slot (Domain class).
             sf_dictionary: Surface form dictionary.
         """
         pass

@@ -13,15 +13,16 @@ but this is not required.  Whenever there is a message from either the Agent or
 the User, the DialogueManager sends it to the other party by calling their
 `receive_{agent/user}_utterance()` method.
 """
-import os
-import json
 import calendar
 import datetime
+import json
+import os
+
 from dialoguekit.agent.agent import Agent
-from dialoguekit.user.user import User
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.platforms.platform import Platform
+from dialoguekit.user.user import User
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
@@ -70,7 +71,7 @@ class DialogueManager:
         Args:
             utterance: User utterance.
         """
-        self._dialogue_history.add_user_utterance(annotated_utterance)
+        self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_user_utterance(annotated_utterance)
         self._agent.receive_user_utterance(annotated_utterance)
 
@@ -92,7 +93,7 @@ class DialogueManager:
         Args:
             utterance: Agent utterance.
         """
-        self._dialogue_history.add_agent_utterance(annotated_utterance)
+        self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_agent_utterance(annotated_utterance)
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
@@ -125,6 +126,10 @@ class DialogueManager:
 
         If the two participants have had a conversation previously, the new
         conversation will be appended to the same export document.
+
+        Per dialogue, the dialogue metadata will be added. Also per utterance
+        the uterance metadata, will be added to the same level as the utterance
+        text. Intent will also be exported if provided.
         """
         # If conversation is empty we do not save it.
         if len(self._dialogue_history.utterances) == 0:
@@ -156,28 +161,17 @@ class DialogueManager:
             print(annotated_utterance)
 
             utterance_info = {
-                "participant": annotated_utterance.get("sender").name,
-                "utterance": annotated_utterance.get("utterance").text.replace(
-                    "\n", ""
-                ),
+                "participant": annotated_utterance.participant.name,
+                "utterance": annotated_utterance.text,
             }
 
-            if annotated_utterance.get("utterance").intent is not None:
-                utterance_info["intent"] = annotated_utterance.get(
-                    "utterance"
-                ).intent.label
+            if annotated_utterance.intent is not None:
+                utterance_info["intent"] = annotated_utterance.intent.label
 
-            if (
-                annotated_utterance.get("utterance").metadata.get(
-                    "satisfaction"
-                )
-                is not None
-            ):
-                utterance_info["satisfaction"] = annotated_utterance.get(
-                    "utterance"
-                ).metadata.get("satisfaction")
+            for k, v in annotated_utterance.metadata.items():
+                utterance_info[k] = v
 
-            annotations = annotated_utterance.get("utterance").get_annotations()
+            annotations = annotated_utterance.get_annotations()
             if annotations:
                 slot_values = []
                 for annotation in annotations:
@@ -197,12 +191,12 @@ class DialogueManager:
 
 
 if __name__ == "__main__":
-    from dialoguekit.user.user_with_intent import UserWithIntent
-    from dialoguekit.user.user import User
     from dialoguekit.agent.mathematics_agent import MathAgent
     from dialoguekit.agent.moviebot_agent import MovieBotAgent
-    from dialoguekit.agent.terminal_agent import TerminalAgent
+    from dialoguekit.agent.woz_agent import WOZAgent
     from dialoguekit.core.intent import Intent
+    from dialoguekit.user.user import User
+    from dialoguekit.user.user_with_intent import UserWithIntent
 
     # Participants
     agent = MathAgent("MA01")
@@ -211,7 +205,7 @@ if __name__ == "__main__":
         "UI01", intents=[Intent("START"), Intent("ANSWER"), Intent("COMPLETE")]
     )
     user = User(id="TEST01")
-    agent = TerminalAgent(
+    agent = WOZAgent(
         id="WoZ", intent_recommendations=[Intent("EXIT"), Intent("RANDOM")]
     )
 

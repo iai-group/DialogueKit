@@ -1,9 +1,11 @@
 """Interface extending utterances with annotations."""
 
+from datetime import datetime
 from typing import List, Dict, Any, Optional, Union
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 class AnnotatedUtterance(Utterance):
@@ -12,6 +14,8 @@ class AnnotatedUtterance(Utterance):
     def __init__(
         self,
         text: str,
+        participant: DialogueParticipant,
+        timestamp: Optional[datetime] = None,
         intent: Optional[Intent] = None,
         annotations: Optional[List[Annotation]] = None,
         metadata: Optional[Dict[str, Any]] = None,
@@ -29,7 +33,9 @@ class AnnotatedUtterance(Utterance):
             metadata: Dict with optional attributes (satisfaction etc.).
         """
 
-        super().__init__(text=text)
+        super().__init__(
+            text=text, participant=participant, timestamp=timestamp
+        )
         self._intent = intent
         self._annotations = []
         if annotations:
@@ -50,19 +56,21 @@ class AnnotatedUtterance(Utterance):
 
     def __eq__(self, __o: object) -> bool:
         """Comparison function."""
-        if not isinstance(__o, Utterance):
+        if not isinstance(__o, AnnotatedUtterance):
             return False
-        if self._text != __o._text:
+        if self.utterance != __o.utterance:
             return False
         if self._intent != __o._intent:
             return False
-
         if len(self._annotations) != len(__o._annotations):
+            return False
+        if self._metadata != __o._metadata:
             return False
 
         for annotation in self._annotations:
             if annotation not in __o._annotations:
                 return False
+
         return True
 
     @property
@@ -75,7 +83,11 @@ class AnnotatedUtterance(Utterance):
 
     @property
     def utterance(self) -> Utterance:
-        return Utterance(self.text)
+        return Utterance(
+            text=self.text,
+            participant=self._participant,
+            timestamp=self._timestamp,
+        )
 
     @property
     def metadata(self) -> Dict[str, Any]:
