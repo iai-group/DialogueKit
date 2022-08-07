@@ -2,8 +2,9 @@
 
 import pytest
 from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifier,
+    SatisfactionClassifierSVM,
 )
+from dialoguekit.participant.participant import DialogueParticipant
 from dialoguekit.utils.dialogue_evaluation import Evaluator
 from dialoguekit.utils.dialogue_reader import json_to_dialogues
 
@@ -12,8 +13,8 @@ from dialoguekit.utils.dialogue_reader import json_to_dialogues
 def dialogues():
     export_dialogues = json_to_dialogues(
         filepath="tests/data/annotated_dialogues.json",
-        agent_id="TestAGENT",
-        user_id="TestUSER",
+        agent_id=DialogueParticipant.AGENT,
+        user_id=DialogueParticipant.USER,
     )
     return export_dialogues
 
@@ -36,24 +37,24 @@ def reward_config():
 
 @pytest.fixture
 def satisfaction_classifier():
-    return SatisfactionClassifier()
+    return SatisfactionClassifierSVM()
 
 
 def test_init(dialogues, reward_config):
-    Evaluator(dialogue_history=dialogues, reward_config=reward_config)
+    Evaluator(dialogues=dialogues, reward_config=reward_config)
 
 
 def test_avg_turns(dialogues, reward_config):
     ev = Evaluator(dialogues=dialogues, reward_config=reward_config)
-    avg_turns = ev.avg_turns(dialogue_history=dialogues)
+    avg_turns = ev.avg_turns()
     assert avg_turns == pytest.approx(16.33, 0.1)
-    avg_turns2 = ev.avg_turns(dialogue_history=dialogues)
+    avg_turns2 = ev.avg_turns()
     assert avg_turns2 == pytest.approx(16.33, 0.1)
 
 
 def test_user_act_ratio(dialogues, reward_config):
-    ev = Evaluator(dialogue_history=dialogues, reward_config=reward_config)
-    stats = ev.user_act_ratio(dialogue_history=dialogues)
+    ev = Evaluator(dialogues=dialogues, reward_config=reward_config)
+    stats = ev.user_act_ratio()
 
     assert stats
     assert "AGENT/USER" in list(stats.keys())
@@ -62,16 +63,18 @@ def test_user_act_ratio(dialogues, reward_config):
 
 
 def test_reward(dialogues, reward_config):
-    ev = Evaluator(dialogue_history=dialogues, reward_config=reward_config)
-    rewards = ev.reward(dialogue_history=dialogues)
+    ev = Evaluator(dialogues=dialogues, reward_config=reward_config)
+    rewards = ev.reward()
     assert len(rewards["dialogues"]) == len(dialogues)
     for reward in rewards["dialogues"]:
         assert reward["reward"] >= 0
 
 
-def test_satisfaction_classification(dialogues, satisfaction_classifier):
-    ev = Evaluator(dialogue_history=dialogues)
-    satisfactions = ev.satisfaction(dialogues, satisfaction_classifier)
+def test_satisfaction_classification(
+    dialogues, reward_config, satisfaction_classifier
+):
+    ev = Evaluator(dialogues=dialogues, reward_config=reward_config)
+    satisfactions = ev.satisfaction(satisfaction_classifier)
     print(satisfactions)
     assert satisfactions
     for sc in satisfactions:

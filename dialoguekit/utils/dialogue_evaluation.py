@@ -5,11 +5,12 @@ from collections import defaultdict
 from copy import deepcopy
 from typing import Any, Dict, List, Union
 
-from dialoguekit.core.dialogue import Dialogue, DialogueParticipant
+from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifier,
+    SatisfactionClassifierSVM,
 )
+from dialoguekit.participant.participant import DialogueParticipant
 
 # REWARD CONFIG PARAMETERS
 # Initial points before deduction.
@@ -45,12 +46,12 @@ class Evaluator:
         self._dialogues = dialogues
         self._dialogue_lengths = []
         self._reward_config = reward_config
-        assert isinstance(self.dialogues, list)
+        assert isinstance(self._dialogues, list)
         assert all(isinstance(dialogue, Dialogue) for dialogue in dialogues)
-        assert _CONFIG_FULL_SET_POINTS in self.reward_config
-        assert _CONFIG_INTENTS in self.reward_config
-        assert _REPEAT_PENALTY in self.reward_config
-        assert _COST in self.reward_config
+        assert _CONFIG_FULL_SET_POINTS in self._reward_config
+        assert _CONFIG_INTENTS in self._reward_config
+        assert _REPEAT_PENALTY in self._reward_config
+        assert _COST in self._reward_config
 
     def avg_turns(self) -> float:
         """Calculates the AvgTurns for the dialogues.
@@ -64,15 +65,17 @@ class Evaluator:
         for dialogue in self._dialogues:
             dialogue_turns = 0
             for i in range(len(dialogue.utterances)):
-                if i == 0 or dialogue.utterances[i - 1].get(
-                    "sender"
-                ) == dialogue.utterances[i].get("sender"):
+                if (
+                    i == 0
+                    or dialogue.utterances[i - 1].participant
+                    == dialogue.utterances[i].participant
+                ):
                     continue
                 else:
                     dialogue_turns += 1
             self._dialogue_lengths.append(dialogue_turns / 2)
 
-        return sum(self.dialogue_lengths) / len(self.dialogue_lengths)
+        return sum(self._dialogue_lengths) / len(self._dialogue_lengths)
 
     def user_act_ratio(self) -> Dict[str, float]:
         """Computes the UserActRatio for the dialogues.
@@ -88,7 +91,7 @@ class Evaluator:
 
         for dialogue in self._dialogues:
             for utterance in dialogue.utterances:
-                sender = utterance.get("sender").name
+                sender = utterance.participant
                 statistics[sender] += 1
 
         if len(statistics.keys()) > 2:
@@ -137,25 +140,23 @@ class Evaluator:
 
             # Start dialogue with Agent first.
             for j, utterance in enumerate(dialogue.utterances):
-                if utterance.get("sender") == DialogueParticipant.AGENT:
+                if utterance.participant == DialogueParticipant.AGENT.name:
                     dialogue_utterances_start_agent = dialogue.utterances[j:]
                     break
-            previous_sender = dialogue_utterances_start_agent[0].get("sender")
-            previous_intent = (
-                dialogue_utterances_start_agent[0].get("utterance").intent
-            )
+            previous_sender = dialogue_utterances_start_agent[0].participant
+            previous_intent = dialogue_utterances_start_agent[0].intent
             for j, utterance in enumerate(
                 dialogue_utterances_start_agent, start=1
             ):
                 if (
-                    utterance.get("sender") == previous_sender
-                    and previous_intent == utterance.get("utterance").intent
+                    utterance.participant == previous_sender
+                    and previous_intent == utterance.intent
                 ):
                     n_repeat_intents += 1
                     previous_intent = None
                     continue
-                previous_intent = utterance.get("utterance").intent
-                previous_sender = utterance.get("sender")
+                previous_intent = utterance.intent
+                previous_sender = utterance.participant
 
             results["dialogues"][i]["repeats"] = n_repeat_intents
             results["dialogues"][i]["reward"] -= n_repeat_intents
@@ -191,15 +192,11 @@ class Evaluator:
         reward = self._reward_config["full_set_points"]
         for dialogue in self._dialogues:
             for utterance in dialogue.utterances:
-                if utterance["sender"] == DialogueParticipant.USER:
+                if utterance.participant == DialogueParticipant.USER.name:
                     dialogue_intents.append(
-                        Intent(
-                            utterance.get("utterance").intent.label.split(".")[
-                                0
-                            ]
-                        )
+                        Intent(utterance.intent.label.split(".")[0])
                     )
-                    dialogue_intents.append(utterance.get("utterance").intent)
+                    dialogue_intents.append(utterance.intent)
 
         dialogue_intents_set = set(dialogue_intents)
 
@@ -228,7 +225,7 @@ class Evaluator:
             num_user_acts = sum(
                 1
                 for utterance in dialogue.utterances
-                if utterance["sender"] == DialogueParticipant.USER
+                if utterance.participant == DialogueParticipant.USER.name
             )
             results["dialogues"][i]["user_turns"] = num_user_acts
             results["dialogues"][i][
@@ -237,7 +234,7 @@ class Evaluator:
         return results
 
     def satisfaction(
-        self, satisfaction_classifier: SatisfactionClassifier
+        self, satisfaction_classifier: SatisfactionClassifierSVM
     ) -> List[int]:
         """Classifies dialogue-level satisfaction score.
 
