@@ -5,11 +5,11 @@ https://github.com/sunnweiwei/user-satisfaction-simulation
 """
 
 from abc import ABC, abstractmethod
-from joblib import load
-from typing import Union, List, Optional
-from dialoguekit.core.dialogue import Dialogue
 from pathlib import Path
+from typing import List, Optional, Union
 
+from dialoguekit.core.dialogue import Dialogue
+from joblib import load
 
 _SATISFACTION_CLASSIFIER_MODEL_PATH = "LinearSVC_2_0.joblib"
 _SATISFACTION_TOKENIZER_PATH = "vectorizer_2_0.joblib"

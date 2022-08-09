@@ -8,7 +8,7 @@ packages = setuptools.find_packages(where="dialoguekit")
 
 setuptools.setup(
     name="dialoguekit",
-    version="0.0.3",
+    version="0.0.5",
     author="Jafar Afzali, Krisztian Balog, Aleksander Drzewiecki \
         and Shuo Zhang",
     author_email="author@example.com",
@@ -37,7 +37,5 @@ setuptools.setup(
     include_package_data=True,
     python_requires=">=3.6",
     zip_safe=False,
-    install_requires=["rasa==3.0.8"],
+    install_requires=["rasa>=3.0"],
 )
-
-# package_dir={"": "src"},

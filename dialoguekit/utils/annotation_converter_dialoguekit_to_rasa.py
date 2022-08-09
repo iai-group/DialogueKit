@@ -1,14 +1,14 @@
 import json
-import yaml
 import time
 from collections import defaultdict
-from yaml.representer import SafeRepresenter
-from yaml.nodes import ScalarNode
-from typing import Optional, Dict, List
+from typing import Dict, List, Optional
 
-from dialoguekit.core.utterance import Utterance
+import yaml
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.utils.annotation_converter import AnnotationConverter
+from yaml.nodes import ScalarNode
+from yaml.representer import SafeRepresenter
 
 
 # Used for yaml formatting

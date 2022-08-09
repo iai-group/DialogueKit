@@ -7,8 +7,8 @@ The generalization to multi-label classification is left to future work."""
 from abc import ABC, abstractmethod
 from typing import List
 
-from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
 
 
 class IntentClassifier(ABC):
