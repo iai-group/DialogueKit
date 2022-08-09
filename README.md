@@ -37,6 +37,11 @@ If you want to specify a specific commit as the source of the package append the
   pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275105cc1ca7698783719551c2
   ```
 
+## New features comming before 1.0
+
+* [Rework imports](https://github.com/iai-group/dialoguekit/issues/123)
+* [Versioning for docs](https://github.com/iai-group/dialoguekit/issues/124)
+
 ## Usage example
 
 1. Define agent and user
