@@ -191,23 +191,14 @@ class DialogueManager:
 
 
 if __name__ == "__main__":
-    from dialoguekit.agent.mathematics_agent import MathAgent
     from dialoguekit.agent.moviebot_agent import MovieBotAgent
-    from dialoguekit.agent.woz_agent import WOZAgent
-    from dialoguekit.core.intent import Intent
     from dialoguekit.user.user import User
-    from dialoguekit.user.user_with_intent import UserWithIntent
 
     # Participants
-    agent = MathAgent("MA01")
-    agent = MovieBotAgent(agent_id="MovieBot01")
-    user = UserWithIntent(
-        "UI01", intents=[Intent("START"), Intent("ANSWER"), Intent("COMPLETE")]
+    agent = MovieBotAgent(
+        agent_id="MovieBot01", uri="http://152.94.232.43:5001/"
     )
     user = User(id="TEST01")
-    agent = WOZAgent(
-        id="WoZ", intent_recommendations=[Intent("EXIT"), Intent("RANDOM")]
-    )
 
     platform = Platform()
     dm = DialogueManager(agent, user, platform)

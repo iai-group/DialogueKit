@@ -43,5 +43,7 @@ class User(Participant):
         """
         # TODO: Move input part to Platform.
         text = input("Your response: ")
-        response = AnnotatedUtterance(text)
+        response = AnnotatedUtterance(
+            text, participant=DialogueParticipant.USER
+        )
         self._dialogue_manager.register_user_utterance(response)
