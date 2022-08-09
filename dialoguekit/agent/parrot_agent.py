@@ -3,6 +3,7 @@
 from dialoguekit.agent.agent import Agent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 class ParrotAgent(Agent):
@@ -19,14 +20,17 @@ class ParrotAgent(Agent):
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
         utterance = AnnotatedUtterance(
-            "Hello, I'm Parrot. What can I help u with?"
+            "Hello, I'm Parrot. What can I help u with?",
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
         utterance = AnnotatedUtterance(
-            "It was nice talking to you. Bye", intent=Intent("EXIT")
+            "It was nice talking to you. Bye",
+            intent=Intent("EXIT"),
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
@@ -38,5 +42,8 @@ class ParrotAgent(Agent):
         Args:
             utterance: User utterance.
         """
-        response = AnnotatedUtterance("(Parroting) " + annotated_utterance.text)
+        response = AnnotatedUtterance(
+            "(Parroting) " + annotated_utterance.text,
+            participant=DialogueParticipant.AGENT,
+        )
         self._dialogue_manager.register_agent_utterance(response)

@@ -1,16 +1,17 @@
 """Simple mathematics agent, that asks math questions."""
 
-import random
-from typing import Optional
-from enum import Enum
 import math
+import random
+from enum import Enum
+from typing import Optional
 
 from dialoguekit.agent.agent import Agent
-from dialoguekit.core.annotation import Annotation
-from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlg.nlg import NLG
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 class Operation(Enum):
@@ -103,13 +104,16 @@ class MathAgent(Agent):
             """Hello, I'm a bot in need of some help.
             Can you help me with some mathematics?""",
             intent=Intent("WELCOME"),
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
         utterance = AnnotatedUtterance(
-            "It was nice talking to you. Bye", intent=Intent("EXIT")
+            "It was nice talking to you. Bye",
+            intent=Intent("EXIT"),
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
@@ -158,5 +162,6 @@ class MathAgent(Agent):
                     Annotation(slot="NUMBER", value=str(number_2)),
                 ],
             )
+            response.set_participant(DialogueParticipant.AGENT)
 
         self._dialogue_manager.register_agent_utterance(response)

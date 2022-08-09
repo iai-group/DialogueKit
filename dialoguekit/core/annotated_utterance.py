@@ -1,7 +1,8 @@
 """Interface extending utterances with annotations."""
 
 from datetime import datetime
-from typing import List, Dict, Any, Optional, Union
+from typing import Any, Dict, List, Optional, Union
+
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
@@ -90,6 +91,10 @@ class AnnotatedUtterance(Utterance):
         )
 
     @property
+    def participant(self) -> DialogueParticipant:
+        return self._participant
+
+    @property
     def metadata(self) -> Dict[str, Any]:
         return self._metadata
 
@@ -117,6 +122,14 @@ class AnnotatedUtterance(Utterance):
         Return: List of Annotation instances.
         """
         return self._annotations
+
+    def set_participant(self, participant: DialogueParticipant) -> None:
+        """Set utterance participant type.
+
+        Args:
+            participant: Participant type who uttered the utterance.
+        """
+        self._participant = participant
 
     def get_text_placeholders(self) -> str:
         """Returns the utterance text with annotations replaced with
