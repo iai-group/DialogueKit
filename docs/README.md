@@ -1,6 +1,3 @@
-# Table of contents
+# Documentation
 
-  * [Fundamental concepts](concepts.md)
-  * [Natural language understanding](nlu.md)
-  * [Rasa parrot agent](rasa-parrot.md)
-  * [Rasa as a component library](rasa_component_library.md)
+"The usage-oriented documentation (in Read the Docs style) is available [here](https://iai-group.github.io/dialoguekit/), with the corresponding sources contained in the source folder. Documentation related to development is found in the [Wiki](https://github.com/iai-group/dialoguekit/wiki)."

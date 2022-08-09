@@ -6,11 +6,10 @@ connected with a DialogueManager by invoking `register_dialogue_manager()`.
 
 from enum import Enum
 
-
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.participant.participant import Participant
-from dialoguekit.core.intent import Intent
 from dialoguekit.core.annotation import Annotation
+from dialoguekit.core.intent import Intent
+from dialoguekit.participant.participant import Participant
 
 
 # TODO This needs to be updated to work with MathAgent

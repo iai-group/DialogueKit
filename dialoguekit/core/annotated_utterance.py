@@ -1,7 +1,8 @@
 """Interface extending utterances with annotations."""
 
 from datetime import datetime
-from typing import List, Dict, Any, Optional, Union
+from typing import Any, Dict, List, Optional, Union
+
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance

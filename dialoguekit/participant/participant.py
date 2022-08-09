@@ -1,12 +1,13 @@
 """Interface defining core Participant functionality."""
 from __future__ import annotations
+
 from abc import ABC
 from enum import Enum
 from typing import TYPE_CHECKING, Dict
 
 if TYPE_CHECKING:
-    from dialoguekit.manager.dialogue_manager import DialogueManager
     from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+    from dialoguekit.manager.dialogue_manager import DialogueManager
 
 
 class DialogueParticipant(Enum):

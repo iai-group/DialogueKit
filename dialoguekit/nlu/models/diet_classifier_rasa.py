@@ -7,14 +7,14 @@ A short description of how we use Rasa as a component library can be seen inn
 the docs/rasa_component_library.md
 """
 
-from typing import Any, Dict, List, Text, Type, Optional
-from pathlib import Path
-import tempfile
 import copy
+import tempfile
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Text, Type
 
-from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlu.intent_classifier import IntentClassifier
 from dialoguekit.utils.annotation_converter_dialoguekit_to_rasa import (
     AnnotationConverterRasa,
@@ -22,17 +22,17 @@ from dialoguekit.utils.annotation_converter_dialoguekit_to_rasa import (
 
 # Rasa imports
 from rasa.engine.graph import ExecutionContext, GraphComponent, GraphSchema
-from rasa.shared.nlu.constants import TEXT
+from rasa.engine.storage.local_model_storage import LocalModelStorage
+from rasa.engine.storage.resource import Resource
+from rasa.nlu.classifiers.diet_classifier import DIETClassifier
 from rasa.nlu.featurizers.sparse_featurizer.count_vectors_featurizer import (
     CountVectorsFeaturizer,
 )
-from rasa.shared.nlu.training_data.message import Message
-from rasa.engine.storage.resource import Resource
 from rasa.nlu.tokenizers.whitespace_tokenizer import WhitespaceTokenizer
-from rasa.engine.storage.local_model_storage import LocalModelStorage
-from rasa.shared.nlu.training_data.training_data import TrainingData
-from rasa.nlu.classifiers.diet_classifier import DIETClassifier
 from rasa.shared.importers.rasa import RasaFileImporter
+from rasa.shared.nlu.constants import TEXT
+from rasa.shared.nlu.training_data.message import Message
+from rasa.shared.nlu.training_data.training_data import TrainingData
 
 
 class IntentClassifierRasa(IntentClassifier):

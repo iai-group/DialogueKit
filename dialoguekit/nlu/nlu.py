@@ -1,9 +1,10 @@
 """Natural language understanding."""
 
 from typing import Any, List
+
 from dialoguekit.core.intent import Intent
-from dialoguekit.core.utterance import Utterance
 from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlu.intent_classifier import IntentClassifier
 
 

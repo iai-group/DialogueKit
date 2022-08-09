@@ -1,13 +1,13 @@
 """Represents item ratings and provides access either based on items or users.
 
-Ratings are normalized in the [-1,1] range, where -1 corresponds to (strong) 
+Ratings are normalized in the [-1,1] range, where -1 corresponds to (strong)
 dislike, 0 is neutral, and 1 is (strong) like.
 """
 
 import csv
+import random
 from collections import defaultdict
 from typing import Dict, Optional
-import random
 
 from dialoguekit.core.recsys.item_collection import ItemCollection
 

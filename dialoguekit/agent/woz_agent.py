@@ -4,9 +4,10 @@ A WoZ agent is one that is controlled by a human operator. It can be especially
 useful for human-human data collection or for testing simulated users.
 """
 from typing import List, Optional
-from dialoguekit.core.intent import Intent
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+
 from dialoguekit.agent.agent import Agent, AgentType
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.intent import Intent
 
 
 class WOZAgent(Agent):
