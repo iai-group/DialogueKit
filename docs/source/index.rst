@@ -9,11 +9,11 @@ DialogueKit is a framework for building and evaluating CIS systems.
    :maxdepth: 1
    :caption: Contents:
 
-   Installation
-   Usage
-   Concepts
-   Nlu
-   External_agents
+   installation
+   usage
+   concepts
+   nlu
+   external_agents
    :ref:`modindex`
 
 Indices and tables
