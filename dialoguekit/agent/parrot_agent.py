@@ -39,9 +39,14 @@ class ParrotAgent(Agent):
     ) -> None:
         """This method is called each time there is a new user utterance.
 
+        If the received message is "EXIT" it will close the conversation.
+
         Args:
             utterance: User utterance.
         """
+        if annotated_utterance.text == "EXIT":
+            self.goodbye()
+
         response = AnnotatedUtterance(
             "(Parroting) " + annotated_utterance.text,
             participant=DialogueParticipant.AGENT,
