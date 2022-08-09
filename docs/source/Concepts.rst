@@ -13,7 +13,7 @@ Participant
 
 Represents a participant in the conversation.
 
-    * **User** and **Agent** are Participants
+* **User** and **Agent** are Participants
 
 
 Agent
@@ -33,15 +33,15 @@ conversation, but the responsibility lies on the Agent to stop it.
 Out of the box DialogueKit contains some sample agents. These are described
 below:
 
-    * **ParrotAgent**: This agent will welcome the User, but will always parrot (echo) the User.
-        
-    * **RasaParrotAgent**: This agent looks like the **ParrotAgent** to the user, but is actually just a connector to a Rasa conversational agent. This conversational agent is also part of DialogueKit
+* **ParrotAgent**: This agent will welcome the User, but will always parrot (echo) the User.
 
-    * **MathAgent**: This **Agent** will ask the user simple arithmetic (addition, subtraction, multiplication and division) questions.
+* **RasaParrotAgent**: This agent looks like the **ParrotAgent** to the user, but is actually just a connector to a Rasa conversational agent. This conversational agent is also part of DialogueKit
 
-    * **MovieBotAgent**: A Connector agent for `IAI MovieBot <https://github.com/iai-group/moviebot>`_ .
+* **MathAgent**: This **Agent** will ask the user simple arithmetic (addition, subtraction, multiplication and division) questions.
 
-    * **WozAgent**: Allows a real human to interact with a User. This can be useful for testing user simulators.
+* **MovieBotAgent**: A Connector agent for `IAI MovieBot <https://github.com/iai-group/moviebot>`_ .
+
+* **WozAgent**: Allows a real human to interact with a User. This can be useful for testing user simulators.
 
 User 
 ----
@@ -54,7 +54,19 @@ Utterance
 ---------
 :py:mod:`dialoguekit.core.utterance`
 
-An **utterance** by an **Agent** or **User**. The utterance holds the participant utterance as clear text and can hold additionally to the intent and or annotation.
+An **utterance** by an **Agent** or **User**. The utterance holds the participant utterance as clear text. To store additional information such as intent and or annotation the :py:mod:`dialoguekit.core.annotated_utterance` should be used.
+
+Additionally the **annotated_utterance** can store other user defined metadata. **DialogueKit** uses this metadata field for the **Satisfaction Classifier**. The ``metadata`` field is a dictionary with the structure: ``Dict[str, Any]``.
+
+In our case for satisfaction, the ``metadata`` field looks as follows:
+
+.. code-block:: json
+
+    metadata = {
+        "satisfaction": int
+    }
+
+This metadata will then be used in the natural language generation. You are free to use ``metadata`` for your own use-cases.
 
 
 Platform 
@@ -88,20 +100,20 @@ Annotations
 -----------
 There are two types of annotations
 
-  * **Intent** :py:mod:`dialoguekit.core.intent`: represents the dialogue action.
+* **Intent** :py:mod:`dialoguekit.core.intent`: represents the dialogue action.
 
-  * **SlotValueAnnotation** :py:mod:`dialoguekit.core.slot_value_annotation`: slot-value pairs, where a slot refers to an entity or a property in the **ontology**.
+* **SlotValueAnnotation** :py:mod:`dialoguekit.core.slot_value_annotation`: slot-value pairs, where a slot refers to an entity or a property in the **ontology**.
 
 
 User preferences
 ----------------
 
-  * Preferences are expressed for specific slot-value pairs, where slots correspond to **entities** or properties in the **ontology**.
+* Preferences are expressed for specific slot-value pairs, where slots correspond to **entities** or properties in the **ontology**.
 
 
 Concepts specific to item recommendation scenarios
 --------------------------------------------------
 
-  * Item: an entity with a unique ID, canonical name, and any number of properties (represented as property-value pairs, where properties correspond to ontology classes).
-  * ItemCollection: a collection of items.
-  * Ratings: explicit user preferences on items (normalized into [-1,1]).
+* Item: an entity with a unique ID, canonical name, and any number of properties (represented as property-value pairs, where properties correspond to ontology classes).
+* ItemCollection: a collection of items.
+* Ratings: explicit user preferences on items (normalized into [-1,1]).
