@@ -20,10 +20,8 @@ class UserType(Enum):
 
 
 class User(Participant):
-    """Represents a user."""
-
     def __init__(self, id: str, user_type: UserType = UserType.HUMAN) -> None:
-        """Initializes the user.
+        """Represents a user.
 
         Args:
             user_id: User ID.
@@ -36,7 +34,6 @@ class User(Participant):
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
         """This method is called each time there is a new agent utterance.
-
 
         Args:
             utterance: Agent utterance.

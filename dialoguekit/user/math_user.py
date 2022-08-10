@@ -32,15 +32,13 @@ def find_operation_type(math_agent_utterance: str):
 
 
 class MathUser(Participant):
-    """Represents a user."""
-
     def __init__(
         self,
         id: str,
         type: UserType = UserType.HUMAN,
         intents: Union[List[Intent], None] = None,
     ) -> None:
-        """Initializes the user.
+        """Represents a user.
 
         Args:
             user_id: User ID.
@@ -78,6 +76,5 @@ class MathUser(Participant):
             )
             response._intent = selected_intent
             response.add_annotation(Annotation(slot="NUMBER", value=text))
-            response.set_participant(DialogueParticipant.USER)
 
         self._dialogue_manager.register_user_utterance(response)

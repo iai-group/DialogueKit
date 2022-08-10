@@ -12,15 +12,13 @@ from dialoguekit.participant.participant import DialogueParticipant
 
 
 class WOZAgent(Agent):
-    """Represents a WoZ agent."""
-
     def __init__(
         self,
         id: str,
         intent_recommendations: Optional[List[Intent]] = None,
         type: Optional[AgentType] = AgentType.WOZ,
     ) -> None:
-        """Initializes the agent.
+        """Represents a WoZ agent.
 
         If 'intent_recommendations' are provided the WOZAgent will ask the
         operator to explicitly declare the intent of the response, before

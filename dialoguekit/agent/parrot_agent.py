@@ -7,10 +7,11 @@ from dialoguekit.participant.participant import DialogueParticipant
 
 
 class ParrotAgent(Agent):
-    """Parrot agent."""
-
     def __init__(self, agent_id: str):
-        """Initializes agent.
+        """Parrot agent.
+
+        This agent parrots back what the user utters.
+        To end the conversation the user has to say `EXIT`.
 
         Args:
             agent_id: Agent id.

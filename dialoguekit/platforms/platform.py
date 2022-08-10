@@ -5,10 +5,8 @@ from dialoguekit.core.utterance import Utterance
 
 
 class Platform:
-    """Represents a platform."""
-
     def __init__(self):
-        """Initializes the platform."""
+        """Represents a platform."""
         pass
 
     def display_agent_utterance(self, utterance: Utterance) -> None:

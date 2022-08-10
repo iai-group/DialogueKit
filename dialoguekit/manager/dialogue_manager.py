@@ -28,8 +28,6 @@ _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
 
 class DialogueManager:
-    """Represents a dialogue manager."""
-
     def __init__(
         self,
         agent: Agent,
@@ -37,7 +35,7 @@ class DialogueManager:
         platform: Platform,
         save_dialogue_history: bool = True,
     ) -> None:
-        """Initializes the Dialogue Manager.
+        """Represents a dialogue manager.
 
         Args:
             agent: An instance of Agent.

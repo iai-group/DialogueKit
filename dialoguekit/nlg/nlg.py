@@ -19,10 +19,8 @@ from dialoguekit.participant.participant import DialogueParticipant
 
 
 class NLG:
-    """Represents a Natural Language Generation (NLG) component."""
-
     def __init__(self) -> None:
-        """Initializes the NLG component."""
+        """Represents a Natural Language Generation (NLG) component."""
         self._response_templates: Dict[Intent, List[AnnotatedUtterance]] = None
         self._GENERATED_SATISFACTION: bool = False
 

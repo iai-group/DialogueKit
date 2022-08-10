@@ -12,10 +12,13 @@ from dialoguekit.participant.participant import DialogueParticipant
 
 
 class RasaParrotAgent(Agent):
-    """Rasa Parrot agent."""
-
     def __init__(self, agent_id: str):
-        """Initializes agent.
+        """Rasa Parrot agent.
+
+        This agent connects to the sample Rasa parrot agent found here:
+        https://github.com/iai-group/dialoguekit/tree/main/external_agents
+
+        To end the conversation the user has to say `EXIT`, `QUIT` or `STOP`.
 
         Args:
             agent_id: Agent id.

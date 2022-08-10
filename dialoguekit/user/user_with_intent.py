@@ -34,12 +34,10 @@ class UserType(Enum):
 
 
 class UserWithIntent(Participant):
-    """Represents a user."""
-
     def __init__(
         self, id: str, type: UserType = UserType.HUMAN, intents=None
     ) -> None:
-        """Initializes the user.
+        """Represents a user.
 
         Args:
             user_id: User ID.
@@ -55,7 +53,6 @@ class UserWithIntent(Participant):
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
         """This method is called each time there is a new agent utterance.
-
 
         Args:
             utterance: Agent utterance.
