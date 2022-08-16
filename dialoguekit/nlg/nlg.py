@@ -15,7 +15,7 @@ class NLG(AbstractNLG):
     def __init__(
         self, response_templates: Dict[Intent, List[AnnotatedUtterance]]
     ) -> None:
-        """Template based NLG.
+        """Template-based NLG.
 
         To use this NLG component, on of the template extraction methods from
         `template_from_traning_data.py` has to be used.
