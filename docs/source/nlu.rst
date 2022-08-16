@@ -56,3 +56,15 @@ Entity Extraction
 -----------------
 
 As of now only one implementation exists, the Rasa DIET classifier.
+
+Satisfaction Classification
+---------------------------
+
+The current satisfaction classifier is a SVM model pre-trained on `english data <https://github.com/sunnweiwei/user-satisfaction-simulation>`_.
+The model takes *n* previous user-agent turns and classifies the user satisfaction based on these. Satisfaction is scored on a scale from 1-5:
+
+#. Very dissatisfied
+#. Dissatisfied
+#. Normal
+#. Satisfied
+#. Very satisfied
