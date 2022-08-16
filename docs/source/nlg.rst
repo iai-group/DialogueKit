@@ -41,3 +41,8 @@ The ConditionalNLG class adds two fields to the ``generate_utterance_text()`` me
 
 These fields are used to find the utterance that has the closest ``conditional_value`` to the utterance metadata field with the key ``conditional``.
 Note that this necessitates the need of a larger template with multiple values for the ``conditional``.
+
+Custom NLG
+""""""""""
+
+If you want to implement your own NLG component feel free to inherit from :py:class:`dialoguekit.nlg.nlg_abstract.AbstractNLG`.
