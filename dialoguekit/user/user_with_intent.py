@@ -9,7 +9,7 @@ from enum import Enum
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
-from dialoguekit.participant.participant import Participant
+from dialoguekit.participant.participant import DialogueParticipant, Participant
 
 
 # TODO This needs to be updated to work with MathAgent
@@ -34,12 +34,10 @@ class UserType(Enum):
 
 
 class UserWithIntent(Participant):
-    """Represents a user."""
-
     def __init__(
         self, id: str, type: UserType = UserType.HUMAN, intents=None
     ) -> None:
-        """Initializes the user.
+        """Represents a user.
 
         Args:
             user_id: User ID.
@@ -56,7 +54,6 @@ class UserWithIntent(Participant):
     ) -> None:
         """This method is called each time there is a new agent utterance.
 
-
         Args:
             utterance: Agent utterance.
         """
@@ -68,7 +65,9 @@ class UserWithIntent(Participant):
         selected_intent = self._intents[int(intent_selector) - 1]
 
         text = input("Your response: ")
-        response = AnnotatedUtterance(text, intent=selected_intent)
+        response = AnnotatedUtterance(
+            text, intent=selected_intent, participant=DialogueParticipant.USER
+        )
 
         if selected_intent == Intent("ANSWER"):
             selected_intent = Intent(

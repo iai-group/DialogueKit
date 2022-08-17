@@ -20,10 +20,8 @@ class UserType(Enum):
 
 
 class User(Participant):
-    """Represents a user."""
-
     def __init__(self, id: str, user_type: UserType = UserType.HUMAN) -> None:
-        """Initializes the user.
+        """Represents a user.
 
         Args:
             user_id: User ID.
@@ -37,11 +35,12 @@ class User(Participant):
     ) -> None:
         """This method is called each time there is a new agent utterance.
 
-
         Args:
             utterance: Agent utterance.
         """
         # TODO: Move input part to Platform.
         text = input("Your response: ")
-        response = AnnotatedUtterance(text)
+        response = AnnotatedUtterance(
+            text, participant=DialogueParticipant.USER
+        )
         self._dialogue_manager.register_user_utterance(response)

@@ -6,10 +6,8 @@ from dialoguekit.core.utterance import Utterance
 
 
 class Dialogue:
-    """Represents a dialogue."""
-
     def __init__(self, agent_id: str, user_id: str) -> None:
-        """Initializes the dialogue history.
+        """Represents a dialogue.
 
         Args:
             agent_id: Agent ID.

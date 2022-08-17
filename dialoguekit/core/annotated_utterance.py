@@ -10,8 +10,6 @@ from dialoguekit.participant.participant import DialogueParticipant
 
 
 class AnnotatedUtterance(Utterance):
-    """Represents an utterance, with additional info."""
-
     def __init__(
         self,
         text: str,
@@ -21,7 +19,7 @@ class AnnotatedUtterance(Utterance):
         annotations: Optional[List[Annotation]] = None,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> None:
-        """Initializes an AnnotatedUtterance.
+        """Represents an utterance, with additional annotations.
 
         The AnnotatedUtterance is a Utterance with additional information.
         In some cases we want to send an utterance with the Intent and or
@@ -91,6 +89,10 @@ class AnnotatedUtterance(Utterance):
         )
 
     @property
+    def participant(self) -> DialogueParticipant:
+        return self._participant
+
+    @property
     def metadata(self) -> Dict[str, Any]:
         return self._metadata
 
@@ -102,6 +104,7 @@ class AnnotatedUtterance(Utterance):
         Args:
             annotation: Annotation instance.
         """
+        # TODO Only input List[Annotation] #130
         if isinstance(annotation, List):
             self._annotations.extend(annotation)
         elif isinstance(annotation, Annotation):
@@ -115,9 +118,17 @@ class AnnotatedUtterance(Utterance):
     def get_annotations(self) -> List[Annotation]:
         """Returns the available annotations for the utterance.
 
-        Return: List of Annotation instances.
+        Returns: List of Annotation instances.
         """
         return self._annotations
+
+    def set_participant(self, participant: DialogueParticipant) -> None:
+        """Sets the utterance participant type.
+
+        Args:
+            participant: Participant type who uttered the utterance.
+        """
+        self._participant = participant
 
     def get_text_placeholders(self) -> str:
         """Returns the utterance text with annotations replaced with
