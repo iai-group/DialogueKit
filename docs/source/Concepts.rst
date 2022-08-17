@@ -68,6 +68,14 @@ In our case for satisfaction, the ``metadata`` field looks as follows:
 
 This metadata will then be used in the natural language generation. You are free to use ``metadata`` for your own use-cases.
 
+Intent 
+--------
+:py:mod:`dialoguekit.core.intent`
+
+The intent of a participant utterance, i.e., the action which the participant wishes to take by stating the utterance.
+
+As a example we can think of an agents asking the question *"Do you like pizza?"* For this case the intent may be to *INQUIRE* a preference from the user.
+
 
 Platform 
 --------
