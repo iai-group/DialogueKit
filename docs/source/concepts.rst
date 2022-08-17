@@ -33,6 +33,7 @@ conversation, but the responsibility lies on the Agent to stop it.
 Out of the box DialogueKit contains some sample agents. These are described
 below:
 
+
 * **ParrotAgent**: This agent will welcome the User, but will always parrot (echo) the User.
 
 * **RasaParrotAgent**: This agent looks like the **ParrotAgent** to the user, but is actually just a connector to a Rasa conversational agent. This conversational agent is also part of DialogueKit
@@ -77,6 +78,7 @@ The intent of a participant utterance, i.e., the action which the participant wi
 As a example we can think of an agents asking the question *"Do you like pizza?"* For this case the intent may be to *INQUIRE* a preference from the user.
 
 
+
 Platform 
 --------
 :py:mod:`dialoguekit.platforms.platform`
@@ -109,7 +111,6 @@ Annotations
 There are two types of annotations
 
 * **Intent** :py:mod:`dialoguekit.core.intent`: represents the dialogue action.
-
 * **SlotValueAnnotation** :py:mod:`dialoguekit.core.slot_value_annotation`: slot-value pairs, where a slot refers to an entity or a property in the **ontology**.
 
 
