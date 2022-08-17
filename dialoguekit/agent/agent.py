@@ -24,10 +24,8 @@ class AgentType(Enum):
 
 
 class Agent(Participant):
-    """Represents an agent."""
-
     def __init__(self, id: str, agent_type: AgentType = AgentType.BOT) -> None:
-        """Initializes the agent.
+        """Represents an agent.
 
         Args:
             id: Agent ID.

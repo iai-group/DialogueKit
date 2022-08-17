@@ -8,20 +8,19 @@ from typing import List, Optional
 from dialoguekit.agent.agent import Agent, AgentType
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 class WOZAgent(Agent):
-    """Represents a WoZ agent."""
-
     def __init__(
         self,
         id: str,
         intent_recommendations: Optional[List[Intent]] = None,
         type: Optional[AgentType] = AgentType.WOZ,
     ) -> None:
-        """Initializes the agent.
+        """Represents a WoZ agent.
 
-        If 'intent_recommendations' are provided the WOZAgent will ask the
+        If intent recommendations are provided the WOZAgent will ask the
         operator to explicitly declare the intent of the response, before
         prompting for the text of the utterance.
 
@@ -36,13 +35,20 @@ class WOZAgent(Agent):
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
         text = input("Your WELCOME message: ")
-        response = AnnotatedUtterance(text)
+        response = AnnotatedUtterance(
+            text,
+            participant=DialogueParticipant.AGENT,
+        )
         self._dialogue_manager.register_agent_utterance(response)
 
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
         text = input("Your GOODBYE message: ")
-        response = AnnotatedUtterance(text, intent=Intent("EXIT"))
+        response = AnnotatedUtterance(
+            text,
+            intent=Intent("EXIT"),
+            participant=DialogueParticipant.AGENT,
+        )
         response
         self._dialogue_manager.register_agent_utterance(response)
 
@@ -91,5 +97,9 @@ class WOZAgent(Agent):
                     pass
 
         text = input("Your response: ")
-        response = AnnotatedUtterance(text, intent=response_intent)
+        response = AnnotatedUtterance(
+            text,
+            intent=response_intent,
+            participant=DialogueParticipant.AGENT,
+        )
         self._dialogue_manager.register_agent_utterance(response)

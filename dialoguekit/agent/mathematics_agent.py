@@ -11,6 +11,7 @@ from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlg.nlg import NLG
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 class Operation(Enum):
@@ -21,24 +22,22 @@ class Operation(Enum):
 
 
 class MathAgent(Agent):
-    """Mathematics agent.
-
-    This Agent will ask for help with some simple math questions. These
-    questions are of the form "What is 5 + 1?" if the User responds with the
-    right answer it will ask a new question. If the User responds with the wrong
-    answer the MathAgent will answer that the provided answer was wrong.
-    """
-
     def __init__(
         self,
         agent_id: str,
         nlg: Optional[NLG] = None,
     ) -> None:
-        """Initializes the agent.
+        """Mathematics agent.
+
+        This Agent will ask for help with some simple math questions. These
+        questions are of the form "What is 5 + 1?". If the User responds with
+        the right answer it will ask a new question. If the User responds with
+        the wrong answer the MathAgent will respond that the provided answer was
+        not correct.
 
         Args:
             agent_id: Agent id.
-            nlg: If set, it will overide the internal NLG.
+            nlg: If set, it will override the internal NLG.
         """
         super().__init__(agent_id)
         self._nlg = nlg
@@ -103,13 +102,16 @@ class MathAgent(Agent):
             """Hello, I'm a bot in need of some help.
             Can you help me with some mathematics?""",
             intent=Intent("WELCOME"),
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
         utterance = AnnotatedUtterance(
-            "It was nice talking to you. Bye", intent=Intent("EXIT")
+            "It was nice talking to you. Bye",
+            intent=Intent("EXIT"),
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
@@ -158,5 +160,6 @@ class MathAgent(Agent):
                     Annotation(slot="NUMBER", value=str(number_2)),
                 ],
             )
+            response.set_participant(DialogueParticipant.AGENT)
 
         self._dialogue_manager.register_agent_utterance(response)

@@ -13,7 +13,7 @@ from typing import List, Union
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
-from dialoguekit.participant.participant import Participant
+from dialoguekit.participant.participant import DialogueParticipant, Participant
 from dialoguekit.user.user import UserType
 
 
@@ -32,15 +32,13 @@ def find_operation_type(math_agent_utterance: str):
 
 
 class MathUser(Participant):
-    """Represents a user."""
-
     def __init__(
         self,
         id: str,
         type: UserType = UserType.HUMAN,
         intents: Union[List[Intent], None] = None,
     ) -> None:
-        """Initializes the user.
+        """Represents a user.
 
         Args:
             user_id: User ID.
@@ -68,7 +66,9 @@ class MathUser(Participant):
         selected_intent = self._intents[int(intent_selector) - 1]
 
         text = input("Your response: ")
-        response = AnnotatedUtterance(text, intent=selected_intent)
+        response = AnnotatedUtterance(
+            text, intent=selected_intent, participant=DialogueParticipant.USER
+        )
 
         if selected_intent == Intent("ANSWER"):
             selected_intent = Intent(

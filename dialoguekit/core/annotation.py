@@ -1,7 +1,9 @@
-class Annotation:
-    """Represents an annotation."""
+"""Interface representing an annotation."""
 
+
+class Annotation:
     def __init__(self, slot: str = None, value: str = None) -> None:
+        """Represents an annotation."""
         self._slot = slot
         self._value = value
 

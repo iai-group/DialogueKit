@@ -7,8 +7,6 @@ from dialoguekit.core.annotation import Annotation
 
 
 class SlotValueAnnotation(Annotation):
-    """Represents slot-value annotation."""
-
     def __init__(
         self,
         slot: str = None,
@@ -16,6 +14,7 @@ class SlotValueAnnotation(Annotation):
         start: int = None,
         end: int = None,
     ) -> None:
+        """Represents slot-value annotation."""
         # TODO Connect to Domain (and restrict to slots in there)?
         super().__init__(slot=slot, value=value)
         self._start = start

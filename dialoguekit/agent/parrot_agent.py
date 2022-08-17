@@ -3,13 +3,15 @@
 from dialoguekit.agent.agent import Agent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 class ParrotAgent(Agent):
-    """Parrot agent."""
-
     def __init__(self, agent_id: str):
-        """Initializes agent.
+        """Parrot agent.
+
+        This agent parrots back what the user utters.
+        To end the conversation the user has to say `EXIT`.
 
         Args:
             agent_id: Agent id.
@@ -19,14 +21,17 @@ class ParrotAgent(Agent):
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
         utterance = AnnotatedUtterance(
-            "Hello, I'm Parrot. What can I help u with?"
+            "Hello, I'm Parrot. What can I help u with?",
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
         utterance = AnnotatedUtterance(
-            "It was nice talking to you. Bye", intent=Intent("EXIT")
+            "It was nice talking to you. Bye",
+            intent=Intent("EXIT"),
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
@@ -35,8 +40,16 @@ class ParrotAgent(Agent):
     ) -> None:
         """This method is called each time there is a new user utterance.
 
+        If the received message is "EXIT" it will close the conversation.
+
         Args:
             utterance: User utterance.
         """
-        response = AnnotatedUtterance("(Parroting) " + annotated_utterance.text)
+        if annotated_utterance.text == "EXIT":
+            self.goodbye()
+
+        response = AnnotatedUtterance(
+            "(Parroting) " + annotated_utterance.text,
+            participant=DialogueParticipant.AGENT,
+        )
         self._dialogue_manager.register_agent_utterance(response)

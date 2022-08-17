@@ -7,10 +7,8 @@ import yaml
 
 
 class Domain:
-    """Represents domain knowledge."""
-
     def __init__(self, config_file: str) -> None:
-        """Initializes the domain knowledge.
+        """Represents domain knowledge.
 
         Args:
             config_file: Name of YAML config file.
