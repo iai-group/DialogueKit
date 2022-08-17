@@ -17,13 +17,13 @@ If you want to install a DialogueKit from a specific commit or straight from git
 
 The command will install the latest version from the main branch.
 
-* On Windows you may need to run this command before pip installing
+  * On Windows you may need to run this command before pip installing
 
   ```shell
   ssh -t git github.com    
   ```
 
-* pip install
+  * pip install
 
   ```shell
   pip install git+ssh://git@github.com/iai-group/dialoguekit.git
@@ -31,16 +31,11 @@ The command will install the latest version from the main branch.
 
 If you want to specify a specific commit as the source of the package append the commit hash to the end of the command separated with a "@".
 
-* Specific commit as the source of the package.
+  * Specific commit as the source of the package.
 
   ```shell
   pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275105cc1ca7698783719551c2
   ```
-
-## New features comming before 1.0
-
-* [Rework imports](https://github.com/iai-group/dialoguekit/issues/123)
-* [Versioning for docs](https://github.com/iai-group/dialoguekit/issues/124)
 
 ## Usage example
 
@@ -72,6 +67,12 @@ If you want to specify a specific commit as the source of the package append the
       dm.start()
       dm.close()
     ```
+
+## Planned future features
+
+  * [Rework imports](https://github.com/iai-group/dialoguekit/issues/123)
+  * [Versioning for docs](https://github.com/iai-group/dialoguekit/issues/124)
+  * [Unified dialogue reader](https://github.com/iai-group/dialoguekit/issues/140)
 
 ## Conventions
 
