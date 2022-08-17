@@ -30,14 +30,14 @@ class MathAgent(Agent):
         """Mathematics agent.
 
         This Agent will ask for help with some simple math questions. These
-        questions are of the form "What is 5 + 1?" if the User responds with the
-        right answer it will ask a new question. If the User responds with the
-        wrong answer the MathAgent will answer that the provided answer was not
-        correct.
+        questions are of the form "What is 5 + 1?". If the User responds with
+        the right answer it will ask a new question. If the User responds with
+        the wrong answer the MathAgent will respond that the provided answer was
+        not correct.
 
-            Args:
-                agent_id: Agent id.
-                nlg: If set, it will overide the internal NLG.
+        Args:
+            agent_id: Agent id.
+            nlg: If set, it will override the internal NLG.
         """
         super().__init__(agent_id)
         self._nlg = nlg

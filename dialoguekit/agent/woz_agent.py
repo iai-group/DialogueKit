@@ -20,7 +20,7 @@ class WOZAgent(Agent):
     ) -> None:
         """Represents a WoZ agent.
 
-        If 'intent_recommendations' are provided the WOZAgent will ask the
+        If intent recommendations are provided the WOZAgent will ask the
         operator to explicitly declare the intent of the response, before
         prompting for the text of the utterance.
 

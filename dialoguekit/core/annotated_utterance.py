@@ -19,7 +19,7 @@ class AnnotatedUtterance(Utterance):
         annotations: Optional[List[Annotation]] = None,
         metadata: Optional[Dict[str, Any]] = None,
     ) -> None:
-        """Represents an utterance, with additional info.
+        """Represents an utterance, with additional annotations.
 
         The AnnotatedUtterance is a Utterance with additional information.
         In some cases we want to send an utterance with the Intent and or
@@ -123,7 +123,7 @@ class AnnotatedUtterance(Utterance):
         return self._annotations
 
     def set_participant(self, participant: DialogueParticipant) -> None:
-        """Set utterance participant type.
+        """Sets the utterance participant type.
 
         Args:
             participant: Participant type who uttered the utterance.
