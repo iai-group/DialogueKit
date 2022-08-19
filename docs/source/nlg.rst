@@ -4,7 +4,7 @@ Natural Language Generation (NLG)
 The NLG components in Dialoguekit are template based.
 There are two different versions. :py:class:`dialoguekit.nlg.nlg.NLG` and :py:class:`dialoguekit.nlg.nlg_conditional.ConditionalNLG`. 
 
-These two are used in similar ways. The only difference is that the `ConditionalNLG` can use a conditional in the :py:attr:`dialoguekit.core.annotated_utterance.AnnotatedUtterance.metadata` as long as the conditionals value is a number.
+These two are used in similar ways. The only difference is that the `ConditionalNLG` can use a conditional in the :py:attr:`dialoguekit.core.annotated_utterance.AnnotatedUtterance.metadata` as long as the conditional value is a number.
 
 To start using these NLG classes a template needs to be generated. 
 Two methods for doing this are provided:
@@ -34,7 +34,7 @@ Usage Example
 ConditionalNLG
 """"""""""""""
 
-The ConditionalNLG class adds two fields to the ``generate_utterance_text()`` method. 
+The ConditionalNLG class contains two additional parameters to the ``generate_utterance_text()`` method.
 
   * ``conditional: str``
   * ``conditional_value: Number``

@@ -21,7 +21,6 @@ class ConditionalNLG(NLG):
         field and also a Number.
         """
         super().__init__(response_templates=response_templates)
-        self._GENERATED_SATISFACTION: bool = False
 
     def generate_utterance_text(
         self,
@@ -43,16 +42,17 @@ class ConditionalNLG(NLG):
             2. Based on the list of 'annotations' only the possible responses,
                 are kept. e.g. Filter out responses that are not possible to
                 use are removed.
-            3. If 'satisfaction' is provided:
-                Filter to the closest responses that are possible, and select a
-                random one.
-            3. If 'satisfaction' is not provided:
-                Select a random one without looking at the satisfaction metric.
+            3. If conditional is provided:
+                Filter to the closest responses that are possible to the
+                conditional_value, and select a random one.
+            3. If conditional is not provided:
+                Select a random one without looking at the conditional_value.
 
         Args:
             intent: The intent of the wanted Utterance
             annotations: The wanted annotations in the response Utterance
-            satisfaction: Desired satisfaction score of the response.
+            conditional: The desired metadata field to use as a conditional.
+            conditional_value: The desired conditional value score.
             force_annotation: if 'True' and 'annotations' are provided,
                                 responses without annotations will also be
                                 filtered out during step 2.
@@ -121,6 +121,7 @@ class ConditionalNLG(NLG):
 
         Args:
             templates: AnnotatedUtterances with conditional in the metadata
+            conditional: The desired metadata field to use as a conditional.
             conditional_value: The desired conditional value score.
 
         Returns:
