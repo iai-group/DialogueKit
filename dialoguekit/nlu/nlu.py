@@ -9,12 +9,10 @@ from dialoguekit.nlu.intent_classifier import IntentClassifier
 
 
 class NLU:
-    """Represents a Natural Language Understanding (NLU) component."""
-
     def __init__(
         self, intent_classifier: IntentClassifier, slot_annotators: List[Any]
     ) -> None:
-        """Initializes the NLU component."""
+        """Represents a Natural Language Understanding (NLU) component."""
         # TODO: SlotAnnotator interface that slot_annotators should implement.
         # Type for slot_annotators would be List[SlotAnnotator].
         # Issue: https://github.com/iai-group/dialoguekit/issues/112

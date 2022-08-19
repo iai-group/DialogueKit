@@ -18,13 +18,10 @@ class DialogueParticipant(Enum):
 
 
 class Participant(ABC):
-    """Represents a Participant.
-
-    Both Agents and Users are Participants.
-    """
-
     def __init__(self, id: str, type: DialogueParticipant) -> None:
-        """Initializes the agent.
+        """Represents a Participant.
+
+        Both Agents and Users are Participants.
 
         Args:
             agent_id: Agent ID.

@@ -8,16 +8,15 @@ from typing import Dict, Optional
 
 
 class AnnotationConverter(ABC):
-    """Annotation converter interface.
-
-    Attributes:
-        filepath: String path to the original annotation file.
-        save_to_path: Optional String path to the destination directory.
-    """
-
     def __init__(
         self, filepath: str, save_to_path: Optional[str] = None
     ) -> None:
+        """Annotation converter interface.
+
+        Attributes:
+            filepath: String path to the original annotation file.
+            save_to_path: Optional String path to the destination directory.
+        """
         self._filepath = filepath
         self._save_to_path = save_to_path
         self._converted = {}

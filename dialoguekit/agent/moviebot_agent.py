@@ -17,24 +17,22 @@ import requests
 from dialoguekit.agent.agent import Agent, AgentType
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
+from dialoguekit.participant.participant import DialogueParticipant
 
 _MOVIEBOT_DEFAULT_URI = "http://127.0.0.1:5001"
 
 
 class MovieBotAgent(Agent):
-    """MovieBot connector agent.
-
-    Uses POST requests to MovieBot server as communication platform.
-    """
-
     def __init__(self, agent_id: str, uri: str = _MOVIEBOT_DEFAULT_URI) -> None:
-        """Initializes agent.
+        """MovieBot connector agent.
+
+        Uses POST requests to MovieBot server as communication platform.
 
         Args:
             agent_id: Agent id.
             uri: MovieBot server address.
         """
-        super().__init__(agent_id, type=AgentType.BOT)
+        super().__init__(agent_id, agent_type=AgentType.BOT)
         self._MOVIEBOT_URI = _MOVIEBOT_DEFAULT_URI
 
     def welcome(self) -> None:
@@ -59,6 +57,7 @@ class MovieBotAgent(Agent):
         response = AnnotatedUtterance(
             response_raw["message"]["text"],
             intent=Intent(response_raw["message"]["intent"]),
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(response)
 
@@ -80,7 +79,9 @@ class MovieBotAgent(Agent):
             },
         )
         response = AnnotatedUtterance(
-            r.json()["message"]["text"], intent=Intent("EXIT")
+            r.json()["message"]["text"],
+            intent=Intent("EXIT"),
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(response)
 
@@ -116,5 +117,6 @@ class MovieBotAgent(Agent):
         response = AnnotatedUtterance(
             response_raw["message"]["text"],
             intent=Intent(response_raw["message"]["intent"]),
+            participant=DialogueParticipant.AGENT,
         )
         self._dialogue_manager.register_agent_utterance(response)

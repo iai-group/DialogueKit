@@ -7,15 +7,13 @@ from dialoguekit.participant.participant import DialogueParticipant
 
 
 class Utterance:
-    """Represents an utterance."""
-
     def __init__(
         self,
         text: str,
         participant: DialogueParticipant,
         timestamp: Optional[datetime] = None,
     ) -> None:
-        """Initializes an utterance.
+        """Represents an utterance.
 
         Args:
             text: Utterance text.
