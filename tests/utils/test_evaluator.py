@@ -1,11 +1,9 @@
 """Tests the dialogue evaluation."""
 
 import pytest
-from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifierSVM,
-)
-from dialoguekit.participant.participant import DialogueParticipant
-from dialoguekit.utils.dialogue_evaluation import Evaluator
+from dialoguekit.nlu import SatisfactionClassifierSVM
+from dialoguekit.participant import DialogueParticipant
+from dialoguekit.utils import Evaluator
 from dialoguekit.utils.dialogue_reader import json_to_dialogues
 
 

@@ -1,12 +1,9 @@
 """Tests for AnnotationConverterRasa."""
 
 import pytest
-from dialoguekit.core.utterance import Utterance
-from dialoguekit.core.intent import Intent
-from dialoguekit.participant.participant import DialogueParticipant
-from dialoguekit.utils.annotation_converter_dialoguekit_to_rasa import (
-    AnnotationConverterRasa,
-)
+from dialoguekit.core import Intent, Utterance
+from dialoguekit.participant import DialogueParticipant
+from dialoguekit.utils import AnnotationConverterRasa
 
 PLACEHOLDER = "(.*)"
 

@@ -1,7 +1,7 @@
 """Tests for the DialogueHistory class."""
 
 import pytest
-from dialoguekit.core.domain import Domain
+from dialoguekit.core import Domain
 
 
 # Sample domain to be shared across multiple test cases.

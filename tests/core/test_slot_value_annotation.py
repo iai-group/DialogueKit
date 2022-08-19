@@ -1,6 +1,6 @@
 """Tests slot_value_annotation class"""
 import pytest
-from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
+from dialoguekit.core import SlotValueAnnotation
 
 
 def test_initialization():

@@ -1,8 +1,6 @@
 """Tests for SatisfactionClassifier"""
 import pytest
-from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifierSVM,
-)
+from dialoguekit.nlu import SatisfactionClassifierSVM
 
 
 def test_initialization():

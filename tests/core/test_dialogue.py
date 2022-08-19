@@ -1,10 +1,8 @@
 """Tests for the DialogueHistory class."""
 
 import pytest
-
-from dialoguekit.core.dialogue import Dialogue
-from dialoguekit.core.utterance import Utterance
-from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.core import Dialogue, Utterance
+from dialoguekit.participant import DialogueParticipant
 
 
 # Dialogue history object to be shared across multiple test cases.

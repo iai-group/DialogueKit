@@ -1,6 +1,6 @@
 """Test Intent class"""
 import pytest
-from dialoguekit.core.intent import Intent
+from dialoguekit.core import Intent
 
 
 def test_initialization():

@@ -1,10 +1,9 @@
 """Tests for IntentClassifierRasa."""
 
 import pytest
-from dialoguekit.core.intent import Intent
-from dialoguekit.core.utterance import Utterance
-from dialoguekit.nlu.models.diet_classifier_rasa import IntentClassifierRasa
-from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.core import Intent, Utterance
+from dialoguekit.nlu import IntentClassifierRasa
+from dialoguekit.participant import DialogueParticipant
 
 PLACEHOLDER = "(.*)"
 

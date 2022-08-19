@@ -2,14 +2,10 @@
 import json
 
 import pytest
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.annotation import Annotation
-from dialoguekit.core.intent import Intent
-from dialoguekit.nlg.nlg import NLG
-from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifierSVM,
-)
-from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.core import AnnotatedUtterance, Annotation, Intent
+from dialoguekit.nlg import NLG
+from dialoguekit.nlu import SatisfactionClassifierSVM
+from dialoguekit.participant import DialogueParticipant
 
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
