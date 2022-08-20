@@ -40,10 +40,10 @@ class AnnotationConverterRasa(AnnotationConverter):
 
     def change_style(self, style: str, representer: ScalarNode):
         """Used to change the python yaml data representation
+
         Args:
-            style (str): Style used to represent type
-            representer (ScalarNode): representer type ->
-                        (SafeRepresenter.represent_str)
+            style: Style used to represent type
+            representer: ScalerNode representer
         """
 
         def new_representer(dumper, data):

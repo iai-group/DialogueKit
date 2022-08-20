@@ -73,6 +73,7 @@ def extract_utterance_template(
 
     If a Satisfaction Classifier is provided it will be used to classify the
     utterances. The classification logic is as follows:
+
         - Hold participant utterance.
         - Hold counter-participant utterance.
         - Concatenate participant and counter-participant utterance and

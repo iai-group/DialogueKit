@@ -56,34 +56,42 @@ class NLG:
     ) -> Union[AnnotatedUtterance, bool]:
         """Turns a structured utterance into a textual one.
 
-        Note:
-        If the template does not contain the desired intent, a fallback will be
-        used. Stating "Sorry, I did not understand you." The response will have
-        the same 'intent'.
+        .. note::
+
+            If the template does not contain the desired intent, a fallback will
+            be used. Stating "Sorry, I did not understand you." The response
+            will have the same 'intent'.
 
         Generating a response is a multi-step process.
-            1. Responses to the desired 'intent' will be selected.
-            2. Based on the list of 'annotations' only the possible responses,
-                are kept. e.g. Filter out responses that are not possible to
-                use are removed.
-            3. If 'satisfaction' is provided:
-                Filter to the closest responses that are possible, and select a
-                random one.
-            3. If 'satisfaction' is not provided:
-                Select a random one without looking at the satisfaction metric.
+
+        1. Responses to the desired 'intent' will be selected.
+        2. Based on the list of 'annotations' only the possible responses, are
+           kept. e.g. Filter out responses that are not possible to use are
+           removed.
+        3. If 'satisfaction' is provided:
+           Filter to the closest responses that are possible, and select a
+           random one.
+        4. If 'satisfaction' is not provided:
+           Select a random one without looking at the satisfaction metric.
+
 
         Args:
             intent: The intent of the wanted Utterance
             annotations: The wanted annotations in the response Utterance
             satisfaction: Desired satisfaction score of the response.
             force_annotation: if 'True' and 'annotations' are provided,
-                                responses without annotations will also be
-                                filtered out during step 2.
+              responses without annotations will also be filtered out during
+              step 2.
 
         Returns:
+
             Generated response utterance using templates.
-            Note: if the filtering after step 1 and 2 does not find any response
-            that satisfies the criteria 'False' will be returned.
+
+            .. note::
+
+                Note: if the filtering after step 1 and 2 does not find any
+                response that satisfies the criteria 'False' will be returned.
+
         """
         if self._response_templates is None:
             raise ValueError(
@@ -221,16 +229,19 @@ class NLG:
         """Returns dictionary with the min and max annotated utterances.
 
         The dictionary is structured as such:
-        {
-            "min":{
-                "amount": int
-                "examples": List[AnnotatedUtterance]
+
+        .. code:: python
+
+            {
+                "min":{
+                    "amount": int
+                    "examples": List[AnnotatedUtterance]
+                }
+                "max":{
+                    "amount": int
+                    "examples": List[AnnotatedUtterance]
+                }
             }
-            "max":{
-                "amount": int
-                "examples": List[AnnotatedUtterance]
-            }
-        }
 
         This is useful if you want to look into which options the NLG has for a
         specific Intent and which annotations are needed.

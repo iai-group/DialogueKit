@@ -22,11 +22,15 @@ def json_to_annotated_utterance(
 
     Args:
         json_utterance: JSON format of an utterance, e.g.,
-            {
-                "participant": "USER",
-                "utterance": "hello\n",
-                "intent": "DISCLOSE.NON-DISCLOSE"
-            }
+
+            .. code:: python
+
+                {
+                    "participant": "USER",
+                    "utterance": "hello",
+                    "intent": "DISCLOSE.NON-DISCLOSE"
+                }
+
 
     Returns:
         An AnnotatedUtterance object representation of the json utterance.

@@ -117,14 +117,17 @@ class Evaluator:
 
         Returns:
             A dictionary with following structure (most important is "reward"):
-            {
-                "missing_intents": [], # List of reward config intents missing
-                "dialogues": [{
-                    "reward": int,
-                    "user_turns": int, # Number of user turns
-                    "repeats": int, # Number of times the agent repeats itself.
-                }]
-            }
+
+            .. code:: python
+
+                {
+                    "missing_intents": [],
+                    "dialogues": [{
+                        "reward": int,
+                        "user_turns": int,
+                        "repeats": int,
+                    }]
+                }
         """
         warnings.warn("This function does not yet penalize 'Repeat' actions")
 

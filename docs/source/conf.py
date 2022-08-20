@@ -86,3 +86,4 @@ autoapi_options = [
     "show-inheritance",
     "show-module-summary",
 ]
+autoapi_python_class_content = "init"
