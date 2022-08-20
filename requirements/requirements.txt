@@ -3,5 +3,5 @@ flake8
 pre-commit
 pytest
 pytest-cov
-sklearn >= 0.24
+scikit-learn >= 0.24
 rasa >= 3.0.8
