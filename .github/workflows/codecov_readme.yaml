@@ -19,7 +19,7 @@ jobs:
 
       - name: Run pytest and coverage
         run: |
-          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=dialoguekit tests/ | tee pytest-coverage.txt
+          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov-report=xml  --cov=dialoguekit tests/ | tee pytest-coverage.txt
 
 
       - name: Upload Coverage Results
@@ -28,6 +28,13 @@ jobs:
         with:
           name: coverage-results
           path: ./pytest-coverage.txt
+
+      - name: Upload Coverage Results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-results
+          path: coverage.xml
 
       - name: Upload Unit Test Results
         if: always()
@@ -64,20 +71,23 @@ jobs:
           pytest-coverage-path: artifacts/coverage-results/pytest-coverage.txt
           junitxml-path: artifacts/pytest-xml/pytest.xml
 
+      - name: Get the Coverage
+        shell: bash
+        run: |
+          regex='<coverage.+line-rate="([0-9).[0-9]+)".+>'
+          line=$(grep -oP $regex artifacts/coverage.xml)
+          [[ $line =~ $regex ]]
+          coverage=$( bc <<< ${BASH_REMATCH[1]}*100 )
+          if (( $(echo "$coverage > 90" |bc -l) )); then
+            COLOR=green
+          else
+            COLOR=red
+          fi
+          echo "COVERAGE=${coverage%.*}%" >> $GITHUB_ENV
+          echo "COLOR=$COLOR" >> $GITHUB_ENV
+
       - name: Create Variable of Summary Report
         id: summary_report
         run: |
           SUMMARY_REPORT=${{ steps.coverageComment.outputs.summaryReport }}
           echo "::set-output name=content::$SUMMARY_REPORT"
-
-      - name: Update Readme with Coverage Html
-        #if: ${{ github.ref == 'refs/heads/feature/#123_Look-into-ways-to-shorten-the-import-paths' }}
-        run: |
-          sed -i '/<!-- Pytest Coverage Comment:Begin -->/,/<!-- Pytest Coverage Comment:End -->/c\<!-- Pytest Coverage Comment:Begin -->\n\${{ steps.summary_report.outputs.content }}\n<!-- Pytest Coverage Comment:End -->' ./README.md
-
-      - name: Commit & Push changes to Readme
-        #if: ${{ github.ref == 'refs/heads/feature/#123_Look-into-ways-to-shorten-the-import-paths' }}
-        uses: actions-js/push@master
-        with:
-          message: Update coverage on Readme
-          github_token: ${{ secrets.GITHUB_TOKEN }}

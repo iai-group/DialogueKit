@@ -3,6 +3,8 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black) <!-- Pytest Coverage Comment:Begin -->
 <!-- Pytest Coverage Comment:End -->
 
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/adrzewiecki/35bb996459f0949b38da651c66cf95cb/raw/1d18522714a821fb57850725cec2042db17f5b62/dialoguekit_coverage.json)
+
 DialogueKit is a library for conversational information access (CIA). It contains based classes for fundamental [concepts](docs/concepts.md), such as dialogue participants, dialogue management, [natural language understanding](docs/nlu.md), natural language generation, etc. In addition to the fundamental concepts DialogueKit contains an evaluation module, for evaluating the performance of and CIA systems.
 Consult the [documentation](https://iai-group.github.io/dialoguekit/) for details.
 
