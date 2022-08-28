@@ -1,4 +1,4 @@
-"""Tests slot_value_annotation class"""
+"""Tests slot_value_annotation class."""
 import pytest
 from dialoguekit.core import SlotValueAnnotation
 

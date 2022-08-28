@@ -77,7 +77,6 @@ def test_none_annotations(nlg_class):
 
 
 def test_generate_utterance_text_with_satisfaction(nlg_class):
-
     test_response = nlg_class.generate_utterance_text(
         intent=Intent("COMPLETE"), annotations=None, satisfaction=3
     )

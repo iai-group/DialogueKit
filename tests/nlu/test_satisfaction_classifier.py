@@ -1,4 +1,4 @@
-"""Tests for SatisfactionClassifier"""
+"""Tests for SatisfactionClassifier."""
 import pytest
 from dialoguekit.nlu import SatisfactionClassifierSVM
 

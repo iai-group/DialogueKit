@@ -111,8 +111,8 @@ class DialogueManager:
     def close(self) -> None:
         """Closes the conversation.
 
-        If '_save_dialogue_history' is set to True it will export the dialogue
-        history.
+        If '_save_dialogue_history' is set to True it will export the
+        dialogue history.
         """
         if self._save_dialogue_history:
             self._dump_dialogue_history()

@@ -39,7 +39,7 @@ class AnnotationConverterRasa(AnnotationConverter):
         return formatted_string
 
     def change_style(self, style: str, representer: ScalarNode):
-        """Used to change the python yaml data representation
+        """Used to change the python yaml data representation.
 
         Args:
             style: Style used to represent type
@@ -157,7 +157,7 @@ class AnnotationConverterRasa(AnnotationConverter):
             yaml.dump(self._slot_value_pairs, outfile, default_flow_style=False)
 
         def change_style(style: str, representer: ScalarNode):
-            """Used to change the python yaml data representation
+            """Used to change the python yaml data representation.
 
             Args:
                 style (str): Style used to represent type

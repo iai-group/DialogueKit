@@ -64,7 +64,6 @@ class IntentClassifierCosine(IntentClassifier):
 
         Args:
             file_path: File path.
-
         """
         dump(self._tfidf_matrix, f"{file_path}_matrix.joblib")
         dump(self._tfidf_vectorizer, f"{file_path}_vectorizer.joblib")
@@ -77,7 +76,6 @@ class IntentClassifierCosine(IntentClassifier):
 
         Args:
             file_path: File path.
-
         """
         self._tfidf_matrix = load(f"{file_path}_matrix.joblib")
         self._tfidf_vectorizer = load(f"{file_path}_vectorizer.joblib")

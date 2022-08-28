@@ -1,7 +1,8 @@
 """Abstract representation of core user-related data and functionality.
 
 For communicating with an agent, the specific user instance needs to be
-connected with a DialogueManager by invoking `register_dialogue_manager()`.
+connected with a DialogueManager by invoking
+`register_dialogue_manager()`.
 """
 
 from __future__ import annotations
@@ -13,7 +14,7 @@ from dialoguekit.participant.participant import DialogueParticipant, Participant
 
 
 class UserType(Enum):
-    """Represents different types of users (humans vs. simulated users)."""
+    """Represents different types of users (humans vs simulated users)."""
 
     HUMAN = 0
     SIMULATOR = 1

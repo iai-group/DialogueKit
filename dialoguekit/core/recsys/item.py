@@ -7,9 +7,9 @@ class Item:
     def __init__(
         self, item_id: str, name: str, properties: Dict[str, Any] = None
     ) -> None:
-        """Creates an item, which minimally has an ID and a canonical name,
-        and can optionally have any number of properties, which are represented
-        as key-value pairs.
+        """Creates an item, which minimally has an ID and a canonical name, and
+        can optionally have any number of properties, which are represented as
+        key-value pairs.
 
         Args:
             item_id: Item ID.

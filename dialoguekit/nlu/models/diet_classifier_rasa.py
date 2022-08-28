@@ -126,7 +126,6 @@ class IntentClassifierRasa(IntentClassifier):
         Args:
             utterances: List of Utterance instances.
             labels: List of associated intent labels.
-
         """
         if utterances and labels:
             # Makes sure we have matching labels for all training utterances.
@@ -157,7 +156,6 @@ class IntentClassifierRasa(IntentClassifier):
 
         Returns:
             Intent: Predicted intent.
-
         """
         self.process_utterance(utterance=utterance)
 

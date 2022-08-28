@@ -62,7 +62,7 @@ class MovieBotAgent(Agent):
         self._dialogue_manager.register_agent_utterance(response)
 
     def goodbye(self) -> None:
-        """Sends exit request to MovieBot"""
+        """Sends exit request to MovieBot."""
         r = requests.post(
             self._MOVIEBOT_URI,
             json={

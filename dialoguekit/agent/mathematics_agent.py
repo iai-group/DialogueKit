@@ -46,8 +46,8 @@ class MathAgent(Agent):
     def _initialize_nlu_nlg(self) -> None:
         """Initializes the NLG module.
 
-        If no NLG template was set in as a parameter, a basic nlg template will
-        be created in this method.
+        If no NLG template was set in as a parameter, a basic nlg
+        template will be created in this method.
         """
         if self._nlg is None:
 

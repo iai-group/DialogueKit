@@ -1,4 +1,4 @@
-"""Test Intent class"""
+"""Test Intent class."""
 import pytest
 from dialoguekit.core import Intent
 

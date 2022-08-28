@@ -17,7 +17,7 @@ from dialoguekit.participant.participant import DialogueParticipant, Participant
 
 
 class AgentType(Enum):
-    """Represents different types of agents (bot vs. Wizard-of-Oz)."""
+    """Represents different types of agents (bot vs Wizard-of-Oz)."""
 
     BOT = 0
     WOZ = 1

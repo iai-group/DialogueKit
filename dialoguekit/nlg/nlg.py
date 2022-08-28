@@ -91,7 +91,6 @@ class NLG:
 
                 Note: if the filtering after step 1 and 2 does not find any
                 response that satisfies the criteria 'False' will be returned.
-
         """
         if self._response_templates is None:
             raise ValueError(
