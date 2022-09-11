@@ -18,7 +18,16 @@ from dialoguekit.user.user import UserType
 
 
 # TODO This needs to be updated to work with MathAgent
-def find_operation_type(math_agent_utterance: str):
+def find_operation_type(math_agent_utterance: str) -> Union[None, str]:
+    """Finds the operation type.
+
+    Args:
+        math_agent_utterance: Text to extract the operation type from.
+
+    Returns:
+        None if no operation was found. If the operation was found, the
+        operations name with capital letters will be returned.
+    """
     if "addition" in math_agent_utterance:
         return "ADDITION"
     elif "subtraction" in math_agent_utterance:
@@ -41,8 +50,9 @@ class MathUser(Participant):
         """Represents a user.
 
         Args:
-            user_id: User ID.
-            user_type: User type (default: HUMAN).
+            id: User ID.
+            type: User type (default: HUMAN).
+            intents: Intens to respond with.
         """
         super().__init__(id=id, type=type)
         if intents is not None:
@@ -53,10 +63,10 @@ class MathUser(Participant):
     def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
-        """This method is called each time there is a new agent utterance.
+        """Gets called every time there is a new agent utterance.
 
         Args:
-            utterance: Agent utterance.
+            annotated_utterance: Agent utterance.
         """
         intent_menu = ""
         for i, intent in enumerate(self._intents):

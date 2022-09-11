@@ -31,7 +31,6 @@ def json_to_annotated_utterance(
                     "intent": "DISCLOSE.NON-DISCLOSE"
                 }
 
-
     Returns:
         An AnnotatedUtterance object representation of the json utterance.
     """
@@ -82,7 +81,6 @@ def json_to_dialogues(
     Returns:
         A list of Dialogue objects.
     """
-
     f = open(filepath)
     data = json.load(f)
 

@@ -25,7 +25,7 @@ class User(Participant):
         """Represents a user.
 
         Args:
-            user_id: User ID.
+            id: User ID.
             user_type: User type (default: HUMAN).
         """
         super().__init__(id=id, type=DialogueParticipant.USER)
@@ -34,10 +34,10 @@ class User(Participant):
     def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
-        """This method is called each time there is a new agent utterance.
+        """Gets called every time there is a new agent utterance.
 
         Args:
-            utterance: Agent utterance.
+            annotated_utterance: Agent utterance.
         """
         # TODO: Move input part to Platform.
         text = input("Your response: ")

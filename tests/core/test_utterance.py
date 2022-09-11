@@ -5,11 +5,13 @@ from dialoguekit.participant import DialogueParticipant
 
 
 def test_utterance_text():
+    """Tests setting of the utterance text."""
     u = Utterance("Hello world", participant=DialogueParticipant.AGENT)
     assert u.text == "Hello world"
 
 
 def test_hash():
+    """Tests hashing of the utterance object."""
     u1 = Utterance("Test1", participant=DialogueParticipant.AGENT)
     try:
         hash(u1)
@@ -18,6 +20,7 @@ def test_hash():
 
 
 def test_comparison():
+    """Tests utterance comparison."""
     u1 = Utterance("Test1", participant=DialogueParticipant.AGENT)
     u2 = u1
     assert u1 == u2

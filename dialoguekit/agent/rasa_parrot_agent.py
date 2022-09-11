@@ -46,10 +46,10 @@ class RasaParrotAgent(Agent):
     def receive_user_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
-        """This method is called each time there is a new user utterance.
+        """Gets called each time there is a new user utterance.
 
         Args:
-            utterance: User utterance.
+            annotated_utterance: User utterance.
         """
         if annotated_utterance.text.lower() in ["quit", "stop", "exit"]:
             return

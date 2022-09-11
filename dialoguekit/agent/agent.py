@@ -29,7 +29,7 @@ class Agent(Participant):
 
         Args:
             id: Agent ID.
-            type: Agent type (default: BOT).
+            agent_type: Agent type (default: BOT).
         """
         super().__init__(id=id, type=DialogueParticipant.AGENT)
         self._agent_type = agent_type

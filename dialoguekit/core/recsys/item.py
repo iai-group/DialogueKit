@@ -7,7 +7,9 @@ class Item:
     def __init__(
         self, item_id: str, name: str, properties: Dict[str, Any] = None
     ) -> None:
-        """Creates an item, which minimally has an ID and a canonical name, and
+        """Create recsys item.
+
+        Creates an item, which minimally has an ID and a canonical name, and
         can optionally have any number of properties, which are represented as
         key-value pairs.
 
@@ -44,8 +46,9 @@ class Item:
         return self._properties.get(key)
 
     def set_property(self, key: str, value: Any) -> None:
-        """Sets the value of a given item property (or overwrites if it already
-        exists).
+        """Sets the value of a given item property.
+
+        If the item property exists it will be overwritten.
 
         Args:
             key: Property name.

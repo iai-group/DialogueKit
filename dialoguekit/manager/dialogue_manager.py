@@ -41,6 +41,7 @@ class DialogueManager:
             agent: An instance of Agent.
             user: An instance of User.
             platform: An instance of Platform.
+            save_dialogue_history: Flag to save the dialogue or not.
         """
         self._agent = agent
         self._agent.connect_dialogue_manager(self)
@@ -67,7 +68,7 @@ class DialogueManager:
         to.
 
         Args:
-            utterance: User utterance.
+            annotated_utterance: User utterance.
         """
         self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_user_utterance(annotated_utterance)
@@ -89,7 +90,7 @@ class DialogueManager:
             it is only the agent that can close the dialoguemanager.
 
         Args:
-            utterance: Agent utterance.
+            annotated_utterance: Agent utterance.
         """
         self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_agent_utterance(annotated_utterance)

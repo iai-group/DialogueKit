@@ -86,7 +86,6 @@ class Evaluator:
         Returns:
             A dictionary with participant and ActRatio as key-value pairs.
         """
-
         statistics = defaultdict(float)
 
         for dialogue in self._dialogues:
@@ -173,8 +172,9 @@ class Evaluator:
         return results
 
     def _check_included_intents(self) -> Dict[str, Any]:
-        """Sets initial reward for dialogues by checking which intents are
-        supported.
+        """Sets initial reward.
+
+        Uses dialogues by checking which intents are supported.
 
         Returns:
             A dictionary to hold measured metrics relevant to reward.
@@ -247,7 +247,6 @@ class Evaluator:
         Returns:
             A list with satisfaction score for each dialogue.
         """
-
         satisfactions = []
 
         for dialogue in self._dialogues:

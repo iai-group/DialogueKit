@@ -1,3 +1,4 @@
+"""Agent level init."""
 from dialoguekit.agent.agent import Agent, AgentType
 from dialoguekit.agent.mathematics_agent import MathAgent
 from dialoguekit.agent.moviebot_agent import MovieBotAgent

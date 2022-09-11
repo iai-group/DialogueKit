@@ -1,19 +1,20 @@
 """Tests for Ratings."""
 
 import pytest
-
 from dialoguekit.core.recsys.ratings import Ratings
 
 RATINGS_CSV_FILE = "tests/data/movielens-20m-sample/ratings.csv"
 
 
 def test_empty_ratings():
+    """Tests emptying of the ratings."""
     ratings = Ratings()
     assert not ratings.get_user_ratings("1")
     assert not ratings.get_item_ratings("2")
 
 
 def test_load_ratings_csv():
+    """Tests reading of a ratings CSV."""
     ratings = Ratings()
     ratings.load_ratings_csv(RATINGS_CSV_FILE)
 

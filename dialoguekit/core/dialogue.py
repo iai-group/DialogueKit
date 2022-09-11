@@ -60,6 +60,7 @@ class Dialogue:
         self._utterances.append(utterance)
 
     def to_dict(self) -> Dict[str, Any]:
+        """Converts the dialogue to a dictionary."""
         export = {}
         if self._metadata:
             export["metadata"] = self._metadata

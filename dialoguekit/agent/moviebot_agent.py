@@ -24,7 +24,7 @@ _MOVIEBOT_DEFAULT_URI = "http://127.0.0.1:5001"
 
 class MovieBotAgent(Agent):
     def __init__(self, agent_id: str, uri: str = _MOVIEBOT_DEFAULT_URI) -> None:
-        """MovieBot connector agent.
+        """Moviebot connector agent.
 
         Uses POST requests to MovieBot server as communication platform.
 
@@ -37,7 +37,6 @@ class MovieBotAgent(Agent):
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
-
         r = requests.post(
             self._MOVIEBOT_URI,
             json={
@@ -88,7 +87,7 @@ class MovieBotAgent(Agent):
     def receive_user_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
-        """This method is called each time there is a new user utterance.
+        """Gets called each time there is a new user utterance.
 
         Args:
             annotated_utterance: User annotated utterance.

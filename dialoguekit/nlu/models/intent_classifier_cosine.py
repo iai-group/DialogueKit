@@ -13,6 +13,11 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 class IntentClassifierCosine(IntentClassifier):
     def __init__(self, intents: List[Intent]) -> None:
+        """Cosine Intent classifier.
+
+        Args:
+            intents: Allowed intents.
+        """
         super().__init__(intents)
         self._labels = None
         self._tfidf_vectorizer = TfidfVectorizer()
@@ -37,7 +42,9 @@ class IntentClassifierCosine(IntentClassifier):
         ).toarray()
 
     def get_intent(self, utterance: Utterance) -> Intent:
-        """Classifies the intent of an utterance based on based cosine
+        """Classifies the utterances intent.
+
+        Classifies the intent of an utterance based on based cosine
         similarity of TF-IDF-weighted term vectors.
 
         Args:

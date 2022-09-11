@@ -1,3 +1,4 @@
+"""NLG component."""
 import json
 import random
 import sys
@@ -84,7 +85,6 @@ class NLG:
               step 2.
 
         Returns:
-
             Generated response utterance using templates.
 
             .. note::

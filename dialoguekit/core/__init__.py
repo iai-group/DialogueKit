@@ -1,3 +1,4 @@
+"""Module level init for the core classes."""
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.dialogue import Dialogue

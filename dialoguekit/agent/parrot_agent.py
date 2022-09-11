@@ -38,12 +38,12 @@ class ParrotAgent(Agent):
     def receive_user_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
-        """This method is called each time there is a new user utterance.
+        """Gets called each time there is a new user utterance.
 
         If the received message is "EXIT" it will close the conversation.
 
         Args:
-            utterance: User utterance.
+            annotated_utterance: User utterance.
         """
         if annotated_utterance.text == "EXIT":
             self.goodbye()

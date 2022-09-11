@@ -36,5 +36,4 @@ class AnnotationConverter(ABC):
         Raises:
             NotImplementedError
         """
-
         raise NotImplementedError

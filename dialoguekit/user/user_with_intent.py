@@ -5,6 +5,7 @@ connected with a DialogueManager by invoking
 `register_dialogue_manager()`.
 """
 
+from ctypes import Union
 from enum import Enum
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
@@ -14,7 +15,15 @@ from dialoguekit.participant.participant import DialogueParticipant, Participant
 
 
 # TODO This needs to be updated to work with MathAgent
-def find_operation_type(math_agent_utterance: str):
+def find_operation_type(math_agent_utterance: str) -> Union[str, None]:
+    """Find the correct operation type.
+
+    Args:
+        math_agent_utterance: Utterance to use.
+
+    Returns:
+        String with the operation type, or None if not found.
+    """
     if "addition" in math_agent_utterance:
         return "ADDITION"
     elif "subtraction" in math_agent_utterance:
@@ -44,8 +53,9 @@ class UserWithIntent(Participant):
         """Represents a user.
 
         Args:
-            user_id: User ID.
-            user_type: User type (default: HUMAN).
+            id: User ID.
+            type: User type (default: HUMAN).
+            intents: Intents that you want to select from.
         """
         super().__init__(id=id, type=type)
         if intents is not None:
@@ -56,10 +66,10 @@ class UserWithIntent(Participant):
     def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
-        """This method is called each time there is a new agent utterance.
+        """Gets called each time there is a new agent utterance.
 
         Args:
-            utterance: Agent utterance.
+            annotated_utterance: Agent utterance.
         """
         intent_menu = ""
         for i, intent in enumerate(self._intents):

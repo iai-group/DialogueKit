@@ -39,20 +39,19 @@ class IntentClassifierRasa(IntentClassifier):
     def __init__(
         self,
         intents: List[Intent],
-        traning_data_path: Optional[str] = "",
+        training_data_path: Optional[str] = "",
         model_path: Optional[str] = ".rasa",
     ) -> None:
         """Initializes the intent classifier.
 
-        The traning data path may be used with a Rasa nlu.yml file. It is also
+        The training data path may be used with a Rasa nlu.yml file. It is also
         possible to use the self.train_model function with a list of Utterance
         and a list of Intent.
 
         Args:
             intents: List of allowed intents.
-            traning_data_path Optional[str]: path to the traning data yml.
-            model_path Optional[str]: path to where rasa trained model will be
-                                        stored.
+            training_data_path: Path to the training data yml.
+            model_path: Path to where rasa trained model will be stored.
         """
         self._intents = {i.label: i for i in intents}
         self._model_path = Path(model_path)
@@ -61,7 +60,7 @@ class IntentClassifierRasa(IntentClassifier):
 
         self._training_data = None
 
-        self._traning_data_path = traning_data_path
+        self._traning_data_path = training_data_path
         self.init_pipeline()
 
     def init_pipeline(self) -> None:

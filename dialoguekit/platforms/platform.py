@@ -1,5 +1,4 @@
-"""The Platform facilitates the exchange of utterances between the user and the
-agent."""
+"""The Platform facilitates displaying of the conversation."""
 
 from dialoguekit.core.utterance import Utterance
 

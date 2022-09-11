@@ -27,11 +27,12 @@ class AnnotatedUtterance(Utterance):
 
         Args:
             text: Utterance text.
+            participant: The owner of the utterance.
+            timestamp: When the utterance was uttered.
             intent: The intent of the utterance.
             annotations: Annotations of the Utterance text.
             metadata: Dict with optional attributes (satisfaction etc.).
         """
-
         super().__init__(
             text=text, participant=participant, timestamp=timestamp
         )
@@ -131,7 +132,10 @@ class AnnotatedUtterance(Utterance):
         self._participant = participant
 
     def get_text_placeholders(self) -> str:
-        """Returns the utterance text with annotations replaced with
-        placeholders."""
+        """Replaces the utterance text with placeholders.
+
+        Returns:
+            The utterance text with annotations replaced with placeholders.
+        """
         # TODO See: https://github.com/iai-group/dialoguekit/issues/35
         return ""

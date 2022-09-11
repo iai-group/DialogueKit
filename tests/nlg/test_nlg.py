@@ -13,6 +13,11 @@ ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 # nlg class shared across tests.
 @pytest.fixture
 def nlg_class() -> NLG:
+    """Tests class init.
+
+    This method is also a testing fixture used for the rest of the
+    tests.
+    """
     nlg = NLG()
     nlg.template_from_file(
         ANNOTATED_DIALOGUE_FILE,
@@ -22,8 +27,14 @@ def nlg_class() -> NLG:
 
 
 def test_generate_utterance_text(nlg_class):
-    # A corner case where only one template found, i.e., REVEAL.EXPAND only has
-    # something like the {TITLE}.
+    """Tests generation of utterances.
+
+    A corner case where only one template found, i.e., REVEAL.EXPAND only has
+    something like the {TITLE}.
+
+    Args:
+        nlg_class: Test NLG object.
+    """
     expected_response1 = AnnotatedUtterance(
         text="something like the A Test Movie Title",
         intent=Intent("REVEAL.EXPAND"),
@@ -54,9 +65,14 @@ def test_generate_utterance_text(nlg_class):
 
 
 def test_generate_utterance_text_force_annotation(nlg_class):
-    # A corner case where only one template found, i.e., REVEAL.EXPAND only has
-    # something like the {TITLE}.
+    """Tests utterance generation with annotations.
 
+    A corner case where only one template found, i.e., REVEAL.EXPAND only has
+    something like the {TITLE}.
+
+    Args:
+        nlg_class: Test NLG object.
+    """
     test = nlg_class.generate_utterance_text(
         Intent("COMPLETE"), annotations=None, force_annotation=True
     )
@@ -71,12 +87,22 @@ def test_generate_utterance_text_force_annotation(nlg_class):
 
 
 def test_none_annotations(nlg_class):
+    """Tests utterance generation without annotations.
+
+    Args:
+        nlg_class: Test NLG object.
+    """
     test = nlg_class.generate_utterance_text(Intent("COMPLETE"), None)
 
     assert test.intent == Intent("COMPLETE")
 
 
 def test_generate_utterance_text_with_satisfaction(nlg_class):
+    """Tests utterance generation with metadata.
+
+    Args:
+        nlg_class: Test NLG object.
+    """
     test_response = nlg_class.generate_utterance_text(
         intent=Intent("COMPLETE"), annotations=None, satisfaction=3
     )
@@ -85,6 +111,11 @@ def test_generate_utterance_text_with_satisfaction(nlg_class):
 
 
 def test_filter_templates(nlg_class):
+    """Tests filtering of the template.
+
+    Args:
+        nlg_class: Test NLG object.
+    """
     test_response = nlg_class.generate_utterance_text(
         intent=Intent("REVEAL.EXPAND"),
         annotations=[Annotation(slot="TITLE", value="test_movie_title")],
@@ -103,6 +134,11 @@ def test_filter_templates(nlg_class):
 
 
 def test_get_intent_annotation_specifications(nlg_class):
+    """Tests annotation statistics method.
+
+    Args:
+        nlg_class: Test NLG object.
+    """
     test_response = nlg_class.get_intent_annotation_specifications(
         intent=Intent("REVEAL.REFINE")
     )
@@ -115,6 +151,12 @@ def test_get_intent_annotation_specifications(nlg_class):
 
 
 def test_dump_templates(nlg_class, tmp_path):
+    """Tests dumping of the template.
+
+    Args:
+        nlg_class: Test NLG object.
+        tmp_path: Pytest tmp path.
+    """
     save_to_dir = tmp_path
     full_path = save_to_dir.absolute()
     my_path = full_path.as_posix()

@@ -44,7 +44,6 @@ def build_template_from_instances(
     Returns:
         Dict with Intents and lists with corresponding AnnotatedUtterances.
     """
-
     template = defaultdict(list)
     for utterance in utterances:
         if isinstance(utterance.intent, Intent):
