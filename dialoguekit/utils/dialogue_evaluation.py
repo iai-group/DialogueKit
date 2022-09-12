@@ -3,7 +3,7 @@
 import warnings
 from collections import defaultdict
 from copy import deepcopy
-from typing import Any, Dict, List, TypedDict, Union
+from typing import Any, Dict, List, Union
 
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.intent import Intent
@@ -28,18 +28,9 @@ _REPEAT_PENALTY = "repeat_penalty"
 _COST = "cost"
 
 
-class RewardConfig(TypedDict):
-    """Used as the reward configuration."""
-
-    full_set_points: int
-    repeat_penalty: int
-    cost: int
-    intents: Dict[str, int]
-
-
 class Evaluator:
     def __init__(
-        self, dialogues: List[Dialogue], reward_config: RewardConfig
+        self, dialogues: List[Dialogue], reward_config: Dict[str, Any]
     ) -> None:
         """Dialogue evaluator.
 
