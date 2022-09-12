@@ -8,3 +8,5 @@ rasa >= 3.0.8
 pydocstyle==6.1.1
 mypy
 docformatter
+types-PyYAML
+types-requests
