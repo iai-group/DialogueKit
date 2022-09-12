@@ -20,6 +20,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - uses: actions/setup-python@v4
         with:
           python-version: "3.7"
@@ -29,10 +30,6 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements/requirements.txt
-      - name: Run black
-        uses: pre-commit/action@v3.0.0
-        with:
-          extra_args: black --all-files
 
       - name: Run black
         shell: bash
@@ -46,13 +43,31 @@ jobs:
         shell: bash
         run: pre-commit run pydocstyle --all-file
 
+  mypy:
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.7"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements/requirements.txt
+
       - name: Run mypy
         shell: bash
         run: pre-commit run mypy --all-file
 
   build-and-test:
     name: "Build and Test Python 3.7"
-    needs: pre-commit
     runs-on: ubuntu-latest
     if: always()
     timeout-minutes: 20
