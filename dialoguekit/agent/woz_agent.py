@@ -17,7 +17,7 @@ class WOZAgent(Agent):
         self,
         id: str,
         intent_recommendations: Optional[List[Intent]] = None,
-        type: Optional[AgentType] = AgentType.WOZ,
+        agent_type: Optional[AgentType] = AgentType.WOZ,
     ) -> None:
         """Represents a WoZ agent.
 
@@ -28,9 +28,9 @@ class WOZAgent(Agent):
         Args:
             id: Agent ID.
             intent_recommendations: List of intents the Agent can select from.
-            type: Agent type (default: BOT).
+            agent_type: Agent type (default: BOT).
         """
-        super().__init__(id=id, type=type)
+        super().__init__(id=id, agent_type=agent_type)
         self._intent_recommendations = intent_recommendations
 
     def welcome(self) -> None:

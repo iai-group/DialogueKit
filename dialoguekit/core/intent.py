@@ -19,7 +19,7 @@ class Intent:
         if self._main_intent:
             self._main_intent._add_sub_intent(sub_intent=self)
 
-        self._sub_intents = []
+        self._sub_intents: List[Any] = []
 
     def __str__(self) -> Text:
         return self._label
@@ -61,11 +61,13 @@ class Intent:
 
     @property
     def is_main_intent(self) -> bool:
+        """Returns bool if it is the main intent."""
         return self.main_intent is None
 
     @property
     def has_sub_intents(self) -> bool:
-        return self.sub_intents
+        """Returns bool if intent has sub intents."""
+        return True if self.sub_intents else False
 
     def _add_sub_intent(self, sub_intent: Any) -> None:
         """Adds a sub-intent."""

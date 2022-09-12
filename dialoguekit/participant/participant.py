@@ -29,10 +29,11 @@ class Participant(ABC):
         """
         self._id = id
         self._type = type
-        self._dialogue_manager = None
+        self._dialogue_manager: DialogueManager = None
 
     @property
     def id(self):
+        """Returns the participant id."""
         return self._id
 
     def to_dict(self) -> Dict[str, str]:

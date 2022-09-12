@@ -44,17 +44,20 @@ class MathUser(Participant):
     def __init__(
         self,
         id: str,
-        type: UserType = UserType.HUMAN,
+        type: DialogueParticipant = DialogueParticipant.USER,
+        user_type: UserType = UserType.HUMAN,
         intents: Union[List[Intent], None] = None,
     ) -> None:
         """Represents a user.
 
         Args:
             id: User ID.
-            type: User type (default: HUMAN).
+            type: Agent type (default: USER).
+            user_type: User type (default: HUMAN).
             intents: Intens to respond with.
         """
         super().__init__(id=id, type=type)
+        self.user_type = user_type
         if intents is not None:
             self._intents = intents
         else:

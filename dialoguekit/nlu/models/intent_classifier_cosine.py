@@ -19,7 +19,7 @@ class IntentClassifierCosine(IntentClassifier):
             intents: Allowed intents.
         """
         super().__init__(intents)
-        self._labels = None
+        self._labels: List[Intent] = None
         self._tfidf_vectorizer = TfidfVectorizer()
         self._tfidf_matrix = None
 

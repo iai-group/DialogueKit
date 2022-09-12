@@ -20,7 +20,7 @@ class AnnotationConverter(ABC):
         """
         self._filepath = filepath
         self._save_to_path = save_to_path
-        self._converted = {}
+        self._converted = {}  # type: ignore
 
     @abstractmethod
     def run(self) -> Dict[str, str]:

@@ -21,8 +21,8 @@ class Ratings:
                 ItemCollection are accepted.
         """
         self._item_collection = item_collection
-        self._item_ratings = defaultdict(dict)
-        self._user_ratings = defaultdict(dict)
+        self._item_ratings: Dict[str, Dict[str, float]] = defaultdict(dict)
+        self._user_ratings: Dict[str, Dict[str, float]] = defaultdict(dict)
 
     def load_ratings_csv(
         self,
@@ -111,4 +111,4 @@ class Ratings:
         Returns:
             User ID.
         """
-        return random.choice(self._user_ratings.keys())
+        return random.choice(list(self._user_ratings.keys()))

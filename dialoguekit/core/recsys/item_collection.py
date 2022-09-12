@@ -1,7 +1,7 @@
 """Represents a collection of items."""
 
 import csv
-from typing import Any, List
+from typing import Any, Dict, List
 
 from dialoguekit.core.recsys.item import Item
 
@@ -9,7 +9,7 @@ from dialoguekit.core.recsys.item import Item
 class ItemCollection:
     def __init__(self) -> None:
         """Initializes an empty item collection."""
-        self._items = {}
+        self._items: Dict[str, Any] = {}
 
     def get_item(self, item_id: str) -> Item:
         """Returns an item from the collection based on its ID.

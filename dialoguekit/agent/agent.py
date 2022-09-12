@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from enum import Enum
 
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.participant.participant import DialogueParticipant, Participant
 
 # TODO Some research needs to be done in how Python abstract classes work,
@@ -41,3 +42,12 @@ class Agent(Participant):
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
         return
+
+    def receive_user_utterance(
+        self, annotated_utterance: AnnotatedUtterance
+    ) -> None:
+        """Gets called each time there is a new user utterance.
+
+        Args:
+            annotated_utterance: User utterance.
+        """

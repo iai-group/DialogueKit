@@ -5,8 +5,8 @@ connected with a DialogueManager by invoking
 `register_dialogue_manager()`.
 """
 
-from ctypes import Union
 from enum import Enum
+from typing import Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
@@ -48,16 +48,22 @@ class UserType(Enum):
 
 class UserWithIntent(Participant):
     def __init__(
-        self, id: str, type: UserType = UserType.HUMAN, intents=None
+        self,
+        id: str,
+        type: DialogueParticipant = DialogueParticipant.USER,
+        user_type: UserType = UserType.HUMAN,
+        intents=None,
     ) -> None:
         """Represents a user.
 
         Args:
             id: User ID.
-            type: User type (default: HUMAN).
+            type: Agent type (default: USER).
+            user_type: User type (default: HUMAN).
             intents: Intents that you want to select from.
         """
         super().__init__(id=id, type=type)
+        self.user_type = user_type
         if intents is not None:
             self._intents = intents
         else:

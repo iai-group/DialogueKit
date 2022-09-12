@@ -41,6 +41,7 @@ class MathAgent(Agent):
         """
         super().__init__(agent_id)
         self._nlg = nlg
+        self._expected_answer: float
         self._initialize_nlu_nlg()
 
     def _initialize_nlu_nlg(self) -> None:
@@ -58,6 +59,7 @@ class MathAgent(Agent):
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),
                 ],
+                participant=DialogueParticipant.AGENT,
             )
             a2 = AnnotatedUtterance(
                 intent=Intent("OPERATION.SUBTRACTION"),
@@ -66,6 +68,7 @@ class MathAgent(Agent):
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),
                 ],
+                participant=DialogueParticipant.AGENT,
             )
             a3 = AnnotatedUtterance(
                 intent=Intent("OPERATION.MULTIPLICATION"),
@@ -74,6 +77,7 @@ class MathAgent(Agent):
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),
                 ],
+                participant=DialogueParticipant.AGENT,
             )
             a4 = AnnotatedUtterance(
                 intent=Intent("OPERATION.DIVISION"),
@@ -82,14 +86,18 @@ class MathAgent(Agent):
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),
                 ],
+                participant=DialogueParticipant.AGENT,
             )
 
             a5 = AnnotatedUtterance(
                 intent=Intent("WRONG"),
                 text="Thats not quite right! \nTry again.",
+                participant=DialogueParticipant.AGENT,
             )
             a6 = AnnotatedUtterance(
-                intent=Intent("WRONG"), text="Thats wrong. \nTry again."
+                intent=Intent("WRONG"),
+                text="Thats wrong. \nTry again.",
+                participant=DialogueParticipant.AGENT,
             )
             utterances = [a1, a2, a3, a4, a5, a6, a6]
 

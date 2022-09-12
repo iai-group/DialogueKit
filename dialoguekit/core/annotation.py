@@ -28,8 +28,10 @@ class Annotation:
 
     @property
     def slot(self) -> str:
+        """Return the annotations slot."""
         return self._slot
 
     @property
     def value(self) -> str:
+        """Return the annotations value."""
         return self._value

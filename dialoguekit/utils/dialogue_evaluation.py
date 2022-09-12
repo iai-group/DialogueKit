@@ -3,7 +3,7 @@
 import warnings
 from collections import defaultdict
 from copy import deepcopy
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, TypedDict, Union
 
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.intent import Intent
@@ -28,11 +28,18 @@ _REPEAT_PENALTY = "repeat_penalty"
 _COST = "cost"
 
 
+class RewardConfig(TypedDict):
+    """Used as the reward configuration."""
+
+    full_set_points: int
+    repeat_penalty: int
+    cost: int
+    intents: Dict[str, int]
+
+
 class Evaluator:
     def __init__(
-        self,
-        dialogues: List[Dialogue],
-        reward_config: Dict[str, Union[int, Dict[str, int]]],
+        self, dialogues: List[Dialogue], reward_config: RewardConfig
     ) -> None:
         """Dialogue evaluator.
 
@@ -44,7 +51,7 @@ class Evaluator:
               config, consult the documentation.
         """
         self._dialogues = dialogues
-        self._dialogue_lengths = []
+        self._dialogue_lengths: List[Union[int, float]] = []
         self._reward_config = reward_config
         assert isinstance(self._dialogues, list)
         assert all(isinstance(dialogue, Dialogue) for dialogue in dialogues)
@@ -86,11 +93,11 @@ class Evaluator:
         Returns:
             A dictionary with participant and ActRatio as key-value pairs.
         """
-        statistics = defaultdict(float)
+        statistics: Dict[str, float] = defaultdict(float)
 
         for dialogue in self._dialogues:
             for utterance in dialogue.utterances:
-                sender = utterance.participant
+                sender = str(utterance.participant)
                 statistics[sender] += 1
 
         if len(statistics.keys()) > 2:
@@ -179,7 +186,7 @@ class Evaluator:
         Returns:
             A dictionary to hold measured metrics relevant to reward.
         """
-        results = {
+        results: Dict[str, List[Any]] = {
             "missing_intents": [],
             "dialogues": [
                 {

@@ -125,12 +125,12 @@ def test_filter_templates(nlg_class):
     assert test_response
     assert test_response.text == "something like the test_movie_title"
 
-    test_response = nlg_class.generate_utterance_text(
-        intent=Intent("REVEAL.EXPAND"),
-        annotations=None,
-        satisfaction=3,
-    )
-    assert test_response is False
+    with pytest.raises(ValueError):
+        test_response = nlg_class.generate_utterance_text(
+            intent=Intent("REVEAL.EXPAND"),
+            annotations=None,
+            satisfaction=3,
+        )
 
 
 def test_get_intent_annotation_specifications(nlg_class):

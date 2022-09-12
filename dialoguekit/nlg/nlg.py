@@ -4,7 +4,7 @@ import random
 import sys
 from collections import defaultdict
 from copy import deepcopy
-from typing import Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
@@ -54,7 +54,7 @@ class NLG:
         annotations: Optional[Union[List[Annotation], None]] = None,
         satisfaction: Optional[Union[float, None]] = None,
         force_annotation: Optional[bool] = False,
-    ) -> Union[AnnotatedUtterance, bool]:
+    ) -> AnnotatedUtterance:
         """Turns a structured utterance into a textual one.
 
         .. note::
@@ -90,7 +90,8 @@ class NLG:
             .. note::
 
                 Note: if the filtering after step 1 and 2 does not find any
-                response that satisfies the criteria 'False' will be returned.
+                response that satisfies the criteria 'ValueError' will be
+                raised.
         """
         if self._response_templates is None:
             raise ValueError(
@@ -116,7 +117,7 @@ class NLG:
         )
         # Check if filtering has filtered out everything
         if len(templates) == 0:
-            return False
+            raise ValueError("NLG text generation failed.")
 
         if satisfaction is not None:
             response_utterance = self._select_closest_to_satisfaction(
@@ -194,7 +195,7 @@ class NLG:
         return filtered_annotated_utterances
 
     def _select_closest_to_satisfaction(
-        self, templates: List[AnnotatedUtterance], satisfaction: int
+        self, templates: List[AnnotatedUtterance], satisfaction: float
     ) -> AnnotatedUtterance:
         """Find the closest annotated utterance based on satisfaction.
 
@@ -224,7 +225,7 @@ class NLG:
     def get_intent_annotation_specifications(
         self,
         intent: Intent,
-    ) -> Dict[str, Dict[str, Union[int, List[AnnotatedUtterance]]]]:
+    ) -> Dict[str, Dict[str, Any]]:
         """Returns dictionary with the min and max annotated utterances.
 
         The dictionary is structured as such:

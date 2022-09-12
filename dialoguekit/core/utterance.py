@@ -53,14 +53,17 @@ class Utterance:
 
     @property
     def text(self) -> str:
+        """Returns the utterances text."""
         return self._text
 
     @property
-    def participant(self) -> str:
+    def participant(self) -> DialogueParticipant:
+        """Return the utterances participant."""
         return self._participant
 
     @property
     def timestamp(self) -> datetime:
+        """Returns the utterances timestamp."""
         return self._timestamp
 
     def _timestamp_text(self) -> str:

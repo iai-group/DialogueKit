@@ -6,7 +6,7 @@ multi-label classification is left to future work.
 """
 
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Dict, List
 
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
@@ -19,7 +19,7 @@ class IntentClassifier(ABC):
         Args:
             intents: List of allowed intents.
         """
-        self._intents = intents
+        self._intents: Dict[str, Intent] = {i.label: i for i in intents}
 
     @abstractmethod
     def train_model(

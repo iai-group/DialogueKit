@@ -53,6 +53,7 @@ class DialogueManager:
 
     @property
     def dialogue_history(self):
+        """Return the dialogue history."""
         return self._dialogue_history
 
     def register_user_utterance(
@@ -102,7 +103,7 @@ class DialogueManager:
         ):
             self.close()
         else:
-            self._user.receive_utterance(annotated_utterance.utterance)
+            self._user.receive_utterance(annotated_utterance)
 
     def start(self) -> None:
         """Starts the conversation."""

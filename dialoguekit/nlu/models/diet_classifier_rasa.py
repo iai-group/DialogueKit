@@ -53,14 +53,20 @@ class IntentClassifierRasa(IntentClassifier):
             training_data_path: Path to the training data yml.
             model_path: Path to where rasa trained model will be stored.
         """
-        self._intents = {i.label: i for i in intents}
+        super().__init__(intents)
         self._model_path = Path(model_path)
         self._def_model_storage = LocalModelStorage.create(self._model_path)
         self._def_resource = Resource(name="rasa_diet_resource")
+        self._training_data_path = training_data_path
 
-        self._training_data = None
+        if isinstance(self._training_data_path, str):
+            importer = RasaFileImporter(
+                training_data_paths=[self._training_data_path]
+            )
+            self._training_data: TrainingData = importer.get_nlu_data()
+        else:
+            raise TypeError("Provided 'training_data_path' is not a string!")
 
-        self._traning_data_path = training_data_path
         self.init_pipeline()
 
     def init_pipeline(self) -> None:
@@ -76,13 +82,6 @@ class IntentClassifierRasa(IntentClassifier):
             {"component": WhitespaceTokenizer},
             {"component": CountVectorsFeaturizer},
         ]
-        if isinstance(self._traning_data_path, str):
-            importer = RasaFileImporter(
-                training_data_paths=[self._traning_data_path]
-            )
-            self._training_data: TrainingData = importer.get_nlu_data()
-        else:
-            raise TypeError("Provided 'traning_data_path' is not a string!")
 
         self._component_pipeline = [
             self.create_component(
@@ -108,7 +107,7 @@ class IntentClassifierRasa(IntentClassifier):
             ),
             resource=self._def_resource,
         )
-        self._processes_utterances = {}
+        self._processes_utterances: Dict[str, Any] = {}
 
     def train_model(
         self,
@@ -136,7 +135,12 @@ class IntentClassifierRasa(IntentClassifier):
             rasa_file = converter.dialoguekit_to_rasa(
                 utterances=utterances, intents=labels
             )
-            self._traning_data_path = rasa_file
+            self._training_data_path = rasa_file
+
+            importer = RasaFileImporter(
+                training_data_paths=[self._training_data_path]
+            )
+            self._training_data = importer.get_nlu_data()
             self.init_pipeline()
 
         self._labels = labels
