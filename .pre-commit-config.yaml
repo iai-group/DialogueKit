@@ -15,9 +15,7 @@ repos:
         name: docformatter
         description: "Formats docstrings to follow PEP 257."
         entry: docformatter
-        args:
-          - --in-place
-
+        args: [--in-place]
         language: python
         types: [python]
 
@@ -26,18 +24,20 @@ repos:
     hooks:
       - id: pydocstyle
         args:
-          - --ignore=D101,D105,D213,D407,D413,D203,D406,D401
-          - --ignore-decorators=property
+          - --ignore=D101,D203,D213,D401,D406,D407,D413
 
   - repo: local
     hooks:
       - id: mypy
         name: mypy
         entry: "mypy"
-        language: system
+        language: python
         exclude: ^tests/
         types: [python]
         verbose: true
+        args: [--no-strict-optional, --ignore-missing-imports, --no-incremental]
+        additional_dependencies: [types-all]
+
   - repo: local
     hooks:
       - id: pytest
