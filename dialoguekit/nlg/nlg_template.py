@@ -11,17 +11,17 @@ from dialoguekit.nlg.nlg_abstract import AbstractNLG
 from dialoguekit.participant.participant import DialogueParticipant
 
 
-class NLG(AbstractNLG):
+class TemplateNLG(AbstractNLG):
     def __init__(
         self, response_templates: Dict[Intent, List[AnnotatedUtterance]]
     ) -> None:
         """Template-based NLG.
 
-        To use this NLG component, on of the template extraction methods from
-        `template_from_traning_data.py` has to be used.
+        To use this NLG component, one of the template extraction methods from
+        `template_from_training_data.py` has to be used.
 
         Args:
-            response_templates: response template for NLG.
+            response_templates: Response templates for NLG.
         """
         self._response_templates = response_templates
 

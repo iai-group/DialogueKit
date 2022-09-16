@@ -17,7 +17,7 @@ from dialoguekit.participant.participant import DialogueParticipant
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
 
-# nlg class shared across tests.
+# NLG class shared across tests.
 @pytest.fixture
 def nlg_class() -> ConditionalNLG:
     template = extract_utterance_template(
@@ -61,9 +61,6 @@ def test_generate_utterance_text(nlg_class):
 
 
 def test_generate_utterance_text_force_annotation(nlg_class):
-    # A corner case where only one template found, i.e., REVEAL.EXPAND only has
-    # something like the {TITLE}.
-
     test = nlg_class.generate_utterance_text(
         Intent("COMPLETE"), annotations=None, force_annotation=True
     )
@@ -77,7 +74,7 @@ def test_generate_utterance_text_force_annotation(nlg_class):
     assert test.text == "TEST_DIRECTOR_NAME name"
 
 
-def test_none_annotations(nlg_class):
+def test_no_annotations(nlg_class):
     test = nlg_class.generate_utterance_text(Intent("COMPLETE"), None)
 
     assert test.intent == Intent("COMPLETE")

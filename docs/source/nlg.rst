@@ -1,8 +1,10 @@
 Natural Language Generation (NLG)
 =================================
 
-The NLG components in Dialoguekit are template based.
-There are two different versions. :py:class:`dialoguekit.nlg.nlg.NLG` and :py:class:`dialoguekit.nlg.nlg_conditional.ConditionalNLG`. 
+The NLG components in Dialoguekit are currently template-based.
+The basic template-based generation works by extracting templates from a set of training data. The templates are the user and agent utterances with the annotations removed. This version can be found here: :py:class:`dialoguekit.nlg.nlg_template.TemplateNLG`.
+
+An extended version of the basic template-based implementation which can perform conditional language generation is :py:class:`dialoguekit.nlg.nlg_conditional.ConditionalNLG`. Using a conditional may be useful in cases were other attributes then the intent and annotations may be of interest. Such as the users satisfaction. This can then be used to selecting templates that have a different tone based on the conditional, in this case the satisfaction score.
 
 These two are used in similar ways. The only difference is that the `ConditionalNLG` can use a conditional in the :py:attr:`dialoguekit.core.annotated_utterance.AnnotatedUtterance.metadata` as long as the conditional value is a number.
 
@@ -45,4 +47,4 @@ Note that this necessitates the need of a larger template with multiple values f
 Custom NLG
 """"""""""
 
-If you want to implement your own NLG component feel free to inherit from :py:class:`dialoguekit.nlg.nlg_abstract.AbstractNLG`.
+Any custom NLG component might be implemented by inheriting from :py:class:`dialoguekit.nlg.nlg_abstract.AbstractNLG`.

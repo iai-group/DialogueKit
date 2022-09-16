@@ -18,7 +18,10 @@ class AbstractNLG(ABC):
         annotations: Optional[Union[List[Annotation], None]] = None,
         force_annotation: bool = False,
     ) -> Union[AnnotatedUtterance, bool]:
-        """Generates an annotated utterance.
+        """Turns a structured utterance into a textual one.
+
+        This method is supposed to be implemented in a way that takes the
+        arguments and returns a textual utterance, based on the arguments.
 
         Args:
             intent: The underlying intent of the utterance.
@@ -30,5 +33,8 @@ class AbstractNLG(ABC):
         Returns:
             Generated response using templates.
             If generation fails, False should be returned.
+
+        Raises:
+            NotImplementedError: If not implemented in derived class.
         """
-        pass
+        raise NotImplementedError

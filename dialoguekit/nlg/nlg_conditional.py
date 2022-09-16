@@ -7,19 +7,15 @@ from typing import Dict, List, Optional, Union
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
-from dialoguekit.nlg.nlg import NLG
+from dialoguekit.nlg.nlg_template import TemplateNLG
 from dialoguekit.participant.participant import DialogueParticipant
 
 
-class ConditionalNLG(NLG):
+class ConditionalNLG(TemplateNLG):
     def __init__(
         self, response_templates: Dict[Intent, List[AnnotatedUtterance]]
     ) -> None:
-        """Template based NLG with support for conditional.
-
-        The conditional field has to be part of the AnnotatedUtterance metadata
-        field and also a Number.
-        """
+        """Template-based NLG with support for conditional."""
         super().__init__(response_templates=response_templates)
 
     def generate_utterance_text(
@@ -32,6 +28,9 @@ class ConditionalNLG(NLG):
     ) -> Union[AnnotatedUtterance, bool]:
         """Turns a structured utterance into a textual one.
 
+        The conditional field has to be part of the AnnotatedUtterance metadata
+        field and also a Number.
+
         Note:
         If the template does not contain the desired intent, a fallback will be
         used. Stating "Sorry, I did not understand you." The response will have
@@ -42,20 +41,20 @@ class ConditionalNLG(NLG):
             2. Based on the list of 'annotations' only the possible responses,
                 are kept. e.g. Filter out responses that are not possible to
                 use are removed.
-            3. If conditional is provided:
+            3. a) If conditional is provided:
                 Filter to the closest responses that are possible to the
                 conditional_value, and select a random one.
-            3. If conditional is not provided:
+            3. b) If conditional is not provided:
                 Select a random one without looking at the conditional_value.
 
         Args:
-            intent: The intent of the wanted Utterance
-            annotations: The wanted annotations in the response Utterance
+            intent: The intent of the wanted Utterance.
+            annotations: The wanted annotations in the response Utterance.
             conditional: The desired metadata field to use as a conditional.
             conditional_value: The desired conditional value score.
-            force_annotation: if 'True' and 'annotations' are provided,
-                                responses without annotations will also be
-                                filtered out during step 2.
+            force_annotation: If 'True' and 'annotations' are provided,
+              responses without annotations will also be filtered out during
+              step 2.
 
         Returns:
             Generated response utterance using templates.
@@ -115,7 +114,7 @@ class ConditionalNLG(NLG):
         conditional: str,
         conditional_value: Number,
     ) -> AnnotatedUtterance:
-        """Find the closest annotated utterance based on conditional.
+        """Finds the closest annotated utterance based on conditional.
 
         If there are multiple possible options a random one will be selected.
 

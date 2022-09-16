@@ -5,7 +5,7 @@ import pytest
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
-from dialoguekit.nlg.nlg import NLG
+from dialoguekit.nlg.nlg_template import TemplateNLG
 from dialoguekit.nlg.template_from_training_data import (
     extract_utterance_template,
 )
@@ -16,11 +16,11 @@ ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
 # nlg class shared across tests.
 @pytest.fixture
-def nlg_class() -> NLG:
+def nlg_class() -> TemplateNLG:
     template = extract_utterance_template(
         annotated_dialogue_file=ANNOTATED_DIALOGUE_FILE,
     )
-    nlg = NLG(response_templates=template)
+    nlg = TemplateNLG(response_templates=template)
     return nlg
 
 
