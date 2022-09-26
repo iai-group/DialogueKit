@@ -63,15 +63,17 @@ class NLG:
             be used. Stating "Sorry, I did not understand you." The response
             will have the same 'intent'.
 
-        Generating a response is a multi-step process.
+        Generating a response is a multi-step process:
 
         1. Responses to the desired 'intent' will be selected.
-        2. Based on the list of 'annotations' only the possible responses, are
-           kept. e.g. Filter out responses that are not possible to use are
-           removed.
+
+        2. Based on the list of 'annotations', only the possible responses are
+           kept, i.e., filter out responses that are not usable.
+
         3. If 'satisfaction' is provided:
            Filter to the closest responses that are possible, and select a
            random one.
+
         4. If 'satisfaction' is not provided:
            Select a random one without looking at the satisfaction metric.
 

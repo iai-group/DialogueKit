@@ -75,17 +75,17 @@ class AnnotatedUtterance(Utterance):
 
     @property
     def text(self) -> str:
-        """Returns the utterances text."""
+        """Returns the utterance intent."""
         return self._text
 
     @property
     def intent(self) -> Intent:
-        """Returns the utterances intent."""
+        """Returns the utterance intent."""
         return self._intent
 
     @property
     def utterance(self) -> Utterance:
-        """Returns the annotated utterances as a utterance."""
+        """Returns the annotated utterance as a utterance."""
         return Utterance(
             text=self.text,
             participant=self._participant,
@@ -94,7 +94,7 @@ class AnnotatedUtterance(Utterance):
 
     @property
     def participant(self) -> DialogueParticipant:
-        """Returns the utterances participant."""
+        """Returns the utterance participant."""
         return self._participant
 
     @property

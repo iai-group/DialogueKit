@@ -28,12 +28,12 @@ class Item:
 
     @property
     def id(self) -> str:
-        """Return the items id."""
+        """Return the item id."""
         return self._item_id
 
     @property
     def name(self) -> str:
-        """Return the items name."""
+        """Return the item name."""
         return self._name
 
     def get_property(self, key: str) -> Any:

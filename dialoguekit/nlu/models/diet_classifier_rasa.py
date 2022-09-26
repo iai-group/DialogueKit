@@ -149,7 +149,7 @@ class IntentClassifierRasa(IntentClassifier):
         self._labels = labels
         self._diet.train(self._training_data)
 
-    def get_intent(self, utterance: Utterance) -> Intent:
+    def classify_intent(self, utterance: Utterance) -> Intent:
         """Classifies the intent of an utterance.
 
         The utterance gets transformed to a Rasa Message before being

@@ -41,7 +41,7 @@ class IntentClassifierCosine(IntentClassifier):
             [u.text for u in utterances]
         ).toarray()
 
-    def get_intent(self, utterance: Utterance) -> Intent:
+    def classify_intent(self, utterance: Utterance) -> Intent:
         """Classifies the utterances intent.
 
         Classifies the intent of an utterance based on based cosine

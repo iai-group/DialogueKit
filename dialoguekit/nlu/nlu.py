@@ -19,9 +19,9 @@ class NLU:
         self._intent_classifier = intent_classifier
         self._slot_annotators = slot_annotators
 
-    def get_intent(self, utterance: Utterance) -> Intent:
+    def classify_intent(self, utterance: Utterance) -> Intent:
         """Classifies the intent of a given agent utterance."""
-        return self._intent_classifier.get_intent(utterance)
+        return self._intent_classifier.classify_intent(utterance)
 
     def annotate_slot_values(
         self, utterance: Utterance

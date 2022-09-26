@@ -41,12 +41,12 @@ class Dialogue:
 
     @property
     def agent_id(self) -> str:
-        """Returns the agents id."""
+        """Returns the agent id."""
         return self._agent_id
 
     @property
     def user_id(self) -> str:
-        """Returns the users id."""
+        """Returns the user id."""
         return self._user_id
 
     @property

@@ -53,7 +53,7 @@ def labels_2():
     return [Intent(f"intent {i}") for i in [1, 3]]
 
 
-def test_get_intent_exact_patterns(intents, utterances_1, labels_1):
+def test_classify_intent_exact_patterns(intents, utterances_1, labels_1):
     """Tests label prediction.
 
     Args:
@@ -70,11 +70,11 @@ def test_get_intent_exact_patterns(intents, utterances_1, labels_1):
         utterance = Utterance(
             utterance_text, participant=DialogueParticipant.AGENT
         )
-        predicted_intent = intent_classifier.get_intent(utterance)
+        predicted_intent = intent_classifier.classify_intent(utterance)
         assert predicted_intent.label == intent.label
 
 
-def test_get_intent_similar_patterns(
+def test_classify_intent_similar_patterns(
     intents, utterances_1, labels_1, utterances_2, labels_2
 ):
     """Tests label prediction.
@@ -95,5 +95,5 @@ def test_get_intent_similar_patterns(
         utterance = Utterance(
             utterance_text, participant=DialogueParticipant.AGENT
         )
-        predicted_intent = intent_classifier.get_intent(utterance)
+        predicted_intent = intent_classifier.classify_intent(utterance)
         assert predicted_intent.label == intent.label

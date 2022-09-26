@@ -37,7 +37,7 @@ class IntentClassifier(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_intent(self, utterance: Utterance) -> Intent:
+    def classify_intent(self, utterance: Utterance) -> Intent:
         """Classifies the intent of an utterance.
 
         Args:
