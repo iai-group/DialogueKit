@@ -5,9 +5,9 @@ import pytest
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
-from dialoguekit.nlg.nlg import NLG
-from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifierSVM,
+from dialoguekit.nlg.nlg_template import TemplateNLG
+from dialoguekit.nlg.template_from_training_data import (
+    extract_utterance_template,
 )
 from dialoguekit.participant.participant import DialogueParticipant
 
@@ -16,12 +16,11 @@ ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
 # nlg class shared across tests.
 @pytest.fixture
-def nlg_class() -> NLG:
-    nlg = NLG()
-    nlg.template_from_file(
-        ANNOTATED_DIALOGUE_FILE,
-        satisfaction_classifier=SatisfactionClassifierSVM(),
+def nlg_class() -> TemplateNLG:
+    template = extract_utterance_template(
+        annotated_dialogue_file=ANNOTATED_DIALOGUE_FILE,
     )
+    nlg = TemplateNLG(response_templates=template)
     return nlg
 
 
@@ -32,7 +31,6 @@ def test_generate_utterance_text(nlg_class):
         text="something like the A Test Movie Title",
         intent=Intent("REVEAL.EXPAND"),
         participant=DialogueParticipant.AGENT,
-        metadata={2: 3, "satisfaction": 2},
     )
     expected_response1.add_annotation(
         Annotation(slot="TITLE", value="A Test Movie Title")
@@ -80,29 +78,17 @@ def test_none_annotations(nlg_class):
     assert test.intent == Intent("COMPLETE")
 
 
-def test_generate_utterance_text_with_satisfaction(nlg_class):
-
-    test_response = nlg_class.generate_utterance_text(
-        intent=Intent("COMPLETE"), annotations=None, satisfaction=3
-    )
-
-    assert test_response.metadata.get("satisfaction") == 2
-
-
 def test_filter_templates(nlg_class):
     test_response = nlg_class.generate_utterance_text(
         intent=Intent("REVEAL.EXPAND"),
         annotations=[Annotation(slot="TITLE", value="test_movie_title")],
-        satisfaction=3,
     )
 
     assert test_response
     assert test_response.text == "something like the test_movie_title"
 
     test_response = nlg_class.generate_utterance_text(
-        intent=Intent("REVEAL.EXPAND"),
-        annotations=None,
-        satisfaction=3,
+        intent=Intent("REVEAL.EXPAND"), annotations=None
     )
     assert test_response is False
 

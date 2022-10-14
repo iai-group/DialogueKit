@@ -1,57 +1,34 @@
 import json
 import random
 import sys
-from collections import defaultdict
 from copy import deepcopy
 from typing import Dict, List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
-from dialoguekit.nlg.template_from_training_data import (
-    build_template_from_instances,
-    extract_utterance_template,
-)
-from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifier,
-)
+from dialoguekit.nlg.nlg_abstract import AbstractNLG
 from dialoguekit.participant.participant import DialogueParticipant
 
 
-class NLG:
-    def __init__(self) -> None:
-        """Represents a Natural Language Generation (NLG) component."""
-        self._response_templates: Dict[Intent, List[AnnotatedUtterance]] = None
-        self._GENERATED_SATISFACTION: bool = False
-
-    def template_from_file(
-        self,
-        template_file: str,
-        participant_to_learn: str = "USER",
-        satisfaction_classifier: Union[None, SatisfactionClassifier] = None,
+class TemplateNLG(AbstractNLG):
+    def __init__(
+        self, response_templates: Dict[Intent, List[AnnotatedUtterance]]
     ) -> None:
-        """Generates template from DialogueKit dialogue JSON format."""
-        self._response_templates = extract_utterance_template(
-            annotated_dialogue_file=template_file,
-            participant_to_learn=participant_to_learn,
-            satisfaction_classifier=satisfaction_classifier,
-        )
-        if satisfaction_classifier:
-            self._GENERATED_SATISFACTION = True
+        """Template-based NLG.
 
-    def template_from_objects(
-        self, utterances: List[AnnotatedUtterance]
-    ) -> None:
-        """Generates template from instances."""
-        self._response_templates = build_template_from_instances(
-            utterances=utterances
-        )
+        To use this NLG component, one of the template extraction methods from
+        `template_from_training_data.py` has to be used.
+
+        Args:
+            response_templates: Response templates for NLG.
+        """
+        self._response_templates = response_templates
 
     def generate_utterance_text(
         self,
         intent: Intent,
         annotations: Optional[Union[List[Annotation], None]] = None,
-        satisfaction: Optional[Union[float, None]] = None,
         force_annotation: Optional[bool] = False,
     ) -> Union[AnnotatedUtterance, bool]:
         """Turns a structured utterance into a textual one.
@@ -66,19 +43,14 @@ class NLG:
             2. Based on the list of 'annotations' only the possible responses,
                 are kept. e.g. Filter out responses that are not possible to
                 use are removed.
-            3. If 'satisfaction' is provided:
-                Filter to the closest responses that are possible, and select a
-                random one.
-            3. If 'satisfaction' is not provided:
-                Select a random one without looking at the satisfaction metric.
+            3. Select a random one.
 
         Args:
-            intent: The intent of the wanted Utterance
-            annotations: The wanted annotations in the response Utterance
-            satisfaction: Desired satisfaction score of the response.
+            intent: The intent of the wanted Utterance.
+            annotations: The wanted annotations in the response Utterance.
             force_annotation: if 'True' and 'annotations' are provided,
-                                responses without annotations will also be
-                                filtered out during step 2.
+              responses without annotations will also be filtered out during
+              step 2.
 
         Returns:
             Generated response utterance using templates.
@@ -111,13 +83,8 @@ class NLG:
         if len(templates) == 0:
             return False
 
-        if satisfaction is not None:
-            response_utterance = self._select_closest_to_satisfaction(
-                templates, satisfaction
-            )
-        else:
-            response_utterance = random.choice(templates)
-            response_utterance = deepcopy(response_utterance)
+        response_utterance = random.choice(templates)
+        response_utterance = deepcopy(response_utterance)
 
         # Clear out annotations
         response_utterance._annotations = []
@@ -185,34 +152,6 @@ class NLG:
                 if len(template.get_annotations()) > 0
             ]
         return filtered_annotated_utterances
-
-    def _select_closest_to_satisfaction(
-        self, templates: List[AnnotatedUtterance], satisfaction: int
-    ) -> AnnotatedUtterance:
-        """Find the closest annotated utterance based on satisfaction.
-
-        If there are multiple possible options a random one will be selected.
-
-        Args:
-            templates: AnnotatedUtterances with satisfaction metric.
-            satisfaction: The desired satisfaction score.
-
-        Returns:
-            AnnotatedUtterance that has the closest satisfaction score.
-        """
-        templates = sorted(
-            templates, key=lambda item: item.metadata.get("satisfaction")
-        )
-
-        distances = defaultdict(list)
-        for annotated_utterance in templates:
-            dist = abs(
-                annotated_utterance.metadata.get("satisfaction") - satisfaction
-            )
-            distances[dist].append(annotated_utterance)
-
-        lowest_distance = sorted(list(distances.keys()))[0]
-        return deepcopy(random.choice(distances[lowest_distance]))
 
     def get_intent_annotation_specifications(
         self,
