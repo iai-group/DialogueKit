@@ -58,7 +58,7 @@ class Utterance:
 
     @property
     def participant(self) -> DialogueParticipant:
-        """Return the utterance participant."""
+        """Returns the utterance participant."""
         return self._participant
 
     @property
