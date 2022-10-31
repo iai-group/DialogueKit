@@ -3,30 +3,33 @@ import json
 
 import pytest
 from dialoguekit.core import AnnotatedUtterance, Annotation, Intent
-from dialoguekit.nlg import NLG
+from dialoguekit.nlg import ConditionalNLG
+from dialoguekit.nlg.template_from_training_data import (
+    extract_utterance_template,
+)
 from dialoguekit.nlu import SatisfactionClassifierSVM
 from dialoguekit.participant import DialogueParticipant
 
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
 
-# nlg class shared across tests.
+# NLG class shared across tests.
 @pytest.fixture
-def nlg_class() -> NLG:
+def nlg_class() -> ConditionalNLG:
     """Tests class init.
 
     This method is also a testing fixture used for the rest of the
     tests.
     """
-    nlg = NLG()
-    nlg.template_from_file(
-        ANNOTATED_DIALOGUE_FILE,
+    template = extract_utterance_template(
+        annotated_dialogue_file=ANNOTATED_DIALOGUE_FILE,
         satisfaction_classifier=SatisfactionClassifierSVM(),
     )
+    nlg = ConditionalNLG(response_templates=template)
     return nlg
 
 
-def test_generate_utterance_text(nlg_class):
+def test_generate_utterance_text(nlg_class: ConditionalNLG):
     """Tests generation of utterances.
 
     A corner case where only one template found, i.e., REVEAL.EXPAND only has
@@ -39,7 +42,7 @@ def test_generate_utterance_text(nlg_class):
         text="something like the A Test Movie Title",
         intent=Intent("REVEAL.EXPAND"),
         participant=DialogueParticipant.AGENT,
-        metadata={2: 3, "satisfaction": 2},
+        metadata={"satisfaction": 2},
     )
     expected_response1.add_annotation(
         Annotation(slot="TITLE", value="A Test Movie Title")
@@ -64,7 +67,7 @@ def test_generate_utterance_text(nlg_class):
     assert generated_response.intent == Intent("NOT_A_INTENT")
 
 
-def test_generate_utterance_text_force_annotation(nlg_class):
+def test_generate_utterance_text_force_annotation(nlg_class: ConditionalNLG):
     """Tests utterance generation with annotations.
 
     A corner case where only one template found, i.e., REVEAL.EXPAND only has
@@ -86,7 +89,7 @@ def test_generate_utterance_text_force_annotation(nlg_class):
     assert test.text == "TEST_DIRECTOR_NAME name"
 
 
-def test_none_annotations(nlg_class):
+def test_no_annotations(nlg_class: ConditionalNLG):
     """Tests utterance generation without annotations.
 
     Args:
@@ -97,43 +100,48 @@ def test_none_annotations(nlg_class):
     assert test.intent == Intent("COMPLETE")
 
 
-def test_generate_utterance_text_with_satisfaction(nlg_class):
+def test_generate_utterance_text_with_satisfaction(nlg_class: ConditionalNLG):
     """Tests utterance generation with metadata.
 
     Args:
         nlg_class: Test NLG object.
     """
-    test_response = nlg_class.generate_utterance_text(
-        intent=Intent("COMPLETE"), annotations=None, satisfaction=3
+    test_response = nlg_class.generate_utterance_text_conditional(
+        intent=Intent("COMPLETE"),
+        annotations=None,
+        conditional="satisfaction",
+        conditional_value=3,
     )
 
     assert test_response.metadata.get("satisfaction") == 2
 
 
-def test_filter_templates(nlg_class):
+def test_filter_templates(nlg_class: ConditionalNLG):
     """Tests filtering of the template.
 
     Args:
         nlg_class: Test NLG object.
     """
-    test_response = nlg_class.generate_utterance_text(
+    test_response = nlg_class.generate_utterance_text_conditional(
         intent=Intent("REVEAL.EXPAND"),
         annotations=[Annotation(slot="TITLE", value="test_movie_title")],
-        satisfaction=3,
+        conditional="satisfaction",
+        conditional_value=3,
     )
 
     assert test_response
     assert test_response.text == "something like the test_movie_title"
 
     with pytest.raises(ValueError):
-        test_response = nlg_class.generate_utterance_text(
+        test_response = nlg_class.generate_utterance_text_conditional(
             intent=Intent("REVEAL.EXPAND"),
             annotations=None,
-            satisfaction=3,
+            conditional="satisfaction",
+            conditional_value=3,
         )
 
 
-def test_get_intent_annotation_specifications(nlg_class):
+def test_get_intent_annotation_specifications(nlg_class: ConditionalNLG):
     """Tests annotation statistics method.
 
     Args:
@@ -150,7 +158,7 @@ def test_get_intent_annotation_specifications(nlg_class):
         )
 
 
-def test_dump_templates(nlg_class, tmp_path):
+def test_dump_templates(nlg_class: ConditionalNLG, tmp_path):
     """Tests dumping of the template.
 
     Args:

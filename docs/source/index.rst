@@ -1,4 +1,3 @@
-
 DialogueKit |release| documentation
 =====================================
 
@@ -13,7 +12,9 @@ DialogueKit is a framework for building and evaluating CIA systems.
    usage
    concepts
    nlu
+   nlg
    external_agents
+   dialogue_export
    :ref:`modindex`
 
 Indices and tables

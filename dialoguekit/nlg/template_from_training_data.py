@@ -61,7 +61,7 @@ def build_template_from_instances(
     return return_template
 
 
-def extract_utterance_template(
+def extract_utterance_template(  # noqa: C901
     annotated_dialogue_file: str,
     participant_to_learn: str = "USER",
     satisfaction_classifier: Optional[
@@ -104,14 +104,22 @@ def extract_utterance_template(
             satisfaction = None
             for utterance_record in dialog.get("conversation"):
                 participant = utterance_record.get("participant")
-                annotated_utterance = AnnotatedUtterance(
-                    text=utterance_record.get("utterance").strip(),
-                    intent=Intent(utterance_record.get("intent")),
-                    metadata={
-                        satisfaction: _DEFAULT_SATISFACTION
-                    },  # Satisfaction defaults to 3 (Normal)
-                    participant=DialogueParticipant.AGENT,
-                )
+
+                if satisfaction_classifier:
+                    annotated_utterance = AnnotatedUtterance(
+                        text=utterance_record.get("utterance").strip(),
+                        intent=Intent(utterance_record.get("intent")),
+                        metadata={
+                            "satisfaction": _DEFAULT_SATISFACTION
+                        },  # Satisfaction defaults to 3 (Normal)
+                        participant=DialogueParticipant.AGENT,
+                    )
+                else:
+                    annotated_utterance = AnnotatedUtterance(
+                        text=utterance_record.get("utterance").strip(),
+                        intent=Intent(utterance_record.get("intent")),
+                        participant=DialogueParticipant.AGENT,
+                    )
                 annotated_utterance_copy = copy.deepcopy(annotated_utterance)
 
                 # Only use the utterances from the wanted participant

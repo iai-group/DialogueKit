@@ -193,19 +193,16 @@ def test_extract_utterance_template():
                 text="thank you",
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
-                metadata={None: 3},
             ),
             AnnotatedUtterance(
                 text="/exit",
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
-                metadata={None: 3},
             ),
             AnnotatedUtterance(
                 text="I would like to quit now.",
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
-                metadata={None: 3},
             ),
         ]
     )
@@ -215,7 +212,6 @@ def test_extract_utterance_template():
         intent=Intent(label="REVEAL.EXPAND"),
         annotations=[Annotation(slot="TITLE", value="")],
         participant=DialogueParticipant.AGENT,
-        metadata={None: 3},
     )
 
     assert templates.get(Intent("REVEAL.EXPAND")) == [test_annotation]
