@@ -50,7 +50,7 @@ jobs:
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 35bb996459f0949b38da651c66cf95cb
-          filename: coverage.${{ env.REPO_NAME }}.main.json
+          filename: coverage.${{ github.event.repository.name }}.main.json
           label: coverage
           message: ${{ env.COVERAGE }}
           color: ${{ env.COLOR }}
