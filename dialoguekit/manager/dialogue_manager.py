@@ -41,6 +41,7 @@ class DialogueManager:
             agent: An instance of Agent.
             user: An instance of User.
             platform: An instance of Platform.
+            save_dialogue_history: Flag to save the dialogue or not.
         """
         self._agent = agent
         self._agent.connect_dialogue_manager(self)
@@ -52,6 +53,7 @@ class DialogueManager:
 
     @property
     def dialogue_history(self):
+        """Return the dialogue history."""
         return self._dialogue_history
 
     def register_user_utterance(
@@ -67,7 +69,7 @@ class DialogueManager:
         to.
 
         Args:
-            utterance: User utterance.
+            annotated_utterance: User utterance.
         """
         self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_user_utterance(annotated_utterance)
@@ -89,7 +91,7 @@ class DialogueManager:
             it is only the agent that can close the dialoguemanager.
 
         Args:
-            utterance: Agent utterance.
+            annotated_utterance: Agent utterance.
         """
         self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_agent_utterance(annotated_utterance)
@@ -101,7 +103,7 @@ class DialogueManager:
         ):
             self.close()
         else:
-            self._user.receive_utterance(annotated_utterance.utterance)
+            self._user.receive_utterance(annotated_utterance)
 
     def start(self) -> None:
         """Starts the conversation."""
@@ -111,8 +113,8 @@ class DialogueManager:
     def close(self) -> None:
         """Closes the conversation.
 
-        If '_save_dialogue_history' is set to True it will export the dialogue
-        history.
+        If '_save_dialogue_history' is set to True it will export the
+        dialogue history.
         """
         if self._save_dialogue_history:
             self._dump_dialogue_history()

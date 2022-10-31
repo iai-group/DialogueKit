@@ -1,13 +1,13 @@
+"""Convert annotations to be compatible with the rasa models."""
 import json
 import time
 from collections import defaultdict
-from typing import Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 import yaml
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.utils.annotation_converter import AnnotationConverter
-from yaml.nodes import ScalarNode
 from yaml.representer import SafeRepresenter
 
 
@@ -20,12 +20,30 @@ class AnnotationConverterRasa(AnnotationConverter):
     def __init__(
         self, filepath: Optional[str] = "", save_to_path: Optional[str] = None
     ) -> None:
+        """Converts annotations to be compatible with rasa.
+
+        Args:
+            filepath: Training data path.
+            save_to_path: Path to store the converted annotations.
+        """
         super().__init__(filepath, save_to_path)
-        self._intent_examples = {"USER": {}, "AGENT": {}}
-        self._slot_value_pairs = defaultdict(set)
-        self._data = {}
+        self._intent_examples: Dict[str, Dict[Any, Any]] = {
+            "USER": {},
+            "AGENT": {},
+        }
+        self._slot_value_pairs: Dict[Any, Any] = defaultdict(set)
+        self._data: Dict[str, Any] = {}
 
     def rasa_string(self, v: List[str]) -> str:
+        """Reformats string to be compatible with rasa.
+
+        Args:
+            v: strings to be reformated.
+
+        Returns:
+            String containing the original items to be inserted into the rasa
+            training data.
+        """
         formatted_string = LiteralString(
             "".join(
                 [
@@ -38,12 +56,17 @@ class AnnotationConverterRasa(AnnotationConverter):
         )
         return formatted_string
 
-    def change_style(self, style: str, representer: ScalarNode):
-        """Used to change the python yaml data representation
+    def change_style(
+        self, style: str, representer: Callable
+    ) -> Callable[[Any, Any], Any]:
+        """Used to change the python yaml data representation.
+
         Args:
-            style (str): Style used to represent type
-            representer (ScalarNode): representer type ->
-                        (SafeRepresenter.represent_str)
+            style: Style used to represent type
+            representer: ScalerNode representer
+
+        Returns:
+            Representer used for rasa formatting.
         """
 
         def new_representer(dumper, data):
@@ -54,11 +77,20 @@ class AnnotationConverterRasa(AnnotationConverter):
         return new_representer
 
     def _remove_whitespace(self, utterance_text: str) -> str:
+        """Removes whitespaces.
+
+        Args:
+            utterance_text: text to be formatted.
+
+        Returns:
+            String without whitespaces.
+        """
         utterance_text = utterance_text.strip()
         utterance_text = utterance_text.replace("\n", " ")
         return utterance_text
 
     def read_original(self) -> None:
+        """Reads the original training data."""
         f = open(self._filepath)
         data = json.load(f)
         self._data["original"] = data
@@ -129,7 +161,6 @@ class AnnotationConverterRasa(AnnotationConverter):
         Returns:
             Filename: path to file pairs
         """
-
         if len(self._slot_value_pairs.values()) <= 0:
             raise TypeError(
                 "Your need to use the read_original() "
@@ -156,30 +187,14 @@ class AnnotationConverterRasa(AnnotationConverter):
         with open(return_dictionary[filename], "w") as outfile:
             yaml.dump(self._slot_value_pairs, outfile, default_flow_style=False)
 
-        def change_style(style: str, representer: ScalarNode):
-            """Used to change the python yaml data representation
-
-            Args:
-                style (str): Style used to represent type
-                representer (ScalarNode): representer type ->
-                            (SafeRepresenter.represent_str)
-            """
-
-            def new_representer(dumper, data):
-                scalar = representer(dumper, data)
-                scalar.style = style
-                return scalar
-
-            return new_representer
-
-        represent_literal_list = change_style(
+        represent_literal_list = self.change_style(
             "|", SafeRepresenter.represent_str
         )
         yaml.add_representer(LiteralString, represent_literal_list)
 
         # Create dict with rasa compatible format
-        rasa_dict_user = {"version": "3.0", "nlu": []}
-        rasa_dict_agent = {"version": "3.0", "nlu": []}
+        rasa_dict_user: Dict[str, Any] = {"version": "3.0", "nlu": []}
+        rasa_dict_agent: Dict[str, Any] = {"version": "3.0", "nlu": []}
         for k, v in self._intent_examples["USER"].items():
             formatted_dict = {"intent": k, "examples": self.rasa_string(v)}
             rasa_dict_user["nlu"].append(formatted_dict)
@@ -206,8 +221,16 @@ class AnnotationConverterRasa(AnnotationConverter):
     def dialoguekit_to_rasa(
         self, utterances: List[Utterance], intents: List[Intent]
     ) -> str:
+        """Converts utterances to be rasa compatible.
 
-        rasa_dict = {"version": "3.0", "nlu": []}
+        Args:
+            utterances: Utterances to convert.
+            intents: The intents of the utterances.
+
+        Returns:
+            Rasa string with the utterances.
+        """
+        rasa_dict: Dict[str, Any] = {"version": "3.0", "nlu": []}
         for u, i in zip(utterances, intents):
             formatted_dict = {
                 "intent": i.label,

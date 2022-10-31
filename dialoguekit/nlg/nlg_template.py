@@ -1,8 +1,9 @@
+"""NLG component."""
 import json
 import random
 import sys
 from copy import deepcopy
-from typing import Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
@@ -30,20 +31,29 @@ class TemplateNLG(AbstractNLG):
         intent: Intent,
         annotations: Optional[Union[List[Annotation], None]] = None,
         force_annotation: Optional[bool] = False,
-    ) -> Union[AnnotatedUtterance, bool]:
+    ) -> AnnotatedUtterance:
         """Turns a structured utterance into a textual one.
 
-        Note:
-        If the template does not contain the desired intent, a fallback will be
-        used. Stating "Sorry, I did not understand you." The response will have
-        the same 'intent'.
+        .. note::
 
-        Generating a response is a multi-step process.
-            1. Responses to the desired 'intent' will be selected.
-            2. Based on the list of 'annotations' only the possible responses,
-                are kept. e.g. Filter out responses that are not possible to
-                use are removed.
-            3. Select a random one.
+            If the template does not contain the desired intent, a fallback will
+            be used. Stating "Sorry, I did not understand you." The response
+            will have the same 'intent'.
+
+        Generating a response is a multi-step process:
+
+        1. Responses to the desired 'intent' will be selected.
+
+        2. Based on the list of 'annotations', only the possible responses are
+           kept, i.e., filter out responses that are not usable.
+
+        3. If 'satisfaction' is provided:
+           Filter to the closest responses that are possible, and select a
+           random one.
+
+        4. If 'satisfaction' is not provided:
+           Select a random one without looking at the satisfaction metric.
+
 
         Args:
             intent: The intent of the wanted Utterance.
@@ -54,8 +64,12 @@ class TemplateNLG(AbstractNLG):
 
         Returns:
             Generated response utterance using templates.
-            Note: if the filtering after step 1 and 2 does not find any response
-            that satisfies the criteria 'False' will be returned.
+
+            .. note::
+
+                Note: if the filtering after step 1 and 2 does not find any
+                response that satisfies the criteria 'ValueError' will be
+                raised.
         """
         if self._response_templates is None:
             raise ValueError(
@@ -81,7 +95,7 @@ class TemplateNLG(AbstractNLG):
         )
         # Check if filtering has filtered out everything
         if len(templates) == 0:
-            return False
+            raise ValueError("NLG text generation failed.")
 
         response_utterance = random.choice(templates)
         response_utterance = deepcopy(response_utterance)
@@ -156,20 +170,23 @@ class TemplateNLG(AbstractNLG):
     def get_intent_annotation_specifications(
         self,
         intent: Intent,
-    ) -> Dict[str, Dict[str, Union[int, List[AnnotatedUtterance]]]]:
+    ) -> Dict[str, Dict[str, Any]]:
         """Returns dictionary with the min and max annotated utterances.
 
         The dictionary is structured as such:
-        {
-            "min":{
-                "amount": int
-                "examples": List[AnnotatedUtterance]
+
+        .. code:: python
+
+            {
+                "min":{
+                    "amount": int
+                    "examples": List[AnnotatedUtterance]
+                }
+                "max":{
+                    "amount": int
+                    "examples": List[AnnotatedUtterance]
+                }
             }
-            "max":{
-                "amount": int
-                "examples": List[AnnotatedUtterance]
-            }
-        }
 
         This is useful if you want to look into which options the NLG has for a
         specific Intent and which annotations are needed.

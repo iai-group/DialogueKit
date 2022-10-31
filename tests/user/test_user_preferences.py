@@ -1,11 +1,11 @@
 """Tests for the UserPreferences class."""
 
 import pytest
-
-from dialoguekit.user.user_preferences import UserPreferences
+from dialoguekit.user import UserPreferences
 
 
 def test_set_preference():
+    """Tests setting of preferences."""
     user_preferences = UserPreferences("user0")
     assert not user_preferences.get_preference("key1", "value1")
     user_preferences.set_preference("key1", "value1", 1)
@@ -15,6 +15,7 @@ def test_set_preference():
 
 
 def test_get_preferences():
+    """Tests getter for preferences."""
     user_preferences = UserPreferences("user1")
     user_preferences.set_preference("key1", "value1", 1)
     user_preferences.set_preference("key1", "value2", 0.5)
@@ -26,6 +27,7 @@ def test_get_preferences():
 
 
 def test_preference_range():
+    """Tests preference range."""
     user_preferences = UserPreferences("user2")
     with pytest.raises(ValueError):
         user_preferences.set_preference("k", "v", -2)

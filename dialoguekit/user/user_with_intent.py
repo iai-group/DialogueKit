@@ -1,10 +1,12 @@
 """Abstract representation of core user-related data and functionality.
 
 For communicating with an agent, the specific user instance needs to be
-connected with a DialogueManager by invoking `register_dialogue_manager()`.
+connected with a DialogueManager by invoking
+`register_dialogue_manager()`.
 """
 
 from enum import Enum
+from typing import Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
@@ -13,7 +15,15 @@ from dialoguekit.participant.participant import DialogueParticipant, Participant
 
 
 # TODO This needs to be updated to work with MathAgent
-def find_operation_type(math_agent_utterance: str):
+def find_operation_type(math_agent_utterance: str) -> Union[str, None]:
+    """Find the correct operation type.
+
+    Args:
+        math_agent_utterance: Utterance to use.
+
+    Returns:
+        String with the operation type, or None if not found.
+    """
     if "addition" in math_agent_utterance:
         return "ADDITION"
     elif "subtraction" in math_agent_utterance:
@@ -27,7 +37,10 @@ def find_operation_type(math_agent_utterance: str):
 
 
 class UserType(Enum):
-    """Represents different types of users (humans vs. simulated users)."""
+    """Represents different types of users.
+
+    This can be, humans vs simulated users.
+    """
 
     HUMAN = 0
     SIMULATOR = 1
@@ -35,15 +48,22 @@ class UserType(Enum):
 
 class UserWithIntent(Participant):
     def __init__(
-        self, id: str, type: UserType = UserType.HUMAN, intents=None
+        self,
+        id: str,
+        type: DialogueParticipant = DialogueParticipant.USER,
+        user_type: UserType = UserType.HUMAN,
+        intents=None,
     ) -> None:
         """Represents a user.
 
         Args:
-            user_id: User ID.
+            id: User ID.
+            type: Agent type (default: USER).
             user_type: User type (default: HUMAN).
+            intents: Intents that you want to select from.
         """
         super().__init__(id=id, type=type)
+        self.user_type = user_type
         if intents is not None:
             self._intents = intents
         else:
@@ -52,10 +72,10 @@ class UserWithIntent(Participant):
     def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
-        """This method is called each time there is a new agent utterance.
+        """Gets called each time there is a new agent utterance.
 
         Args:
-            utterance: Agent utterance.
+            annotated_utterance: Agent utterance.
         """
         intent_menu = ""
         for i, intent in enumerate(self._intents):

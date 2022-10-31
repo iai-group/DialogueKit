@@ -1,11 +1,12 @@
 """Abstract interface for intent classification.
 
-This interface assumes a single intent per utterance, i.a., approaches the
-task as a single-label classification problem.
-The generalization to multi-label classification is left to future work."""
+This interface assumes a single intent per utterance, i.a., approaches
+the task as a single-label classification problem. The generalization to
+multi-label classification is left to future work.
+"""
 
 from abc import ABC, abstractmethod
-from typing import List
+from typing import Dict, List
 
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
@@ -18,7 +19,7 @@ class IntentClassifier(ABC):
         Args:
             intents: List of allowed intents.
         """
-        self._intents = intents
+        self._intents: Dict[str, Intent] = {i.label: i for i in intents}
 
     @abstractmethod
     def train_model(
@@ -36,7 +37,7 @@ class IntentClassifier(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_intent(self, utterance: Utterance) -> Intent:
+    def classify_intent(self, utterance: Utterance) -> Intent:
         """Classifies the intent of an utterance.
 
         Args:

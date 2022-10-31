@@ -27,11 +27,12 @@ class AnnotatedUtterance(Utterance):
 
         Args:
             text: Utterance text.
+            participant: The owner of the utterance.
+            timestamp: When the utterance was uttered.
             intent: The intent of the utterance.
             annotations: Annotations of the Utterance text.
             metadata: Dict with optional attributes (satisfaction etc.).
         """
-
         super().__init__(
             text=text, participant=participant, timestamp=timestamp
         )
@@ -74,14 +75,17 @@ class AnnotatedUtterance(Utterance):
 
     @property
     def text(self) -> str:
+        """Returns the utterance intent."""
         return self._text
 
     @property
     def intent(self) -> Intent:
+        """Returns the utterance intent."""
         return self._intent
 
     @property
     def utterance(self) -> Utterance:
+        """Returns the annotated utterance as a utterance."""
         return Utterance(
             text=self.text,
             participant=self._participant,
@@ -90,10 +94,12 @@ class AnnotatedUtterance(Utterance):
 
     @property
     def participant(self) -> DialogueParticipant:
+        """Returns the utterance participant."""
         return self._participant
 
     @property
     def metadata(self) -> Dict[str, Any]:
+        """Returns the utterance metadata."""
         return self._metadata
 
     def add_annotation(
@@ -131,7 +137,10 @@ class AnnotatedUtterance(Utterance):
         self._participant = participant
 
     def get_text_placeholders(self) -> str:
-        """Returns the utterance text with annotations replaced with
-        placeholders."""
+        """Replaces the utterance text with placeholders.
+
+        Returns:
+            The utterance text with annotations replaced with placeholders.
+        """
         # TODO See: https://github.com/iai-group/dialoguekit/issues/35
         return ""

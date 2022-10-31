@@ -1,15 +1,14 @@
 """Tests for the DialogueHistory class."""
 
 import pytest
-
-from dialoguekit.core.dialogue import Dialogue
-from dialoguekit.core.utterance import Utterance
-from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.core import Dialogue, Utterance
+from dialoguekit.participant import DialogueParticipant
 
 
 # Dialogue history object to be shared across multiple test cases.
 @pytest.fixture(scope="module")
 def dialogue_history_1():
+    """Tests Dialogue creation."""
     agent_id = "agent-001"
     user_id = "USR01"
     agent_utterance_1 = Utterance(
@@ -39,11 +38,21 @@ def dialogue_history_1():
 
 
 def test_ids(dialogue_history_1):
+    """Tests dialogue parameters.
+
+    Args:
+        dialogue_history_1: Test Dialogue object.
+    """
     assert dialogue_history_1.agent_id == "agent-001"
     assert dialogue_history_1.user_id == "USR01"
 
 
 def test_utterances(dialogue_history_1):
+    """Tests Dialogue utterances.
+
+    Args:
+        dialogue_history_1: Test Dialogue object.
+    """
     assert len(dialogue_history_1.utterances) == len(
         dialogue_history_1.utterances
     )

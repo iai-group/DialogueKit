@@ -6,12 +6,14 @@ ITEMS_CSV_FILE = "tests/data/movielens-20m-sample/movies.csv"
 
 
 def test_empty_collection():
+    """Tests empty collection."""
     item_collection = ItemCollection()
     assert item_collection.num_items() == 0
     assert not item_collection.exists("1018")
 
 
 def test_load_items_csv():
+    """Tests loading of the item csv."""
     item_collection = ItemCollection()
     item_collection.load_items_csv(ITEMS_CSV_FILE, ["ID", "NAME", "genres"])
     # Checks the number of items.

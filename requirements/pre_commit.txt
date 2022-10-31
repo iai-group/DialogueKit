@@ -1,0 +1,10 @@
+pre-commit
+black==21.7b0 #Tensorflow 2.6.1 requires typing-extensions~=3.7.4 requires black<=21.7b0
+flake8==5.0.4
+pytest
+pytest-cov
+pydocstyle==6.1.1
+mypy
+docformatter
+types-PyYAML
+types-requests

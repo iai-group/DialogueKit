@@ -1,3 +1,4 @@
+"""Conditional NLG."""
 import random
 from collections import defaultdict
 from copy import deepcopy
@@ -22,10 +23,66 @@ class ConditionalNLG(TemplateNLG):
         self,
         intent: Intent,
         annotations: Optional[Union[List[Annotation], None]] = None,
+        force_annotation: Optional[bool] = False,
+    ) -> AnnotatedUtterance:
+        """Turns a structured utterance into a textual one.
+
+        This method does essentially the same as
+        TemplateNLG.generate_utterance_text(), if you want to use the
+        conditional you should rather use the method
+        generate_utterance_text_conditional().
+
+        .. note::
+
+            If the template does not contain the desired intent, a fallback will
+            be used. Stating "Sorry, I did not understand you." The response
+            will have the same 'intent'.
+
+        Generating a response is a multi-step process:
+
+        1. Responses to the desired 'intent' will be selected.
+
+        2. Based on the list of 'annotations', only the possible responses are
+           kept, i.e., filter out responses that are not usable.
+
+        3. If 'satisfaction' is provided:
+           Filter to the closest responses that are possible, and select a
+           random one.
+
+        4. If 'satisfaction' is not provided:
+           Select a random one without looking at the satisfaction metric.
+
+
+        Args:
+            intent: The intent of the wanted Utterance.
+            annotations: The wanted annotations in the response Utterance.
+            force_annotation: if 'True' and 'annotations' are provided,
+              responses without annotations will also be filtered out during
+              step 2.
+
+        Returns:
+            Generated response utterance using templates.
+
+            .. note::
+
+                Note: if the filtering after step 1 and 2 does not find any
+                response that satisfies the criteria 'ValueError' will be
+                raised.
+        """
+        return self.generate_utterance_text_conditional(
+            intent=intent,
+            annotations=annotations,
+            force_annotation=force_annotation,
+        )
+
+    def generate_utterance_text_conditional(
+        self,
+        intent: Intent,
+        annotations: Optional[Union[List[Annotation], None]] = None,
         conditional: Optional[Union[str, None]] = None,
         conditional_value: Optional[Union[Number, None]] = None,
         force_annotation: Optional[bool] = False,
-    ) -> Union[AnnotatedUtterance, bool]:
+    ) -> AnnotatedUtterance:
         """Turns a structured utterance into a textual one.
 
         The conditional field has to be part of the AnnotatedUtterance metadata
@@ -58,8 +115,12 @@ class ConditionalNLG(TemplateNLG):
 
         Returns:
             Generated response utterance using templates.
-            Note: if the filtering after step 1 and 2 does not find any response
-            that satisfies the criteria 'False' will be returned.
+
+            .. note::
+
+                Note: if the filtering after step 1 and 2 does not find any
+                response that satisfies the criteria 'ValueError' will be
+                raised.
         """
         if self._response_templates is None:
             raise ValueError(
@@ -85,7 +146,7 @@ class ConditionalNLG(TemplateNLG):
         )
         # Check if filtering has filtered out everything
         if len(templates) == 0:
-            return False
+            raise ValueError("NLG text generation failed.")
 
         if conditional is not None:
             response_utterance = self._select_closest_to_conditional(

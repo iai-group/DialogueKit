@@ -14,9 +14,10 @@ from dialoguekit.participant.participant import DialogueParticipant
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
 
-# nlg class shared across tests.
+# NLG class shared across tests.
 @pytest.fixture
 def nlg_class() -> TemplateNLG:
+    """Template MLG fixture."""
     template = extract_utterance_template(
         annotated_dialogue_file=ANNOTATED_DIALOGUE_FILE,
     )
@@ -24,9 +25,8 @@ def nlg_class() -> TemplateNLG:
     return nlg
 
 
-def test_generate_utterance_text(nlg_class):
-    # A corner case where only one template found, i.e., REVEAL.EXPAND only has
-    # something like the {TITLE}.
+def test_generate_utterance_text(nlg_class: TemplateNLG):
+    """Tests utterance generation."""
     expected_response1 = AnnotatedUtterance(
         text="something like the A Test Movie Title",
         intent=Intent("REVEAL.EXPAND"),
@@ -55,10 +55,8 @@ def test_generate_utterance_text(nlg_class):
     assert generated_response.intent == Intent("NOT_A_INTENT")
 
 
-def test_generate_utterance_text_force_annotation(nlg_class):
-    # A corner case where only one template found, i.e., REVEAL.EXPAND only has
-    # something like the {TITLE}.
-
+def test_generate_utterance_text_force_annotation(nlg_class: TemplateNLG):
+    """Tests utterance generation with forcing annotations."""
     test = nlg_class.generate_utterance_text(
         Intent("COMPLETE"), annotations=None, force_annotation=True
     )
@@ -72,13 +70,15 @@ def test_generate_utterance_text_force_annotation(nlg_class):
     assert test.text == "TEST_DIRECTOR_NAME name"
 
 
-def test_none_annotations(nlg_class):
+def test_no_annotations(nlg_class: TemplateNLG):
+    """Tests utterance generation without annotations."""
     test = nlg_class.generate_utterance_text(Intent("COMPLETE"), None)
 
     assert test.intent == Intent("COMPLETE")
 
 
-def test_filter_templates(nlg_class):
+def test_filter_templates(nlg_class: TemplateNLG):
+    """Tests utterance generation with filtering."""
     test_response = nlg_class.generate_utterance_text(
         intent=Intent("REVEAL.EXPAND"),
         annotations=[Annotation(slot="TITLE", value="test_movie_title")],
@@ -87,13 +87,14 @@ def test_filter_templates(nlg_class):
     assert test_response
     assert test_response.text == "something like the test_movie_title"
 
-    test_response = nlg_class.generate_utterance_text(
-        intent=Intent("REVEAL.EXPAND"), annotations=None
-    )
-    assert test_response is False
+    with pytest.raises(ValueError):
+        test_response = nlg_class.generate_utterance_text(
+            intent=Intent("REVEAL.EXPAND"), annotations=None
+        )
 
 
-def test_get_intent_annotation_specifications(nlg_class):
+def test_get_intent_annotation_specifications(nlg_class: TemplateNLG):
+    """Tests intent annotations specifications getter."""
     test_response = nlg_class.get_intent_annotation_specifications(
         intent=Intent("REVEAL.REFINE")
     )
@@ -105,7 +106,8 @@ def test_get_intent_annotation_specifications(nlg_class):
         )
 
 
-def test_dump_templates(nlg_class, tmp_path):
+def test_dump_templates(nlg_class: TemplateNLG, tmp_path):
+    """Tests template export."""
     save_to_dir = tmp_path
     full_path = save_to_dir.absolute()
     my_path = full_path.as_posix()

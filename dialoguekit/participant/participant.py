@@ -24,18 +24,24 @@ class Participant(ABC):
         Both Agents and Users are Participants.
 
         Args:
-            agent_id: Agent ID.
-            agent_type: Agent type (default: BOT).
+            id: Agent ID.
+            type: Agent type (default: BOT).
         """
         self._id = id
         self._type = type
-        self._dialogue_manager = None
+        self._dialogue_manager: DialogueManager = None
 
     @property
     def id(self):
+        """Returns the participant id."""
         return self._id
 
     def to_dict(self) -> Dict[str, str]:
+        """Returns participant as a dictionary.
+
+        Returns:
+            A dictionary representation of the participant.
+        """
         return {"id": str(self._id), "type": str(self._type.name)}
 
     def connect_dialogue_manager(
@@ -54,6 +60,6 @@ class Participant(ABC):
         """Responds to the user with an AnnotatedUtterance.
 
         Args:
-            utterance: The other Participant's Utterance.
+            annotated_utterance: The other Participant's Utterance.
         """
         pass

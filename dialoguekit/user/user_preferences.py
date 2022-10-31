@@ -1,10 +1,11 @@
 """General representation of user preferences.
 
-Preferences are given to key-value pairs in terms of real values in [-1,1].
+Preferences are given to key-value pairs in terms of real values in the
+range [-1,1].
 """
 
 from collections import defaultdict
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 
 class UserPreferences:
@@ -14,7 +15,7 @@ class UserPreferences:
         Args:
             user_id: User ID.
         """
-        self._preferences = defaultdict(dict)
+        self._preferences: Dict[str, Dict[str, Any]] = defaultdict(dict)
 
     def set_preference(self, key: str, value: str, preference: float) -> None:
         """Sets (or updates) preference for a given key-value pair.

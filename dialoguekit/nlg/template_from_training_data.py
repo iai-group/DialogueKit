@@ -4,7 +4,7 @@ import copy
 import json
 import os
 from collections import defaultdict
-from typing import Dict, List, Optional, Union
+from typing import DefaultDict, Dict, List, Optional, Set, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
@@ -44,7 +44,6 @@ def build_template_from_instances(
     Returns:
         Dict with Intents and lists with corresponding AnnotatedUtterances.
     """
-
     template = defaultdict(list)
     for utterance in utterances:
         if isinstance(utterance.intent, Intent):
@@ -56,10 +55,10 @@ def build_template_from_instances(
                     does not have an associated intent.'
             )
 
-    template = {
+    return_template = {
         intent: list(set(utterance)) for intent, utterance in template.items()
     }
-    return template
+    return return_template
 
 
 def extract_utterance_template(  # noqa: C901
@@ -73,13 +72,14 @@ def extract_utterance_template(  # noqa: C901
 
     If a Satisfaction Classifier is provided it will be used to classify the
     utterances. The classification logic is as follows:
+
         - Hold participant utterance.
         - Hold counter-participant utterance.
         - Concatenate participant and counter-participant utterance and
-            classify satisfaction.
+          classify satisfaction.
         - The next utterance from participant will be given the satisfaction
-            from the concatenated utterance from the previous utterances.
-            reflecting the satisfaction at that given point in time.
+          from the concatenated utterance from the previous utterances.
+          reflecting the satisfaction at that given point in time.
 
     Args:
         Annotated_dialog_file: annotated dialogue json file.
@@ -93,7 +93,9 @@ def extract_utterance_template(  # noqa: C901
         raise FileNotFoundError(
             f"Annotated dialog file not found: {annotated_dialogue_file}"
         )
-    response_templates = defaultdict(set)
+    response_templates: DefaultDict[
+        Intent, Set[AnnotatedUtterance]
+    ] = defaultdict(set)
     with open(annotated_dialogue_file) as input_file:
         annotated_dialogs = json.load(input_file)
         for dialog in annotated_dialogs:
@@ -161,7 +163,7 @@ def extract_utterance_template(  # noqa: C901
                         )
                         counter_participant_utterance = annotated_utterance_copy
 
-    response_templates = {
+    return_template = {
         key: list(val) for key, val in response_templates.items()
     }
-    return response_templates
+    return return_template

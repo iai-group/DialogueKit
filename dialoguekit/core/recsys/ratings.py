@@ -1,7 +1,7 @@
 """Represents item ratings and provides access either based on items or users.
 
-Ratings are normalized in the [-1,1] range, where -1 corresponds to (strong)
-dislike, 0 is neutral, and 1 is (strong) like.
+Ratings are normalized in the [-1,1] range, where -1 corresponds to
+(strong) dislike, 0 is neutral, and 1 is (strong) like.
 """
 
 import csv
@@ -21,8 +21,8 @@ class Ratings:
                 ItemCollection are accepted.
         """
         self._item_collection = item_collection
-        self._item_ratings = defaultdict(dict)
-        self._user_ratings = defaultdict(dict)
+        self._item_ratings: Dict[str, Dict[str, float]] = defaultdict(dict)
+        self._user_ratings: Dict[str, Dict[str, float]] = defaultdict(dict)
 
     def load_ratings_csv(
         self,
@@ -111,4 +111,4 @@ class Ratings:
         Returns:
             User ID.
         """
-        return random.choice(self._user_ratings.keys())
+        return random.choice(list(self._user_ratings.keys()))

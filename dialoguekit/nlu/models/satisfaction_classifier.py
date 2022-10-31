@@ -104,6 +104,14 @@ class SatisfactionClassifierSVM(SatisfactionClassifier):
     def classify_text(
         self, dialogue_text: Union[str, List[str]]
     ) -> Union[int, List[int]]:
+        """Classifies satisfaction.
+
+        Args:
+            dialogue_text: Text to classify
+
+        Returns:
+            The classification score to the utterances.
+        """
         input_type = type(dialogue_text)
         if isinstance(dialogue_text, str):
             dialogue_text = [dialogue_text]
@@ -117,6 +125,15 @@ class SatisfactionClassifierSVM(SatisfactionClassifier):
     def classify_last_n_dialogue(
         self, dialogue: Dialogue, last_n: Optional[Union[int, None]] = None
     ) -> int:
+        """Classify n last dialogues.
+
+        Args:
+            dialogue: Dialogue object to classify.
+            last_n: Number of the last utterances to use for classification.
+
+        Returns:
+            Classification score.
+        """
         if last_n is None:
             last_n = len(dialogue.utterances)
 

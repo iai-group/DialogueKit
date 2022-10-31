@@ -1,16 +1,17 @@
 """Tests for the Utterance class."""
 import pytest
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.intent import Intent
-from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.core import AnnotatedUtterance, Intent
+from dialoguekit.participant import DialogueParticipant
 
 
 def test_utterance_text():
+    """Tests setting text."""
     u = AnnotatedUtterance("Hello world", DialogueParticipant.USER)
     assert u.text == "Hello world"
 
 
 def test_hash():
+    """Tests hashing of the object."""
     u1 = AnnotatedUtterance(
         "Test1", intent=Intent("1"), participant=DialogueParticipant.AGENT
     )
@@ -21,6 +22,7 @@ def test_hash():
 
 
 def test_comparison():
+    """Tests object comparison."""
     u1 = AnnotatedUtterance(
         "Test1", intent=Intent("1"), participant=DialogueParticipant.AGENT
     )

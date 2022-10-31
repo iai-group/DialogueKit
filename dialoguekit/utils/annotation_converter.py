@@ -1,7 +1,8 @@
 """Annotation converter interface.
 
-As the different modules used for NLU use different formats for training file
-converters are needed."""
+As the different modules used for NLU use different formats for
+training, file converters are needed.
+"""
 
 from abc import ABC, abstractmethod
 from typing import Dict, Optional
@@ -19,7 +20,7 @@ class AnnotationConverter(ABC):
         """
         self._filepath = filepath
         self._save_to_path = save_to_path
-        self._converted = {}
+        self._converted = {}  # type: ignore
 
     @abstractmethod
     def run(self) -> Dict[str, str]:
@@ -35,5 +36,4 @@ class AnnotationConverter(ABC):
         Raises:
             NotImplementedError
         """
-
         raise NotImplementedError

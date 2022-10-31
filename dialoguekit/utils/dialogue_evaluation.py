@@ -30,9 +30,7 @@ _COST = "cost"
 
 class Evaluator:
     def __init__(
-        self,
-        dialogues: List[Dialogue],
-        reward_config: Dict[str, Union[int, Dict[str, int]]],
+        self, dialogues: List[Dialogue], reward_config: Dict[str, Any]
     ) -> None:
         """Dialogue evaluator.
 
@@ -44,7 +42,7 @@ class Evaluator:
               config, consult the documentation.
         """
         self._dialogues = dialogues
-        self._dialogue_lengths = []
+        self._dialogue_lengths: List[Union[int, float]] = []
         self._reward_config = reward_config
         assert isinstance(self._dialogues, list)
         assert all(isinstance(dialogue, Dialogue) for dialogue in dialogues)
@@ -86,12 +84,11 @@ class Evaluator:
         Returns:
             A dictionary with participant and ActRatio as key-value pairs.
         """
-
-        statistics = defaultdict(float)
+        statistics: Dict[str, float] = defaultdict(float)
 
         for dialogue in self._dialogues:
             for utterance in dialogue.utterances:
-                sender = utterance.participant
+                sender = str(utterance.participant)
                 statistics[sender] += 1
 
         if len(statistics.keys()) > 2:
@@ -117,14 +114,17 @@ class Evaluator:
 
         Returns:
             A dictionary with following structure (most important is "reward"):
-            {
-                "missing_intents": [], # List of reward config intents missing
-                "dialogues": [{
-                    "reward": int,
-                    "user_turns": int, # Number of user turns
-                    "repeats": int, # Number of times the agent repeats itself.
-                }]
-            }
+
+            .. code:: python
+
+                {
+                    "missing_intents": [],
+                    "dialogues": [{
+                        "reward": int,
+                        "user_turns": int,
+                        "repeats": int,
+                    }]
+                }
         """
         warnings.warn("This function does not yet penalize 'Repeat' actions")
 
@@ -170,13 +170,14 @@ class Evaluator:
         return results
 
     def _check_included_intents(self) -> Dict[str, Any]:
-        """Sets initial reward for dialogues by checking which intents are
-        supported.
+        """Sets initial reward.
+
+        Uses dialogues by checking which intents are supported.
 
         Returns:
             A dictionary to hold measured metrics relevant to reward.
         """
-        results = {
+        results: Dict[str, List[Any]] = {
             "missing_intents": [],
             "dialogues": [
                 {
@@ -244,7 +245,6 @@ class Evaluator:
         Returns:
             A list with satisfaction score for each dialogue.
         """
-
         satisfactions = []
 
         for dialogue in self._dialogues:

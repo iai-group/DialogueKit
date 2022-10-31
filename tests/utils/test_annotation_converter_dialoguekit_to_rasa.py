@@ -1,18 +1,16 @@
 """Tests for AnnotationConverterRasa."""
 
 import pytest
-from dialoguekit.core.utterance import Utterance
-from dialoguekit.core.intent import Intent
-from dialoguekit.participant.participant import DialogueParticipant
-from dialoguekit.utils.annotation_converter_dialoguekit_to_rasa import (
-    AnnotationConverterRasa,
-)
+from dialoguekit.core import Intent, Utterance
+from dialoguekit.participant import DialogueParticipant
+from dialoguekit.utils import AnnotationConverterRasa
 
 PLACEHOLDER = "(.*)"
 
 
 @pytest.fixture
 def utterances_1():
+    """Utterance fixture."""
     return [
         Utterance(text, participant=DialogueParticipant.USER)
         for text in [
@@ -28,10 +26,12 @@ def utterances_1():
 
 @pytest.fixture
 def labels_1():
+    """Labels fixture."""
     return [Intent(f"intent {i}") for i in range(1, 7)]
 
 
 def test_read_original(tmp_path):
+    """Tests dialogue reading."""
     save_to_dir = tmp_path
     # save_to_dir.mkdir()
     full_path = save_to_dir.absolute()
@@ -56,6 +56,7 @@ def test_read_original(tmp_path):
 
 
 def test_run(tmp_path):
+    """Tests run method."""
     save_to_dir = tmp_path
     full_path = save_to_dir.absolute()
     my_path = full_path.as_posix()
@@ -78,6 +79,7 @@ def test_run(tmp_path):
 
 
 def test_dialoguekit_to_rasa(tmp_path, utterances_1, labels_1):
+    """Tests object to rasa yml conversion."""
     save_to_dir = tmp_path
     full_path = save_to_dir.absolute()
     my_path = full_path.as_posix()

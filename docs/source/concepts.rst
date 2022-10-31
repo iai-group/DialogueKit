@@ -61,7 +61,7 @@ Additionally the **annotated_utterance** can store other user defined metadata. 
 
 In our case for satisfaction, the ``metadata`` field looks as follows:
 
-.. code-block:: json
+.. code-block:: python
 
     metadata = {
         "satisfaction": int

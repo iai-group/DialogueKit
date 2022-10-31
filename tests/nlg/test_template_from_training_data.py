@@ -1,17 +1,13 @@
 """Tests for extracting templates from training data."""
 
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.annotation import Annotation
-from dialoguekit.core.intent import Intent
+from dialoguekit.core import AnnotatedUtterance, Annotation, Intent
 from dialoguekit.nlg.template_from_training_data import (
     _replace_slot_with_placeholder,
     build_template_from_instances,
     extract_utterance_template,
 )
-from dialoguekit.nlu.models.satisfaction_classifier import (
-    SatisfactionClassifierSVM,
-)
-from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.nlu import SatisfactionClassifierSVM
+from dialoguekit.participant import DialogueParticipant
 
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
@@ -161,6 +157,7 @@ def test_build_template_from_instances_duplicate_deletion():
 
 
 def test_replace_slot_with_placeholder():
+    """Tests placeholder replacement."""
     # Given
     a1 = AnnotatedUtterance(
         text="I like action or fantasy movies.",
@@ -184,6 +181,7 @@ def test_replace_slot_with_placeholder():
 
 
 def test_extract_utterance_template():
+    """Tests template extraction."""
     templates = extract_utterance_template(ANNOTATED_DIALOGUE_FILE)
     from pprint import pprint
 
@@ -220,6 +218,7 @@ def test_extract_utterance_template():
 
 
 def test_extract_utterance_template_with_satisfaction():
+    """Tests tempalte generation with satisfaction."""
     templates = extract_utterance_template(
         ANNOTATED_DIALOGUE_FILE,
         satisfaction_classifier=SatisfactionClassifierSVM(),

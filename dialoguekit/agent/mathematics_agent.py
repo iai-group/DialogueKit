@@ -41,13 +41,14 @@ class MathAgent(Agent):
         """
         super().__init__(agent_id)
         self._nlg = nlg
+        self._expected_answer: float
         self._initialize_nlu_nlg()
 
     def _initialize_nlu_nlg(self) -> None:
         """Initializes the NLG module.
 
-        If no NLG template was set in as a parameter, a basic nlg template will
-        be created in this method.
+        If no NLG template was provided during initialization, this
+        method will create a basic NLG template.
         """
         if self._nlg is None:
 
@@ -58,6 +59,7 @@ class MathAgent(Agent):
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),
                 ],
+                participant=DialogueParticipant.AGENT,
             )
             a2 = AnnotatedUtterance(
                 intent=Intent("OPERATION.SUBTRACTION"),
@@ -66,6 +68,7 @@ class MathAgent(Agent):
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),
                 ],
+                participant=DialogueParticipant.AGENT,
             )
             a3 = AnnotatedUtterance(
                 intent=Intent("OPERATION.MULTIPLICATION"),
@@ -74,6 +77,7 @@ class MathAgent(Agent):
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),
                 ],
+                participant=DialogueParticipant.AGENT,
             )
             a4 = AnnotatedUtterance(
                 intent=Intent("OPERATION.DIVISION"),
@@ -82,14 +86,18 @@ class MathAgent(Agent):
                     Annotation(slot="NUMBER", value="6"),
                     Annotation(slot="NUMBER", value="5"),
                 ],
+                participant=DialogueParticipant.AGENT,
             )
 
             a5 = AnnotatedUtterance(
                 intent=Intent("WRONG"),
                 text="Thats not quite right! \nTry again.",
+                participant=DialogueParticipant.AGENT,
             )
             a6 = AnnotatedUtterance(
-                intent=Intent("WRONG"), text="Thats wrong. \nTry again."
+                intent=Intent("WRONG"),
+                text="Thats wrong. \nTry again.",
+                participant=DialogueParticipant.AGENT,
             )
             utterances = [a1, a2, a3, a4, a5, a6, a6]
 
@@ -116,7 +124,7 @@ class MathAgent(Agent):
         self._dialogue_manager.register_agent_utterance(utterance)
 
     def receive_user_utterance(self, utterance: Utterance) -> None:
-        """This method is called each time there is a new user utterance.
+        """Gets called each time there is a new user utterance.
 
         Args:
             utterance: User utterance.

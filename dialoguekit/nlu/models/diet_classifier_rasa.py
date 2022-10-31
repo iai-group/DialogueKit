@@ -8,6 +8,7 @@ the docs/rasa_component_library.md
 """
 
 import copy
+import os
 import tempfile
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Text, Type
@@ -39,29 +40,36 @@ class IntentClassifierRasa(IntentClassifier):
     def __init__(
         self,
         intents: List[Intent],
-        traning_data_path: Optional[str] = "",
+        training_data_path: Optional[str] = "",
         model_path: Optional[str] = ".rasa",
     ) -> None:
         """Initializes the intent classifier.
 
-        The traning data path may be used with a Rasa nlu.yml file. It is also
+        The training data path may be used with a Rasa nlu.yml file. It is also
         possible to use the self.train_model function with a list of Utterance
         and a list of Intent.
 
         Args:
             intents: List of allowed intents.
-            traning_data_path Optional[str]: path to the traning data yml.
-            model_path Optional[str]: path to where rasa trained model will be
-                                        stored.
+            training_data_path: Path to the training data yml.
+            model_path: Path to where rasa trained model will be stored.
         """
-        self._intents = {i.label: i for i in intents}
+        super().__init__(intents)
         self._model_path = Path(model_path)
+        if not os.path.exists(self._model_path):
+            os.makedirs(self._model_path)
         self._def_model_storage = LocalModelStorage.create(self._model_path)
         self._def_resource = Resource(name="rasa_diet_resource")
+        self._training_data_path = training_data_path
 
-        self._training_data = None
+        if isinstance(self._training_data_path, str):
+            importer = RasaFileImporter(
+                training_data_paths=[self._training_data_path]
+            )
+            self._training_data: TrainingData = importer.get_nlu_data()
+        else:
+            raise TypeError("Provided 'training_data_path' is not a string!")
 
-        self._traning_data_path = traning_data_path
         self.init_pipeline()
 
     def init_pipeline(self) -> None:
@@ -71,19 +79,12 @@ class IntentClassifierRasa(IntentClassifier):
         The DIET classifier object then gets created with the pipeline.
 
         Raises:
-            TypeError if traning_data_path is not a string
+            TypeError if training_data_path is not a string
         """
         pipeline = [
             {"component": WhitespaceTokenizer},
             {"component": CountVectorsFeaturizer},
         ]
-        if isinstance(self._traning_data_path, str):
-            importer = RasaFileImporter(
-                training_data_paths=[self._traning_data_path]
-            )
-            self._training_data: TrainingData = importer.get_nlu_data()
-        else:
-            raise TypeError("Provided 'traning_data_path' is not a string!")
 
         self._component_pipeline = [
             self.create_component(
@@ -109,7 +110,7 @@ class IntentClassifierRasa(IntentClassifier):
             ),
             resource=self._def_resource,
         )
-        self._processes_utterances = {}
+        self._processes_utterances: Dict[str, Any] = {}
 
     def train_model(
         self,
@@ -118,7 +119,7 @@ class IntentClassifierRasa(IntentClassifier):
     ) -> None:
         """Trains a model based on a set of labeled utterances.
 
-        If no utterances or labels are provided 'traning_data_path'
+        If no utterances or labels are provided 'training_data_path'
         in the init is used for training the model.
         the utterances and labels are used for creating a rasa nlu
         document. Which then gets used for the training.
@@ -126,7 +127,6 @@ class IntentClassifierRasa(IntentClassifier):
         Args:
             utterances: List of Utterance instances.
             labels: List of associated intent labels.
-
         """
         if utterances and labels:
             # Makes sure we have matching labels for all training utterances.
@@ -138,18 +138,23 @@ class IntentClassifierRasa(IntentClassifier):
             rasa_file = converter.dialoguekit_to_rasa(
                 utterances=utterances, intents=labels
             )
-            self._traning_data_path = rasa_file
+            self._training_data_path = rasa_file
+
+            importer = RasaFileImporter(
+                training_data_paths=[self._training_data_path]
+            )
+            self._training_data = importer.get_nlu_data()
             self.init_pipeline()
 
         self._labels = labels
         self._diet.train(self._training_data)
 
-    def get_intent(self, utterance: Utterance) -> Intent:
+    def classify_intent(self, utterance: Utterance) -> Intent:
         """Classifies the intent of an utterance.
 
         The utterance gets transformed to a Rasa Message before being
         classified. If the utterance has already been processed a cache is used.
-        Since DIET also exctracts entities the cache is used if the same
+        Since DIET also extracts entities the cache is used if the same
         Classifier object is used.
 
         Args:
@@ -157,7 +162,6 @@ class IntentClassifierRasa(IntentClassifier):
 
         Returns:
             Intent: Predicted intent.
-
         """
         self.process_utterance(utterance=utterance)
 
@@ -169,7 +173,7 @@ class IntentClassifierRasa(IntentClassifier):
     def get_annotations(
         self, utterance: Utterance
     ) -> List[SlotValueAnnotation]:
-        """Entity extracion using rasa DIET classifier.
+        """Entity extraction using rasa DIET classifier.
 
         Extracts entities using rasa DIET. Since this model
         does both intent classification and entity extraction,
