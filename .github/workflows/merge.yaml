@@ -7,7 +7,6 @@ on:
 jobs:
   build-and-test:
     name: "Build and Test Python 3.7"
-    needs: pre-commit
     runs-on: ubuntu-latest
     if: always()
     timeout-minutes: 20
@@ -25,10 +24,12 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements/requirements.txt
           pip install pytest-github-actions-annotate-failures
+
       - name: PyTest with code coverage
         continue-on-error: true
         run: |
           pytest --cov=. --cov-report=term-missing --cov-report=xml --cov-branch
+
       - name: Get the Coverage
         shell: bash
         run: |
@@ -43,12 +44,13 @@ jobs:
           fi
           echo "COVERAGE=${coverage%.*}%" >> $GITHUB_ENV
           echo "COLOR=$COLOR" >> $GITHUB_ENV
+
       - name: Create the Badge
-        uses: schneegans/dynamic-badges-action@v1.1.0
+        uses: schneegans/dynamic-badges-action@v1.6.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 35bb996459f0949b38da651c66cf95cb
-          filename: coverage.${{ env.REPO_NAME }}.main.json
+          filename: coverage.${{ github.event.repository.name }}.main.json
           label: coverage
           message: ${{ env.COVERAGE }}
           color: ${{ env.COLOR }}

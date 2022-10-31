@@ -156,7 +156,7 @@ jobs:
           echo "COLOR=$COLOR" >> $GITHUB_ENV
 
       - name: Create the Badge
-        uses: schneegans/dynamic-badges-action@v1.1.0
+        uses: schneegans/dynamic-badges-action@v1.6.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 35bb996459f0949b38da651c66cf95cb
@@ -174,7 +174,7 @@ jobs:
           body-includes: Current Branch | Main Branch |
 
       - name: Create coverage comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v2.1.0
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{  github.event.pull_request.number }}
