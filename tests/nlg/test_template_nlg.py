@@ -14,7 +14,7 @@ from dialoguekit.participant.participant import DialogueParticipant
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 
 
-# nlg class shared across tests.
+# NLG class shared across tests.
 @pytest.fixture
 def nlg_class() -> TemplateNLG:
     """Template MLG fixture."""
