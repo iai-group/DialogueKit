@@ -5,7 +5,7 @@
 ![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/adrzewiecki/35bb996459f0949b38da651c66cf95cb/raw/coverage.DialogueKit.main.json) 
 ![Tests](https://img.shields.io/github/workflow/status/iai-group/DialogueKit/Deploy?label=Tests)
 
-DialogueKit is a library for conversational information access (CIA). It contains based classes for fundamental [concepts](docs/concepts.md), such as dialogue participants, dialogue management, [natural language understanding](docs/nlu.md), natural language generation, etc. In addition to the fundamental concepts DialogueKit contains an evaluation module, for evaluating the performance of and CIA systems.
+DialogueKit is a library for conversational information access (CIA). It contains based classes for fundamental [concepts](https://iai-group.github.io/DialogueKit/concepts.html), such as dialogue participants, dialogue management, [natural language understanding](https://iai-group.github.io/DialogueKit/nlu.html), natural language generation, etc. In addition to the fundamental concepts DialogueKit contains an evaluation module, for evaluating the performance of and CIA systems.
 Consult the [documentation](https://iai-group.github.io/DialogueKit/) for details.
 
 ## Install as a package
@@ -79,7 +79,7 @@ If you want to specify a specific commit as the source of the package append the
 
 ## Conventions
 
-We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/master/python).
+We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/main/python).
 
 ## Contributors
 
