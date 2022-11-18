@@ -1,61 +1,48 @@
-
 Main concepts
 =============
-
-.. image:: _static/DialogueKit-Architecture.png
-    :width: 400
-    :alt: Image illustrating the connections between DialogueKit´s main concepts.
-
 
 Participant 
 -----------
 :py:mod:`dialoguekit.participant.participant`
 
-Represents a participant in the conversation.
+Agents and users are the participants in a dialog. Generally, it is assumed that the agent is a conversational system and the user is a human.
+However, the agent might be played by a human ("Wizard-of-Oz") and the human user might be simulated.
 
-* **User** and **Agent** are Participants
-
+DialogueKit assumes the agent to always start the conversation and also end it. (A user can initialize ending a
+conversation, but the responsibility lies on the agent to actually stop it.)
 
 Agent
 -----
 :py:mod:`dialoguekit.agent.agent`
 
-Represents a bot, with its own set of logic, **NLU** and **NLG**.
+Represents a conversational agent with its own dialogue policy, natural language understanding, and natural language generation components.
 
-Agents and users are the participants in a dialog. DialogueKit assumes the
-agent to be a conversational system and the user to be a human. However,
-users of DialogueKit can change this by implementing a superclass of User.
+DialogueKit is shipped with some sample agents. These are described below:
 
-In a conversation, DialogueKit assumes the Agent to always start the
-conversation and also end it. A User can initialize the end of a
-conversation, but the responsibility lies on the Agent to stop it.
+.. todo:: Move these to a separate sample_agents module outside dialoguekit (https://github.com/iai-group/DialogueKit/issues/153)
 
-Out of the box DialogueKit contains some sample agents. These are described
-below:
-
-
-* **ParrotAgent**: This agent will welcome the User, but will always parrot (echo) the User.
+* **ParrotAgent**: This agent will welcome the user, but will always parrot (echo) what the user says.
 
 * **RasaParrotAgent**: This agent looks like the **ParrotAgent** to the user, but is actually just a connector to a Rasa conversational agent. This conversational agent is also part of DialogueKit
 
-* **MathAgent**: This **Agent** will ask the user simple arithmetic (addition, subtraction, multiplication and division) questions.
+* **MathAgent**: This agent will ask the user simple arithmetic (addition, subtraction, multiplication and division) questions.
 
-* **MovieBotAgent**: A Connector agent for `IAI MovieBot <https://github.com/iai-group/moviebot>`_ .
+* **MovieBotAgent**: A connector agent for `IAI MovieBot <https://github.com/iai-group/moviebot>`_ .
 
-* **WozAgent**: Allows a real human to interact with a User. This can be useful for testing user simulators.
+* **WozAgent**: Allows a real human to play the role of the agent ("wizard") when interacting with a user. This can be useful, e.g., when testing user simulators.
 
 User 
 ----
 :py:mod:`dialoguekit.user.user`
 
-Represents a human interacting. Has the simplest form of interaction, which are strings to and from the **Dialogue Manager**.
+Represents a human interacting with an agent. Has the simplest form of interaction, which are strings to and from the **Dialogue Manager**.
 
 
 Utterance
 ---------
 :py:mod:`dialoguekit.core.utterance`
 
-An **utterance** by an **Agent** or **User**. The utterance holds the participant utterance as clear text. To store additional information such as intent and or annotation the :py:mod:`dialoguekit.core.annotated_utterance` should be used.
+An **utterance** by an dialogue participant (agent or user). The utterance holds the participant utterance as clear text. To store additional information such as intent and or annotation the :py:mod:`dialoguekit.core.annotated_utterance` should be used.
 
 Additionally the **annotated_utterance** can store other user defined metadata. **DialogueKit** uses this metadata field for the **Satisfaction Classifier**. The ``metadata`` field is a dictionary with the structure: ``Dict[str, Any]``.
 
