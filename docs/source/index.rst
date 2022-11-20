@@ -1,7 +1,7 @@
 DialogueKit |release| documentation
 =====================================
 
-DialogueKit is a framework for building and evaluating CIA systems.
+DialogueKit is a framework for building and evaluating conversational information access systems.
 
 
 .. toctree::
@@ -11,6 +11,7 @@ DialogueKit is a framework for building and evaluating CIA systems.
    installation
    usage
    concepts
+   components
    nlu
    nlg
    external_agents
