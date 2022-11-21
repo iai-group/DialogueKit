@@ -90,4 +90,4 @@ class MathUser(Participant):
             response._intent = selected_intent
             response.add_annotation(Annotation(slot="NUMBER", value=text))
 
-        self._dialogue_manager.register_user_utterance(response)
+        self._dialogue_connector.register_user_utterance(response)

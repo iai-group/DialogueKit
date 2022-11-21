@@ -57,7 +57,7 @@ An example can be seen below.
     agent = RasaParrotAgent(agent_id="TestId")
     user = User("U01")
     platform = Platform()
-    dm = DialogueManager(agent, user, platform)
+    dm = DialogueConnector(agent, user, platform)
     dm.start()
     dm.close()
 
