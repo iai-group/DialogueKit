@@ -14,6 +14,7 @@ server with the right configuration.
 """
 
 import requests
+
 from dialoguekit.agent.agent import Agent, AgentType
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
@@ -84,7 +85,7 @@ class MovieBotAgent(Agent):
         )
         self._dialogue_manager.register_agent_utterance(response)
 
-    def receive_user_utterance(
+    def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
         """Gets called each time there is a new user utterance.
