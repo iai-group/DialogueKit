@@ -10,7 +10,10 @@ from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
-from dialoguekit.nlg.nlg import NLG
+from dialoguekit.nlg.nlg_template import TemplateNLG
+from dialoguekit.nlg.template_from_training_data import (
+    build_template_from_instances,
+)
 from dialoguekit.participant.participant import DialogueParticipant
 
 
@@ -25,7 +28,7 @@ class MathAgent(Agent):
     def __init__(
         self,
         agent_id: str,
-        nlg: Optional[NLG] = None,
+        nlg: Optional[TemplateNLG] = None,
     ) -> None:
         """Mathematics agent.
 
@@ -101,8 +104,10 @@ class MathAgent(Agent):
             )
             utterances = [a1, a2, a3, a4, a5, a6, a6]
 
-            self._nlg = NLG()
-            self._nlg.template_from_objects(utterances=utterances)
+            responses_template = build_template_from_instances(
+                utterances=utterances
+            )
+            self._nlg = TemplateNLG(responses_template)
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""

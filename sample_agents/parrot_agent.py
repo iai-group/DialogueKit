@@ -35,7 +35,7 @@ class ParrotAgent(Agent):
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
-    def receive_user_utterance(
+    def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
         """Gets called each time there is a new user utterance.
@@ -47,6 +47,7 @@ class ParrotAgent(Agent):
         """
         if annotated_utterance.text == "EXIT":
             self.goodbye()
+            return
 
         response = AnnotatedUtterance(
             "(Parroting) " + annotated_utterance.text,
