@@ -1,7 +1,7 @@
 """Interface defining core Participant functionality."""
 from __future__ import annotations
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from enum import Enum
 from typing import TYPE_CHECKING, Dict
 
@@ -54,12 +54,16 @@ class Participant(ABC):
         """
         self._dialogue_manager = dialogue_manager
 
+    @abstractmethod
     def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
-        """Responds to the user with an AnnotatedUtterance.
+        """Responds to the other participant with an AnnotatedUtterance.
 
         Args:
             annotated_utterance: The other Participant's Utterance.
+
+        Raises:
+            NotImplementedError: If not implemented in derived class.
         """
-        pass
+        raise NotImplementedError
