@@ -5,6 +5,7 @@ This agent depends on Rasa parrot project to parrot back. See
 """
 
 import requests
+
 from dialoguekit.agent.agent import Agent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
@@ -43,7 +44,7 @@ class RasaParrotAgent(Agent):
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
-    def receive_user_utterance(
+    def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
         """Gets called each time there is a new user utterance.

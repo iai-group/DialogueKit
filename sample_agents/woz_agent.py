@@ -53,7 +53,7 @@ class WOZAgent(Agent):
         response
         self._dialogue_manager.register_agent_utterance(response)
 
-    def receive_user_utterance(
+    def receive_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
         """Responds to the user with an AnnotatedUtterance.

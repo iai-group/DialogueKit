@@ -128,7 +128,7 @@ class MathAgent(Agent):
         )
         self._dialogue_manager.register_agent_utterance(utterance)
 
-    def receive_user_utterance(self, utterance: Utterance) -> None:
+    def receive_utterance(self, utterance: Utterance) -> None:
         """Gets called each time there is a new user utterance.
 
         Args:
