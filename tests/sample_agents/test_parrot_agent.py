@@ -3,21 +3,23 @@ import io
 import sys
 
 import pytest
+
 from dialoguekit.agent.agent import AgentType
 from dialoguekit.manager.dialogue_manager import DialogueManager
 from dialoguekit.platforms.platform import Platform
 from dialoguekit.user.user import User, UserType
-
 from sample_agents.parrot_agent import ParrotAgent
 
 
 @pytest.fixture
 def user() -> User:
+    """User fixture."""
     return User("TestUser", user_type=UserType.SIMULATOR)
 
 
 @pytest.fixture
 def agent() -> ParrotAgent:
+    """Parrot agent fixture."""
     agent = ParrotAgent("TestParrotAgent")
     assert agent.id == "TestParrotAgent"
     assert agent._agent_type == AgentType.BOT
@@ -26,6 +28,7 @@ def agent() -> ParrotAgent:
 
 @pytest.fixture
 def dm(user: User, agent: ParrotAgent) -> DialogueManager:
+    """Dialogue manager fixture."""
     dm = DialogueManager(agent, user, Platform(), save_dialogue_history=False)
     return dm
 
