@@ -3,8 +3,8 @@
 import abc
 from typing import List
 
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
+from dialoguekit.core.utterance import Utterance
 
 
 class SlotAnnotator(abc.ABC):
@@ -13,9 +13,7 @@ class SlotAnnotator(abc.ABC):
         super().__init__()
 
     @abc.abstractmethod
-    def get_annotations(
-        self, utterance: AnnotatedUtterance
-    ) -> List[Annotation]:
+    def get_annotations(self, utterance: Utterance) -> List[Annotation]:
         """Annotates utterance.
 
         Args:
