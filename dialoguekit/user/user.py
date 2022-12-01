@@ -36,7 +36,7 @@ class User(Participant):
         """Gets called every time there is a new agent utterance.
 
         Args:
-            annotated_utterance: Agent utterance.
+            utterance: Agent utterance.
         """
         # TODO: Move input part to Platform.
         text = input("Your response: ")
