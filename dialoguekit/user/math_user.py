@@ -8,6 +8,9 @@ This implementation is tied to MathAgent, but can (and should) be abstracted for
 use with other Agents.
 """
 
+# TODO Remove MathUser
+# See: https://github.com/iai-group/DialogueKit/issues/162
+
 from typing import List, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance

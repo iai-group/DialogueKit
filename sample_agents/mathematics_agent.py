@@ -1,5 +1,8 @@
 """Simple mathematics agent, that asks math questions."""
 
+# TODO Remove MathAgent
+# See: https://github.com/iai-group/DialogueKit/issues/162
+
 import math
 import random
 from enum import Enum
