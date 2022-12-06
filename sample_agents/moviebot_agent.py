@@ -60,7 +60,7 @@ class MovieBotAgent(Agent):
             intent=Intent(response_raw["message"]["intent"]),
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(response)
+        self._dialogue_connector.register_agent_utterance(response)
 
     def goodbye(self) -> None:
         """Sends exit request to MovieBot."""
@@ -84,7 +84,7 @@ class MovieBotAgent(Agent):
             intent=Intent("EXIT"),
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(response)
+        self._dialogue_connector.register_agent_utterance(response)
 
     def receive_utterance(self, utterance: Utterance) -> None:
         """Gets called each time there is a new user utterance.
@@ -118,4 +118,4 @@ class MovieBotAgent(Agent):
             intent=Intent(response_raw["message"]["intent"]),
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(response)
+        self._dialogue_connector.register_agent_utterance(response)
