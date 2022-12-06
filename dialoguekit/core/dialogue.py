@@ -1,5 +1,7 @@
 """Interface representing the sequence of utterances in a dialogue."""
 
+import calendar
+import datetime
 from typing import Any, Dict, List, Text
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
@@ -65,12 +67,37 @@ class Dialogue:
     def to_dict(self) -> Dict[str, Any]:
         """Converts the dialogue to a dictionary.
 
-        TODO Finalize this method.
-
         Returns:
             Dialogue as dictionary.
         """
-        export = {}
+        date = datetime.datetime.utcnow()
+        utc_time = calendar.timegm(date.utctimetuple())
+        run_conversation: Dict[str, Any] = {
+            "conversation ID": str(utc_time),
+            "conversation": [],
+            "agent": self._agent_id,
+            "user": self._user_id,
+        }
         if self._metadata:
-            export["metadata"] = self._metadata
-        return export
+            run_conversation["metadata"] = self._metadata
+
+        for annotated_utterance in self.utterances:
+            utterance_info: Dict[str, Any] = {
+                "participant": annotated_utterance.participant.name,
+                "utterance": annotated_utterance.text,
+            }
+
+            if annotated_utterance.intent is not None:
+                utterance_info["intent"] = annotated_utterance.intent.label
+
+            for k, v in annotated_utterance.metadata.items():
+                utterance_info[k] = v
+
+            annotations = annotated_utterance.get_annotations()
+            if annotations:
+                slot_values = []
+                for annotation in annotations:
+                    slot_values.append([annotation.slot, annotation.value])
+                utterance_info["slot_values"] = slot_values
+            run_conversation["conversation"].append(utterance_info)
+        return run_conversation
