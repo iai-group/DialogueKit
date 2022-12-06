@@ -10,6 +10,7 @@ from __future__ import annotations
 from enum import Enum
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.participant import DialogueParticipant, Participant
 
 
@@ -31,13 +32,11 @@ class User(Participant):
         super().__init__(id=id, type=DialogueParticipant.USER)
         self._user_type = user_type
 
-    def receive_utterance(
-        self, annotated_utterance: AnnotatedUtterance
-    ) -> None:
+    def receive_utterance(self, utterance: Utterance) -> None:
         """Gets called every time there is a new agent utterance.
 
         Args:
-            annotated_utterance: Agent utterance.
+            utterance: Agent utterance.
         """
         # TODO: Move input part to Platform.
         text = input("Your response: ")

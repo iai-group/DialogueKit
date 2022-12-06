@@ -47,7 +47,7 @@ If you want to specify a specific commit as the source of the package append the
     ```python
     from dialoguekit.core.utterance import Utterance
     from dialoguekit.user.user import User, UserType
-    from dialoguekit.agent.parrot_agent import ParrotAgent
+    from sample_agents.parrot_agent import ParrotAgent
 
     # Participants
     agent = ParrotAgent("A01")
@@ -57,6 +57,9 @@ If you want to specify a specific commit as the source of the package append the
 2. Create and connect platform and dialogue manager
 
     ```python
+    from dialoguekit.platforms.platform import Platform
+    from dialoguekit.manager.dialogue_manager import DialogueManager
+
     platform = Platform()
     dm = DialogueManager(agent, user, platform)
 
