@@ -73,7 +73,7 @@ class DialogueConnector:
         """
         self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_user_utterance(annotated_utterance)
-        self._agent.receive_user_utterance(annotated_utterance)
+        self._agent.receive_utterance(annotated_utterance)
 
     def register_agent_utterance(
         self, annotated_utterance: AnnotatedUtterance
@@ -191,8 +191,8 @@ class DialogueConnector:
 
 
 if __name__ == "__main__":
-    from dialoguekit.agent.moviebot_agent import MovieBotAgent
     from dialoguekit.user.user import User
+    from sample_agents.moviebot_agent import MovieBotAgent
 
     # Participants
     agent = MovieBotAgent(

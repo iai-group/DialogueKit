@@ -8,11 +8,15 @@ This implementation is tied to MathAgent, but can (and should) be abstracted for
 use with other Agents.
 """
 
+# TODO Remove MathUser
+# See: https://github.com/iai-group/DialogueKit/issues/162
+
 from typing import List, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.participant import DialogueParticipant, Participant
 from dialoguekit.user.user import UserType
 
@@ -63,13 +67,11 @@ class MathUser(Participant):
         else:
             raise TypeError("You MUST define the possible intents for the User")
 
-    def receive_utterance(
-        self, annotated_utterance: AnnotatedUtterance
-    ) -> None:
+    def receive_utterance(self, utterance: Utterance) -> None:
         """Gets called every time there is a new agent utterance.
 
         Args:
-            annotated_utterance: Agent utterance.
+            utterance: Agent utterance.
         """
         intent_menu = ""
         for i, intent in enumerate(self._intents):
@@ -85,7 +87,7 @@ class MathUser(Participant):
 
         if selected_intent == Intent("ANSWER"):
             selected_intent = Intent(
-                f"ANSWER.{find_operation_type(annotated_utterance.text)}"
+                f"ANSWER.{find_operation_type(utterance.text)}"
             )
             response._intent = selected_intent
             response.add_annotation(Annotation(slot="NUMBER", value=text))

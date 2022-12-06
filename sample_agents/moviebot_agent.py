@@ -14,9 +14,11 @@ server with the right configuration.
 """
 
 import requests
+
 from dialoguekit.agent.agent import Agent, AgentType
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.participant import DialogueParticipant
 
 _MOVIEBOT_DEFAULT_URI = "http://127.0.0.1:5001"
@@ -84,15 +86,13 @@ class MovieBotAgent(Agent):
         )
         self._dialogue_manager.register_agent_utterance(response)
 
-    def receive_user_utterance(
-        self, annotated_utterance: AnnotatedUtterance
-    ) -> None:
+    def receive_utterance(self, utterance: Utterance) -> None:
         """Gets called each time there is a new user utterance.
 
         Args:
-            annotated_utterance: User annotated utterance.
+            utterance: User utterance.
         """
-        if annotated_utterance.text.lower() in ["quit", "stop", "exit"]:
+        if utterance.text.lower() in ["quit", "stop", "exit"]:
             self.goodbye()
 
         r = requests.post(
@@ -102,7 +102,7 @@ class MovieBotAgent(Agent):
                     {
                         "messaging": [
                             {
-                                "message": {"text": annotated_utterance.text},
+                                "message": {"text": utterance.text},
                                 "sender": {"id": self.id},
                             }
                         ]

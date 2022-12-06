@@ -8,9 +8,9 @@ An agent instance needs to be connected with a DialogueConnector by invoking
 """
 from __future__ import annotations
 
+from abc import abstractmethod
 from enum import Enum
 
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.participant.participant import DialogueParticipant, Participant
 
 # TODO Some research needs to be done in how Python abstract classes work,
@@ -35,19 +35,20 @@ class Agent(Participant):
         super().__init__(id=id, type=DialogueParticipant.AGENT)
         self._agent_type = agent_type
 
+    @abstractmethod
     def welcome(self) -> None:
-        """Sends the agent's welcome message."""
-        return
+        """Sends the agent's welcome message.
 
-    def goodbye(self) -> None:
-        """Sends the agent's goodbye message."""
-        return
-
-    def receive_user_utterance(
-        self, annotated_utterance: AnnotatedUtterance
-    ) -> None:
-        """Gets called each time there is a new user utterance.
-
-        Args:
-            annotated_utterance: User utterance.
+        Raises:
+            NotImplementedError: If not implemented in derived class.
         """
+        raise NotImplementedError
+
+    @abstractmethod
+    def goodbye(self) -> None:
+        """Sends the agent's goodbye message.
+
+        Raises:
+            NotImplementedError: If not implemented in derived class.
+        """
+        raise NotImplementedError

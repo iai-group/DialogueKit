@@ -1,13 +1,13 @@
-"""Interface defining core Participant functionality."""
+"""Interface defining core participant functionality."""
 from __future__ import annotations
 
-from abc import ABC
+from abc import ABC, abstractmethod
 from enum import Enum
 from typing import TYPE_CHECKING, Dict
 
 if TYPE_CHECKING:
     from dialoguekit.connector.dialogue_connector import DialogueConnector
-    from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+    from dialoguekit.core.utterance import Utterance
 
 
 class DialogueParticipant(Enum):
@@ -19,13 +19,13 @@ class DialogueParticipant(Enum):
 
 class Participant(ABC):
     def __init__(self, id: str, type: DialogueParticipant) -> None:
-        """Represents a Participant.
+        """Represents a participant.
 
-        Both Agents and Users are Participants.
+        Both agents and users are participants.
 
         Args:
-            id: Agent ID.
-            type: Agent type (default: BOT).
+            id: Participant's ID.
+            type: Participant's type.
         """
         self._id = id
         self._type = type
@@ -47,19 +47,21 @@ class Participant(ABC):
     def connect_dialogue_connector(
         self, dialogue_connector: DialogueConnector
     ) -> None:
-        """Connects the Dialogue Connector instance for the Participant.
+        """Connects the DialogueConnector instance for the participant.
 
         Args:
             dialogue_connector: A DialogueConnector instance.
         """
         self._dialogue_connector = dialogue_connector
 
-    def receive_utterance(
-        self, annotated_utterance: AnnotatedUtterance
-    ) -> None:
-        """Responds to the user with an AnnotatedUtterance.
+    @abstractmethod
+    def receive_utterance(self, utterance: Utterance) -> None:
+        """Responds to the other participant with an utterance.
 
         Args:
-            annotated_utterance: The other Participant's Utterance.
+            utterance: The other participant's utterance.
+
+        Raises:
+            NotImplementedError: If not implemented in derived class.
         """
-        pass
+        raise NotImplementedError

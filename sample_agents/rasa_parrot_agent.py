@@ -9,6 +9,7 @@ import requests
 from dialoguekit.agent.agent import Agent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.participant import DialogueParticipant
 
 
@@ -44,22 +45,20 @@ class RasaParrotAgent(Agent):
         )
         self._dialogue_connector.register_agent_utterance(utterance)
 
-    def receive_user_utterance(
-        self, annotated_utterance: AnnotatedUtterance
-    ) -> None:
+    def receive_utterance(self, utterance: Utterance) -> None:
         """Gets called each time there is a new user utterance.
 
         Args:
-            annotated_utterance: User utterance.
+            utterance: User utterance.
         """
-        if annotated_utterance.text.lower() in ["quit", "stop", "exit"]:
+        if utterance.text.lower() in ["quit", "stop", "exit"]:
             return
 
         r = requests.post(
             self._RASA_URI,
             json={
                 "sender": "RasaParrotAgent",
-                "message": "(Rasa Parroting) " + annotated_utterance.text,
+                "message": "(Rasa Parroting) " + utterance.text,
             },
         )
         response = AnnotatedUtterance(
