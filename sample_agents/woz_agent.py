@@ -41,7 +41,7 @@ class WOZAgent(Agent):
             text,
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(response)
+        self._dialogue_connector.register_agent_utterance(response)
 
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
@@ -52,7 +52,7 @@ class WOZAgent(Agent):
             participant=DialogueParticipant.AGENT,
         )
         response
-        self._dialogue_manager.register_agent_utterance(response)
+        self._dialogue_connector.register_agent_utterance(response)
 
     def receive_utterance(self, utterance: Utterance) -> None:
         """Responds to the user with an utterance.
@@ -102,4 +102,4 @@ class WOZAgent(Agent):
             intent=response_intent,
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(response)
+        self._dialogue_connector.register_agent_utterance(response)

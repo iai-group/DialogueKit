@@ -3,8 +3,8 @@
 This abstract class is to be subclassed both for bots and human ("Wizard of Oz")
 agents.
 
-An agent instance needs to be connected with a DialogueManager by invoking
-`register_dialogue_manager()`.
+An agent instance needs to be connected with a DialogueConnector by invoking
+`register_dialogue_connector()`.
 """
 from __future__ import annotations
 

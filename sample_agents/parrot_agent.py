@@ -25,7 +25,7 @@ class ParrotAgent(Agent):
             "Hello, I'm Parrot. What can I help u with?",
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(utterance)
+        self._dialogue_connector.register_agent_utterance(utterance)
 
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
@@ -34,7 +34,7 @@ class ParrotAgent(Agent):
             intent=Intent("EXIT"),
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(utterance)
+        self._dialogue_connector.register_agent_utterance(utterance)
 
     def receive_utterance(self, utterance: Utterance) -> None:
         """Gets called each time there is a new user utterance.
@@ -52,4 +52,4 @@ class ParrotAgent(Agent):
             "(Parroting) " + utterance.text,
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(response)
+        self._dialogue_connector.register_agent_utterance(response)

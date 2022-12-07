@@ -34,7 +34,7 @@ class RasaParrotAgent(Agent):
             "Hello, I'm Rasa Parrot. What can I help u with?",
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(utterance)
+        self._dialogue_connector.register_agent_utterance(utterance)
 
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
@@ -43,7 +43,7 @@ class RasaParrotAgent(Agent):
             intent=Intent("EXIT"),
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(utterance)
+        self._dialogue_connector.register_agent_utterance(utterance)
 
     def receive_utterance(self, utterance: Utterance) -> None:
         """Gets called each time there is a new user utterance.
@@ -65,4 +65,4 @@ class RasaParrotAgent(Agent):
             r.json()[0]["text"],
             participant=DialogueParticipant.AGENT,
         )
-        self._dialogue_manager.register_agent_utterance(response)
+        self._dialogue_connector.register_agent_utterance(response)

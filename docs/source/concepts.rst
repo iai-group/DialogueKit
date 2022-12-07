@@ -58,14 +58,11 @@ Platform
 
 The platform's responsibility is to facilitate the conversation. DialogueKit includes a simple terminal-based platform. However, it can support other platforms by facilitating communication via POST requests. 
 
-Dialogue Manager 
+Dialogue Connector 
 ----------------
-:py:mod:`dialoguekit.manager.dialogue_manager`
+:py:mod:`dialoguekit.connector.dialogue_connector`
 
 Holds and orchestrates the conversation between the participants.
-
-.. todo:: To be renamed to Connector.
-
 
 Domain 
 ------
