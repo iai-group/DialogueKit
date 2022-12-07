@@ -29,15 +29,15 @@ only parrots back what the user said.
     .. code-block:: python
 
         platform = Platform()
-        dm = DialogueConnector(agent, user, platform)
+        dc = DialogueConnector(agent, user, platform)
 
-        user.connect_dialogue_connector(dm)
-        agent.connect_dialogue_connector(dm)
+        user.connect_dialogue_connector(dc)
+        agent.connect_dialogue_connector(dc)
 
 
 4. Start conversation
 
     .. code-block:: python
 
-        dm.start()
-        dm.close()
+        dc.start()
+        dc.close()

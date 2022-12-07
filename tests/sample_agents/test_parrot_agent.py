@@ -27,22 +27,24 @@ def agent() -> ParrotAgent:
 
 
 @pytest.fixture
-def dc(user: User, agent: ParrotAgent) -> DialogueConnector:
+def connector(user: User, agent: ParrotAgent) -> DialogueConnector:
     """Dialogue connector fixture."""
-    dc = DialogueConnector(agent, user, Platform(), save_dialogue_history=False)
-    return dc
+    connector = DialogueConnector(
+        agent, user, Platform(), save_dialogue_history=False
+    )
+    return connector
 
 
-def test_greetings(dc: DialogueConnector, monkeypatch) -> None:
+def test_greetings(connector: DialogueConnector, monkeypatch) -> None:
     """Test for welcome and goodbye methods."""
     monkeypatch.setattr(sys, "stdin", io.StringIO("EXIT"))
-    dc.start()
-    assert len(dc.dialogue_history.utterances) == 3
+    connector.start()
+    assert len(connector.dialogue_history.utterances) == 3
     assert (
-        dc.dialogue_history.utterances[0].text
+        connector.dialogue_history.utterances[0].text
         == "Hello, I'm Parrot. What can I help u with?"
     )
     assert (
-        dc.dialogue_history.utterances[-1].text
+        connector.dialogue_history.utterances[-1].text
         == "It was nice talking to you. Bye"
     )

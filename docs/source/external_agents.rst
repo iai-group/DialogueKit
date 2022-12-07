@@ -57,9 +57,9 @@ An example can be seen below.
     agent = RasaParrotAgent(agent_id="TestId")
     user = User("U01")
     platform = Platform()
-    dm = DialogueConnector(agent, user, platform)
-    dm.start()
-    dm.close()
+    dc = DialogueConnector(agent, user, platform)
+    dc.start()
+    dc.close()
 
 
 In this example we use a **User** to talk to the Rasa parroting service.
