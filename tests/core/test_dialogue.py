@@ -1,13 +1,16 @@
-"""Tests for the DialogueHistory class."""
+"""Tests for the Dialogue class."""
 
 import pytest
+
 from dialoguekit.core import Dialogue, Utterance
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.intent import Intent
 from dialoguekit.participant import DialogueParticipant
 
 
 # Dialogue history object to be shared across multiple test cases.
 @pytest.fixture(scope="module")
-def dialogue_history_1():
+def dialogue_history_1() -> Dialogue:
     """Tests Dialogue creation."""
     agent_id = "agent-001"
     user_id = "USR01"
@@ -37,7 +40,38 @@ def dialogue_history_1():
     return dialogue_history
 
 
-def test_ids(dialogue_history_1):
+@pytest.fixture(scope="module")
+def dialogue_history_2() -> Dialogue:
+    """Dialogue with annotated utterance fixture."""
+    agent_id = "agent-002"
+    user_id = "USR02"
+    agent_utterance_1 = AnnotatedUtterance(
+        "Hello",
+        participant=DialogueParticipant.AGENT,
+        intent=Intent("GREETINGS"),
+    )
+    user_utterance_1 = AnnotatedUtterance(
+        "Hi", participant=DialogueParticipant.USER, intent=Intent("GREETINGS")
+    )
+    agent_utterance_2 = AnnotatedUtterance(
+        "What is your favorite color?",
+        participant=DialogueParticipant.AGENT,
+        intent=Intent("ELICIT"),
+    )
+    utterances = [
+        agent_utterance_1,
+        user_utterance_1,
+        agent_utterance_2,
+    ]
+
+    dialogue_history = Dialogue(agent_id, user_id)
+    for utterance in utterances:
+        dialogue_history.add_utterance(utterance)
+
+    return dialogue_history
+
+
+def test_ids(dialogue_history_1: Dialogue) -> None:
     """Tests dialogue parameters.
 
     Args:
@@ -47,7 +81,7 @@ def test_ids(dialogue_history_1):
     assert dialogue_history_1.user_id == "USR01"
 
 
-def test_utterances(dialogue_history_1):
+def test_utterances(dialogue_history_1: Dialogue) -> None:
     """Tests Dialogue utterances.
 
     Args:
@@ -69,3 +103,30 @@ def test_utterances(dialogue_history_1):
         dialogue_history_1.utterances[4].participant
         == DialogueParticipant.AGENT
     )
+
+
+def test_to_dict(
+    dialogue_history_1: Dialogue, dialogue_history_2: Dialogue
+) -> None:
+    """Tests dialogue export to dictionary.
+
+    Args:
+        dialogue_history_1: Test Dialogue object.
+    """
+    dialogue_dict_1 = dialogue_history_1.to_dict()
+
+    assert dialogue_dict_1.get("agent") == "agent-001"
+    assert dialogue_dict_1.get("user") == "USR01"
+    assert dialogue_dict_1.get("metadata") is None
+    assert len(dialogue_dict_1.get("conversation")) == 5
+    utterance_1 = dialogue_dict_1.get("conversation")[0]
+    assert utterance_1["utterance"] == "Hello"
+    assert utterance_1.get("slot_values") is None
+
+    dialogue_dict_2 = dialogue_history_2.to_dict()
+
+    assert dialogue_dict_2.get("agent") == "agent-002"
+    assert dialogue_dict_2.get("user") == "USR02"
+    assert dialogue_dict_2.get("metadata") is None
+    assert len(dialogue_dict_2.get("conversation")) == 3
+    assert dialogue_dict_2.get("conversation")[0]["intent"] == "GREETINGS"

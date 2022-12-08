@@ -5,6 +5,7 @@ import datetime
 from typing import Any, Dict, List, Text
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.utterance import Utterance
 
 
 class Dialogue:
@@ -17,7 +18,7 @@ class Dialogue:
         """
         self._agent_id = agent_id
         self._user_id = user_id
-        self._utterances: List[AnnotatedUtterance] = []
+        self._utterances: List[Utterance] = []
         self._metadata: Dict[str, Any] = {}
 
     def __str__(self) -> Text:
@@ -52,11 +53,11 @@ class Dialogue:
         return self._user_id
 
     @property
-    def utterances(self) -> List[AnnotatedUtterance]:
+    def utterances(self) -> List[Utterance]:
         """Returns the utterances in the dialogue."""
         return self._utterances
 
-    def add_utterance(self, utterance: AnnotatedUtterance) -> None:
+    def add_utterance(self, utterance: Utterance) -> None:
         """Adds an utterance to the history.
 
         Args:
@@ -81,23 +82,24 @@ class Dialogue:
         if self._metadata:
             run_conversation["metadata"] = self._metadata
 
-        for annotated_utterance in self.utterances:
+        for utterance in self.utterances:
             utterance_info: Dict[str, Any] = {
-                "participant": annotated_utterance.participant.name,
-                "utterance": annotated_utterance.text,
+                "participant": utterance.participant.name,
+                "utterance": utterance.text,
             }
 
-            if annotated_utterance.intent is not None:
-                utterance_info["intent"] = annotated_utterance.intent.label
+            if isinstance(utterance, AnnotatedUtterance):
+                if utterance.intent is not None:
+                    utterance_info["intent"] = utterance.intent.label
 
-            for k, v in annotated_utterance.metadata.items():
-                utterance_info[k] = v
+                for k, v in utterance.metadata.items():
+                    utterance_info[k] = v
 
-            annotations = annotated_utterance.get_annotations()
-            if annotations:
-                slot_values = []
-                for annotation in annotations:
-                    slot_values.append([annotation.slot, annotation.value])
-                utterance_info["slot_values"] = slot_values
+                annotations = utterance.get_annotations()
+                if annotations:
+                    slot_values = []
+                    for annotation in annotations:
+                        slot_values.append([annotation.slot, annotation.value])
+                    utterance_info["slot_values"] = slot_values
             run_conversation["conversation"].append(utterance_info)
         return run_conversation
