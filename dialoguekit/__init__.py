@@ -2,7 +2,7 @@
 __all__ = [
     "agent",
     "core",
-    "manager",
+    "connector",
     "nlg",
     "nlu",
     "participant",

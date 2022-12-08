@@ -1,8 +1,8 @@
 """Central broker for coordinating the communication between Agent and User.
 
-The DialogueManager is instantiated with an Agent and a User.  These are then
-connected with the particular DialogueManager instance by calling their
-respective `connect_dialogue_manager()` methods.
+The DialogueConnector is instantiated with an Agent and a User.  These are then
+connected with the particular DialogueConnector instance by calling their
+respective `connect_dialogue_connector()` methods.
 
 By definition, the communication starts with the Agent's welcome message.
 Each agent/user utterance is sent to the other party via their respective
@@ -10,7 +10,7 @@ Each agent/user utterance is sent to the other party via their respective
 It is left to to specific Agent and User instances when and how they respond.
 It is expected that most will respond immediately upon receiving an utterance,
 but this is not required.  Whenever there is a message from either the Agent or
-the User, the DialogueManager sends it to the other party by calling their
+the User, the DialogueConnector sends it to the other party by calling their
 `receive_{agent/user}_utterance()` method.
 """
 import json
@@ -25,7 +25,7 @@ from dialoguekit.user.user import User
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
 
-class DialogueManager:
+class DialogueConnector:
     def __init__(
         self,
         agent: Agent,
@@ -33,7 +33,7 @@ class DialogueManager:
         platform: Platform,
         save_dialogue_history: bool = True,
     ) -> None:
-        """Represents a dialogue manager.
+        """Represents a dialogue connector.
 
         Args:
             agent: An instance of Agent.
@@ -42,9 +42,9 @@ class DialogueManager:
             save_dialogue_history: Flag to save the dialogue or not.
         """
         self._agent = agent
-        self._agent.connect_dialogue_manager(self)
+        self._agent.connect_dialogue_connector(self)
         self._user = user
-        self._user.connect_dialogue_manager(self)
+        self._user.connect_dialogue_connector(self)
         self._platform = platform
         self._dialogue_history = Dialogue(agent.id, user.id)
         self._save_dialogue_history = save_dialogue_history
@@ -60,10 +60,10 @@ class DialogueManager:
         """Registers an annotated utterance from the user.
 
         In most cases the Agent should not know about the Users Intent and
-        Annotation-s. But for some usecases this additional information may
-        become usefull, depending on the UI etc.
+        Annotation-s. But for some use cases this additional information may
+        become useful, depending on the UI etc.
         Thus the complete AnnotatedUtterance will be sent to the Agent. It is
-        the Agents responsability to only use the information it is supposed
+        the Agents responsibility to only use the information it is supposed
         to.
 
         Args:
@@ -81,12 +81,12 @@ class DialogueManager:
         This method takes a AnnotatedUtterance but only a Utterance gets sent to
         the User. The AnnotatedUtterance gets used to store the conversation for
         future reference, and if the Agent wants to end the conversation with
-        the "EXIT" Intent, the DialogueMangager will end the conversation with
+        the "EXIT" Intent, the DialogueConnector will end the conversation with
         the close() method.
 
         Note:
-            If the Intent label is 'EXIT' the dialoguemanager will close. Thus
-            it is only the agent that can close the dialoguemanager.
+            If the Intent label is 'EXIT' the DialogueConnector will close. Thus
+            it is only the agent that can close the DialogueConnector.
 
         Args:
             annotated_utterance: Agent utterance.
@@ -126,7 +126,7 @@ class DialogueManager:
         conversation will be appended to the same export document.
 
         Per dialogue, the dialogue metadata will be added. Also per utterance
-        the uterance metadata, will be added to the same level as the utterance
+        the utterance metadata, will be added to the same level as the utterance
         text. Intent will also be exported if provided.
         """
         # If conversation is empty we do not save it.
@@ -172,10 +172,10 @@ if __name__ == "__main__":
     user = User(id="TEST01")
 
     platform = Platform()
-    dm = DialogueManager(agent, user, platform)
+    dm = DialogueConnector(agent, user, platform)
 
-    user.connect_dialogue_manager(dm)
-    agent.connect_dialogue_manager(dm)
+    user.connect_dialogue_connector(dm)
+    agent.connect_dialogue_connector(dm)
     dm.start()
 
     dm.close()

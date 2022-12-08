@@ -5,7 +5,7 @@ import sys
 import pytest
 
 from dialoguekit.agent.agent import AgentType
-from dialoguekit.manager.dialogue_manager import DialogueManager
+from dialoguekit.connector.dialogue_connector import DialogueConnector
 from dialoguekit.platforms.platform import Platform
 from dialoguekit.user.user import User, UserType
 from sample_agents.parrot_agent import ParrotAgent
@@ -27,22 +27,24 @@ def agent() -> ParrotAgent:
 
 
 @pytest.fixture
-def dm(user: User, agent: ParrotAgent) -> DialogueManager:
-    """Dialogue manager fixture."""
-    dm = DialogueManager(agent, user, Platform(), save_dialogue_history=False)
-    return dm
+def connector(user: User, agent: ParrotAgent) -> DialogueConnector:
+    """Dialogue connector fixture."""
+    connector = DialogueConnector(
+        agent, user, Platform(), save_dialogue_history=False
+    )
+    return connector
 
 
-def test_greetings(dm: DialogueManager, monkeypatch) -> None:
+def test_greetings(connector: DialogueConnector, monkeypatch) -> None:
     """Test for welcome and goodbye methods."""
     monkeypatch.setattr(sys, "stdin", io.StringIO("EXIT"))
-    dm.start()
-    assert len(dm.dialogue_history.utterances) == 3
+    connector.start()
+    assert len(connector.dialogue_history.utterances) == 3
     assert (
-        dm.dialogue_history.utterances[0].text
+        connector.dialogue_history.utterances[0].text
         == "Hello, I'm Parrot. What can I help u with?"
     )
     assert (
-        dm.dialogue_history.utterances[-1].text
+        connector.dialogue_history.utterances[-1].text
         == "It was nice talking to you. Bye"
     )

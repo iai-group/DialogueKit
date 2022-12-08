@@ -30,8 +30,6 @@ DialogueKit is shipped with some sample agents (**TODO:** reference sample agent
 
 * **RasaParrotAgent**: This agent looks like the **ParrotAgent** to the user, but is actually just a connector to a Rasa conversational agent. This conversational agent is also part of DialogueKit
 
-* **MathAgent**: This agent will ask the user simple arithmetic (addition, subtraction, multiplication and division) questions.
-
 * **MovieBotAgent**: A connector agent for `IAI MovieBot <https://github.com/iai-group/moviebot>`_ .
 
 * **WozAgent**: Allows a real human to play the role of the agent ("wizard") when interacting with a user. This can be useful, e.g., when testing user simulators.
@@ -60,14 +58,11 @@ Platform
 
 The platform's responsibility is to facilitate the conversation. DialogueKit includes a simple terminal-based platform. However, it can support other platforms by facilitating communication via POST requests. 
 
-Dialogue Manager 
+Dialogue Connector 
 ----------------
-:py:mod:`dialoguekit.manager.dialogue_manager`
+:py:mod:`dialoguekit.connector.dialogue_connector`
 
 Holds and orchestrates the conversation between the participants.
-
-.. todo:: To be renamed to Connector.
-
 
 Domain 
 ------

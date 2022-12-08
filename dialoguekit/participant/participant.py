@@ -6,8 +6,8 @@ from enum import Enum
 from typing import TYPE_CHECKING, Dict
 
 if TYPE_CHECKING:
+    from dialoguekit.connector.dialogue_connector import DialogueConnector
     from dialoguekit.core.utterance import Utterance
-    from dialoguekit.manager.dialogue_manager import DialogueManager
 
 
 class DialogueParticipant(Enum):
@@ -29,7 +29,7 @@ class Participant(ABC):
         """
         self._id = id
         self._type = type
-        self._dialogue_manager: DialogueManager = None
+        self._dialogue_connector: DialogueConnector = None
 
     @property
     def id(self):
@@ -44,15 +44,15 @@ class Participant(ABC):
         """
         return {"id": str(self._id), "type": str(self._type.name)}
 
-    def connect_dialogue_manager(
-        self, dialogue_manager: DialogueManager
+    def connect_dialogue_connector(
+        self, dialogue_connector: DialogueConnector
     ) -> None:
-        """Connects the Dialogue Manager instance for the participant.
+        """Connects the DialogueConnector instance for the participant.
 
         Args:
-            dialogue_manager: A DialogueManager instance.
+            dialogue_connector: A DialogueConnector instance.
         """
-        self._dialogue_manager = dialogue_manager
+        self._dialogue_connector = dialogue_connector
 
     @abstractmethod
     def receive_utterance(self, utterance: Utterance) -> None:

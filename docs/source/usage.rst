@@ -14,7 +14,7 @@ only parrots back what the user said.
         from dialoguekit.user.user import User
         from sample_agents.parrot_agent import ParrotAgent
         from dialoguekit.platforms.platform import Platform
-        from dialoguekit.manager.dialogue_manager import DialogueManager
+        from dialoguekit.connector.dialogue_connector import DialogueConnector
 
 2. Define agent and user
 
@@ -24,20 +24,20 @@ only parrots back what the user said.
         agent = ParrotAgent("A01")
         user = User("U01")
 
-3. Create and connect platform and dialogue manager
+3. Create and connect platform and dialogue connector
     
     .. code-block:: python
 
         platform = Platform()
-        dm = DialogueManager(agent, user, platform)
+        dc = DialogueConnector(agent, user, platform)
 
-        user.connect_dialogue_manager(dm)
-        agent.connect_dialogue_manager(dm)
+        user.connect_dialogue_connector(dc)
+        agent.connect_dialogue_connector(dc)
 
 
 4. Start conversation
 
     .. code-block:: python
 
-        dm.start()
-        dm.close()
+        dc.start()
+        dc.close()
