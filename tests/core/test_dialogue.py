@@ -111,7 +111,8 @@ def test_to_dict(
     """Tests dialogue export to dictionary.
 
     Args:
-        dialogue_history_1: Test Dialogue object.
+        dialogue_history_1: Test Dialogue object 1.
+        dialogue_history_2: Test Dialogue object 2.
     """
     dialogue_dict_1 = dialogue_history_1.to_dict()
 
