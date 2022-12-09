@@ -82,7 +82,8 @@ If you want to specify a specific commit as the source of the package append the
 
 ## Conventions
 
-We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/main/python).
+We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/main/python), except that we assume Python 3.9.
+We have additional pre-commit hooks for [mypy](https://mypy.readthedocs.io/en/stable/), [docformatter](https://docformatter.readthedocs.io/en/latest/), and [pydocstyle](http://www.pydocstyle.org/en/stable/index.html) (see [Wiki](https://github.com/iai-group/DialogueKit/wiki/Pre-commit) for more details).
 
 ## Contributors
 
