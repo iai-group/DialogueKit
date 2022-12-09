@@ -1,5 +1,6 @@
 """Interface extending utterances with annotations."""
 
+import inspect
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Union
 
@@ -101,6 +102,22 @@ class AnnotatedUtterance(Utterance):
     def metadata(self) -> Dict[str, Any]:
         """Returns the utterance metadata."""
         return self._metadata
+
+    @classmethod
+    def from_utterance(cls, utterance: Utterance):
+        """Creates an instance of AnnotatedUtterance from an utterance."""
+        properties = inspect.getmembers(
+            utterance.__class__, predicate=lambda m: isinstance(m, property)
+        )
+        class_attributes = list(
+            inspect.signature(AnnotatedUtterance).parameters
+        )
+        args = dict()
+        for prop in properties:
+            if prop[0] in class_attributes:
+                getter = prop[1].fget
+                args[prop[0]] = getter(utterance)
+        return cls(**args)
 
     def add_annotation(
         self, annotation: Union[Annotation, List[Annotation]]
