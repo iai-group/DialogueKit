@@ -97,7 +97,7 @@ autoapi_python_class_content = "init"
 
 # -- Options for versioning -------------------------------------------------
 # See documentation at:
-# https://holzhaus.github.io/sphinx-multiversion/master/configuration.html#   
+# https://holzhaus.github.io/sphinx-multiversion/master/configuration.html#
 smv_tag_whitelist = r"^.*$"  # Include all tags
 smv_branch_whitelist = r"^.*$"  # Include all branches
 smv_remote_whitelist = (
