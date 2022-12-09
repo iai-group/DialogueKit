@@ -147,18 +147,18 @@ class Evaluator:
                     break
             previous_sender = dialogue_utterances_start_agent[0].participant
             previous_intent = dialogue_utterances_start_agent[0].intent
-            for j, utterance in enumerate(
+            for j, annotated_utterance in enumerate(
                 dialogue_utterances_start_agent, start=1
             ):
                 if (
-                    utterance.participant == previous_sender
-                    and previous_intent == utterance.intent
+                    annotated_utterance.participant == previous_sender
+                    and previous_intent == annotated_utterance.intent
                 ):
                     n_repeat_intents += 1
                     previous_intent = None
                     continue
-                previous_intent = utterance.intent
-                previous_sender = utterance.participant
+                previous_intent = annotated_utterance.intent
+                previous_sender = annotated_utterance.participant
 
             results["dialogues"][i]["repeats"] = n_repeat_intents
             results["dialogues"][i]["reward"] -= n_repeat_intents
