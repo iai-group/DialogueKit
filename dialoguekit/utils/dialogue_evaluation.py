@@ -8,7 +8,9 @@ from typing import Any, Dict, List, Union
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.intent import Intent
-from dialoguekit.nlu.models.satisfaction_classifier import SatisfactionClassifierSVM
+from dialoguekit.nlu.models.satisfaction_classifier import (
+    SatisfactionClassifierSVM,
+)
 from dialoguekit.participant.participant import DialogueParticipant
 
 # REWARD CONFIG PARAMETERS
