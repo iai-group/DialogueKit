@@ -6,10 +6,10 @@ simulated users.
 """
 from typing import List, Optional
 
-from dialoguekit.agent.agent import Agent, AgentType
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
+from dialoguekit.participant.agent import Agent, AgentType
 from dialoguekit.participant.participant import DialogueParticipant
 
 
