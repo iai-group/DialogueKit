@@ -13,9 +13,6 @@ from enum import Enum
 
 from dialoguekit.participant.participant import DialogueParticipant, Participant
 
-# TODO Some research needs to be done in how Python abstract classes work,
-# to implement them for Agent and participant
-
 
 class AgentType(Enum):
     """Represents different types of agents (bot vs Wizard-of-Oz)."""

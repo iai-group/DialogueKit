@@ -47,7 +47,7 @@ If you want to specify a specific commit as the source of the package append the
 
     ```python
     from dialoguekit.core.utterance import Utterance
-    from dialoguekit.user.user import User, UserType
+    from dialoguekit.participant.user import User, UserType
     from sample_agents.parrot_agent import ParrotAgent
 
     # Participants

@@ -18,11 +18,11 @@ import datetime
 import json
 import os
 
-from dialoguekit.agent.agent import Agent
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
+from dialoguekit.participant.agent import Agent
+from dialoguekit.participant.user import User
 from dialoguekit.platforms.platform import Platform
-from dialoguekit.user.user import User
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
@@ -191,7 +191,7 @@ class DialogueConnector:
 
 
 if __name__ == "__main__":
-    from dialoguekit.user.user import User
+    from dialoguekit.participant.user import User
     from sample_agents.moviebot_agent import MovieBotAgent
 
     # Participants
