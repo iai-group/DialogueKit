@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/174-Fix-Sphinx-docs-to-gh-pages
 
 # workflow_dispatch:        # Un comment line if you also want to trigger action manually
 
@@ -16,7 +15,7 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v3
         with:
-          ref: feature/174-Fix-Sphinx-docs-to-gh-pages
+          ref: main
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -31,7 +30,7 @@ jobs:
       - name: Sphinx docs to GitHub Pages
         uses: ./.github/actions/build_docs/
         with:
-          branch: 'feature/174-Fix-Sphinx-docs-to-gh-pages'
+          branch: main
           dir_docs: docs/source
           sphinxapiopts: '--separate -o . ../'
           sphinxapiexclude: '../*setup* ../*.ipynb'
