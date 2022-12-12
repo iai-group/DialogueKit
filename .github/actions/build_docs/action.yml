@@ -61,7 +61,6 @@ runs:
       id: to-branch-with-docs
       shell: bash
       run: |
-           echo git branch -a
            git checkout ${{ inputs.branch }}
     - name: sphinx apidoc generation
       shell: bash -l {0}
