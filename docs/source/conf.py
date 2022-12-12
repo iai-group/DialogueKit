@@ -99,7 +99,7 @@ autoapi_python_class_content = "init"
 # See documentation at:
 # https://holzhaus.github.io/sphinx-multiversion/master/configuration.html#
 smv_tag_whitelist = r"^.*$"  # Include all tags
-smv_branch_whitelist = r"^main$"  # Include only main branch
+smv_branch_whitelist = r"^(main|feature).*$"  # Include only main branch
 smv_remote_whitelist = (
     r"^(origin|upstream)$"  # Use branches from origin and upstream
 )
