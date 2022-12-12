@@ -3,7 +3,7 @@ repos:
     rev: 22.6.0
     hooks:
       - id: black
-        language_version: python3.7
+        language_version: python3.9
   - repo: https://github.com/pycqa/flake8
     rev: 5.0.4
     hooks:
@@ -36,7 +36,11 @@ repos:
         exclude: ^tests/
         types: [python]
         verbose: true
-        args: [--no-strict-optional, --ignore-missing-imports, --no-incremental]
+        args: 
+          - --no-strict-optional
+          - --ignore-missing-imports
+          - --no-incremental
+          - --disable-error-code=override
         additional_dependencies: [types-all]
 
   - repo: local
