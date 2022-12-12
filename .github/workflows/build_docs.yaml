@@ -31,7 +31,7 @@ jobs:
       - name: Sphinx docs to GitHub Pages
         uses: ./.github/actions/build_docs/
         with:
-          branch: feature/174-Fix-Sphinx-docs-to-gh-pages
+          branch: 'feature/174-Fix-Sphinx-docs-to-gh-pages'
           dir_docs: docs/source
           sphinxapiopts: '--separate -o . ../'
           sphinxapiexclude: '../*setup* ../*.ipynb'
