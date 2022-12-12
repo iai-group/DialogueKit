@@ -8,7 +8,7 @@ External Agents
 Rasa parrot
 --------------
 
-The :py:mod:`dialoguekit.agent.rasa_parrot_agent.py` **Agent** is just an example of how a Rasa agent could be used in DialogueKit.
+The :py:mod:`sample_agents.rasa_parrot_agent.py` **Agent** is just an example of how a Rasa agent could be used in DialogueKit.
 This **Agent** talks to the :py:mod:`additional.rasa-parrot` which does all the processing while the **DialogueKit Rasa Agent** only handles the communication.
 
 

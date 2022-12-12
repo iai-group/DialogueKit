@@ -18,7 +18,7 @@ DialogueKit assumes the agent to always start the conversation and also end it. 
 
 Agent
 -----
-:py:mod:`dialoguekit.agent.agent`
+:py:mod:`dialoguekit.participant.agent`
 
 Represents a conversational agent with some intelligent capabilities (typically defined by the dialogue policy, natural language understanding, and natural language generation components).
 
@@ -36,7 +36,7 @@ DialogueKit is shipped with some sample agents (**TODO:** reference sample agent
 
 User 
 ----
-:py:mod:`dialoguekit.user.user`
+:py:mod:`dialoguekit.participant.user`
 
 Represents a human interacting with an agent in natural language text.
 
