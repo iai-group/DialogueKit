@@ -107,7 +107,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: unit-test-py37
+          name: unit-test-py39
           path: ./pytest.xml
 
   publish-test-results:
@@ -126,7 +126,7 @@ jobs:
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         with:
-          files: artifacts/unit-test-py37/*.xml
+          files: artifacts/unit-test-py39/*.xml
 
       - name: Pytest coverage comment in pull-request
         uses: MishaKav/pytest-coverage-comment@main
