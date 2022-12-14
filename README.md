@@ -71,16 +71,16 @@ If you want to specify a specific commit as the source of the package append the
       dm.close()
     ```
 
-## Planned future features
-
-  * [Rework imports](https://github.com/iai-group/dialoguekit/issues/123)
-  * [Versioning for docs](https://github.com/iai-group/dialoguekit/issues/124)
-  * [Unified dialogue reader](https://github.com/iai-group/dialoguekit/issues/140)
-
 ## Conventions
 
 We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/main/python).
 
 ## Contributors
 
-(Alphabetically ordered by last name) Jafar Afzali, Krisztian Balog, Aleksander Drzewiecki and Shuo Zhang
+(Alphabetically ordered by last name) 
+
+  * Jafar Afzali (2022)
+  * Krisztian Balog (2021-present)
+  * Nolwenn Bernard (2022-present)
+  * Aleksander Drzewiecki (2022)
+  * Shuo Zhang (2021)
