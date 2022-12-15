@@ -11,7 +11,7 @@ only parrots back what the user said.
 
     .. code-block:: python
 
-        from dialoguekit.user.user import User
+        from dialoguekit.participant.user import User
         from sample_agents.parrot_agent import ParrotAgent
         from dialoguekit.platforms.platform import Platform
         from dialoguekit.connector.dialogue_connector import DialogueConnector

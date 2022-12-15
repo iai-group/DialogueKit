@@ -4,10 +4,10 @@ import sys
 
 import pytest
 
-from dialoguekit.agent.agent import AgentType
 from dialoguekit.connector.dialogue_connector import DialogueConnector
+from dialoguekit.participant.agent import AgentType
+from dialoguekit.participant.user import User, UserType
 from dialoguekit.platforms.platform import Platform
-from dialoguekit.user.user import User, UserType
 from sample_agents.parrot_agent import ParrotAgent
 
 

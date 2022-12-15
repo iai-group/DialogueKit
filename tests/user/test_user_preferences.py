@@ -1,7 +1,8 @@
 """Tests for the UserPreferences class."""
 
 import pytest
-from dialoguekit.user import UserPreferences
+
+from dialoguekit.participant.user_preferences import UserPreferences
 
 
 def test_set_preference():

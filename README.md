@@ -4,6 +4,7 @@
 [![PyPi version](https://img.shields.io/pypi/v/dialoguekit)](https://pypi.org/project/dialoguekit/) 
 ![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/adrzewiecki/35bb996459f0949b38da651c66cf95cb/raw/coverage.DialogueKit.main.json) 
 ![Tests](https://img.shields.io/github/workflow/status/iai-group/DialogueKit/Deploy?label=Tests)
+![Python version](https://img.shields.io/badge/python-3.9-blue)
 
 DialogueKit is a library for conversational information access (CIA). It contains based classes for fundamental [concepts](https://iai-group.github.io/DialogueKit/concepts.html), such as dialogue participants, dialogue management, [natural language understanding](https://iai-group.github.io/DialogueKit/nlu.html), natural language generation, etc. In addition to the fundamental concepts DialogueKit contains an evaluation module, for evaluating the performance of and CIA systems.
 Consult the [documentation](https://iai-group.github.io/DialogueKit/) for details.
@@ -46,7 +47,7 @@ If you want to specify a specific commit as the source of the package append the
 
     ```python
     from dialoguekit.core.utterance import Utterance
-    from dialoguekit.user.user import User, UserType
+    from dialoguekit.participant.user import User, UserType
     from sample_agents.parrot_agent import ParrotAgent
 
     # Participants
@@ -74,12 +75,6 @@ If you want to specify a specific commit as the source of the package append the
       dm.close()
     ```
 
-## Planned future features
-
-  * [Rework imports](https://github.com/iai-group/dialoguekit/issues/123)
-  * [Versioning for docs](https://github.com/iai-group/dialoguekit/issues/124)
-  * [Unified dialogue reader](https://github.com/iai-group/dialoguekit/issues/140)
-
 ## Conventions
 
 We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/main/python).
@@ -87,4 +82,10 @@ We have additional pre-commit hooks for [mypy](https://mypy.readthedocs.io/en/st
 
 ## Contributors
 
-(Alphabetically ordered by last name) Jafar Afzali, Krisztian Balog, Aleksander Drzewiecki and Shuo Zhang
+(Alphabetically ordered by last name) 
+
+  * Jafar Afzali (2022)
+  * Krisztian Balog (2021-present)
+  * Nolwenn Bernard (2022-present)
+  * Aleksander Drzewiecki (2022)
+  * Shuo Zhang (2021)
