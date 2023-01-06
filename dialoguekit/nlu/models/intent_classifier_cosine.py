@@ -3,12 +3,13 @@
 from typing import List
 
 import numpy as np
-from dialoguekit.core.intent import Intent
-from dialoguekit.core.utterance import Utterance
-from dialoguekit.nlu.intent_classifier import IntentClassifier
 from joblib import dump, load
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+
+from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
+from dialoguekit.nlu.intent_classifier import IntentClassifier
 
 
 class IntentClassifierCosine(IntentClassifier):
@@ -42,10 +43,10 @@ class IntentClassifierCosine(IntentClassifier):
         ).toarray()
 
     def classify_intent(self, utterance: Utterance) -> Intent:
-        """Classifies the utterances intent.
+        """Classifies the utterance's intent.
 
-        Classifies the intent of an utterance based on based cosine
-        similarity of TF-IDF-weighted term vectors.
+        Classifies the intent of an utterance based on cosine similarity of
+        TF-IDF-weighted term vectors.
 
         Args:
             utterance: An utterance.
