@@ -3,8 +3,8 @@
 More information about the DIET classifier
 https://rasa.com/docs/rasa/reference/rasa/nlu/classifiers/diet_classifier/
 
-A short description of how we use Rasa as a component library can be seen in
-the docs/rasa_component_library.md
+A short description of how we use Rasa as a component library can be seen at:
+https://iai-group.github.io/DialogueKit/nlu.html#rasa-as-a-component-library
 """
 
 import copy

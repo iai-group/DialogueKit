@@ -26,7 +26,7 @@ class SatisfactionClassifier(ABC):
         in each string by it self.
 
         Args:
-            input_text: list of text to classified.
+            input_text: List of text to classified.
 
         Returns:
             List of classifications for every string in the input.
@@ -126,12 +126,12 @@ class SatisfactionClassifierSVM(SatisfactionClassifier):
     def classify_last_n_dialogue(
         self, dialogue: Dialogue, last_n: Optional[Union[int, None]] = None
     ) -> int:
-        """Classifies n last dialogues.
+        """Classifies the n last dialogues.
 
         Args:
             dialogue: Dialogue object to classify.
             last_n: Number of the last utterances to use for classification.
-              Defaults to None
+              Defaults to None.
 
         Returns:
             Classification score.
