@@ -27,7 +27,7 @@ def _replace_slot_with_placeholder(
         annotated_utterance._text = annotated_utterance.text.replace(
             value, f"{{{placeholder_label}}}", 1
         )
-        annotation.value = ""
+        annotation.value = None
 
 
 def build_template_from_instances(
