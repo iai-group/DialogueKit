@@ -146,11 +146,11 @@ class DialogueConnector:
             with open(file_name) as json_file_out:
                 json_file = json.load(json_file_out)
 
-        run_conversation = history.to_dict()
-        run_conversation["agent"] = self._agent.to_dict()
-        run_conversation["user"] = self._user.to_dict()
+        dialogue_as_dict = history.to_dict()
+        dialogue_as_dict["agent"] = self._agent.to_dict()
+        dialogue_as_dict["user"] = self._user.to_dict()
 
-        json_file.append(run_conversation)
+        json_file.append(dialogue_as_dict)
 
         with open(file_name, "w") as outfile:
             json.dump(json_file, outfile)
