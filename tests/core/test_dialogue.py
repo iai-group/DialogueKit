@@ -4,6 +4,7 @@ import pytest
 
 from dialoguekit.core import Dialogue, Utterance
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.participant import DialogueParticipant
 
@@ -56,6 +57,7 @@ def dialogue_history_2() -> Dialogue:
         "What is your favorite color?",
         participant=DialogueParticipant.AGENT,
         intent=Intent("ELICIT"),
+        annotations=[Annotation("COLOR", "color")],
     )
     utterances = [
         agent_utterance_1,
@@ -147,7 +149,9 @@ def test_to_dict_d2(dialogue_history_2: Dialogue) -> None:
         "description": "Dialogue fixture for testing"
     }
     assert len(dialogue_dict_2.get("conversation")) == 3
-    assert dialogue_dict_2.get("conversation")[0]["intent"] == "GREETINGS"
+    last_utterance = dialogue_dict_2.get("conversation")[-1]
+    assert last_utterance["intent"] == "ELICIT"
+    assert last_utterance["slot_values"] == [["COLOR", "color"]]
 
 
 def test_to_dict_d3(dialogue_history_3: Dialogue) -> None:
