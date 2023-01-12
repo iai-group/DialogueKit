@@ -11,7 +11,7 @@ from dialoguekit.participant import DialogueParticipant
 # Dialogue history object to be shared across multiple test cases.
 @pytest.fixture(scope="module")
 def dialogue_history_1() -> Dialogue:
-    """Tests Dialogue creation."""
+    """Dialogue with unannotated utterances fixture."""
     agent_id = "agent-001"
     user_id = "USR01"
     agent_utterance_1 = Utterance(
@@ -36,13 +36,12 @@ def dialogue_history_1() -> Dialogue:
     dialogue_history = Dialogue(agent_id, user_id)
     for utterance in utterances:
         dialogue_history.add_utterance(utterance)
-
     return dialogue_history
 
 
 @pytest.fixture(scope="module")
 def dialogue_history_2() -> Dialogue:
-    """Dialogue with annotated utterance fixture."""
+    """Dialogue with annotated utterances and metadata fixture."""
     agent_id = "agent-002"
     user_id = "USR02"
     agent_utterance_1 = AnnotatedUtterance(
@@ -65,10 +64,19 @@ def dialogue_history_2() -> Dialogue:
     ]
 
     dialogue_history = Dialogue(agent_id, user_id)
+    dialogue_history.metadata.update(
+        {"description": "Dialogue fixture for testing"}
+    )
     for utterance in utterances:
         dialogue_history.add_utterance(utterance)
 
     return dialogue_history
+
+
+@pytest.fixture(scope="module")
+def dialogue_history_3() -> Dialogue:
+    """Empty dialogue fixture."""
+    return Dialogue("agent-003", "USR03")
 
 
 def test_ids(dialogue_history_1: Dialogue) -> None:
@@ -105,9 +113,7 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
     )
 
 
-def test_to_dict(
-    dialogue_history_1: Dialogue, dialogue_history_2: Dialogue
-) -> None:
+def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
     """Tests dialogue export to dictionary.
 
     Args:
@@ -124,10 +130,38 @@ def test_to_dict(
     assert utterance_1["utterance"] == "Hello"
     assert utterance_1.get("slot_values") is None
 
+
+def test_to_dict_d2(dialogue_history_2: Dialogue) -> None:
+    """Tests dialogue export to dictionary.
+
+    Dialogue has annotations and metadata.
+
+    Args:
+        dialogue_history_2: Test Dialogue object 2.
+    """
     dialogue_dict_2 = dialogue_history_2.to_dict()
 
     assert dialogue_dict_2.get("agent") == "agent-002"
     assert dialogue_dict_2.get("user") == "USR02"
-    assert dialogue_dict_2.get("metadata") is None
+    assert dialogue_dict_2.get("metadata") == {
+        "description": "Dialogue fixture for testing"
+    }
     assert len(dialogue_dict_2.get("conversation")) == 3
     assert dialogue_dict_2.get("conversation")[0]["intent"] == "GREETINGS"
+
+
+def test_to_dict_d3(dialogue_history_3: Dialogue) -> None:
+    """Tests dialogue export to dictionary.
+
+    Dialogue is empty.
+
+    Args:
+        dialogue_history_3: Test Dialogue object 3.
+    """
+    dialogue_dict_3 = dialogue_history_3.to_dict()
+
+    assert dialogue_dict_3.get("agent") == "agent-003"
+    assert dialogue_dict_3.get("user") == "USR03"
+    assert dialogue_dict_3.get("metadata") is None
+    assert len(dialogue_dict_3.get("conversation")) == 0
+    assert len(dialogue_dict_3.keys()) == 4

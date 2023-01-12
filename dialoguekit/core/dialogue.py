@@ -57,6 +57,11 @@ class Dialogue:
         """Returns the utterances in the dialogue."""
         return self._utterances
 
+    @property
+    def metadata(self) -> Dict[str, Any]:
+        """Returns the metadata of the dialogue."""
+        return self._metadata
+
     def add_utterance(self, utterance: Utterance) -> None:
         """Adds an utterance to the history.
 
@@ -73,14 +78,14 @@ class Dialogue:
         """
         date = datetime.datetime.utcnow()
         utc_time = calendar.timegm(date.utctimetuple())
-        run_conversation: Dict[str, Any] = {
+        dialogue_as_dict: Dict[str, Any] = {
             "conversation ID": str(utc_time),
             "conversation": [],
             "agent": self._agent_id,
             "user": self._user_id,
         }
         if self._metadata:
-            run_conversation["metadata"] = self._metadata
+            dialogue_as_dict["metadata"] = self._metadata
 
         for utterance in self.utterances:
             utterance_info: Dict[str, Any] = {
@@ -101,5 +106,5 @@ class Dialogue:
                     for annotation in annotations:
                         slot_values.append([annotation.slot, annotation.value])
                     utterance_info["slot_values"] = slot_values
-            run_conversation["conversation"].append(utterance_info)
-        return run_conversation
+            dialogue_as_dict["conversation"].append(utterance_info)
+        return dialogue_as_dict
