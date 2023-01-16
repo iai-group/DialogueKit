@@ -149,7 +149,14 @@ def test_to_dict_d2(dialogue_history_2: Dialogue) -> None:
         "description": "Dialogue fixture for testing"
     }
     assert len(dialogue_dict_2.get("conversation")) == 3
-    last_utterance = dialogue_dict_2.get("conversation")[-1]
+
+    utterances = dialogue_dict_2.get("conversation")
+    last_utterance = utterances.pop()
+
+    assert set([(u["intent"], u.get("slot_values")) for u in utterances]) == {
+        ("GREETINGS", None)
+    }
+
     assert last_utterance["intent"] == "ELICIT"
     assert last_utterance["slot_values"] == [["COLOR", "color"]]
 
