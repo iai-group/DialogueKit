@@ -62,6 +62,11 @@ runs:
       shell: bash
       run: |
            git checkout ${{ inputs.branch }}
+    - name: List all tags
+      id: repo-tags
+      shell: bash
+      run: |
+        git tag
     - name: sphinx apidoc generation
       shell: bash -l {0}
       working-directory: ./${{ inputs.dir_docs }}
