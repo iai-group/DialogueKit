@@ -66,7 +66,9 @@ runs:
       id: repo-tags
       shell: bash
       run: |
+        echo ::group::List tags
         echo $(git tag -l)
+        echo ::endgroup::
     - name: sphinx apidoc generation
       shell: bash -l {0}
       working-directory: ./${{ inputs.dir_docs }}
