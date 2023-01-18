@@ -64,7 +64,7 @@ runs:
            git checkout ${{ inputs.branch }}
     - name: List all tags
       id: repo-tags
-      shell: bash
+      shell: bash -l {0}
       run: |
         echo ::group::List tags
         echo $(git tag -l)
