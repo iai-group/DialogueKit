@@ -1,47 +1,16 @@
 """Interface representing slot-value annotations."""
 
 
-from typing import Text
+from dataclasses import dataclass, field
 
 from dialoguekit.core.annotation import Annotation
 
 
+@dataclass(eq=True, unsafe_hash=True)
 class SlotValueAnnotation(Annotation):
-    def __init__(
-        self,
-        slot: str = None,
-        value: str = None,
-        start: int = None,
-        end: int = None,
-    ) -> None:
-        """Represents slot-value annotation."""
-        # TODO Connect to Domain (and restrict to slots in there)?
-        super().__init__(slot=slot, value=value)
-        self._start = start
-        self._end = end
+    """Represents slot-value annotation."""
 
-    def __str__(self) -> Text:
-        return f"SlotValueAnnotation({self._slot}, {self._value}, \
-            {self._start}, {self._end})"
-
-    def __repr__(self) -> Text:
-        return f"SlotValueAnnotation({self._slot}, {self._value}, \
-            {self._start}, {self._end})"
-
-    def __hash__(self) -> int:
-        return hash((super().__hash__(), self._start, self._end))
-
-    def __eq__(self, __o: object) -> bool:
-        """Comparison function."""
-        if not isinstance(__o, SlotValueAnnotation):
-            return False
-        if self._slot != __o._slot:
-            return False
-        elif self._value != __o._value:
-            return False
-        elif self._start != __o._start:
-            return False
-        elif self._end != __o._end:
-            return False
-
-        return True
+    slot: str = field(default=None, hash=True)
+    value: str = field(default=None, hash=True)
+    start: int = field(default=None, hash=True)
+    end: int = field(default=None, hash=True)

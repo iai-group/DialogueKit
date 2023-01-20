@@ -210,7 +210,7 @@ def test_extract_utterance_template():
     test_annotation = AnnotatedUtterance(
         text="something like the {TITLE}",
         intent=Intent(label="REVEAL.EXPAND"),
-        annotations=[Annotation(slot="TITLE", value="")],
+        annotations=[Annotation(slot="TITLE")],
         participant=DialogueParticipant.AGENT,
     )
 
