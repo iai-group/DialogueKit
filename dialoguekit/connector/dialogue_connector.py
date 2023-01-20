@@ -13,8 +13,6 @@ but this is not required.  Whenever there is a message from either the Agent or
 the User, the DialogueConnector sends it to the other party by calling their
 `receive_{agent/user}_utterance()` method.
 """
-import calendar
-import datetime
 import json
 import os
 
@@ -148,38 +146,11 @@ class DialogueConnector:
             with open(file_name) as json_file_out:
                 json_file = json.load(json_file_out)
 
-        date = datetime.datetime.utcnow()
-        utc_time = calendar.timegm(date.utctimetuple())
-        run_conversation = {
-            "conversation ID": str(utc_time),
-            "conversation": [],
-            "agent": self._agent.to_dict(),
-            "user": self._user.to_dict(),
-        }
+        dialogue_as_dict = history.to_dict()
+        dialogue_as_dict["agent"] = self._agent.to_dict()
+        dialogue_as_dict["user"] = self._user.to_dict()
 
-        for annotated_utterance in history.utterances:
-            print(annotated_utterance)
-
-            utterance_info = {
-                "participant": annotated_utterance.participant.name,
-                "utterance": annotated_utterance.text,
-            }
-
-            if annotated_utterance.intent is not None:
-                utterance_info["intent"] = annotated_utterance.intent.label
-
-            for k, v in annotated_utterance.metadata.items():
-                utterance_info[k] = v
-
-            annotations = annotated_utterance.get_annotations()
-            if annotations:
-                slot_values = []
-                for annotation in annotations:
-                    slot_values.append([annotation.slot, annotation.value])
-                utterance_info["slot_values"] = slot_values
-            run_conversation["conversation"].append(utterance_info)
-
-        json_file.append(run_conversation)
+        json_file.append(dialogue_as_dict)
 
         with open(file_name, "w") as outfile:
             json.dump(json_file, outfile)

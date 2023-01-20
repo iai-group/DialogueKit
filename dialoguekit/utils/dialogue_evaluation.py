@@ -5,6 +5,7 @@ from collections import defaultdict
 from copy import deepcopy
 from typing import Any, Dict, List, Union
 
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlu.models.satisfaction_classifier import (
@@ -141,22 +142,25 @@ class Evaluator:
             # Start dialogue with Agent first.
             for j, utterance in enumerate(dialogue.utterances):
                 if utterance.participant == DialogueParticipant.AGENT.name:
-                    dialogue_utterances_start_agent = dialogue.utterances[j:]
+                    dialogue_utterances_start_agent = [
+                        AnnotatedUtterance.from_utterance(u)
+                        for u in dialogue.utterances[j:]
+                    ]
                     break
             previous_sender = dialogue_utterances_start_agent[0].participant
             previous_intent = dialogue_utterances_start_agent[0].intent
-            for j, utterance in enumerate(
+            for j, annotated_utterance in enumerate(
                 dialogue_utterances_start_agent, start=1
             ):
                 if (
-                    utterance.participant == previous_sender
-                    and previous_intent == utterance.intent
+                    annotated_utterance.participant == previous_sender
+                    and previous_intent == annotated_utterance.intent
                 ):
                     n_repeat_intents += 1
                     previous_intent = None
                     continue
-                previous_intent = utterance.intent
-                previous_sender = utterance.participant
+                previous_intent = annotated_utterance.intent
+                previous_sender = annotated_utterance.participant
 
             results["dialogues"][i]["repeats"] = n_repeat_intents
             results["dialogues"][i]["reward"] -= n_repeat_intents
@@ -193,7 +197,10 @@ class Evaluator:
         reward = self._reward_config["full_set_points"]
         for dialogue in self._dialogues:
             for utterance in dialogue.utterances:
-                if utterance.participant == DialogueParticipant.USER.name:
+                if (
+                    isinstance(utterance, AnnotatedUtterance)
+                    and utterance.participant == DialogueParticipant.USER.name
+                ):
                     dialogue_intents.append(
                         Intent(utterance.intent.label.split(".")[0])
                     )
