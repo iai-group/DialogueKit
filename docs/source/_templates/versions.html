@@ -6,8 +6,12 @@
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
-        {%- if versions.tags %}
+        {%- if versions %}
         <dl>
+            <dt>Branches</dt>
+            {%- for item in versions.branches %}
+            <dd><a href="{{ item.url }}">{{ item.name }}</a></dd>
+            {%- endfor %}
             <dt>Tags</dt>
             {%- for item in versions.tags %}
             <dd><a href="{{ item.url }}">{{ item.name }}</a></dd>
