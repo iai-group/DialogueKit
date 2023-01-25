@@ -1,3 +1,4 @@
 -r pre_commit.txt
 scikit-learn >= 0.24
 rasa >= 3.0.8
+twine
