@@ -74,6 +74,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install build
+          pip install twine
 
       - name: Build a binary wheel and a source tarball
         run: |
