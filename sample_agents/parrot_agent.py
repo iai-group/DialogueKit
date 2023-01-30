@@ -31,7 +31,7 @@ class ParrotAgent(Agent):
         """Sends the agent's goodbye message."""
         utterance = AnnotatedUtterance(
             "It was nice talking to you. Bye",
-            intent=Intent("EXIT"),
+            intent=self.stop_intent,
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(utterance)
