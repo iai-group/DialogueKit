@@ -1,7 +1,6 @@
 """Simplest possible agent that parrots back everything the user says."""
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.agent import Agent
 from dialoguekit.participant.participant import DialogueParticipant
