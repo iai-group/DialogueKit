@@ -48,7 +48,7 @@ class WOZAgent(Agent):
         text = input("Your GOODBYE message: ")
         response = AnnotatedUtterance(
             text,
-            intent=Intent("EXIT"),
+            intent=self.stop_intent,
             participant=DialogueParticipant.AGENT,
         )
         response

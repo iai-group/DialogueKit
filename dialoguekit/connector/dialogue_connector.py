@@ -81,8 +81,8 @@ class DialogueConnector:
         This method takes a AnnotatedUtterance but only a Utterance gets sent to
         the User. The AnnotatedUtterance gets used to store the conversation for
         future reference, and if the Agent wants to end the conversation with
-        the "EXIT" Intent, the DialogueConnector will end the conversation with
-        the close() method.
+        the _agent.stop_intent Intent, the DialogueConnector will end the
+        conversation with the close() method.
 
         Note:
             If the Intent label is 'EXIT' the DialogueConnector will close. Thus
@@ -95,10 +95,7 @@ class DialogueConnector:
         self._platform.display_agent_utterance(annotated_utterance)
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
-        if annotated_utterance.intent is not None and (
-            annotated_utterance.intent.label == "EXIT"
-            or annotated_utterance.intent.label == "BYE"
-        ):
+        if annotated_utterance.intent == self._agent.stop_intent:
             self.close()
         else:
             self._user.receive_utterance(annotated_utterance)
