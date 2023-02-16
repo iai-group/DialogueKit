@@ -77,7 +77,13 @@ If you want to specify a specific commit as the source of the package append the
 
 ## Conventions
 
-We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/main/python).
+We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/tree/main/python).  
+We use `UTF-8` encodings that is widely used on Unix systems. Windows users need to use the `Python UTF-8 Mode`, more details on Windows systems encodings [here](https://docs.python.org/3/using/windows.html#utf-8-mode). In practice, we specify the encoding when opening files, as in this example:
+
+```python
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+```
 
 ## Contributors
 
