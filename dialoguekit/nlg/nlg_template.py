@@ -119,7 +119,7 @@ class TemplateNLG(AbstractNLG):
                 annotated_utterance.text for annotated_utterance in utterances
             ]
 
-        with open(filepath, "w") as file:
+        with open(filepath, "w", encoding="utf-8") as file:
             json.dump(dump_dict, file, indent=4)
 
     def _filter_templates(

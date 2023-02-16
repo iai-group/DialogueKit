@@ -2,6 +2,7 @@
 import json
 
 import pytest
+
 from dialoguekit.core import AnnotatedUtterance, Annotation, Intent
 from dialoguekit.nlg import ConditionalNLG
 from dialoguekit.nlg.template_from_training_data import (
@@ -171,7 +172,7 @@ def test_dump_templates(nlg_class: ConditionalNLG, tmp_path):
 
     nlg_class.dump_template(filepath=f"{my_path}/nlg_dump.json")
 
-    with open(f"{my_path}/nlg_dump.json", "r") as file:
+    with open(f"{my_path}/nlg_dump.json", "r", encoding="utf-8") as file:
         json_template = json.load(file)
         assert len(json_template.keys()) == len(
             nlg_class._response_templates.keys()
