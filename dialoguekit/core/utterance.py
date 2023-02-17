@@ -22,6 +22,6 @@ class Utterance:
         Returns:
             Timestamp with the format: `%m/%d/%Y, %H:%M:%S`.
         """
-        if self._timestamp:
-            return self._timestamp.strftime("%m/%d/%Y, %H:%M:%S")
+        if self.timestamp:
+            return self.timestamp.strftime("%m/%d/%Y, %H:%M:%S")
         return ""
