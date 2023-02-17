@@ -1,70 +1,18 @@
 """Interface representing the basic unit of communication."""
 
+from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional, Text
 
 from dialoguekit.participant.participant import DialogueParticipant
 
 
+@dataclass(eq=True, unsafe_hash=True)
 class Utterance:
-    def __init__(
-        self,
-        text: str,
-        participant: DialogueParticipant,
-        timestamp: Optional[datetime] = None,
-    ) -> None:
-        """Represents an utterance.
+    """Represents an utterance."""
 
-        Args:
-            text: Utterance text.
-            participant: Who said the utterance.
-            timestamp: When was the utterance uttered.
-        """
-        self._text = text
-        self._participant = participant
-        self._timestamp = timestamp
-
-    def __str__(self) -> Text:
-        """Returns the utterance text."""
-        return self._text
-
-    def __repr__(self) -> Text:
-        """Represents the utterance as a string."""
-        if self._timestamp:
-            time = self._timestamp.strftime("%m/%d/%Y, %H:%M:%S")
-            return f"Utterance({self._text}, {self._participant.value}, {time})"
-        return f"Utterance({self._text}, {self._participant.value})"
-
-    def __hash__(self) -> int:
-        """Represents the utterance as a hash."""
-        return hash(f"{self._text}{self._participant}{self._timestamp_text()}")
-
-    def __eq__(self, __o: object) -> bool:
-        """Comparison function."""
-        if not isinstance(__o, Utterance):
-            return False
-        if self._text != __o._text:
-            return False
-        if self._timestamp != __o._timestamp:
-            return False
-        if self._participant != __o._participant:
-            return False
-        return True
-
-    @property
-    def text(self) -> str:
-        """Returns the utterance text."""
-        return self._text
-
-    @property
-    def participant(self) -> DialogueParticipant:
-        """Returns the utterance participant."""
-        return self._participant
-
-    @property
-    def timestamp(self) -> datetime:
-        """Returns the utterance timestamp."""
-        return self._timestamp
+    text: str = field(hash=True)
+    participant: DialogueParticipant = field(hash=True)
+    timestamp: datetime = field(default=None, hash=True)
 
     def _timestamp_text(self) -> str:
         """Returns the timestamp as a string.

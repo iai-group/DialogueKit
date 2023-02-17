@@ -2,6 +2,7 @@
 import json
 
 import pytest
+
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
@@ -32,8 +33,8 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
         intent=Intent("REVEAL.EXPAND"),
         participant=DialogueParticipant.AGENT,
     )
-    expected_response1.add_annotation(
-        Annotation(slot="TITLE", value="A Test Movie Title")
+    expected_response1.add_annotations(
+        [Annotation(slot="TITLE", value="A Test Movie Title")]
     )
     sample_response_text = [
         (

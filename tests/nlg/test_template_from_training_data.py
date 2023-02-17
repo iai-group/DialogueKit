@@ -163,13 +163,13 @@ def test_replace_slot_with_placeholder():
         text="I like action or fantasy movies.",
         participant=DialogueParticipant.AGENT,
     )
-    a1.add_annotation(Annotation(slot="GENRE", value="action"))
-    a1.add_annotation(Annotation(slot="GENRE", value="fantasy"))
+    a1.add_annotations([Annotation(slot="GENRE", value="action")])
+    a1.add_annotations([Annotation(slot="GENRE", value="fantasy")])
 
     a2 = AnnotatedUtterance(
         text="How about old street?", participant=DialogueParticipant.AGENT
     )
-    a2.add_annotation(Annotation(slot="TITLE", value="old street"))
+    a2.add_annotations([Annotation(slot="TITLE", value="old street")])
     annotated_utterances = [
         (a1, "I like {GENRE} or {GENRE} movies."),
         (a2, "How about {TITLE}?"),

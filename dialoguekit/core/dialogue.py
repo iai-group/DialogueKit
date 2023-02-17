@@ -100,7 +100,7 @@ class Dialogue:
                 for k, v in utterance.metadata.items():
                     utterance_info[k] = v
 
-                annotations = utterance.get_annotations()
+                annotations = utterance.annotations
                 if annotations:
                     slot_values = []
                     for annotation in annotations:
