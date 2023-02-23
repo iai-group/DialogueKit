@@ -45,8 +45,8 @@ def test_generate_utterance_text(nlg_class: ConditionalNLG):
         participant=DialogueParticipant.AGENT,
         metadata={"satisfaction": 2},
     )
-    expected_response1.add_annotation(
-        Annotation(slot="TITLE", value="A Test Movie Title")
+    expected_response1.add_annotations(
+        [Annotation(slot="TITLE", value="A Test Movie Title")]
     )
     sample_response_text = [
         (
