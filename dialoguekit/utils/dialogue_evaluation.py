@@ -134,7 +134,6 @@ class Evaluator:
 
         # Check for Repeats
         for i, dialogue in enumerate(self._dialogues):
-
             previous_intent = None
             previous_sender = None
             n_repeat_intents = 0

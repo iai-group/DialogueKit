@@ -96,7 +96,7 @@ def extract_utterance_template(  # noqa: C901
     response_templates: DefaultDict[
         Intent, Set[AnnotatedUtterance]
     ] = defaultdict(set)
-    with open(annotated_dialogue_file) as input_file:
+    with open(annotated_dialogue_file, encoding="utf-8") as input_file:
         annotated_dialogs = json.load(input_file)
         for dialog in annotated_dialogs:
             counter_participant_utterance = None

@@ -140,7 +140,7 @@ class DialogueConnector:
         if not os.path.exists(_DIALOGUE_EXPORT_PATH):
             os.makedirs(_DIALOGUE_EXPORT_PATH)
         if os.path.exists(file_name):
-            with open(file_name) as json_file_out:
+            with open(file_name, encoding="utf-8") as json_file_out:
                 json_file = json.load(json_file_out)
 
         dialogue_as_dict = history.to_dict()
@@ -149,7 +149,7 @@ class DialogueConnector:
 
         json_file.append(dialogue_as_dict)
 
-        with open(file_name, "w") as outfile:
+        with open(file_name, "w", encoding="utf-8") as outfile:
             json.dump(json_file, outfile)
 
         # Empty dialogue history to avoid duplicate save
