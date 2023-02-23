@@ -41,11 +41,11 @@ class DialogueConnector:
             platform: An instance of Platform.
             save_dialogue_history: Flag to save the dialogue or not.
         """
+        self._platform = platform
         self._agent = agent
         self._agent.connect_dialogue_connector(self)
         self._user = user
         self._user.connect_dialogue_connector(self)
-        self._platform = platform
         self._dialogue_history = Dialogue(agent.id, user.id)
         self._save_dialogue_history = save_dialogue_history
 
@@ -53,6 +53,10 @@ class DialogueConnector:
     def dialogue_history(self):
         """Return the dialogue history."""
         return self._dialogue_history
+
+    def get_platform(self) -> Platform:
+        """Return the platform."""
+        return self._platform
 
     def register_user_utterance(
         self, annotated_utterance: AnnotatedUtterance
