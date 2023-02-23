@@ -21,6 +21,7 @@ from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.participant.agent import Agent
 from dialoguekit.participant.user import User
 from dialoguekit.platforms.platform import Platform
+from dialoguekit.platforms.platform_terminal import TerminalPlatform
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
@@ -172,7 +173,7 @@ if __name__ == "__main__":
     )
     user = User(id="TEST01")
 
-    platform = Platform()
+    platform = TerminalPlatform()
     dm = DialogueConnector(agent, user, platform)
 
     user.connect_dialogue_connector(dm)

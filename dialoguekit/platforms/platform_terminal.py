@@ -3,9 +3,10 @@
 from typing import Callable
 
 from dialoguekit.core.utterance import Utterance
+from dialoguekit.platforms.platform import Platform
 
 
-class TerminalPlatform:
+class TerminalPlatform(Platform):
     def __init__(self):
         """Represents a platform."""
         self._user_callback: Callable[[str], None] = None
