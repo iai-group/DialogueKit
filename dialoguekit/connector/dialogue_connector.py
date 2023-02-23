@@ -13,8 +13,6 @@ but this is not required.  Whenever there is a message from either the Agent or
 the User, the DialogueConnector sends it to the other party by calling their
 `receive_{agent/user}_utterance()` method.
 """
-import calendar
-import datetime
 import json
 import os
 
@@ -83,8 +81,8 @@ class DialogueConnector:
         This method takes a AnnotatedUtterance but only a Utterance gets sent to
         the User. The AnnotatedUtterance gets used to store the conversation for
         future reference, and if the Agent wants to end the conversation with
-        the "EXIT" Intent, the DialogueConnector will end the conversation with
-        the close() method.
+        the _agent.stop_intent Intent, the DialogueConnector will end the
+        conversation with the close() method.
 
         Note:
             If the Intent label is 'EXIT' the DialogueConnector will close. Thus
@@ -97,10 +95,7 @@ class DialogueConnector:
         self._platform.display_agent_utterance(annotated_utterance)
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
-        if annotated_utterance.intent is not None and (
-            annotated_utterance.intent.label == "EXIT"
-            or annotated_utterance.intent.label == "BYE"
-        ):
+        if annotated_utterance.intent == self._agent.stop_intent:
             self.close()
         else:
             self._user.receive_utterance(annotated_utterance)
@@ -145,43 +140,16 @@ class DialogueConnector:
         if not os.path.exists(_DIALOGUE_EXPORT_PATH):
             os.makedirs(_DIALOGUE_EXPORT_PATH)
         if os.path.exists(file_name):
-            with open(file_name) as json_file_out:
+            with open(file_name, encoding="utf-8") as json_file_out:
                 json_file = json.load(json_file_out)
 
-        date = datetime.datetime.utcnow()
-        utc_time = calendar.timegm(date.utctimetuple())
-        run_conversation = {
-            "conversation ID": str(utc_time),
-            "conversation": [],
-            "agent": self._agent.to_dict(),
-            "user": self._user.to_dict(),
-        }
+        dialogue_as_dict = history.to_dict()
+        dialogue_as_dict["agent"] = self._agent.to_dict()
+        dialogue_as_dict["user"] = self._user.to_dict()
 
-        for annotated_utterance in history.utterances:
-            print(annotated_utterance)
+        json_file.append(dialogue_as_dict)
 
-            utterance_info = {
-                "participant": annotated_utterance.participant.name,
-                "utterance": annotated_utterance.text,
-            }
-
-            if annotated_utterance.intent is not None:
-                utterance_info["intent"] = annotated_utterance.intent.label
-
-            for k, v in annotated_utterance.metadata.items():
-                utterance_info[k] = v
-
-            annotations = annotated_utterance.get_annotations()
-            if annotations:
-                slot_values = []
-                for annotation in annotations:
-                    slot_values.append([annotation.slot, annotation.value])
-                utterance_info["slot_values"] = slot_values
-            run_conversation["conversation"].append(utterance_info)
-
-        json_file.append(run_conversation)
-
-        with open(file_name, "w") as outfile:
+        with open(file_name, "w", encoding="utf-8") as outfile:
             json.dump(json_file, outfile)
 
         # Empty dialogue history to avoid duplicate save

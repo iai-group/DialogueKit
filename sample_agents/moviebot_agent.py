@@ -22,10 +22,16 @@ from dialoguekit.participant.agent import Agent, AgentType
 from dialoguekit.participant.participant import DialogueParticipant
 
 _MOVIEBOT_DEFAULT_URI = "http://127.0.0.1:5001"
+_MOVIEBOT_STOP_INTENT = Intent("END")
 
 
 class MovieBotAgent(Agent):
-    def __init__(self, agent_id: str, uri: str = _MOVIEBOT_DEFAULT_URI) -> None:
+    def __init__(
+        self,
+        agent_id: str,
+        uri: str = _MOVIEBOT_DEFAULT_URI,
+        stop_intent: Intent = _MOVIEBOT_STOP_INTENT,
+    ) -> None:
         """Moviebot connector agent.
 
         Uses POST requests to MovieBot server as communication platform.
@@ -33,9 +39,12 @@ class MovieBotAgent(Agent):
         Args:
             agent_id: Agent id.
             uri: MovieBot server address.
+            stop_intent: MovieBot stop intent.
         """
-        super().__init__(agent_id, agent_type=AgentType.BOT)
-        self._MOVIEBOT_URI = _MOVIEBOT_DEFAULT_URI
+        super().__init__(
+            agent_id, agent_type=AgentType.BOT, stop_intent=stop_intent
+        )
+        self._MOVIEBOT_URI = uri
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
@@ -81,7 +90,7 @@ class MovieBotAgent(Agent):
         )
         response = AnnotatedUtterance(
             r.json()["message"]["text"],
-            intent=Intent("EXIT"),
+            intent=self.stop_intent,
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(response)

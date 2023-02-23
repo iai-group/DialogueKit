@@ -159,14 +159,14 @@ class ConditionalNLG(TemplateNLG):
             response_utterance = deepcopy(response_utterance)
 
         # Clear out annotations
-        response_utterance._annotations = []
+        response_utterance.annotations = []
 
         if annotations is not None:
             for annotation in annotations:
-                response_utterance._text = response_utterance._text.replace(
+                response_utterance.text = response_utterance.text.replace(
                     f"{{{annotation.slot}}}", annotation.value, 1
                 )
-                response_utterance.add_annotation(annotation)
+            response_utterance.add_annotations(annotations)
         return response_utterance
 
     def _select_closest_to_conditional(

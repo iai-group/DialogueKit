@@ -5,10 +5,11 @@ from collections import defaultdict
 from typing import Any, Callable, Dict, List, Optional
 
 import yaml
+from yaml.representer import SafeRepresenter
+
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.utils.annotation_converter import AnnotationConverter
-from yaml.representer import SafeRepresenter
 
 
 # Used for yaml formatting
@@ -91,7 +92,7 @@ class AnnotationConverterRasa(AnnotationConverter):
 
     def read_original(self) -> None:
         """Reads the original training data."""
-        f = open(self._filepath)
+        f = open(self._filepath, encoding="utf-8")
         data = json.load(f)
         self._data["original"] = data
 
@@ -177,14 +178,18 @@ class AnnotationConverterRasa(AnnotationConverter):
         extension = "_reformat.yaml"
         filename = save_name_base + extension
         return_dictionary[filename] = save_path_name + extension
-        with open(return_dictionary[filename], "w") as outfile:
+        with open(
+            return_dictionary[filename], "w", encoding="utf-8"
+        ) as outfile:
             yaml.dump(self._data["original"], outfile, default_flow_style=False)
 
         # Save the intent types with examples
         extension = "_types_w_examples.yaml"
         filename = save_name_base + extension
         return_dictionary[filename] = save_path_name + extension
-        with open(return_dictionary[filename], "w") as outfile:
+        with open(
+            return_dictionary[filename], "w", encoding="utf-8"
+        ) as outfile:
             yaml.dump(self._slot_value_pairs, outfile, default_flow_style=False)
 
         represent_literal_list = self.change_style(
@@ -207,13 +212,17 @@ class AnnotationConverterRasa(AnnotationConverter):
         extension = "_rasa_user.yaml"
         filename = save_name_base + extension
         return_dictionary[filename] = save_path_name + extension
-        with open(return_dictionary[filename], "w") as outfile:
+        with open(
+            return_dictionary[filename], "w", encoding="utf-8"
+        ) as outfile:
             yaml.dump(rasa_dict_user, outfile, default_flow_style=False)
 
         extension = "_rasa_agent.yaml"
         filename = save_name_base + extension
         return_dictionary[filename] = save_path_name + extension
-        with open(return_dictionary[filename], "w") as outfile:
+        with open(
+            return_dictionary[filename], "w", encoding="utf-8"
+        ) as outfile:
             yaml.dump(rasa_dict_agent, outfile, default_flow_style=False)
 
         return return_dictionary
@@ -246,7 +255,7 @@ class AnnotationConverterRasa(AnnotationConverter):
         filepath = (
             self._save_to_path + "_" + str(int(time.time())) + "_rasa.yaml"
         )
-        with open(filepath, "w") as outfile:
+        with open(filepath, "w", encoding="utf-8") as outfile:
             yaml.dump(rasa_dict, outfile, default_flow_style=False)
 
         return filepath

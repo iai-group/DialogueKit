@@ -17,7 +17,7 @@ class Domain:
         # See: https://github.com/iai-group/dialoguekit/issues/43
         if not os.path.isfile(config_file):
             raise FileNotFoundError(f"Config file not found: {config_file}")
-        with open(config_file) as yaml_file:
+        with open(config_file, encoding="utf-8") as yaml_file:
             self._config = yaml.load(yaml_file, Loader=yaml.FullLoader)
 
     def get_slot_names(self) -> List[str]:
