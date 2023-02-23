@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+  release:
+    types: [published]
 
 jobs:
   build-and-test:
@@ -54,3 +56,37 @@ jobs:
           label: coverage
           message: ${{ env.COVERAGE }}
           color: ${{ env.COLOR }}
+
+  build-n-publish:
+    name: Build and publish Python distributions to PyPI and TestPyPI
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.event_name == "release"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install build
+          pip install twine
+
+      - name: Build a binary wheel and a source tarball
+        run: |
+          python -m build --sdist --wheel --outdir dist/ .
+
+      - name: Publish distribution to Test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
+
+      - name: Publish distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
