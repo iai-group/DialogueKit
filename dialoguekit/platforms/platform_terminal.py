@@ -1,5 +1,7 @@
-"""The TerminalPlatform enables the presentation of the dialogue on the terminal
-and manages user input.
+"""Terminal platform.
+
+This platform is used for getting user input and displaying agent responses in
+the terminal.
 """
 
 from typing import Callable
