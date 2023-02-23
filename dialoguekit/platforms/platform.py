@@ -15,7 +15,7 @@ class Platform(ABC):
         """Registers a callback function to be called on user input.
 
         Args:
-            callback: Function to call on user input
+            callback: Function to call on user input.
         """
         self._user_callback = callback
 
@@ -24,7 +24,10 @@ class Platform(ABC):
         """Listens for the user input.
 
         Args:
-            callback: Function to call on user input
+            callback: Function to call on user input.
+
+        Raises:
+            NotImplementedError: If the method is not implemented.
         """
         raise NotImplementedError
 
@@ -34,14 +37,20 @@ class Platform(ABC):
 
         Args:
             utterance: An instance of Utterance.
+
+        Raises:
+            NotImplementedError: If the method is not implemented.
         """
         raise NotImplementedError
 
     @abstractmethod
     def display_user_utterance(self, utterance: Utterance) -> None:
-        """Diplays a user utterance.
+        """Displays a user utterance.
 
         Args:
             utterance: An instance of Utterance.
+
+        Raises:
+            NotImplementedError: If the method is not implemented.
         """
         raise NotImplementedError

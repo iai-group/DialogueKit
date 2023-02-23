@@ -56,7 +56,7 @@ class DialogueConnector:
         return self._dialogue_history
 
     def get_platform(self) -> Platform:
-        """Return the platform."""
+        """Returns the platform."""
         return self._platform
 
     def register_user_utterance(
