@@ -31,9 +31,6 @@ only parrots back what the user said.
         platform = TerminalPlatform()
         dc = DialogueConnector(agent, user, platform)
 
-        user.connect_dialogue_connector(dc)
-        agent.connect_dialogue_connector(dc)
-
 
 4. Start conversation
 
