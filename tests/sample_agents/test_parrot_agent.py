@@ -7,7 +7,7 @@ import pytest
 from dialoguekit.connector.dialogue_connector import DialogueConnector
 from dialoguekit.participant.agent import AgentType
 from dialoguekit.participant.user import User, UserType
-from dialoguekit.platforms.platform import Platform
+from dialoguekit.platforms.terminal_platform import TerminalPlatform
 from sample_agents.parrot_agent import ParrotAgent
 
 
@@ -30,7 +30,7 @@ def agent() -> ParrotAgent:
 def connector(user: User, agent: ParrotAgent) -> DialogueConnector:
     """Dialogue connector fixture."""
     connector = DialogueConnector(
-        agent, user, Platform(), save_dialogue_history=False
+        agent, user, TerminalPlatform(), save_dialogue_history=False
     )
     return connector
 
