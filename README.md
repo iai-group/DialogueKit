@@ -58,7 +58,7 @@ pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275
 2. Create and connect platform and dialogue manager
 
    ```python
-   from dialoguekit.platforms.platform_terminal import TerminalPlatform
+   from dialoguekit.platforms.terminal_platform import TerminalPlatform
    from dialoguekit.manager.dialogue_manager import DialogueManager
 
    platform = TerminalPlatform()
@@ -84,4 +84,5 @@ We follow the [IAI Python Style Guide](https://github.com/iai-group/styleguide/t
 - Krisztian Balog (2021-present)
 - Nolwenn Bernard (2022-present)
 - Aleksander Drzewiecki (2022)
+- Ivica Kostric (2023)
 - Shuo Zhang (2021)

@@ -13,7 +13,7 @@ only parrots back what the user said.
 
         from dialoguekit.participant.user import User
         from sample_agents.parrot_agent import ParrotAgent
-        from dialoguekit.platforms.platform_terminal import TerminalPlatform
+        from dialoguekit.platforms.terminal_platform import TerminalPlatform
         from dialoguekit.connector.dialogue_connector import DialogueConnector
 
 2. Define agent and user
