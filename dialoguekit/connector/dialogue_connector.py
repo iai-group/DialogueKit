@@ -21,7 +21,7 @@ from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.participant.agent import Agent
 from dialoguekit.participant.user import User
 from dialoguekit.platforms.platform import Platform
-from dialoguekit.platforms.platform_terminal import TerminalPlatform
+from dialoguekit.platforms.terminal_platform import TerminalPlatform
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
