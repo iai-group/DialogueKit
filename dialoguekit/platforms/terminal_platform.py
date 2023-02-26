@@ -1,7 +1,7 @@
 """Terminal platform.
 
-This platform is used for getting user input and displaying agent responses in
-the terminal.
+This platform is used for getting user input and displaying agent
+responses in the terminal.
 """
 
 from typing import Callable
