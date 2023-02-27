@@ -59,17 +59,17 @@ pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275
 
    ```python
    from dialoguekit.platforms.terminal_platform import TerminalPlatform
-   from dialoguekit.manager.dialogue_manager import DialogueManager
+   from dialoguekit.connector.dialogue_connector import DialogueConnector
 
    platform = TerminalPlatform()
-   dm = DialogueManager(agent, user, platform)
+   dc = DialogueConnector(agent, user, platform)
    ```
 
 3. Start conversation
 
    ```python
-     dm.start()
-     dm.close()
+     dc.start()
+     dc.close()
    ```
 
 ## Conventions
