@@ -1,7 +1,7 @@
 """Interface representing a dialogue act."""
 
-from ast import List
 from dataclasses import dataclass, field
+from typing import List
 
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
