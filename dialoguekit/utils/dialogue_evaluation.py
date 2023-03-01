@@ -113,6 +113,9 @@ class Evaluator:
         Reward is used to penalize agents that do not support a set of intents
         defined in the config file, and long dialogues.
 
+        Raises:
+            TypeError: if utterances are not annotated.
+
         Returns:
             A dictionary with following structure (most important is "reward"):
 
@@ -127,7 +130,16 @@ class Evaluator:
                     }]
                 }
         """
-        warnings.warn("This function does not yet penalize 'Repeat' actions")
+        warnings.warn("This function does not yet penalize 'Repeat' actions.")
+
+        if not all(
+            isinstance(utterance, AnnotatedUtterance)
+            for dialogue in self._dialogues
+            for utterance in dialogue.utterances
+        ):
+            raise TypeError(
+                "Some utterances are not instance of 'AnnotatedUtterance'."
+            )
 
         # Initialize result by checking which intents are included
         results = self._check_included_intents()
@@ -141,10 +153,7 @@ class Evaluator:
             # Start dialogue with Agent first.
             for j, utterance in enumerate(dialogue.utterances):
                 if utterance.participant == DialogueParticipant.AGENT.name:
-                    dialogue_utterances_start_agent = [
-                        AnnotatedUtterance.from_utterance(u)
-                        for u in dialogue.utterances[j:]
-                    ]
+                    dialogue_utterances_start_agent = dialogue.utterances[j:]
                     break
             previous_sender = dialogue_utterances_start_agent[0].participant
             previous_intent = dialogue_utterances_start_agent[0].intent
@@ -196,10 +205,7 @@ class Evaluator:
         reward = self._reward_config["full_set_points"]
         for dialogue in self._dialogues:
             for utterance in dialogue.utterances:
-                if (
-                    isinstance(utterance, AnnotatedUtterance)
-                    and utterance.participant == DialogueParticipant.USER.name
-                ):
+                if utterance.participant == DialogueParticipant.USER.name:
                     dialogue_intents.append(
                         Intent(utterance.intent.label.split(".")[0])
                     )
