@@ -1,4 +1,21 @@
-"""Interface representing a dialogue act."""
+"""Interface representing a dialogue act.
+
+For example in the following utterance, we have a dialogue act with an intent
+and its annotations regarding the search for a restaurant:
+
+>USER: I am looking for a cheap Turkish restaurant.
+DialogueAct(
+    intent = Intent("DISCLOSE"),
+    annotations = [Annotation(food="Turkish"), Annotation(price_range="cheap")],
+)
+
+In the following utterance, the dialogue act only has an intent:
+> USER: I like it.
+DialogueAct(
+    intent = Intent("DISCLOSE")
+    annotations = []
+)
+"""
 
 from dataclasses import dataclass, field
 from typing import List
