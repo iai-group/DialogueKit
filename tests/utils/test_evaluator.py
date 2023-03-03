@@ -98,7 +98,7 @@ def test_user_act_ratio(
 def test_reward(
     annotated_dialogues: List[Dialogue], reward_config: Dict[str, Any]
 ) -> None:
-    """Test reward calculation.
+    """Tests reward calculation.
 
     Args:
         annotated_dialogues: Test dialogue object.
@@ -112,7 +112,7 @@ def test_reward(
 
 
 def test_reward_type_error(reward_config: Dict[str, Any]) -> None:
-    """Test reward calculation.
+    """Tests reward calculation.
 
     Args:
         reward_config: Test reward config.
