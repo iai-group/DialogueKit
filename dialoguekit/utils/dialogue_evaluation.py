@@ -156,18 +156,18 @@ class Evaluator:
                     dialogue_utterances_start_agent = dialogue.utterances[j:]
                     break
             previous_sender = dialogue_utterances_start_agent[0].participant
-            previous_intent = dialogue_utterances_start_agent[0].intent
+            previous_intent = dialogue_utterances_start_agent[0].intent  # type: ignore[attr-defined] # noqa
             for j, annotated_utterance in enumerate(
                 dialogue_utterances_start_agent, start=1
             ):
                 if (
                     annotated_utterance.participant == previous_sender
-                    and previous_intent == annotated_utterance.intent
+                    and previous_intent == annotated_utterance.intent  # type: ignore[attr-defined] # noqa
                 ):
                     n_repeat_intents += 1
                     previous_intent = None
                     continue
-                previous_intent = annotated_utterance.intent
+                previous_intent = annotated_utterance.intent  # type: ignore[attr-defined]  # noqa
                 previous_sender = annotated_utterance.participant
 
             results["dialogues"][i]["repeats"] = n_repeat_intents
@@ -207,9 +207,9 @@ class Evaluator:
             for utterance in dialogue.utterances:
                 if utterance.participant == DialogueParticipant.USER.name:
                     dialogue_intents.append(
-                        Intent(utterance.intent.label.split(".")[0])
+                        Intent(utterance.intent.label.split(".")[0])  # type: ignore[attr-defined]  # noqa
                     )
-                    dialogue_intents.append(utterance.intent)
+                    dialogue_intents.append(utterance.intent)  # type: ignore[attr-defined] # noqa
 
         dialogue_intents_set = set(dialogue_intents)
 
