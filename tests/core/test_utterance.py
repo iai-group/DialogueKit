@@ -1,6 +1,7 @@
 """Tests for the Utterance class."""
 import pytest
-from dialoguekit.core import Utterance
+
+from dialoguekit.core.utterance import Feedback, Utterance
 from dialoguekit.participant import DialogueParticipant
 
 
@@ -8,6 +9,16 @@ def test_utterance_text():
     """Tests setting of the utterance text."""
     u = Utterance("Hello world", participant=DialogueParticipant.AGENT)
     assert u.text == "Hello world"
+
+
+def test_utterance_feedback():
+    """Tests setting of the users' feedback."""
+    u = Utterance(
+        "Test 1",
+        participant=DialogueParticipant.USER,
+        feedback=Feedback.POSITIVE,
+    )
+    assert u.feedback == Feedback.POSITIVE
 
 
 def test_hash():

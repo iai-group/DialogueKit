@@ -31,6 +31,7 @@ class AnnotatedUtterance(Utterance):
             text=self.text,
             participant=self.participant,
             timestamp=self.timestamp,
+            feedback=self.feedback,
         )
 
     @classmethod
