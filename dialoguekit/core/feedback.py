@@ -12,7 +12,7 @@ class BinaryFeedback(Enum):
 
 @dataclass(eq=True, unsafe_hash=True)
 class UtteranceFeedback:
-    """Represents a feedback provided for an utterance."""
+    """Represents feedback provided for the utterance."""
 
     utterance_id: str = field(hash=True)
     feedback: BinaryFeedback = field(hash=True)
