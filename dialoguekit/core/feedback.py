@@ -9,6 +9,7 @@ class BinaryFeedback(Enum):
     NEGATIVE = 0
     POSITIVE = 1
 
+
 @dataclass(eq=True, unsafe_hash=True)
 class UtteranceFeedback:
     """Represents a feedback provided for an utterance."""
