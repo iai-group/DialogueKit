@@ -4,7 +4,7 @@ from enum import Enum
 
 
 class BinaryFeedback(Enum):
-    """Represents user's feedback."""
+    """Represents binary feedback provided by a user."""
 
     NEGATIVE = 0
     POSITIVE = 1
