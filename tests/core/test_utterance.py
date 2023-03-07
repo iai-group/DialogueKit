@@ -43,3 +43,25 @@ def test_comparison():
     u1 = Utterance(text="Test1", participant=DialogueParticipant.AGENT)
     u2 = Utterance(text="Test2", participant=DialogueParticipant.AGENT)
     assert u1 != u2
+
+    # Test utterance_id difference
+    u1 = Utterance(
+        text="Test1", participant=DialogueParticipant.AGENT, utterance_id="id_1"
+    )
+    u2 = Utterance(
+        text="Test1", participant=DialogueParticipant.AGENT, utterance_id="id_2"
+    )
+    assert u1 != u2
+
+    # Test feedback difference
+    u1 = Utterance(
+        text="Test1",
+        participant=DialogueParticipant.AGENT,
+        feedback=Feedback.POSITIVE,
+    )
+    u2 = Utterance(
+        text="Test1",
+        participant=DialogueParticipant.AGENT,
+        feedback=Feedback.NEGATIVE,
+    )
+    assert u1 != u2

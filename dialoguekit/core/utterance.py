@@ -20,6 +20,7 @@ class Utterance:
 
     text: str = field(hash=True)
     participant: DialogueParticipant = field(hash=True)
+    utterance_id: str = field(default=None, hash=True)
     timestamp: datetime = field(default=None, hash=True)
     feedback: Feedback = field(default=None, hash=True)
 
