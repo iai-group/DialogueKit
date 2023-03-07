@@ -10,6 +10,9 @@ class Domain:
     def __init__(self, config_file: str) -> None:
         """Represents domain knowledge.
 
+        The YAML configuration file should contain at least the fields name and
+        slot_names.
+
         Args:
             config_file: Name of YAML config file.
         """
@@ -17,8 +20,11 @@ class Domain:
         # See: https://github.com/iai-group/dialoguekit/issues/43
         if not os.path.isfile(config_file):
             raise FileNotFoundError(f"Config file not found: {config_file}")
+
         with open(config_file, encoding="utf-8") as yaml_file:
             self._config = yaml.load(yaml_file, Loader=yaml.FullLoader)
+
+        self._name = self._config["name"]
 
     def get_slot_names(self) -> List[str]:
         """Returns the list of slot names.
@@ -27,3 +33,7 @@ class Domain:
             List of slot names.
         """
         return list(self._config["slot_names"].keys())
+
+    def get_name(self) -> str:
+        """Returns the name of the domain."""
+        return self._name
