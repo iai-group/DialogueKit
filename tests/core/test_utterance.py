@@ -1,7 +1,7 @@
 """Tests for the Utterance class."""
 import pytest
 
-from dialoguekit.core.utterance import Feedback, Utterance
+from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant import DialogueParticipant
 
 
@@ -9,16 +9,6 @@ def test_utterance_text():
     """Tests setting of the utterance text."""
     u = Utterance("Hello world", participant=DialogueParticipant.AGENT)
     assert u.text == "Hello world"
-
-
-def test_utterance_feedback():
-    """Tests setting of the users' feedback."""
-    u = Utterance(
-        "Test 1",
-        participant=DialogueParticipant.USER,
-        feedback=Feedback.POSITIVE,
-    )
-    assert u.feedback == Feedback.POSITIVE
 
 
 def test_hash():
@@ -42,26 +32,4 @@ def test_comparison():
     # Test Text difference
     u1 = Utterance(text="Test1", participant=DialogueParticipant.AGENT)
     u2 = Utterance(text="Test2", participant=DialogueParticipant.AGENT)
-    assert u1 != u2
-
-    # Test utterance_id difference
-    u1 = Utterance(
-        text="Test1", participant=DialogueParticipant.AGENT, utterance_id="id_1"
-    )
-    u2 = Utterance(
-        text="Test1", participant=DialogueParticipant.AGENT, utterance_id="id_2"
-    )
-    assert u1 != u2
-
-    # Test feedback difference
-    u1 = Utterance(
-        text="Test1",
-        participant=DialogueParticipant.AGENT,
-        feedback=Feedback.POSITIVE,
-    )
-    u2 = Utterance(
-        text="Test1",
-        participant=DialogueParticipant.AGENT,
-        feedback=Feedback.NEGATIVE,
-    )
     assert u1 != u2
