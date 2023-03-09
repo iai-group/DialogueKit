@@ -1,5 +1,6 @@
 """Tests for the Utterance class."""
 import pytest
+
 from dialoguekit.core import Utterance
 from dialoguekit.participant import DialogueParticipant
 
