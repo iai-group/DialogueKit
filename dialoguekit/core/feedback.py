@@ -1,4 +1,9 @@
-"""Interface representing user's feedback."""
+"""Interface representing user's feedback.
+
+Currently only binary feedback is supported on the utterance level.
+Later, it might be extended to graded feedback as well as with
+conversation-level feedback.
+"""
 from dataclasses import dataclass, field
 from enum import Enum
 

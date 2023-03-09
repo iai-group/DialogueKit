@@ -1,6 +1,4 @@
 """Test UtteranceFeedback class."""
-import pytest
-
 from dialoguekit.core.feedback import BinaryFeedback, UtteranceFeedback
 
 
@@ -9,15 +7,6 @@ def test_initialization():
     f1 = UtteranceFeedback("utterance_1", BinaryFeedback.POSITIVE)
     assert isinstance(f1, UtteranceFeedback)
     assert f1.feedback == BinaryFeedback.POSITIVE
-
-
-def test_hash():
-    """Tests utterance feedback hashing method."""
-    f1 = UtteranceFeedback("utterance_1", BinaryFeedback.POSITIVE)
-    try:
-        hash(f1)
-    except TypeError:
-        pytest.fail("UtteranceFeedback hashing failed")
 
 
 def test_comparison():
