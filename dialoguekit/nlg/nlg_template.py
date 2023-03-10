@@ -101,14 +101,14 @@ class TemplateNLG(AbstractNLG):
         response_utterance = deepcopy(response_utterance)
 
         # Clear out annotations
-        response_utterance._annotations = []
+        response_utterance.annotations = []
 
         if annotations is not None:
             for annotation in annotations:
-                response_utterance._text = response_utterance._text.replace(
+                response_utterance.text = response_utterance.text.replace(
                     f"{{{annotation.slot}}}", annotation.value, 1
                 )
-                response_utterance.add_annotation(annotation)
+            response_utterance.add_annotations(annotations)
         return response_utterance
 
     def dump_template(self, filepath: str) -> None:
@@ -119,7 +119,7 @@ class TemplateNLG(AbstractNLG):
                 annotated_utterance.text for annotated_utterance in utterances
             ]
 
-        with open(filepath, "w") as file:
+        with open(filepath, "w", encoding="utf-8") as file:
             json.dump(dump_dict, file, indent=4)
 
     def _filter_templates(
@@ -154,7 +154,7 @@ class TemplateNLG(AbstractNLG):
             utterance_slots = set(
                 [
                     annotation.slot
-                    for annotation in annotated_utterance.get_annotations()
+                    for annotation in annotated_utterance.annotations
                 ]
             )
             if all(x in annotations_slots for x in utterance_slots):
@@ -163,7 +163,7 @@ class TemplateNLG(AbstractNLG):
             filtered_annotated_utterances = [
                 template
                 for template in filtered_annotated_utterances
-                if len(template.get_annotations()) > 0
+                if len(template.annotations) > 0
             ]
         return filtered_annotated_utterances
 
@@ -204,9 +204,7 @@ class TemplateNLG(AbstractNLG):
         min_annotations = {"amount": sys.maxsize, "examples": []}
         max_annotations = {"amount": 0, "examples": []}
 
-        template_lengths = [
-            len(template.get_annotations()) for template in templates
-        ]
+        template_lengths = [len(template.annotations) for template in templates]
         max_annotations["amount"] = max(template_lengths)
         min_annotations["amount"] = min(template_lengths)
         max_annotations["examples"] = [

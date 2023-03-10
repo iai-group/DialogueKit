@@ -18,7 +18,7 @@ DialogueKit assumes the agent to always start the conversation and also end it. 
 
 Agent
 -----
-:py:mod:`dialoguekit.agent.agent`
+:py:mod:`dialoguekit.participant.agent`
 
 Represents a conversational agent with some intelligent capabilities (typically defined by the dialogue policy, natural language understanding, and natural language generation components).
 
@@ -30,15 +30,13 @@ DialogueKit is shipped with some sample agents (**TODO:** reference sample agent
 
 * **RasaParrotAgent**: This agent looks like the **ParrotAgent** to the user, but is actually just a connector to a Rasa conversational agent. This conversational agent is also part of DialogueKit
 
-* **MathAgent**: This agent will ask the user simple arithmetic (addition, subtraction, multiplication and division) questions.
-
 * **MovieBotAgent**: A connector agent for `IAI MovieBot <https://github.com/iai-group/moviebot>`_ .
 
 * **WozAgent**: Allows a real human to play the role of the agent ("wizard") when interacting with a user. This can be useful, e.g., when testing user simulators.
 
 User 
 ----
-:py:mod:`dialoguekit.user.user`
+:py:mod:`dialoguekit.participant.user`
 
 Represents a human interacting with an agent in natural language text.
 

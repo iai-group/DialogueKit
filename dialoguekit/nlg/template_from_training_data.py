@@ -21,13 +21,13 @@ _DEFAULT_SATISFACTION = 3
 def _replace_slot_with_placeholder(
     annotated_utterance: AnnotatedUtterance,
 ) -> None:
-    annotations = annotated_utterance.get_annotations()
+    annotations = annotated_utterance.annotations
     for annotation in annotations:
         placeholder_label, value = annotation.slot, annotation.value
-        annotated_utterance._text = annotated_utterance.text.replace(
+        annotated_utterance.text = annotated_utterance.text.replace(
             value, f"{{{placeholder_label}}}", 1
         )
-        annotation._value = ""
+        annotation.value = None
 
 
 def build_template_from_instances(
@@ -96,7 +96,7 @@ def extract_utterance_template(  # noqa: C901
     response_templates: DefaultDict[
         Intent, Set[AnnotatedUtterance]
     ] = defaultdict(set)
-    with open(annotated_dialogue_file) as input_file:
+    with open(annotated_dialogue_file, encoding="utf-8") as input_file:
         annotated_dialogs = json.load(input_file)
         for dialog in annotated_dialogs:
             counter_participant_utterance = None
@@ -129,7 +129,7 @@ def extract_utterance_template(  # noqa: C901
                         and participant_utterance
                         and satisfaction_classifier
                     ):
-                        annotated_utterance._metadata[
+                        annotated_utterance.metadata[
                             "satisfaction"
                         ] = satisfaction
                         counter_participant_utterance = None
@@ -139,8 +139,8 @@ def extract_utterance_template(  # noqa: C901
                     # contain slot values.
                     if "slot_values" in utterance_record:
                         for slot, value in utterance_record.get("slot_values"):
-                            annotated_utterance.add_annotation(
-                                Annotation(slot=slot, value=value)
+                            annotated_utterance.add_annotations(
+                                [Annotation(slot=slot, value=value)]
                             )
                         if satisfaction_classifier:
                             annotated_utterance_copy = copy.deepcopy(

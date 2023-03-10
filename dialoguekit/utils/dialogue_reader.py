@@ -81,7 +81,7 @@ def json_to_dialogues(
     Returns:
         A list of Dialogue objects.
     """
-    f = open(filepath)
+    f = open(filepath, encoding="utf-8")
     data = json.load(f)
 
     dialogues = []

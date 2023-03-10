@@ -3,8 +3,8 @@
 More information about the DIET classifier
 https://rasa.com/docs/rasa/reference/rasa/nlu/classifiers/diet_classifier/
 
-A short description of how we use Rasa as a component library can be seen inn
-the docs/rasa_component_library.md
+A short description of how we use Rasa as a component library can be seen at:
+https://iai-group.github.io/DialogueKit/nlu.html#rasa-as-a-component-library
 """
 
 import copy
@@ -12,14 +12,6 @@ import os
 import tempfile
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Text, Type
-
-from dialoguekit.core.intent import Intent
-from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
-from dialoguekit.core.utterance import Utterance
-from dialoguekit.nlu.intent_classifier import IntentClassifier
-from dialoguekit.utils.annotation_converter_dialoguekit_to_rasa import (
-    AnnotationConverterRasa,
-)
 
 # Rasa imports
 from rasa.engine.graph import ExecutionContext, GraphComponent, GraphSchema
@@ -34,6 +26,14 @@ from rasa.shared.importers.rasa import RasaFileImporter
 from rasa.shared.nlu.constants import TEXT
 from rasa.shared.nlu.training_data.message import Message
 from rasa.shared.nlu.training_data.training_data import TrainingData
+
+from dialoguekit.core.intent import Intent
+from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
+from dialoguekit.core.utterance import Utterance
+from dialoguekit.nlu.intent_classifier import IntentClassifier
+from dialoguekit.utils.annotation_converter_dialoguekit_to_rasa import (
+    AnnotationConverterRasa,
+)
 
 
 class IntentClassifierRasa(IntentClassifier):
@@ -51,8 +51,10 @@ class IntentClassifierRasa(IntentClassifier):
 
         Args:
             intents: List of allowed intents.
-            training_data_path: Path to the training data yml.
+            training_data_path: Path to the training data yml. Defaults to empty
+              string.
             model_path: Path to where rasa trained model will be stored.
+              Defaults to '.rasa'.
         """
         super().__init__(intents)
         self._model_path = Path(model_path)
@@ -75,11 +77,11 @@ class IntentClassifierRasa(IntentClassifier):
     def init_pipeline(self) -> None:
         """Creates classifier and initialize.
 
-        A component pipeline of Rasa components gets created and initialized.
-        The DIET classifier object then gets created with the pipeline.
+        A component pipeline of Rasa components is created and initialized.
+        The DIET classifier object then is created with the pipeline.
 
         Raises:
-            TypeError if training_data_path is not a string
+            TypeError if training_data_path is not a string.
         """
         pipeline = [
             {"component": WhitespaceTokenizer},
@@ -121,8 +123,8 @@ class IntentClassifierRasa(IntentClassifier):
 
         If no utterances or labels are provided 'training_data_path'
         in the init is used for training the model.
-        the utterances and labels are used for creating a rasa nlu
-        document. Which then gets used for the training.
+        The utterances and labels are used for creating a rasa nlu
+        document which is used for the training.
 
         Args:
             utterances: List of Utterance instances.
@@ -152,7 +154,7 @@ class IntentClassifierRasa(IntentClassifier):
     def classify_intent(self, utterance: Utterance) -> Intent:
         """Classifies the intent of an utterance.
 
-        The utterance gets transformed to a Rasa Message before being
+        The utterance is transformed to a Rasa Message before being
         classified. If the utterance has already been processed a cache is used.
         Since DIET also extracts entities the cache is used if the same
         Classifier object is used.
@@ -173,7 +175,7 @@ class IntentClassifierRasa(IntentClassifier):
     def get_annotations(
         self, utterance: Utterance
     ) -> List[SlotValueAnnotation]:
-        """Entity extraction using rasa DIET classifier.
+        """Extracts entities using rasa DIET classifier.
 
         Extracts entities using rasa DIET. Since this model
         does both intent classification and entity extraction,
@@ -182,10 +184,10 @@ class IntentClassifierRasa(IntentClassifier):
 
 
         Args:
-            utterance (Utterance): User utterance
+            utterance: User utterance.
 
         Returns:
-            List[SlotValueAnnotation]: List of extracted entities
+            List of extracted entities.
         """
         self.process_utterance(utterance=utterance)
 
@@ -213,13 +215,13 @@ class IntentClassifierRasa(IntentClassifier):
         """Creates a Rasa pipeline component.
 
         Args:
-            component_class (Type[GraphComponent]):
-            config (Dict[Text, Any]): component configuration
-            idx (int): id of component in pipeline
-            model_storage (LocalModelStorage): pipeline component storage
+            component_class: Class of the component.
+            config: Component configuration.
+            idx: Id of component in pipeline.
+            model_storage: Pipeline component storage.
 
         Returns:
-            GraphComponent: The pipeline component
+            The pipeline component.
         """
         node_name = f"{component_class.__name__}_{idx}"
         print(node_name)
@@ -235,14 +237,14 @@ class IntentClassifierRasa(IntentClassifier):
         )
 
     def process_utterance(self, utterance: Utterance) -> None:
-        """Processes utterance and adds to cache.
+        """Processes utterance and adds result to the cache.
 
-        If it is the first time this utterance is processed it gets added to
-        the cache. Next time the same utterance wants to get processed it gets
-        skipped, as its processing result is in the cache.
+        If it is the first time this utterance is processed it is added to
+        the cache. Next time the same utterance is processed it is skipped, as
+        its processing result is in the cache.
 
         Args:
-            utterance: Agent or User Utterance
+            utterance: Agent or User Utterance.
         """
         if utterance.text not in self._processes_utterances:
             message_text = utterance.text
@@ -264,11 +266,11 @@ class IntentClassifierRasa(IntentClassifier):
         """Processes a Rasa Message through a pipeline.
 
         Args:
-            loaded_pipeline (List[GraphComponent]): Rasa pipeline
-            message (Message): Rasa message(utterance)
+            loaded_pipeline: Rasa pipeline.
+            message: Rasa message.
 
         Returns:
-            Message: processed message with data
+            Processed message with data.
         """
         for component in loaded_pipeline:
             component.process([message])

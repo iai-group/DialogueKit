@@ -1,6 +1,6 @@
 """Abstract interface for intent classification.
 
-This interface assumes a single intent per utterance, i.a., approaches
+This interface assumes a single intent per utterance, i.e., approaches
 the task as a single-label classification problem. The generalization to
 multi-label classification is left to future work.
 """

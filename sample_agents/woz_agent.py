@@ -6,9 +6,10 @@ simulated users.
 """
 from typing import List, Optional
 
-from dialoguekit.agent.agent import Agent, AgentType
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.utterance import Utterance
+from dialoguekit.participant.agent import Agent, AgentType
 from dialoguekit.participant.participant import DialogueParticipant
 
 
@@ -47,16 +48,14 @@ class WOZAgent(Agent):
         text = input("Your GOODBYE message: ")
         response = AnnotatedUtterance(
             text,
-            intent=Intent("EXIT"),
+            intent=self.stop_intent,
             participant=DialogueParticipant.AGENT,
         )
         response
         self._dialogue_connector.register_agent_utterance(response)
 
-    def receive_utterance(
-        self, annotated_utterance: AnnotatedUtterance
-    ) -> None:
-        """Responds to the user with an AnnotatedUtterance.
+    def receive_utterance(self, utterance: Utterance) -> None:
+        """Responds to the user with an utterance.
 
         If 'intent_recommendations' are provided the operator of the Agent will
         be asked to declare the response intent. It is possible to declare
@@ -64,7 +63,7 @@ class WOZAgent(Agent):
         ENTER.
 
         Args:
-            annotated_utterance: The users Utterance. Not used by this agent.
+            utterance: User utterance. Not used by this agent.
         """
         response_intent = None
         if self._intent_recommendations:

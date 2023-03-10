@@ -8,8 +8,9 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import List, Optional, Union
 
-from dialoguekit.core.dialogue import Dialogue
 from joblib import load
+
+from dialoguekit.core.dialogue import Dialogue
 
 _SATISFACTION_CLASSIFIER_MODEL_PATH = "LinearSVC_2_0.joblib"
 _SATISFACTION_TOKENIZER_PATH = "vectorizer_2_0.joblib"
@@ -25,7 +26,7 @@ class SatisfactionClassifier(ABC):
         in each string by it self.
 
         Args:
-            input_text: list of text to classified
+            input_text: List of text to classified.
 
         Returns:
             List of classifications for every string in the input.
@@ -60,7 +61,7 @@ class SatisfactionClassifier(ABC):
         Args:
             dialogue: Dialogue to classify.
             last_n: How many of the last utterances in the dialogue to use for
-                    the classification.
+              the classification. Defaults to None.
 
         Raises:
             TypeError: If `last_n` is greater then the length of the dialogue.
@@ -75,7 +76,7 @@ class SatisfactionClassifierSVM(SatisfactionClassifier):
     def __init__(self) -> None:
         """SVM Satisfaction classifier.
 
-        The SVM model is pre-trained on the english data from:
+        The SVM model is pre-trained on the English data from:
         https://github.com/sunnweiwei/user-satisfaction-simulation
 
         It classifies the users overall satisfaction with the system. Based on
@@ -107,7 +108,7 @@ class SatisfactionClassifierSVM(SatisfactionClassifier):
         """Classifies satisfaction.
 
         Args:
-            dialogue_text: Text to classify
+            dialogue_text: Text to classify.
 
         Returns:
             The classification score to the utterances.
@@ -125,11 +126,12 @@ class SatisfactionClassifierSVM(SatisfactionClassifier):
     def classify_last_n_dialogue(
         self, dialogue: Dialogue, last_n: Optional[Union[int, None]] = None
     ) -> int:
-        """Classify n last dialogues.
+        """Classifies the n last dialogues.
 
         Args:
             dialogue: Dialogue object to classify.
             last_n: Number of the last utterances to use for classification.
+              Defaults to None.
 
         Returns:
             Classification score.

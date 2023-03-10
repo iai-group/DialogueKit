@@ -11,10 +11,8 @@ from __future__ import annotations
 from abc import abstractmethod
 from enum import Enum
 
+from dialoguekit.core.intent import Intent
 from dialoguekit.participant.participant import DialogueParticipant, Participant
-
-# TODO Some research needs to be done in how Python abstract classes work,
-# to implement them for Agent and participant
 
 
 class AgentType(Enum):
@@ -25,15 +23,27 @@ class AgentType(Enum):
 
 
 class Agent(Participant):
-    def __init__(self, id: str, agent_type: AgentType = AgentType.BOT) -> None:
+    def __init__(
+        self,
+        id: str,
+        agent_type: AgentType = AgentType.BOT,
+        stop_intent: Intent = Intent("EXIT"),
+    ) -> None:
         """Represents an agent.
 
         Args:
             id: Agent ID.
             agent_type: Agent type (default: BOT).
+            stop_intent: Label of the exit intent. Defaults to "EXIT".
         """
         super().__init__(id=id, type=DialogueParticipant.AGENT)
         self._agent_type = agent_type
+        self._stop_intent = stop_intent
+
+    @property
+    def stop_intent(self) -> Intent:
+        """Returns the agent's stop intent."""
+        return self._stop_intent
 
     @abstractmethod
     def welcome(self) -> None:

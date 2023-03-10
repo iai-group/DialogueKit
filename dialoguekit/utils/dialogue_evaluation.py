@@ -5,6 +5,7 @@ from collections import defaultdict
 from copy import deepcopy
 from typing import Any, Dict, List, Union
 
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlu.models.satisfaction_classifier import (
@@ -112,6 +113,9 @@ class Evaluator:
         Reward is used to penalize agents that do not support a set of intents
         defined in the config file, and long dialogues.
 
+        Raises:
+            TypeError: if utterances are not annotated.
+
         Returns:
             A dictionary with following structure (most important is "reward"):
 
@@ -126,14 +130,22 @@ class Evaluator:
                     }]
                 }
         """
-        warnings.warn("This function does not yet penalize 'Repeat' actions")
+        warnings.warn("This function does not yet penalize 'Repeat' actions.")
+
+        if not all(
+            isinstance(utterance, AnnotatedUtterance)
+            for dialogue in self._dialogues
+            for utterance in dialogue.utterances
+        ):
+            raise TypeError(
+                "Some utterances are not instance of 'AnnotatedUtterance'."
+            )
 
         # Initialize result by checking which intents are included
         results = self._check_included_intents()
 
         # Check for Repeats
         for i, dialogue in enumerate(self._dialogues):
-
             previous_intent = None
             previous_sender = None
             n_repeat_intents = 0
@@ -144,19 +156,19 @@ class Evaluator:
                     dialogue_utterances_start_agent = dialogue.utterances[j:]
                     break
             previous_sender = dialogue_utterances_start_agent[0].participant
-            previous_intent = dialogue_utterances_start_agent[0].intent
-            for j, utterance in enumerate(
+            previous_intent = dialogue_utterances_start_agent[0].intent  # type: ignore[attr-defined] # noqa
+            for j, annotated_utterance in enumerate(
                 dialogue_utterances_start_agent, start=1
             ):
                 if (
-                    utterance.participant == previous_sender
-                    and previous_intent == utterance.intent
+                    annotated_utterance.participant == previous_sender
+                    and previous_intent == annotated_utterance.intent  # type: ignore[attr-defined] # noqa
                 ):
                     n_repeat_intents += 1
                     previous_intent = None
                     continue
-                previous_intent = utterance.intent
-                previous_sender = utterance.participant
+                previous_intent = annotated_utterance.intent  # type: ignore[attr-defined]  # noqa
+                previous_sender = annotated_utterance.participant
 
             results["dialogues"][i]["repeats"] = n_repeat_intents
             results["dialogues"][i]["reward"] -= n_repeat_intents
@@ -195,9 +207,9 @@ class Evaluator:
             for utterance in dialogue.utterances:
                 if utterance.participant == DialogueParticipant.USER.name:
                     dialogue_intents.append(
-                        Intent(utterance.intent.label.split(".")[0])
+                        Intent(utterance.intent.label.split(".")[0])  # type: ignore[attr-defined]  # noqa
                     )
-                    dialogue_intents.append(utterance.intent)
+                    dialogue_intents.append(utterance.intent)  # type: ignore[attr-defined] # noqa
 
         dialogue_intents_set = set(dialogue_intents)
 
