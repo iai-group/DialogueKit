@@ -1,6 +1,6 @@
 """Natural language understanding."""
 
-from typing import List
+from typing import Any, List
 
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
@@ -13,7 +13,7 @@ class NLU:
     def __init__(
         self,
         intent_classifier: IntentClassifier,
-        slot_annotators: List[SlotAnnotator],
+        slot_annotators: List[Any],
     ) -> None:
         """Represents a Natural Language Understanding (NLU) component.
 
