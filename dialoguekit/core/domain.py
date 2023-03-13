@@ -31,7 +31,7 @@ class Domain:
         if not {"name", "slot_names"}.issubset(self._config):
             raise KeyError(
                 "The domain configuration should contain at least the fields "
-                "name and slot_names."
+                "'name' and 'slot_names'."
             )
 
         self._name = self._config.get("name")
