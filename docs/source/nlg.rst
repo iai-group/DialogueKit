@@ -1,7 +1,7 @@
 Natural Language Generation (NLG)
 =================================
 
-The NLG components in Dialoguekit are currently template-based.
+The NLG components in DialogueKit are currently template-based.
 The basic template-based generation works by extracting templates from a set of training data. The templates are the user and agent utterances with the annotations removed. This version can be found here: :py:class:`dialoguekit.nlg.nlg_template.TemplateNLG`.
 
 An extended version of the basic template-based implementation which can perform conditional language generation is :py:class:`dialoguekit.nlg.nlg_conditional.ConditionalNLG`. Using a conditional may be useful in cases were other attributes then the intent and annotations may be of interest. Such as the users satisfaction. This can then be used to selecting templates that have a different tone based on the conditional, in this case the satisfaction score.

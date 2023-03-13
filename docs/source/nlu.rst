@@ -21,12 +21,12 @@ Rasa as a component library
 *diet_classifier_rasa* implement Rasa's DIET classifier. This is a Dual Intent and Entity Transformer, their paper can be read 
 `here. <https://arxiv.org/pdf/2004.09936.pdf>`_
 
-Normally one would use Rasa as the underlying platform. But for our use-case we need to use it as a component in Dialoguekit. This proved to be possible with a bit of effort. Rasa is distributed with a Apache 2.0 license, granting us free use.
+Normally one would use Rasa as the underlying platform. But for our use-case we need to use it as a component in DialogueKit. This proved to be possible with a bit of effort. Rasa is distributed with a Apache 2.0 license, granting us free use.
 
 General idea
 """"""""""""
 
-In general the idea was to import the necessary packages and re-implement the rasa workflow with their components and structures. Rasa is built in a very object oriented structure. This does not allow us to use Dialoguekit objects, they need to be transformed to Rasa components before use.
+In general the idea was to import the necessary packages and re-implement the rasa workflow with their components and structures. Rasa is built in a very object oriented structure. This does not allow us to use DialogueKit objects, they need to be transformed to Rasa components before use.
 
 How we implemented it
 """""""""""""""""""""
