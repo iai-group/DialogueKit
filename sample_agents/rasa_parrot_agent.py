@@ -28,7 +28,7 @@ class RasaParrotAgent(Agent):
         self._RASA_URI = "http://localhost:5002/webhooks/rest/webhook"
 
     def welcome(self) -> None:
-        """Sends the agent's welcome message.""",
+        """Sends the agent's welcome message."""
         utterance = AnnotatedUtterance(
             text="Hello, I'm Rasa Parrot. What can I help u with?",
             utterance_id="{}_{}_{}".format(
