@@ -12,7 +12,7 @@ class Utterance:
 
     text: str = field(hash=True)
     participant: DialogueParticipant = field(hash=True)
-    utterance_id: str = field(default=None, hash=True)
+    utterance_id: str = field(hash=True)
     timestamp: datetime = field(default=None, hash=True)
 
     def _timestamp_text(self) -> str:

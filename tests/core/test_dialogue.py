@@ -15,17 +15,32 @@ def dialogue_history_1() -> Dialogue:
     """Dialogue with unannotated utterances fixture."""
     agent_id = "agent-001"
     user_id = "USR01"
+    conversation_id = "CNV1"
     agent_utterance_1 = Utterance(
-        "Hello", participant=DialogueParticipant.AGENT
+        "Hello",
+        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "0"),
+        participant=DialogueParticipant.AGENT,
     )
-    user_utterance_1 = Utterance("Hi", participant=DialogueParticipant.USER)
+    user_utterance_1 = Utterance(
+        "Hi",
+        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "1"),
+        participant=DialogueParticipant.USER,
+    )
     agent_utterance_2 = Utterance(
-        "Can I help you?", participant=DialogueParticipant.AGENT
+        "Can I help you?",
+        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "2"),
+        participant=DialogueParticipant.AGENT,
     )
     user_utterance_2 = Utterance(
-        "No, thank you. Bye", participant=DialogueParticipant.USER
+        "No, thank you. Bye",
+        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "3"),
+        participant=DialogueParticipant.USER,
     )
-    agent_utterance_3 = Utterance("Bye.", participant=DialogueParticipant.AGENT)
+    agent_utterance_3 = Utterance(
+        "Bye.",
+        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "4"),
+        participant=DialogueParticipant.AGENT,
+    )
     utterances = [
         agent_utterance_1,
         user_utterance_1,
@@ -45,16 +60,30 @@ def dialogue_history_2() -> Dialogue:
     """Dialogue with annotated utterances and metadata fixture."""
     agent_id = "agent-002"
     user_id = "USR02"
+    conversation_id = "CNV1"
     agent_utterance_1 = AnnotatedUtterance(
         "Hello",
+        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "0"),
         participant=DialogueParticipant.AGENT,
         intent=Intent("GREETINGS"),
     )
     user_utterance_1 = AnnotatedUtterance(
-        "Hi", participant=DialogueParticipant.USER, intent=Intent("GREETINGS")
+        "Hi",
+        utterance_id="{}_{}_{}".format(
+            user_id,
+            conversation_id,
+            "1",
+        ),
+        participant=DialogueParticipant.USER,
+        intent=Intent("GREETINGS"),
     )
     agent_utterance_2 = AnnotatedUtterance(
         "What is your favorite color?",
+        utterance_id="{}_{}_{}".format(
+            agent_id,
+            conversation_id,
+            "2",
+        ),
         participant=DialogueParticipant.AGENT,
         intent=Intent("ELICIT"),
         annotations=[Annotation("COLOR", "color")],
@@ -65,7 +94,7 @@ def dialogue_history_2() -> Dialogue:
         agent_utterance_2,
     ]
 
-    dialogue_history = Dialogue(agent_id, user_id, "CNV1")
+    dialogue_history = Dialogue(agent_id, user_id, conversation_id)
     dialogue_history.metadata.update(
         {"description": "Dialogue fixture for testing"}
     )
@@ -101,6 +130,7 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances
     )
     assert dialogue_history_1.utterances[0].text == "Hello"
+    assert dialogue_history_1.utterances[0].utterance_id == "agent-001_CNV1_0"
     assert (
         dialogue_history_1.utterances[0].participant
         == DialogueParticipant.AGENT
@@ -109,6 +139,7 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances[1].participant == DialogueParticipant.USER
     )
     assert dialogue_history_1.utterances[1].text == "Hi"
+    assert dialogue_history_1.utterances[1].utterance_id == "agent-001_CNV1_1"
     assert (
         dialogue_history_1.utterances[4].participant
         == DialogueParticipant.AGENT
@@ -126,6 +157,7 @@ def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
 
     assert dialogue_dict_1.get("agent") == "agent-001"
     assert dialogue_dict_1.get("user") == "USR01"
+    assert dialogue_dict_1.get("conversation ID") == "CNV1"
     assert dialogue_dict_1.get("metadata") is None
     assert len(dialogue_dict_1.get("conversation")) == 5
     utterance_1 = dialogue_dict_1.get("conversation")[0]

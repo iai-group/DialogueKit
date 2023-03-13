@@ -9,6 +9,7 @@ from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.intent import Intent
 
 _FIELD_UTTERANCE = "utterance"
+_FIELD_UTTERANCE_ID = "utterance ID"
 _FIELD_INTENT = "intent"
 _FIELD_SLOT_VALUES = "slot_values"
 _FIELD_CONVERSATION = "conversation"
@@ -37,6 +38,7 @@ def json_to_annotated_utterance(
     participant = json_utterance.get(_FIELD_PARTICIPANT)
 
     utterance_text = json_utterance.get(_FIELD_UTTERANCE)
+    utterance_id = json_utterance.get(_FIELD_UTTERANCE)
 
     intent = json_utterance.get(_FIELD_INTENT)
     if intent:
@@ -61,6 +63,7 @@ def json_to_annotated_utterance(
 
     return AnnotatedUtterance(
         text=utterance_text,
+        utterance_id=utterance_id,
         participant=participant,
         annotations=annotations,
         intent=intent,

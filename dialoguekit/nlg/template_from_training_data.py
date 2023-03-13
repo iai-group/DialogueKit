@@ -108,6 +108,7 @@ def extract_utterance_template(  # noqa: C901
                 if satisfaction_classifier:
                     annotated_utterance = AnnotatedUtterance(
                         text=utterance_record.get("utterance").strip(),
+                        utterance_id=utterance_record.get("utterance ID"),
                         intent=Intent(utterance_record.get("intent")),
                         metadata={
                             "satisfaction": _DEFAULT_SATISFACTION
@@ -117,6 +118,7 @@ def extract_utterance_template(  # noqa: C901
                 else:
                     annotated_utterance = AnnotatedUtterance(
                         text=utterance_record.get("utterance").strip(),
+                        utterance_id=utterance_record.get("utterance ID"),
                         intent=Intent(utterance_record.get("intent")),
                         participant=DialogueParticipant.AGENT,
                     )

@@ -28,6 +28,7 @@ class TemplateNLG(AbstractNLG):
 
     def generate_utterance_text(
         self,
+        utterance_id: str,
         intent: Intent,
         annotations: Optional[Union[List[Annotation], None]] = None,
         force_annotation: Optional[bool] = False,
@@ -56,6 +57,7 @@ class TemplateNLG(AbstractNLG):
 
 
         Args:
+            utterance_id: Utterance ID.
             intent: The intent of the wanted Utterance.
             annotations: The wanted annotations in the response Utterance.
             force_annotation: if 'True' and 'annotations' are provided,
@@ -86,6 +88,7 @@ class TemplateNLG(AbstractNLG):
             return AnnotatedUtterance(
                 intent=intent,
                 text="Sorry, I did not understand you.",
+                utterance_id=utterance_id,
                 participant=DialogueParticipant.AGENT,
             )
         templates = self._filter_templates(

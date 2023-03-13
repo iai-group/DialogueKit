@@ -24,7 +24,12 @@ class Dialogue:
         """
         self._agent_id = agent_id
         self._user_id = user_id
-        self._conversation_id = conversation_id
+        if conversation_id is None:
+            date = datetime.datetime.utcnow()
+            utc_time = calendar.timegm(date.utctimetuple())
+            self._conversation_id = str(utc_time)
+        else:
+            self._conversation_id = conversation_id
         self._utterances: List[Utterance] = []
         self._metadata: Dict[str, Any] = {}
 
@@ -93,10 +98,8 @@ class Dialogue:
         Returns:
             Dialogue as dictionary.
         """
-        date = datetime.datetime.utcnow()
-        utc_time = calendar.timegm(date.utctimetuple())
         dialogue_as_dict: Dict[str, Any] = {
-            "conversation ID": str(utc_time),
+            "conversation ID": self._conversation_id,
             "conversation": [],
             "agent": self._agent_id,
             "user": self._user_id,
@@ -108,6 +111,7 @@ class Dialogue:
             utterance_info: Dict[str, Any] = {
                 "participant": utterance.participant.name,
                 "utterance": utterance.text,
+                "utterance ID": utterance.utterance_id,
             }
 
             if isinstance(utterance, AnnotatedUtterance):
