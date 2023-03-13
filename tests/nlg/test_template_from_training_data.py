@@ -101,7 +101,7 @@ def test_build_template_from_instances_no_intents():
 def test_build_template_from_instances_skip_no_intent():
     """Tests if Utterance without Intents gets skipped."""
     utterances = [
-        AnnotatedUtterance(text="Skip", participant=DialogueParticipant.AGENT),
+        AnnotatedUtterance(text="Skip", utterance_id="u1", participant=DialogueParticipant.AGENT),
         AnnotatedUtterance(
             text="Test Utterance 1-1",
             utterance_id="u1",
@@ -146,7 +146,7 @@ def test_build_template_from_instances_skip_no_intent():
 def test_build_template_from_instances_duplicate_deletion():
     """Tests if duplicate Utterance for same Intent gets removed."""
     utterances = [
-        AnnotatedUtterance(text="Skip", participant=DialogueParticipant.AGENT),
+        AnnotatedUtterance(text="Skip", utterance_id="u1", participant=DialogueParticipant.AGENT),
         AnnotatedUtterance(
             text="Test Utterance 1-1",
             utterance_id="u1",
@@ -222,19 +222,19 @@ def test_extract_utterance_template():
         [
             AnnotatedUtterance(
                 text="thank you",
-                utterance_id="u1",
+                utterance_id=None,
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),
             AnnotatedUtterance(
                 text="/exit",
-                utterance_id="u1",
+                utterance_id=None,
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),
             AnnotatedUtterance(
                 text="I would like to quit now.",
-                utterance_id="u1",
+                utterance_id=None,
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),
