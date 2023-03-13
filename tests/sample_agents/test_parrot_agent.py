@@ -30,7 +30,11 @@ def agent() -> ParrotAgent:
 def connector(user: User, agent: ParrotAgent) -> DialogueConnector:
     """Dialogue connector fixture."""
     connector = DialogueConnector(
-        agent, user, TerminalPlatform(), save_dialogue_history=False
+        agent,
+        user,
+        TerminalPlatform(),
+        conversation_id="conversation1",
+        save_dialogue_history=False,
     )
     return connector
 
@@ -45,6 +49,14 @@ def test_greetings(connector: DialogueConnector, monkeypatch) -> None:
         == "Hello, I'm Parrot. What can I help u with?"
     )
     assert (
+        connector.dialogue_history.utterances[0].utterance_id
+        == "TestParrotAgent_conversation1_0"
+    )
+    assert (
         connector.dialogue_history.utterances[-1].text
         == "It was nice talking to you. Bye"
+    )
+    assert (
+        connector.dialogue_history.utterances[-1].utterance_id
+        == "TestParrotAgent_conversation1_2"
     )

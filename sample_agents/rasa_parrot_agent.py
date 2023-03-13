@@ -28,9 +28,14 @@ class RasaParrotAgent(Agent):
         self._RASA_URI = "http://localhost:5002/webhooks/rest/webhook"
 
     def welcome(self) -> None:
-        """Sends the agent's welcome message."""
+        """Sends the agent's welcome message.""",
         utterance = AnnotatedUtterance(
-            "Hello, I'm Rasa Parrot. What can I help u with?",
+            text="Hello, I'm Rasa Parrot. What can I help u with?",
+            utterance_id="{}_{}_{}".format(
+                self.id,
+                self._dialogue_connector._dialogue_history.conversation_id,
+                self._dialogue_connector._dialogue_history.current_turn_id,
+            ),
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(utterance)
@@ -38,7 +43,12 @@ class RasaParrotAgent(Agent):
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
         utterance = AnnotatedUtterance(
-            "It was nice talking to you. Bye",
+            text="It was nice talking to you. Bye",
+            utterance_id="{}_{}_{}".format(
+                self.id,
+                self._dialogue_connector._dialogue_history.conversation_id,
+                self._dialogue_connector._dialogue_history.current_turn_id,
+            ),
             intent=self.stop_intent,
             participant=DialogueParticipant.AGENT,
         )
@@ -61,7 +71,12 @@ class RasaParrotAgent(Agent):
             },
         )
         response = AnnotatedUtterance(
-            r.json()[0]["text"],
+            text=r.json()[0]["text"],
+            utterance_id="{}_{}_{}".format(
+                self.id,
+                self._dialogue_connector._dialogue_history.conversation_id,
+                self._dialogue_connector._dialogue_history.current_turn_id,
+            ),
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(response)

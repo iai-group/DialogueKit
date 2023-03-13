@@ -39,6 +39,11 @@ class WOZAgent(Agent):
         text = input("Your WELCOME message: ")
         response = AnnotatedUtterance(
             text,
+            utterance_id="{}_{}_{}".format(
+                self.id,
+                self._dialogue_connector._dialogue_history.conversation_id,
+                self._dialogue_connector._dialogue_history.current_turn_id,
+            ),
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(response)
@@ -48,6 +53,11 @@ class WOZAgent(Agent):
         text = input("Your GOODBYE message: ")
         response = AnnotatedUtterance(
             text,
+            utterance_id="{}_{}_{}".format(
+                self.id,
+                self._dialogue_connector._dialogue_history.conversation_id,
+                self._dialogue_connector._dialogue_history.current_turn_id,
+            ),
             intent=self.stop_intent,
             participant=DialogueParticipant.AGENT,
         )
@@ -99,6 +109,11 @@ class WOZAgent(Agent):
         text = input("Your response: ")
         response = AnnotatedUtterance(
             text,
+            utterance_id="{}_{}_{}".format(
+                self.id,
+                self._dialogue_connector._dialogue_history.conversation_id,
+                self._dialogue_connector._dialogue_history.current_turn_id,
+            ),
             intent=response_intent,
             participant=DialogueParticipant.AGENT,
         )

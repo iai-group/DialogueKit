@@ -65,7 +65,12 @@ class MovieBotAgent(Agent):
         )
         response_raw = r.json()
         response = AnnotatedUtterance(
-            response_raw["message"]["text"],
+            text=response_raw["message"]["text"],
+            utterance_id="{}_{}_{}".format(
+                self.id,
+                self._dialogue_connector._dialogue_history.conversation_id,
+                self._dialogue_connector._dialogue_history.current_turn_id,
+            ),
             intent=Intent(response_raw["message"]["intent"]),
             participant=DialogueParticipant.AGENT,
         )
@@ -89,7 +94,12 @@ class MovieBotAgent(Agent):
             },
         )
         response = AnnotatedUtterance(
-            r.json()["message"]["text"],
+            text=r.json()["message"]["text"],
+            utterance_id="{}_{}_{}".format(
+                self.id,
+                self._dialogue_connector._dialogue_history.conversation_id,
+                self._dialogue_connector._dialogue_history.current_turn_id,
+            ),
             intent=self.stop_intent,
             participant=DialogueParticipant.AGENT,
         )
@@ -123,7 +133,12 @@ class MovieBotAgent(Agent):
         response_raw = r.json()
         print(response_raw["message"]["intent"])
         response = AnnotatedUtterance(
-            response_raw["message"]["text"],
+            text=response_raw["message"]["text"],
+            utterance_id="{}_{}_{}".format(
+                self.id,
+                self._dialogue_connector._dialogue_history.conversation_id,
+                self._dialogue_connector._dialogue_history.current_turn_id,
+            ),
             intent=Intent(response_raw["message"]["intent"]),
             participant=DialogueParticipant.AGENT,
         )
