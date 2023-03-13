@@ -7,9 +7,7 @@ from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg_template import TemplateNLG
-from dialoguekit.nlg.template_from_training_data import (
-    extract_utterance_template,
-)
+from dialoguekit.nlg.template_from_training_data import extract_utterance_template
 from dialoguekit.participant.participant import DialogueParticipant
 
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
@@ -30,6 +28,7 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
     """Tests utterance generation."""
     expected_response1 = AnnotatedUtterance(
         text="something like the A Test Movie Title",
+        utterance_id="u1",
         intent=Intent("REVEAL.EXPAND"),
         participant=DialogueParticipant.AGENT,
     )
@@ -45,12 +44,12 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
     ]
     for intent, slot_values, expected_response in sample_response_text:
         generated_response = nlg_class.generate_utterance_text(
-            intent, slot_values
+            "u1", intent, slot_values
         )
         assert generated_response == expected_response
 
     generated_response = nlg_class.generate_utterance_text(
-        Intent("NOT_A_INTENT")
+        "u1", Intent("NOT_A_INTENT")
     )
     assert generated_response.text == "Sorry, I did not understand you."
     assert generated_response.intent == Intent("NOT_A_INTENT")
@@ -59,11 +58,12 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
 def test_generate_utterance_text_force_annotation(nlg_class: TemplateNLG):
     """Tests utterance generation with forcing annotations."""
     test = nlg_class.generate_utterance_text(
-        Intent("COMPLETE"), annotations=None, force_annotation=True
+        "u1", Intent("COMPLETE"), annotations=None, force_annotation=True
     )
     assert test.intent == Intent("COMPLETE")
 
     test = nlg_class.generate_utterance_text(
+        "u1",
         Intent("TRAVERSE.REPEAT"),
         annotations=[Annotation(slot="DIRECTOR", value="TEST_DIRECTOR_NAME")],
         force_annotation=True,
@@ -73,7 +73,7 @@ def test_generate_utterance_text_force_annotation(nlg_class: TemplateNLG):
 
 def test_no_annotations(nlg_class: TemplateNLG):
     """Tests utterance generation without annotations."""
-    test = nlg_class.generate_utterance_text(Intent("COMPLETE"), None)
+    test = nlg_class.generate_utterance_text("u1", Intent("COMPLETE"), None)
 
     assert test.intent == Intent("COMPLETE")
 
@@ -81,6 +81,7 @@ def test_no_annotations(nlg_class: TemplateNLG):
 def test_filter_templates(nlg_class: TemplateNLG):
     """Tests utterance generation with filtering."""
     test_response = nlg_class.generate_utterance_text(
+        utterance_id="u1",
         intent=Intent("REVEAL.EXPAND"),
         annotations=[Annotation(slot="TITLE", value="test_movie_title")],
     )

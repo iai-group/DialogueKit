@@ -17,31 +17,37 @@ def test_build_template_from_instances_default():
     utterances = [
         AnnotatedUtterance(
             text="Test Utterance 1-1",
+            utterance_id="u1",
             intent=Intent(label="Test1"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 1-2",
+            utterance_id="u1",
             intent=Intent(label="Test1"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 1-3",
+            utterance_id="u1",
             intent=Intent(label="Test1"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-1",
+            utterance_id="u1",
             intent=Intent(label="Test2"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-2",
+            utterance_id="u1",
             intent=Intent(label="Test2"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-3",
+            utterance_id="u1",
             intent=Intent(label="Test2"),
             participant=DialogueParticipant.AGENT,
         ),
@@ -57,22 +63,22 @@ def test_build_template_from_instances_no_intents():
     """Tests if exception gets raised if length is missmatched."""
     utterances = [
         AnnotatedUtterance(
-            text="Test Utterance 1-1", participant=DialogueParticipant.AGENT
+            text="Test Utterance 1-1", utterance_id="u1", participant=DialogueParticipant.AGENT
         ),
         AnnotatedUtterance(
-            text="Test Utterance 1-2", participant=DialogueParticipant.AGENT
+            text="Test Utterance 1-2", utterance_id="u1", participant=DialogueParticipant.AGENT
         ),
         AnnotatedUtterance(
-            text="Test Utterance 1-3", participant=DialogueParticipant.AGENT
+            text="Test Utterance 1-3", utterance_id="u1", participant=DialogueParticipant.AGENT
         ),
         AnnotatedUtterance(
-            text="Test Utterance 2-1", participant=DialogueParticipant.AGENT
+            text="Test Utterance 2-1", utterance_id="u1", participant=DialogueParticipant.AGENT
         ),
         AnnotatedUtterance(
-            text="Test Utterance 2-2", participant=DialogueParticipant.AGENT
+            text="Test Utterance 2-2", utterance_id="u1", participant=DialogueParticipant.AGENT
         ),
         AnnotatedUtterance(
-            text="Test Utterance 2-3", participant=DialogueParticipant.AGENT
+            text="Test Utterance 2-3", utterance_id="u1", participant=DialogueParticipant.AGENT
         ),
     ]
 
@@ -86,26 +92,31 @@ def test_build_template_from_instances_skip_no_intent():
         AnnotatedUtterance(text="Skip", participant=DialogueParticipant.AGENT),
         AnnotatedUtterance(
             text="Test Utterance 1-1",
+            utterance_id="u1",
             intent=Intent(label="Test1"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 1-2",
+            utterance_id="u1",
             intent=Intent(label="Test1"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-1",
+            utterance_id="u1",
             intent=Intent(label="Test2"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-2",
+            utterance_id="u1",
             intent=Intent(label="Test2"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-3",
+            utterance_id="u1",
             intent=Intent(label="Test2"),
             participant=DialogueParticipant.AGENT,
         ),
@@ -126,26 +137,31 @@ def test_build_template_from_instances_duplicate_deletion():
         AnnotatedUtterance(text="Skip", participant=DialogueParticipant.AGENT),
         AnnotatedUtterance(
             text="Test Utterance 1-1",
+            utterance_id="u1",
             intent=Intent(label="Test1"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 1-1",
+            utterance_id="u1",
             intent=Intent(label="Test1"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-1",
+            utterance_id="u1",
             intent=Intent(label="Test2"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-2",
+            utterance_id="u1",
             intent=Intent(label="Test2"),
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-3",
+            utterance_id="u1",
             intent=Intent(label="Test2"),
             participant=DialogueParticipant.AGENT,
         ),
@@ -161,13 +177,16 @@ def test_replace_slot_with_placeholder():
     # Given
     a1 = AnnotatedUtterance(
         text="I like action or fantasy movies.",
+        utterance_id="u1",
         participant=DialogueParticipant.AGENT,
     )
     a1.add_annotations([Annotation(slot="GENRE", value="action")])
     a1.add_annotations([Annotation(slot="GENRE", value="fantasy")])
 
     a2 = AnnotatedUtterance(
-        text="How about old street?", participant=DialogueParticipant.AGENT
+        text="How about old street?",
+        utterance_id="u1",
+        participant=DialogueParticipant.AGENT
     )
     a2.add_annotations([Annotation(slot="TITLE", value="old street")])
     annotated_utterances = [
@@ -191,16 +210,19 @@ def test_extract_utterance_template():
         [
             AnnotatedUtterance(
                 text="thank you",
+                utterance_id="u1",
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),
             AnnotatedUtterance(
                 text="/exit",
+                utterance_id="u1",
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),
             AnnotatedUtterance(
                 text="I would like to quit now.",
+                utterance_id="u1",
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),
@@ -209,6 +231,7 @@ def test_extract_utterance_template():
 
     test_annotation = AnnotatedUtterance(
         text="something like the {TITLE}",
+        utterance_id="u1",
         intent=Intent(label="REVEAL.EXPAND"),
         annotations=[Annotation(slot="TITLE")],
         participant=DialogueParticipant.AGENT,
