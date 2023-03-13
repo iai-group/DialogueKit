@@ -19,6 +19,7 @@ def annotated_dialogues() -> List[Dialogue]:
         filepath="tests/data/annotated_dialogues.json",
         agent_id=DialogueParticipant.AGENT,
         user_id=DialogueParticipant.USER,
+        conversation_id="CNV1",
     )
     return export_dialogues
 
@@ -120,10 +121,12 @@ def test_reward_type_error(reward_config: Dict[str, Any]) -> None:
     dialogue = Dialogue("AGENT01", "USER01")
     dialogue.add_utterance(
         Utterance(
-            "Hello, which genres do you prefer?", DialogueParticipant.AGENT
+            "Hello, which genres do you prefer?",
+            "u1",
+            DialogueParticipant.AGENT,
         )
     )
-    dialogue.add_utterance(Utterance("Hello", DialogueParticipant.USER))
+    dialogue.add_utterance(Utterance("Hello", "u1", DialogueParticipant.USER))
     ev = Evaluator(dialogues=[dialogue], reward_config=reward_config)
 
     with pytest.raises(TypeError):

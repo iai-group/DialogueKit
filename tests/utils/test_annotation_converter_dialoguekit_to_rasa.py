@@ -1,6 +1,7 @@
 """Tests for AnnotationConverterRasa."""
 
 import pytest
+
 from dialoguekit.core import Intent, Utterance
 from dialoguekit.participant import DialogueParticipant
 from dialoguekit.utils import AnnotationConverterRasa
@@ -12,7 +13,7 @@ PLACEHOLDER = "(.*)"
 def utterances_1():
     """Utterance fixture."""
     return [
-        Utterance(text, participant=DialogueParticipant.USER)
+        Utterance(text, utterance_id="u1", participant=DialogueParticipant.USER)
         for text in [
             f"You should try {PLACEHOLDER}!",
             f"There's also {PLACEHOLDER}!",
