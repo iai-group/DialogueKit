@@ -173,7 +173,7 @@ class ConditionalNLG(TemplateNLG):
                     f"{{{annotation.slot}}}", annotation.value, 1
                 )
             response_utterance.add_annotations(annotations)
-            
+
         response_utterance.utterance_id = utterance_id
         return response_utterance
 

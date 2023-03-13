@@ -93,7 +93,7 @@ def test_filter_templates(nlg_class: TemplateNLG):
 
     with pytest.raises(ValueError):
         test_response = nlg_class.generate_utterance_text(
-            intent=Intent("REVEAL.EXPAND"), annotations=None
+            "u1", intent=Intent("REVEAL.EXPAND"), annotations=None
         )
 
 
