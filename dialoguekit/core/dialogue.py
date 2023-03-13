@@ -13,7 +13,7 @@ class Dialogue:
         self,
         agent_id: str,
         user_id: str,
-        conversation_id: str = None,
+        conversation_id: str,
     ) -> None:
         """Represents a dialogue.
 

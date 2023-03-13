@@ -32,7 +32,7 @@ class DialogueConnector:
         agent: Agent,
         user: User,
         platform: Platform,
-        conversation_id: str = None,
+        conversation_id: str,
         save_dialogue_history: bool = True,
     ) -> None:
         """Represents a dialogue connector.
@@ -176,7 +176,7 @@ if __name__ == "__main__":
     user = User(id="TEST01")
 
     platform = TerminalPlatform()
-    dm = DialogueConnector(agent, user, platform)
+    dm = DialogueConnector(agent, user, platform, "CNV1")
 
     user.connect_dialogue_connector(dm)
     agent.connect_dialogue_connector(dm)

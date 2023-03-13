@@ -33,7 +33,7 @@ def connector(user: User, agent: ParrotAgent) -> DialogueConnector:
         agent,
         user,
         TerminalPlatform(),
-        conversation_id="conversation1",
+        conversation_id="CNV1",
         save_dialogue_history=False,
     )
     return connector
@@ -50,7 +50,7 @@ def test_greetings(connector: DialogueConnector, monkeypatch) -> None:
     )
     assert (
         connector.dialogue_history.utterances[0].utterance_id
-        == "TestParrotAgent_conversation1_0"
+        == "TestParrotAgent_CNV1_0"
     )
     assert (
         connector.dialogue_history.utterances[-1].text
@@ -58,5 +58,5 @@ def test_greetings(connector: DialogueConnector, monkeypatch) -> None:
     )
     assert (
         connector.dialogue_history.utterances[-1].utterance_id
-        == "TestParrotAgent_conversation1_2"
+        == "TestParrotAgent_CNV1_2"
     )

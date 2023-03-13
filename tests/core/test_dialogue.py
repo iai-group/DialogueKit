@@ -34,7 +34,7 @@ def dialogue_history_1() -> Dialogue:
         agent_utterance_3,
     ]
 
-    dialogue_history = Dialogue(agent_id, user_id)
+    dialogue_history = Dialogue(agent_id, user_id, "CNV1")
     for utterance in utterances:
         dialogue_history.add_utterance(utterance)
     return dialogue_history
@@ -65,7 +65,7 @@ def dialogue_history_2() -> Dialogue:
         agent_utterance_2,
     ]
 
-    dialogue_history = Dialogue(agent_id, user_id)
+    dialogue_history = Dialogue(agent_id, user_id, "CNV1")
     dialogue_history.metadata.update(
         {"description": "Dialogue fixture for testing"}
     )
@@ -78,7 +78,7 @@ def dialogue_history_2() -> Dialogue:
 @pytest.fixture(scope="module")
 def dialogue_history_3() -> Dialogue:
     """Empty dialogue fixture."""
-    return Dialogue("agent-003", "USR03")
+    return Dialogue("agent-003", "USR03", "CNV1")
 
 
 def test_ids(dialogue_history_1: Dialogue) -> None:
