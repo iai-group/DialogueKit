@@ -69,7 +69,10 @@ def json_to_annotated_utterance(
 
 
 def json_to_dialogues(
-    filepath: str, agent_id: str, user_id: str
+    filepath: str,
+    agent_id: str,
+    user_id: str,
+    conversation_id: str,
 ) -> List[Dialogue]:
     """Parses a JSON file containing dialogues.
 
@@ -77,6 +80,7 @@ def json_to_dialogues(
         filepath: Path to JSON file containing the dialogues.
         agent_id: Agent ID in the dialogues.
         user_id: User ID in the dialogues.
+        conversation_id: Conversation ID.
 
     Returns:
         A list of Dialogue objects.
@@ -86,7 +90,7 @@ def json_to_dialogues(
 
     dialogues = []
     for dialogue_data in data:
-        dialogue = Dialogue(agent_id, user_id)
+        dialogue = Dialogue(agent_id, user_id, conversation_id)
         for utterance_data in dialogue_data.get(_FIELD_CONVERSATION):
             annotated_utterance = json_to_annotated_utterance(utterance_data)
             dialogue.add_utterance(annotated_utterance)

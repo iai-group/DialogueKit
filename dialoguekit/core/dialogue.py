@@ -9,15 +9,24 @@ from dialoguekit.core.utterance import Utterance
 
 
 class Dialogue:
-    def __init__(self, agent_id: str, user_id: str) -> None:
+    def __init__(
+        self, agent_id: str, user_id: str, conversation_id: str
+    ) -> None:
         """Represents a dialogue.
 
         Args:
             agent_id: Agent ID.
             user_id: User ID.
+            conversation_id: Conversation ID.
         """
         self._agent_id = agent_id
         self._user_id = user_id
+        if conversation_id is None:
+            date = datetime.datetime.utcnow()
+            utc_time = calendar.timegm(date.utctimetuple())
+            self._conversation_id = str(utc_time)
+        else:
+            self._conversation_id = conversation_id
         self._utterances: List[Utterance] = []
         self._metadata: Dict[str, Any] = {}
 
@@ -43,6 +52,11 @@ class Dialogue:
         return True
 
     @property
+    def conversation_id(self) -> str:
+        """Returns the conversation id."""
+        return self._conversation_id
+
+    @property
     def agent_id(self) -> str:
         """Returns the agent id."""
         return self._agent_id
@@ -62,6 +76,11 @@ class Dialogue:
         """Returns the metadata of the dialogue."""
         return self._metadata
 
+    @property
+    def current_turn_id(self) -> int:
+        """Returns the id of the current utterance."""
+        return len(self._utterances)
+
     def add_utterance(self, utterance: Utterance) -> None:
         """Adds an utterance to the history.
 
@@ -76,10 +95,8 @@ class Dialogue:
         Returns:
             Dialogue as dictionary.
         """
-        date = datetime.datetime.utcnow()
-        utc_time = calendar.timegm(date.utctimetuple())
         dialogue_as_dict: Dict[str, Any] = {
-            "conversation ID": str(utc_time),
+            "conversation ID": self._conversation_id,
             "conversation": [],
             "agent": self._agent_id,
             "user": self._user_id,
