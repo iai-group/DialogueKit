@@ -18,7 +18,7 @@ DialogueKit is published to PyPI, install it by running:
 pip install dialoguekit
 ```
 
-If you want to install a DialogueKit from a specific commit or straight from github this is still possible.
+Follow the commands below to install DialogueKit from a specific commit or straight from GitHub.
 
 The command will install the latest version from the main branch.
 

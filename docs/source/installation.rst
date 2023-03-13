@@ -4,9 +4,14 @@ Installation
 Install as a package
 --------------------
 
-**Note:** *Packaging is still a work in progress and may not work perfectly.*
+DialogueKit is published to PyPI, install it by running:
 
-As of now DialogueKit is not published as a package, but it is still possible to install it with pip.
+  .. code-block:: shell
+    pip install dialoguekit
+
+
+Follow the commands below to install DialogueKit from a specific commit or straight from GitHub.
+
 The command will install the latest version from the main branch.
 
 * On Windows you may need to run this command before pip installing
@@ -30,4 +35,3 @@ If you want to specify a specific commit as the source of the package append the
   .. code-block:: shell
     
     pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275105cc1ca7698783719551c2
-  
