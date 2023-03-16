@@ -9,7 +9,6 @@ def test_json_to_dialogues():
         filepath="tests/data/annotated_dialogues.json",
         agent_id="TestAGENT",
         user_id="TestUSER",
-        conversation_id="CNV1",
     )
     assert len(dialogues) == 3
     assert len(dialogues[0].utterances) > 0
