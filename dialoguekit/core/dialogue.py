@@ -17,7 +17,7 @@ class Dialogue:
         Args:
             agent_id: Agent ID.
             user_id: User ID.
-            conversation_id: Conversation ID.
+            conversation_id: Conversation ID. Defaults to None.
         """
         self._agent_id = agent_id
         self._user_id = user_id
