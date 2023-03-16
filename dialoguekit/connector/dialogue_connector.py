@@ -32,7 +32,7 @@ class DialogueConnector:
         agent: Agent,
         user: User,
         platform: Platform,
-        conversation_id: str,
+        conversation_id: str = None,
         save_dialogue_history: bool = True,
     ) -> None:
         """Represents a dialogue connector.

@@ -10,7 +10,7 @@ from dialoguekit.core.utterance import Utterance
 
 class Dialogue:
     def __init__(
-        self, agent_id: str, user_id: str, conversation_id: str
+        self, agent_id: str, user_id: str, conversation_id: str = None
     ) -> None:
         """Represents a dialogue.
 
