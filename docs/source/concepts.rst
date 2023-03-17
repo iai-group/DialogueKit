@@ -1,11 +1,11 @@
 Main concepts
 =============
 
-.. image:: _static/DialogueKit-Architecture.png
-    :width: 400
-    :alt: Image illustrating the connections between DialogueKit´s main components.
+.. .. image:: _static/DialogueKit-Architecture.png
+..     :width: 400
+..     :alt: Image illustrating the connections between DialogueKit´s main components.
 
-.. todo:: Update figure to show only the main concepts listed below.
+.. .. todo:: Update figure to show only the main concepts listed below.
 
 Participants 
 ------------
