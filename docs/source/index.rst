@@ -1,5 +1,5 @@
 DialogueKit |release| documentation
-=====================================
+===================================
 
 DialogueKit is a framework for building and evaluating conversational information access (CIA) systems.
 It contains based classes for fundamental concepts, such as dialogue participants, dialogue management, natural language understanding, and natural language generation.
@@ -14,8 +14,6 @@ In addition to these concepts, DialogueKit contains an evaluation module to asse
    usage
    concepts
    components
-   nlu
-   nlg
    external_agents
    dialogue_export
    :ref:`modindex`

@@ -60,7 +60,7 @@ Entity Extraction
 As of now only one implementation exists, the Rasa DIET classifier.
 
 User Satisfaction Prediction
----------------------------
+----------------------------
 
 User satisfaction prediction entails the task of predicting a user's satisfaction with the system, based on the conversation.
 We model this as a classification task, where, given the previous *n* user-agent turns, the task of the classifier is to predict the user satisfaction on a scale from 1-5:
