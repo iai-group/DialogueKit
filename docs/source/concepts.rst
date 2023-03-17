@@ -17,7 +17,7 @@ However, the agent might be played by a human ("Wizard-of-Oz") and the human use
 Dialogue
 --------
 
-A dialogue takes place between two participants (agent, user) that converse about a domain such as movies and flight booking.
+A dialogue is turn-based and takes place between two participants (agent, user) that converse about a domain such as movies and flight booking.
 It is composed of a list of utterances that can be annotated or not and any relevant additional metadata. 
 
 Dialogue Orchestration
@@ -25,7 +25,6 @@ Dialogue Orchestration
 
 The dialogue orchestration includes the dialogue connector and the platform that permit the participants to communicate. 
 The dialogue connector manages the dialogue between the participants while the platform ensures that the participants can read and answer each other's messages.
-
 
 Natural Language Understanding (NLU)
 ------------------------------------

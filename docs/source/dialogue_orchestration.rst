@@ -17,4 +17,5 @@ Platform
 :py:mod:`dialoguekit.platforms.platform`
 
 The platform's responsibility is to facilitate the conversation and ensure that the participant can see the agent's utterances and reply to it.
-DialogueKit includes a simple terminal-based platform. However, it can support other platforms by facilitating communication via POST requests. 
+DialogueKit includes a simple terminal-based platform.
+However, other platforms can be created by inheriting from :py:class:`dialoguekit.platforms.platform.Platform`.
