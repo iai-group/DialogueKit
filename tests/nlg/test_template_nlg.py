@@ -5,6 +5,7 @@ import pytest
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg_template import TemplateNLG
 from dialoguekit.nlg.template_from_training_data import (
@@ -30,12 +31,17 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
     """Tests utterance generation."""
     expected_response1 = AnnotatedUtterance(
         text="something like the A Test Movie Title",
-        intent=Intent("REVEAL.EXPAND"),
+        dialogue_acts=[
+            DialogueAct(
+                intent=Intent("REVEAL.EXPAND"),
+                annotations=[
+                    Annotation(slot="TITLE", value="A Test Movie Title")
+                ],
+            )
+        ],
         participant=DialogueParticipant.AGENT,
     )
-    expected_response1.add_annotations(
-        [Annotation(slot="TITLE", value="A Test Movie Title")]
-    )
+
     sample_response_text = [
         (
             Intent("REVEAL.EXPAND"),
@@ -53,7 +59,7 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
         Intent("NOT_A_INTENT")
     )
     assert generated_response.text == "Sorry, I did not understand you."
-    assert generated_response.intent == Intent("NOT_A_INTENT")
+    assert generated_response.get_intents() == [Intent("NOT_A_INTENT")]
 
 
 def test_generate_utterance_text_force_annotation(nlg_class: TemplateNLG):
@@ -61,7 +67,7 @@ def test_generate_utterance_text_force_annotation(nlg_class: TemplateNLG):
     test = nlg_class.generate_utterance_text(
         Intent("COMPLETE"), annotations=None, force_annotation=True
     )
-    assert test.intent == Intent("COMPLETE")
+    assert test.get_intents() == [Intent("COMPLETE")]
 
     test = nlg_class.generate_utterance_text(
         Intent("TRAVERSE.REPEAT"),
@@ -75,7 +81,7 @@ def test_no_annotations(nlg_class: TemplateNLG):
     """Tests utterance generation without annotations."""
     test = nlg_class.generate_utterance_text(Intent("COMPLETE"), None)
 
-    assert test.intent == Intent("COMPLETE")
+    assert test.get_intents() == [Intent("COMPLETE")]
 
 
 def test_filter_templates(nlg_class: TemplateNLG):

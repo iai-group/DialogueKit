@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg_abstract import AbstractNLG
 from dialoguekit.participant.participant import DialogueParticipant
@@ -84,7 +85,7 @@ class TemplateNLG(AbstractNLG):
         # If desired 'intent' is not in the template, use fallback.
         if templates is None:
             return AnnotatedUtterance(
-                intent=intent,
+                dialogue_acts=[DialogueAct(intent=intent)],
                 text="Sorry, I did not understand you.",
                 participant=DialogueParticipant.AGENT,
             )
@@ -100,15 +101,17 @@ class TemplateNLG(AbstractNLG):
         response_utterance = random.choice(templates)
         response_utterance = deepcopy(response_utterance)
 
-        # Clear out annotations
-        response_utterance.annotations = []
+        # Clear out dialogue acts
+        response_utterance.dialogue_acts = []
 
         if annotations is not None:
             for annotation in annotations:
                 response_utterance.text = response_utterance.text.replace(
                     f"{{{annotation.slot}}}", annotation.value, 1
                 )
-            response_utterance.add_annotations(annotations)
+            response_utterance.add_dialogue_acts(
+                [DialogueAct(intent=intent, annotations=annotations)]
+            )
         return response_utterance
 
     def dump_template(self, filepath: str) -> None:
@@ -154,7 +157,7 @@ class TemplateNLG(AbstractNLG):
             utterance_slots = set(
                 [
                     annotation.slot
-                    for annotation in annotated_utterance.annotations
+                    for annotation in annotated_utterance.get_annotations()
                 ]
             )
             if all(x in annotations_slots for x in utterance_slots):
@@ -163,7 +166,7 @@ class TemplateNLG(AbstractNLG):
             filtered_annotated_utterances = [
                 template
                 for template in filtered_annotated_utterances
-                if len(template.annotations) > 0
+                if len(template.get_annotations()) > 0
             ]
         return filtered_annotated_utterances
 
@@ -204,7 +207,9 @@ class TemplateNLG(AbstractNLG):
         min_annotations = {"amount": sys.maxsize, "examples": []}
         max_annotations = {"amount": 0, "examples": []}
 
-        template_lengths = [len(template.annotations) for template in templates]
+        template_lengths = [
+            len(template.get_annotations()) for template in templates
+        ]
         max_annotations["amount"] = max(template_lengths)
         min_annotations["amount"] = min(template_lengths)
         max_annotations["examples"] = [

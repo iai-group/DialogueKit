@@ -4,6 +4,7 @@ import json
 import pytest
 
 from dialoguekit.core import AnnotatedUtterance, Annotation, Intent
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.nlg import ConditionalNLG
 from dialoguekit.nlg.template_from_training_data import (
     extract_utterance_template,
@@ -41,13 +42,18 @@ def test_generate_utterance_text(nlg_class: ConditionalNLG):
     """
     expected_response1 = AnnotatedUtterance(
         text="something like the A Test Movie Title",
-        intent=Intent("REVEAL.EXPAND"),
+        dialogue_acts=[
+            DialogueAct(
+                intent=Intent("REVEAL.EXPAND"),
+                annotations=[
+                    Annotation(slot="TITLE", value="A Test Movie Title")
+                ],
+            )
+        ],
         participant=DialogueParticipant.AGENT,
         metadata={"satisfaction": 2},
     )
-    expected_response1.add_annotations(
-        [Annotation(slot="TITLE", value="A Test Movie Title")]
-    )
+
     sample_response_text = [
         (
             Intent("REVEAL.EXPAND"),
@@ -65,7 +71,7 @@ def test_generate_utterance_text(nlg_class: ConditionalNLG):
         Intent("NOT_A_INTENT")
     )
     assert generated_response.text == "Sorry, I did not understand you."
-    assert generated_response.intent == Intent("NOT_A_INTENT")
+    assert generated_response.get_intents() == [Intent("NOT_A_INTENT")]
 
 
 def test_generate_utterance_text_force_annotation(nlg_class: ConditionalNLG):
@@ -80,7 +86,7 @@ def test_generate_utterance_text_force_annotation(nlg_class: ConditionalNLG):
     test = nlg_class.generate_utterance_text(
         Intent("COMPLETE"), annotations=None, force_annotation=True
     )
-    assert test.intent == Intent("COMPLETE")
+    assert test.get_intents() == [Intent("COMPLETE")]
 
     test = nlg_class.generate_utterance_text(
         Intent("TRAVERSE.REPEAT"),
@@ -98,7 +104,7 @@ def test_no_annotations(nlg_class: ConditionalNLG):
     """
     test = nlg_class.generate_utterance_text(Intent("COMPLETE"), None)
 
-    assert test.intent == Intent("COMPLETE")
+    assert test.get_intents() == [Intent("COMPLETE")]
 
 
 def test_generate_utterance_text_with_satisfaction(nlg_class: ConditionalNLG):

@@ -94,17 +94,23 @@ class Dialogue:
             }
 
             if isinstance(utterance, AnnotatedUtterance):
-                if utterance.intent is not None:
-                    utterance_info["intent"] = utterance.intent.label
+                dialogue_acts = list()
+                for da in utterance.dialogue_acts:
+                    dialogue_acts.append(
+                        {
+                            "intent": da.intent.label
+                            if da.intent is not None
+                            else "",
+                            "slot_values": [
+                                [annotation.slot, annotation.value]
+                                for annotation in da.annotations
+                            ],
+                        }
+                    )
+                utterance_info["dialogue_acts"] = dialogue_acts
 
                 for k, v in utterance.metadata.items():
                     utterance_info[k] = v
 
-                annotations = utterance.annotations
-                if annotations:
-                    slot_values = []
-                    for annotation in annotations:
-                        slot_values.append([annotation.slot, annotation.value])
-                    utterance_info["slot_values"] = slot_values
             dialogue_as_dict["conversation"].append(utterance_info)
         return dialogue_as_dict

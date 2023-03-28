@@ -8,6 +8,7 @@ from typing import DefaultDict, Dict, List, Optional, Set, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifier,
@@ -21,13 +22,14 @@ _DEFAULT_SATISFACTION = 3
 def _replace_slot_with_placeholder(
     annotated_utterance: AnnotatedUtterance,
 ) -> None:
-    annotations = annotated_utterance.annotations
-    for annotation in annotations:
-        placeholder_label, value = annotation.slot, annotation.value
-        annotated_utterance.text = annotated_utterance.text.replace(
-            value, f"{{{placeholder_label}}}", 1
-        )
-        annotation.value = None
+    dialogue_acts = annotated_utterance.dialogue_acts
+    for da in dialogue_acts:
+        for annotation in da.annotations:
+            placeholder_label, value = annotation.slot, annotation.value
+            annotated_utterance.text = annotated_utterance.text.replace(
+                value, f"{{{placeholder_label}}}", 1
+            )
+            annotation.value = None
 
 
 def build_template_from_instances(
@@ -46,9 +48,10 @@ def build_template_from_instances(
     """
     template = defaultdict(list)
     for utterance in utterances:
-        if isinstance(utterance.intent, Intent):
+        if utterance.dialogue_acts:
             _replace_slot_with_placeholder(utterance)
-            template[utterance.intent].append(utterance)
+            for intent in utterance.get_intents():
+                template[intent].append(utterance)
         else:
             print(
                 f'Utterance was skipped.\nUtterance "{utterance.text}", \
@@ -82,9 +85,9 @@ def extract_utterance_template(  # noqa: C901
           reflecting the satisfaction at that given point in time.
 
     Args:
-        Annotated_dialog_file: annotated dialogue json file.
+        annotated_dialog_file: Annotated dialogue json file.
         participant_to_learn: Which participant we want to create a template on.
-        satisfaction_classifier: SatisfactionClassifier
+        satisfaction_classifier: SatisfactionClassifier.
 
     Returns:
         Dict with Intents and lists with corresponding AnnotatedUtterances.
@@ -108,7 +111,6 @@ def extract_utterance_template(  # noqa: C901
                 if satisfaction_classifier:
                     annotated_utterance = AnnotatedUtterance(
                         text=utterance_record.get("utterance").strip(),
-                        intent=Intent(utterance_record.get("intent")),
                         metadata={
                             "satisfaction": _DEFAULT_SATISFACTION
                         },  # Satisfaction defaults to 3 (Normal)
@@ -117,7 +119,6 @@ def extract_utterance_template(  # noqa: C901
                 else:
                     annotated_utterance = AnnotatedUtterance(
                         text=utterance_record.get("utterance").strip(),
-                        intent=Intent(utterance_record.get("intent")),
                         participant=DialogueParticipant.AGENT,
                     )
                 annotated_utterance_copy = copy.deepcopy(annotated_utterance)
@@ -137,21 +138,33 @@ def extract_utterance_template(  # noqa: C901
 
                     # Keep the original utterance as template when it does not
                     # contain slot values.
-                    if "slot_values" in utterance_record:
-                        for slot, value in utterance_record.get("slot_values"):
-                            annotated_utterance.add_annotations(
-                                [Annotation(slot=slot, value=value)]
+                    dialogue_acts = []
+                    for da in utterance_record.get("dialogue_acts", []):
+                        intent = (
+                            Intent(da.get("intent", None))
+                            if da.get("intent", None)
+                            else None
+                        )
+                        slot_value_pairs = da.get("slot_values", [])
+                        if slot_value_pairs:
+                            slot_value_pairs = [
+                                Annotation(slot, value)
+                                for slot, value in slot_value_pairs
+                            ]
+                        dialogue_acts.append(
+                            DialogueAct(
+                                intent=intent, annotations=slot_value_pairs
                             )
-                        if satisfaction_classifier:
-                            annotated_utterance_copy = copy.deepcopy(
-                                annotated_utterance
-                            )
+                        )
+                    annotated_utterance.add_dialogue_acts(dialogue_acts)
+                    if satisfaction_classifier:
+                        annotated_utterance_copy = copy.deepcopy(
+                            annotated_utterance
+                        )
+                    _replace_slot_with_placeholder(annotated_utterance)
 
-                        _replace_slot_with_placeholder(annotated_utterance)
-
-                    response_templates[annotated_utterance.intent].add(
-                        annotated_utterance
-                    )
+                    for intent in annotated_utterance.get_intents():
+                        response_templates[intent].add(annotated_utterance)
                     participant_utterance = annotated_utterance_copy
                 else:
                     if participant_utterance and satisfaction_classifier:

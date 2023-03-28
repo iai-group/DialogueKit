@@ -7,6 +7,7 @@ from typing import Dict, List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg_template import TemplateNLG
 from dialoguekit.participant.participant import DialogueParticipant
@@ -135,7 +136,7 @@ class ConditionalNLG(TemplateNLG):
         # If desired 'intent' is not in the template, use fallback.
         if templates is None:
             return AnnotatedUtterance(
-                intent=intent,
+                dialogue_acts=[DialogueAct(intent=intent)],
                 text="Sorry, I did not understand you.",
                 participant=DialogueParticipant.AGENT,
             )
@@ -158,15 +159,17 @@ class ConditionalNLG(TemplateNLG):
             response_utterance = random.choice(templates)
             response_utterance = deepcopy(response_utterance)
 
-        # Clear out annotations
-        response_utterance.annotations = []
+        # Clear out dialogue acts
+        response_utterance.dialogue_acts = []
 
         if annotations is not None:
             for annotation in annotations:
                 response_utterance.text = response_utterance.text.replace(
                     f"{{{annotation.slot}}}", annotation.value, 1
                 )
-            response_utterance.add_annotations(annotations)
+            response_utterance.add_dialogue_acts(
+                [DialogueAct(intent=intent, annotations=annotations)]
+            )
         return response_utterance
 
     def _select_closest_to_conditional(
