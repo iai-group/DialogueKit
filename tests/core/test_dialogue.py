@@ -135,6 +135,7 @@ def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
     assert len(dialogue_dict_1.get("conversation")) == 5
     utterance_1 = dialogue_dict_1.get("conversation")[0]
     assert utterance_1["utterance"] == "Hello"
+    assert utterance_1["utterance ID"] == "CNV1_agent-001_0"
     assert utterance_1.get("slot_values") is None
 
 

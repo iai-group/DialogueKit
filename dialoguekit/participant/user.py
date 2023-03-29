@@ -53,8 +53,7 @@ class User(Participant):
             text: User input.
         """
         utterance = AnnotatedUtterance(
-            text,
-            participant=DialogueParticipant.USER,
+            text, participant=DialogueParticipant.USER
         )
         self._dialogue_connector.register_user_utterance(utterance)
 
