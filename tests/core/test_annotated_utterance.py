@@ -44,6 +44,21 @@ def test_comparison():
     )
     assert u1 != u2
 
+    # Test ID difference
+    u1 = AnnotatedUtterance(
+        text="Test1",
+        utterance_id="u1",
+        intent=Intent("1"),
+        participant=DialogueParticipant.AGENT,
+    )
+    u2 = AnnotatedUtterance(
+        text="Test1",
+        utterance_id="u2",
+        intent=Intent("1"),
+        participant=DialogueParticipant.AGENT,
+    )
+    assert u1 != u2
+
     # Test Intent difference
     u1 = AnnotatedUtterance(
         text="Test1",

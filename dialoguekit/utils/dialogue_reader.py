@@ -39,7 +39,7 @@ def json_to_annotated_utterance(
     participant = json_utterance.get(_FIELD_PARTICIPANT)
 
     utterance_text = json_utterance.get(_FIELD_UTTERANCE)
-    utterance_id = json_utterance.get(_FIELD_UTTERANCE)
+    utterance_id = json_utterance.get(_FIELD_UTTERANCE_ID)
 
     intent = json_utterance.get(_FIELD_INTENT)
     if intent:
@@ -83,7 +83,6 @@ def json_to_dialogues(
         filepath: Path to JSON file containing the dialogues.
         agent_id: Agent ID in the dialogues.
         user_id: User ID in the dialogues.
-        conversation_id: Conversation ID.
 
     Returns:
         A list of Dialogue objects.
