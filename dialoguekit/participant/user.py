@@ -54,11 +54,6 @@ class User(Participant):
         """
         utterance = AnnotatedUtterance(
             text,
-            utterance_id="{}_{}_{}".format(
-                self.id,
-                self._dialogue_connector._dialogue_history.conversation_id,
-                self._dialogue_connector._dialogue_history.current_turn_id,
-            ),
             participant=DialogueParticipant.USER,
         )
         self._dialogue_connector.register_user_utterance(utterance)

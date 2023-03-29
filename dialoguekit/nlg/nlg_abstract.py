@@ -14,7 +14,6 @@ class AbstractNLG(ABC):
     @abstractmethod
     def generate_utterance_text(
         self,
-        utterance_id: str,
         intent: Intent,
         annotations: Optional[Union[List[Annotation], None]] = None,
         force_annotation: bool = False,
@@ -25,7 +24,6 @@ class AbstractNLG(ABC):
         arguments and returns a textual utterance, based on the arguments.
 
         Args:
-            utterance_id: Utterance ID.
             intent: The underlying intent of the utterance.
             annotations: If provided, these annotations should be included in
               the utterance.

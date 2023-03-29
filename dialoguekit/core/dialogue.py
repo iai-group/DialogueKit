@@ -89,6 +89,13 @@ class Dialogue:
         Args:
             utterance: An instance of Utterance.
         """
+        if utterance.utterance_id is None:
+            utterance.utterance_id = "{}_{}_{}_{}".format(
+                self.conversation_id,
+                self.agent_id,
+                self.user_id,
+                self.current_turn_id,
+            )
         self._utterances.append(utterance)
 
     def to_dict(self) -> Dict[str, Any]:

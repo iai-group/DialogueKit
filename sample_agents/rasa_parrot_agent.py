@@ -31,11 +31,6 @@ class RasaParrotAgent(Agent):
         """Sends the agent's welcome message."""
         utterance = AnnotatedUtterance(
             text="Hello, I'm Rasa Parrot. What can I help u with?",
-            utterance_id="{}_{}_{}".format(
-                self.id,
-                self._dialogue_connector._dialogue_history.conversation_id,
-                self._dialogue_connector._dialogue_history.current_turn_id,
-            ),
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(utterance)
@@ -44,11 +39,6 @@ class RasaParrotAgent(Agent):
         """Sends the agent's goodbye message."""
         utterance = AnnotatedUtterance(
             text="It was nice talking to you. Bye",
-            utterance_id="{}_{}_{}".format(
-                self.id,
-                self._dialogue_connector._dialogue_history.conversation_id,
-                self._dialogue_connector._dialogue_history.current_turn_id,
-            ),
             intent=self.stop_intent,
             participant=DialogueParticipant.AGENT,
         )
@@ -72,11 +62,6 @@ class RasaParrotAgent(Agent):
         )
         response = AnnotatedUtterance(
             text=r.json()[0]["text"],
-            utterance_id="{}_{}_{}".format(
-                self.id,
-                self._dialogue_connector._dialogue_history.conversation_id,
-                self._dialogue_connector._dialogue_history.current_turn_id,
-            ),
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(response)
