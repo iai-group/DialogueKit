@@ -26,24 +26,16 @@ def test_hash():
 
 def test_comparison():
     """Tests utterance comparison."""
-    u1 = Utterance(
-        "Test1", utterance_id="u1", participant=DialogueParticipant.AGENT
-    )
+    u1 = Utterance("Test1", participant=DialogueParticipant.AGENT)
     u2 = u1
     assert u1 == u2
 
-    u3 = Utterance(
-        "Test1", utterance_id="u1", participant=DialogueParticipant.AGENT
-    )
+    u3 = Utterance("Test1", participant=DialogueParticipant.AGENT)
     assert u1 == u3
 
     # Test Text difference
-    u1 = Utterance(
-        text="Test1", utterance_id="u1", participant=DialogueParticipant.AGENT
-    )
-    u2 = Utterance(
-        text="Test2", utterance_id="u1", participant=DialogueParticipant.AGENT
-    )
+    u1 = Utterance(text="Test1", participant=DialogueParticipant.AGENT)
+    u2 = Utterance(text="Test2", participant=DialogueParticipant.AGENT)
     assert u1 != u2
 
     # Test ID difference

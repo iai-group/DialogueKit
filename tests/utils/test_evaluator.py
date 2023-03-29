@@ -121,11 +121,10 @@ def test_reward_type_error(reward_config: Dict[str, Any]) -> None:
     dialogue.add_utterance(
         Utterance(
             "Hello, which genres do you prefer?",
-            "u1",
             DialogueParticipant.AGENT,
         )
     )
-    dialogue.add_utterance(Utterance("Hello", "u1", DialogueParticipant.USER))
+    dialogue.add_utterance(Utterance("Hello", DialogueParticipant.USER))
     ev = Evaluator(dialogues=[dialogue], reward_config=reward_config)
 
     with pytest.raises(TypeError):

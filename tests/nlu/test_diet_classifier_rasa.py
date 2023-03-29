@@ -19,9 +19,7 @@ def intents():
 def utterances_1():
     """List of utterances fixture."""
     return [
-        Utterance(
-            text, utterance_id="u1", participant=DialogueParticipant.AGENT
-        )
+        Utterance(text, participant=DialogueParticipant.AGENT)
         for text in [
             f"You should try {PLACEHOLDER}!",
             f"There's also {PLACEHOLDER}!",
@@ -42,9 +40,7 @@ def labels_1():
 def utterances_2():
     """List of utterances fixture."""
     return [
-        Utterance(
-            text, utterance_id="u1", participant=DialogueParticipant.AGENT
-        )
+        Utterance(text, participant=DialogueParticipant.AGENT)
         for text in [
             f"You should give {PLACEHOLDER} a try!",
             f"You might want to check out {PLACEHOLDER}",
@@ -74,7 +70,6 @@ def test_classify_intent_exact_patterns(intents, utterances_1, labels_1):
         )
         utterance = Utterance(
             utterance_text,
-            utterance_id="u1",
             participant=DialogueParticipant.AGENT,
         )
         predicted_intent = intent_classifier.classify_intent(utterance)
@@ -101,7 +96,6 @@ def test_classify_intent_similar_patterns(
         )
         utterance = Utterance(
             utterance_text,
-            utterance_id="u1",
             participant=DialogueParticipant.AGENT,
         )
         predicted_intent = intent_classifier.classify_intent(utterance)

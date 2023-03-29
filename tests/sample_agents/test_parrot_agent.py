@@ -50,7 +50,7 @@ def test_greetings(connector: DialogueConnector, monkeypatch) -> None:
     )
     assert (
         connector.dialogue_history.utterances[0].utterance_id
-        == "TestParrotAgent_CNV1_0"
+        == "CNV1_TestParrotAgent_0"
     )
     assert (
         connector.dialogue_history.utterances[-1].text
@@ -58,5 +58,5 @@ def test_greetings(connector: DialogueConnector, monkeypatch) -> None:
     )
     assert (
         connector.dialogue_history.utterances[-1].utterance_id
-        == "TestParrotAgent_CNV1_2"
+        == "CNV1_TestParrotAgent_2"
     )

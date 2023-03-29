@@ -18,27 +18,22 @@ def dialogue_history_1() -> Dialogue:
     conversation_id = "CNV1"
     agent_utterance_1 = Utterance(
         "Hello",
-        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "0"),
         participant=DialogueParticipant.AGENT,
     )
     user_utterance_1 = Utterance(
         "Hi",
-        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "1"),
         participant=DialogueParticipant.USER,
     )
     agent_utterance_2 = Utterance(
         "Can I help you?",
-        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "2"),
         participant=DialogueParticipant.AGENT,
     )
     user_utterance_2 = Utterance(
         "No, thank you. Bye",
-        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "3"),
         participant=DialogueParticipant.USER,
     )
     agent_utterance_3 = Utterance(
         "Bye.",
-        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "4"),
         participant=DialogueParticipant.AGENT,
     )
     utterances = [
@@ -63,27 +58,16 @@ def dialogue_history_2() -> Dialogue:
     conversation_id = "CNV1"
     agent_utterance_1 = AnnotatedUtterance(
         "Hello",
-        utterance_id="{}_{}_{}".format(agent_id, conversation_id, "0"),
         participant=DialogueParticipant.AGENT,
         intent=Intent("GREETINGS"),
     )
     user_utterance_1 = AnnotatedUtterance(
         "Hi",
-        utterance_id="{}_{}_{}".format(
-            user_id,
-            conversation_id,
-            "1",
-        ),
         participant=DialogueParticipant.USER,
         intent=Intent("GREETINGS"),
     )
     agent_utterance_2 = AnnotatedUtterance(
         "What is your favorite color?",
-        utterance_id="{}_{}_{}".format(
-            agent_id,
-            conversation_id,
-            "2",
-        ),
         participant=DialogueParticipant.AGENT,
         intent=Intent("ELICIT"),
         annotations=[Annotation("COLOR", "color")],
@@ -130,7 +114,7 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances
     )
     assert dialogue_history_1.utterances[0].text == "Hello"
-    assert dialogue_history_1.utterances[0].utterance_id == "agent-001_CNV1_0"
+    assert dialogue_history_1.utterances[0].utterance_id == "CNV1_agent-001_0"
     assert (
         dialogue_history_1.utterances[0].participant
         == DialogueParticipant.AGENT
@@ -139,7 +123,7 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances[1].participant == DialogueParticipant.USER
     )
     assert dialogue_history_1.utterances[1].text == "Hi"
-    assert dialogue_history_1.utterances[1].utterance_id == "agent-001_CNV1_1"
+    assert dialogue_history_1.utterances[1].utterance_id == "CNV1_USR01_1"
     assert (
         dialogue_history_1.utterances[4].participant
         == DialogueParticipant.AGENT

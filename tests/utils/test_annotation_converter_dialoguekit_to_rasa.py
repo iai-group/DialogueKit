@@ -13,7 +13,7 @@ PLACEHOLDER = "(.*)"
 def utterances_1():
     """Utterance fixture."""
     return [
-        Utterance(text, utterance_id="u1", participant=DialogueParticipant.USER)
+        Utterance(text, participant=DialogueParticipant.USER)
         for text in [
             f"You should try {PLACEHOLDER}!",
             f"There's also {PLACEHOLDER}!",

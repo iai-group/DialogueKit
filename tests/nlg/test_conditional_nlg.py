@@ -41,7 +41,6 @@ def test_generate_utterance_text(nlg_class: ConditionalNLG):
     """
     expected_response1 = AnnotatedUtterance(
         text="something like the A Test Movie Title",
-        utterance_id="u1",
         intent=Intent("REVEAL.EXPAND"),
         participant=DialogueParticipant.AGENT,
         metadata={"satisfaction": 2},
@@ -66,7 +65,6 @@ def test_generate_utterance_text(nlg_class: ConditionalNLG):
         "u1", Intent("NOT_A_INTENT")
     )
     assert generated_response.text == "Sorry, I did not understand you."
-    assert generated_response.utterance_id == "u1"
     assert generated_response.intent == Intent("NOT_A_INTENT")
 
 
@@ -111,7 +109,6 @@ def test_generate_utterance_text_with_satisfaction(nlg_class: ConditionalNLG):
         nlg_class: Test NLG object.
     """
     test_response = nlg_class.generate_utterance_text_conditional(
-        utterance_id="u1",
         intent=Intent("COMPLETE"),
         annotations=None,
         conditional="satisfaction",
@@ -128,7 +125,6 @@ def test_filter_templates(nlg_class: ConditionalNLG):
         nlg_class: Test NLG object.
     """
     test_response = nlg_class.generate_utterance_text_conditional(
-        utterance_id="u1",
         intent=Intent("REVEAL.EXPAND"),
         annotations=[Annotation(slot="TITLE", value="test_movie_title")],
         conditional="satisfaction",
@@ -140,7 +136,6 @@ def test_filter_templates(nlg_class: ConditionalNLG):
 
     with pytest.raises(ValueError):
         test_response = nlg_class.generate_utterance_text_conditional(
-            utterance_id="u1",
             intent=Intent("REVEAL.EXPAND"),
             annotations=None,
             conditional="satisfaction",
