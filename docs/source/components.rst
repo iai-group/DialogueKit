@@ -8,7 +8,7 @@ Components
 .. toctree::
    :maxdepth: 1
 
-   core
+   dialogue_representation
    participant
    nlu
    nlg

@@ -4,7 +4,7 @@ Installation
 Install as a package
 --------------------
 
-DialogueKit is published to PyPI, install it by running:
+DialogueKit is published to PyPI. Install it by running:
 
   .. code-block:: shell
     pip install dialoguekit

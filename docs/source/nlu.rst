@@ -6,13 +6,13 @@ The NLU component is responsible for obtaining a structured representation of te
 Intent Classification
 ---------------------
 
-Thus far two different NLU pipelines are implemented for intent classification
+Thus far two different NLU pipelines are implemented for intent classification.
 
 * Cosine intent classifier :py:mod:`dialoguekit.nlu.models.intent_classifier_cosine`
 
 * Rasa DIET classifier :py:mod:`dialoguekit.nlu.models.diet_classifier_rasa`
 
-See below for an explanation of the implementation of Rasa DIET classifier.
+See below for details on how the Rasa DIET classifier is used in our implementation.
 
 Rasa as a component library
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -20,18 +20,19 @@ Rasa as a component library
 *diet_classifier_rasa* implement Rasa's DIET classifier. This is a Dual Intent and Entity Transformer, their paper can be read 
 `here. <https://arxiv.org/pdf/2004.09936.pdf>`_
 
-Normally one would use Rasa as the underlying platform. But for our use-case we need to use it as a component in DialogueKit. Rasa is distributed with a Apache 2.0 license, granting us free use.
+Normally, one would use Rasa as the underlying platform. Here, instead, we use it as a component in DialogueKit. Rasa is distributed with a Apache 2.0 license, granting us free use.
 
 General idea
 """"""""""""
 
-In general the idea was to import the necessary packages and re-implement the Rasa workflow with their components and structures. Rasa is built in a very object oriented structure. This does not allow us to use DialogueKit objects, they need to be transformed to Rasa components before use.
+In general, the idea is to import the necessary packages and re-implement the Rasa workflow with their components and structures. 
+However, because of how Rasa is structured, DialogueKit objects need to be transformed to Rasa components before use.
 
 Implementation
 """"""""""""""
 
-The implementation is in *diet_classifier_rasa*, this model can be trained and thus uses multiple Rasa components and structures.
-Below you can see all the imports that are used, only from Rasa.
+The implementation is in *diet_classifier_rasa*; this model can be trained and thus uses multiple Rasa components and structures.
+Below is a list of all the Rasa imports that are used.
 
 .. code-block:: python
 

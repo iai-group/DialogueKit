@@ -1,5 +1,5 @@
-Core components
-===============
+Dialogue Representation
+=======================
 
 This page presents the core components of DialogueKit to represent a dialogue and its elements. 
 
@@ -15,7 +15,7 @@ AnnotatedUtterance
 
 :py:mod:`dialoguekit.core.annotated_utterance`
 
-This class enrich Utterance with an intent, annotations, and/or freely definable metadata.
+This class enriches Utterance with an intent, annotations, and/or freely definable metadata.
 
 Intent 
 ------
@@ -36,7 +36,7 @@ Annotations
 
 :py:mod:`dialoguekit.core.annotation`
 
-By default an annotation has a slot and a value, for example the slot *price* has the value *$10* in the following utterance *"This dish costs $10."*.
+By default, an annotation has a slot and a value, for example, the slot *price* has the value *$10* in the following utterance *"This dish costs $10."*.
 
 DialogueKit is shipped with:
 
@@ -49,4 +49,4 @@ Dialogue
 
 :py:mod:`dialoguekit.core.dialogue`
 
-This object contains all the information related to the dialogue such as the utterances, the identity of participants, and other metadata.
+This object contains all the information related to the dialogue, such as the utterances, the identity of participants, and other metadata.

@@ -1,8 +1,8 @@
 Dialogue Orchestration
 ======================
 
-DialogueKit use a connector to orchestrate the dialogue between the participants (i.e., agent and user).
-This connector is linked to a platform that facilitate the communication between the participants.
+DialogueKit uses a connector to orchestrate the dialogue between the participants (i.e., agent and user).
+This connector is linked to a platform that facilitates the communication between the participants.
 
 Dialogue Connector 
 ------------------
@@ -18,4 +18,4 @@ Platform
 
 The platform's responsibility is to facilitate the conversation and ensure that the participant can see the agent's utterances and reply to it.
 DialogueKit includes a simple terminal-based platform.
-However, other platforms can be created by inheriting from :py:class:`dialoguekit.platforms.platform.Platform`.
+However, other platforms (e.g., various messaging apps/services, such as Telegram or Facebook Messenger or Flask chat) can be created by inheriting from :py:class:`dialoguekit.platforms.platform.Platform`.

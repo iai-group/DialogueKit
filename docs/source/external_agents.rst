@@ -1,7 +1,7 @@
 External Agents
 ===============
 
-DialogueKit is shipped with 4 agents presented below.
+DialogueKit is shipped with 4 agents, which are presented below.
 New agents can be implemented by inheriting from :py:class:`dialoguekit.participant.agent.Agent`.
 
 ParrotAgent
@@ -12,12 +12,12 @@ ParrotAgent
 This agent will welcome the user, but will always parrot (echo) what the user says.
 
 RasaParrotAgent
-^^^^^^^^^^^^^^^
+---------------
 
 :py:mod:`sample_agents.rasa_parrot_agent`
 
 This agent is just an example of how a Rasa agent could be used in DialogueKit.
-It talks to the :py:mod:`additional.rasa-parrot` which does all the processing while the RasaParrotAgent only handles the communication.
+It talks to the :py:mod:`external_agents.rasa-parrot` which does all the processing, while the RasaParrotAgent only handles the communication.
 
 How to use the Rasa parrot
 """"""""""""""""""""""""""
@@ -69,7 +69,7 @@ An example can be seen below.
     dc.close()
 
 
-In this example we use a user to talk to the Rasa parroting service.
+In this example, we use a user to talk to the Rasa parroting service.
 This allows us to interact with the parrot with python inputs.
 
 MovieBotAgent
