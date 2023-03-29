@@ -120,8 +120,7 @@ def test_reward_type_error(reward_config: Dict[str, Any]) -> None:
     dialogue = Dialogue("AGENT01", "USER01", "CNV1")
     dialogue.add_utterance(
         Utterance(
-            "Hello, which genres do you prefer?",
-            DialogueParticipant.AGENT,
+            "Hello, which genres do you prefer?", DialogueParticipant.AGENT,
         )
     )
     dialogue.add_utterance(Utterance("Hello", DialogueParticipant.USER))

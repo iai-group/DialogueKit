@@ -57,28 +57,22 @@ def test_build_template_from_instances_no_intents():
     """Tests if exception gets raised if length is missmatched."""
     utterances = [
         AnnotatedUtterance(
-            text="Test Utterance 1-1",
-            participant=DialogueParticipant.AGENT,
+            text="Test Utterance 1-1", participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
-            text="Test Utterance 1-2",
-            participant=DialogueParticipant.AGENT,
+            text="Test Utterance 1-2", participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
-            text="Test Utterance 1-3",
-            participant=DialogueParticipant.AGENT,
+            text="Test Utterance 1-3", participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
-            text="Test Utterance 2-1",
-            participant=DialogueParticipant.AGENT,
+            text="Test Utterance 2-1", participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
-            text="Test Utterance 2-2",
-            participant=DialogueParticipant.AGENT,
+            text="Test Utterance 2-2", participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
-            text="Test Utterance 2-3",
-            participant=DialogueParticipant.AGENT,
+            text="Test Utterance 2-3", participant=DialogueParticipant.AGENT,
         ),
     ]
 
@@ -89,10 +83,7 @@ def test_build_template_from_instances_no_intents():
 def test_build_template_from_instances_skip_no_intent():
     """Tests if Utterance without Intents gets skipped."""
     utterances = [
-        AnnotatedUtterance(
-            text="Skip",
-            participant=DialogueParticipant.AGENT,
-        ),
+        AnnotatedUtterance(text="Skip", participant=DialogueParticipant.AGENT),
         AnnotatedUtterance(
             text="Test Utterance 1-1",
             intent=Intent(label="Test1"),
@@ -132,10 +123,7 @@ def test_build_template_from_instances_skip_no_intent():
 def test_build_template_from_instances_duplicate_deletion():
     """Tests if duplicate Utterance for same Intent gets removed."""
     utterances = [
-        AnnotatedUtterance(
-            text="Skip",
-            participant=DialogueParticipant.AGENT,
-        ),
+        AnnotatedUtterance(text="Skip", participant=DialogueParticipant.AGENT),
         AnnotatedUtterance(
             text="Test Utterance 1-1",
             intent=Intent(label="Test1"),
@@ -173,16 +161,13 @@ def test_replace_slot_with_placeholder():
     # Given
     a1 = AnnotatedUtterance(
         text="I like action or fantasy movies.",
-        utterance_id="u1",
         participant=DialogueParticipant.AGENT,
     )
     a1.add_annotations([Annotation(slot="GENRE", value="action")])
     a1.add_annotations([Annotation(slot="GENRE", value="fantasy")])
 
     a2 = AnnotatedUtterance(
-        text="How about old street?",
-        utterance_id="u2",
-        participant=DialogueParticipant.AGENT,
+        text="How about old street?", participant=DialogueParticipant.AGENT,
     )
     a2.add_annotations([Annotation(slot="TITLE", value="old street")])
     annotated_utterances = [

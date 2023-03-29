@@ -17,25 +17,16 @@ def dialogue_history_1() -> Dialogue:
     user_id = "USR01"
     conversation_id = "CNV1"
     agent_utterance_1 = Utterance(
-        "Hello",
-        participant=DialogueParticipant.AGENT,
+        "Hello", participant=DialogueParticipant.AGENT,
     )
-    user_utterance_1 = Utterance(
-        "Hi",
-        participant=DialogueParticipant.USER,
-    )
+    user_utterance_1 = Utterance("Hi", participant=DialogueParticipant.USER)
     agent_utterance_2 = Utterance(
-        "Can I help you?",
-        participant=DialogueParticipant.AGENT,
+        "Can I help you?", participant=DialogueParticipant.AGENT,
     )
     user_utterance_2 = Utterance(
-        "No, thank you. Bye",
-        participant=DialogueParticipant.USER,
+        "No, thank you. Bye", participant=DialogueParticipant.USER,
     )
-    agent_utterance_3 = Utterance(
-        "Bye.",
-        participant=DialogueParticipant.AGENT,
-    )
+    agent_utterance_3 = Utterance("Bye.", participant=DialogueParticipant.AGENT)
     utterances = [
         agent_utterance_1,
         user_utterance_1,
@@ -62,9 +53,7 @@ def dialogue_history_2() -> Dialogue:
         intent=Intent("GREETINGS"),
     )
     user_utterance_1 = AnnotatedUtterance(
-        "Hi",
-        participant=DialogueParticipant.USER,
-        intent=Intent("GREETINGS"),
+        "Hi", participant=DialogueParticipant.USER, intent=Intent("GREETINGS")
     )
     agent_utterance_2 = AnnotatedUtterance(
         "What is your favorite color?",

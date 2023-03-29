@@ -69,8 +69,7 @@ def test_classify_intent_exact_patterns(intents, utterances_1, labels_1):
             PLACEHOLDER, "RANDOM_ITEM"
         )
         utterance = Utterance(
-            utterance_text,
-            participant=DialogueParticipant.AGENT,
+            utterance_text, participant=DialogueParticipant.AGENT,
         )
         predicted_intent = intent_classifier.classify_intent(utterance)
         assert predicted_intent.label == intent.label
@@ -95,8 +94,7 @@ def test_classify_intent_similar_patterns(
             PLACEHOLDER, "RANDOM_ITEM"
         )
         utterance = Utterance(
-            utterance_text,
-            participant=DialogueParticipant.AGENT,
+            utterance_text, participant=DialogueParticipant.AGENT,
         )
         predicted_intent = intent_classifier.classify_intent(utterance)
         assert predicted_intent.label == intent.label

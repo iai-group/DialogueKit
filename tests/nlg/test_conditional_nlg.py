@@ -5,9 +5,7 @@ import pytest
 
 from dialoguekit.core import AnnotatedUtterance, Annotation, Intent
 from dialoguekit.nlg import ConditionalNLG
-from dialoguekit.nlg.template_from_training_data import (
-    extract_utterance_template,
-)
+from dialoguekit.nlg.template_from_training_data import extract_utterance_template
 from dialoguekit.nlu import SatisfactionClassifierSVM
 from dialoguekit.participant import DialogueParticipant
 
@@ -57,12 +55,12 @@ def test_generate_utterance_text(nlg_class: ConditionalNLG):
     ]
     for intent, slot_values, expected_response in sample_response_text:
         generated_response = nlg_class.generate_utterance_text(
-            "u1", intent, slot_values
+            intent, slot_values
         )
         assert generated_response == expected_response
 
     generated_response = nlg_class.generate_utterance_text(
-        "u1", Intent("NOT_A_INTENT")
+        Intent("NOT_A_INTENT")
     )
     assert generated_response.text == "Sorry, I did not understand you."
     assert generated_response.intent == Intent("NOT_A_INTENT")
@@ -78,12 +76,11 @@ def test_generate_utterance_text_force_annotation(nlg_class: ConditionalNLG):
         nlg_class: Test NLG object.
     """
     test = nlg_class.generate_utterance_text(
-        "u1", Intent("COMPLETE"), annotations=None, force_annotation=True
+        Intent("COMPLETE"), annotations=None, force_annotation=True
     )
     assert test.intent == Intent("COMPLETE")
 
     test = nlg_class.generate_utterance_text(
-        "u1",
         Intent("TRAVERSE.REPEAT"),
         annotations=[Annotation(slot="DIRECTOR", value="TEST_DIRECTOR_NAME")],
         force_annotation=True,
@@ -97,7 +94,7 @@ def test_no_annotations(nlg_class: ConditionalNLG):
     Args:
         nlg_class: Test NLG object.
     """
-    test = nlg_class.generate_utterance_text("u1", Intent("COMPLETE"), None)
+    test = nlg_class.generate_utterance_text(Intent("COMPLETE"), None)
 
     assert test.intent == Intent("COMPLETE")
 
