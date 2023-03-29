@@ -57,22 +57,22 @@ def test_build_template_from_instances_no_intents():
     """Tests if exception gets raised if length is missmatched."""
     utterances = [
         AnnotatedUtterance(
-            text="Test Utterance 1-1", participant=DialogueParticipant.AGENT,
+            text="Test Utterance 1-1", participant=DialogueParticipant.AGENT
         ),
         AnnotatedUtterance(
-            text="Test Utterance 1-2", participant=DialogueParticipant.AGENT,
+            text="Test Utterance 1-2", participant=DialogueParticipant.AGENT
         ),
         AnnotatedUtterance(
-            text="Test Utterance 1-3", participant=DialogueParticipant.AGENT,
+            text="Test Utterance 1-3", participant=DialogueParticipant.AGENT
         ),
         AnnotatedUtterance(
-            text="Test Utterance 2-1", participant=DialogueParticipant.AGENT,
+            text="Test Utterance 2-1", participant=DialogueParticipant.AGENT
         ),
         AnnotatedUtterance(
-            text="Test Utterance 2-2", participant=DialogueParticipant.AGENT,
+            text="Test Utterance 2-2", participant=DialogueParticipant.AGENT
         ),
         AnnotatedUtterance(
-            text="Test Utterance 2-3", participant=DialogueParticipant.AGENT,
+            text="Test Utterance 2-3", participant=DialogueParticipant.AGENT
         ),
     ]
 
@@ -167,7 +167,7 @@ def test_replace_slot_with_placeholder():
     a1.add_annotations([Annotation(slot="GENRE", value="fantasy")])
 
     a2 = AnnotatedUtterance(
-        text="How about old street?", participant=DialogueParticipant.AGENT,
+        text="How about old street?", participant=DialogueParticipant.AGENT
     )
     a2.add_annotations([Annotation(slot="TITLE", value="old street")])
     annotated_utterances = [
