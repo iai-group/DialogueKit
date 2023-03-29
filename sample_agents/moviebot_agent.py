@@ -65,7 +65,7 @@ class MovieBotAgent(Agent):
         )
         response_raw = r.json()
         response = AnnotatedUtterance(
-            text=response_raw["message"]["text"],
+            response_raw["message"]["text"],
             intent=Intent(response_raw["message"]["intent"]),
             participant=DialogueParticipant.AGENT,
         )
@@ -89,7 +89,7 @@ class MovieBotAgent(Agent):
             },
         )
         response = AnnotatedUtterance(
-            text=r.json()["message"]["text"],
+            r.json()["message"]["text"],
             intent=self.stop_intent,
             participant=DialogueParticipant.AGENT,
         )
@@ -123,7 +123,7 @@ class MovieBotAgent(Agent):
         response_raw = r.json()
         print(response_raw["message"]["intent"])
         response = AnnotatedUtterance(
-            text=response_raw["message"]["text"],
+            response_raw["message"]["text"],
             intent=Intent(response_raw["message"]["intent"]),
             participant=DialogueParticipant.AGENT,
         )

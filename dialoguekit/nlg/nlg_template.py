@@ -109,7 +109,6 @@ class TemplateNLG(AbstractNLG):
                     f"{{{annotation.slot}}}", annotation.value, 1
                 )
             response_utterance.add_annotations(annotations)
-
         return response_utterance
 
     def dump_template(self, filepath: str) -> None:

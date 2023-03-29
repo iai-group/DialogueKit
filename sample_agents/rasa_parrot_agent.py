@@ -30,7 +30,7 @@ class RasaParrotAgent(Agent):
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
         utterance = AnnotatedUtterance(
-            text="Hello, I'm Rasa Parrot. What can I help u with?",
+            "Hello, I'm Rasa Parrot. What can I help u with?",
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(utterance)
@@ -38,7 +38,7 @@ class RasaParrotAgent(Agent):
     def goodbye(self) -> None:
         """Sends the agent's goodbye message."""
         utterance = AnnotatedUtterance(
-            text="It was nice talking to you. Bye",
+            "It was nice talking to you. Bye",
             intent=self.stop_intent,
             participant=DialogueParticipant.AGENT,
         )
@@ -61,7 +61,7 @@ class RasaParrotAgent(Agent):
             },
         )
         response = AnnotatedUtterance(
-            text=r.json()[0]["text"],
+            r.json()[0]["text"],
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(response)

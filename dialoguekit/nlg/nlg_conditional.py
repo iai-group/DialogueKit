@@ -167,7 +167,6 @@ class ConditionalNLG(TemplateNLG):
                     f"{{{annotation.slot}}}", annotation.value, 1
                 )
             response_utterance.add_annotations(annotations)
-
         return response_utterance
 
     def _select_closest_to_conditional(

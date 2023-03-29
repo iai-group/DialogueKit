@@ -48,7 +48,7 @@ class ParrotAgent(Agent):
             return
 
         response = AnnotatedUtterance(
-            text="(Parroting) " + utterance.text,
+            "(Parroting) " + utterance.text,
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(response)
