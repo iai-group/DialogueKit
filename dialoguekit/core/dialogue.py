@@ -24,7 +24,9 @@ class Dialogue:
         if conversation_id is None:
             date = datetime.datetime.utcnow()
             utc_time = calendar.timegm(date.utctimetuple())
-            self._conversation_id = f"{self._agent_id}-{self._user_id}-{str(utc_time)}"
+            self._conversation_id = (
+                f"{self._agent_id}-{self._user_id}-{str(utc_time)}"
+            )
         else:
             self._conversation_id = conversation_id
         self._utterances: List[Utterance] = []
