@@ -7,6 +7,7 @@ Agents and users are the participants in a dialogue. Generally, it is assumed th
 However, the agent might be played by a human ("Wizard-of-Oz") and the human user might be simulated.
 
 DialogueKit assumes that it is always the agent that starts and ends the conversation. (A user can initialize ending a conversation, but the responsibility lies with the agent to actually stop it.)
+
 Agent
 -----
 
