@@ -30,7 +30,11 @@ def agent() -> ParrotAgent:
 def connector(user: User, agent: ParrotAgent) -> DialogueConnector:
     """Dialogue connector fixture."""
     connector = DialogueConnector(
-        agent, user, TerminalPlatform(), save_dialogue_history=False
+        agent,
+        user,
+        TerminalPlatform(),
+        conversation_id="CNV1",
+        save_dialogue_history=False,
     )
     return connector
 
