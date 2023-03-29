@@ -14,7 +14,6 @@ def test_comparison():
     """Tests object comparison."""
     u1 = AnnotatedUtterance(
         "Test1",
-        utterance_id="u1",
         intent=Intent("1"),
         participant=DialogueParticipant.AGENT,
     )
@@ -23,7 +22,6 @@ def test_comparison():
 
     u3 = AnnotatedUtterance(
         "Test1",
-        utterance_id="u1",
         intent=Intent("1"),
         participant=DialogueParticipant.AGENT,
     )
@@ -32,28 +30,11 @@ def test_comparison():
     # Test Text difference
     u1 = AnnotatedUtterance(
         text="Test1",
-        utterance_id="u1",
         intent=Intent("1"),
         participant=DialogueParticipant.AGENT,
     )
     u2 = AnnotatedUtterance(
         text="Test2",
-        utterance_id="u1",
-        intent=Intent("1"),
-        participant=DialogueParticipant.AGENT,
-    )
-    assert u1 != u2
-
-    # Test ID difference
-    u1 = AnnotatedUtterance(
-        text="Test1",
-        utterance_id="u1",
-        intent=Intent("1"),
-        participant=DialogueParticipant.AGENT,
-    )
-    u2 = AnnotatedUtterance(
-        text="Test1",
-        utterance_id="u2",
         intent=Intent("1"),
         participant=DialogueParticipant.AGENT,
     )
@@ -62,13 +43,11 @@ def test_comparison():
     # Test Intent difference
     u1 = AnnotatedUtterance(
         text="Test1",
-        utterance_id="u1",
         intent=Intent("1"),
         participant=DialogueParticipant.AGENT,
     )
     u2 = AnnotatedUtterance(
         text="Test1",
-        utterance_id="u1",
         intent=Intent("2"),
         participant=DialogueParticipant.AGENT,
     )
