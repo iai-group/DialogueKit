@@ -41,7 +41,7 @@ class DialogueConnector:
             agent: An instance of Agent.
             user: An instance of User.
             platform: An instance of Platform.
-            conversation_id: Conversation id. Defaults to None.
+            conversation_id: Conversation ID. Defaults to None.
             save_dialogue_history: Flag to save the dialogue or not.
         """
         self._platform = platform

@@ -24,7 +24,7 @@ class Dialogue:
         if conversation_id is None:
             date = datetime.datetime.utcnow()
             utc_time = calendar.timegm(date.utctimetuple())
-            self._conversation_id = str(utc_time)
+            self._conversation_id = f"{self._agent_id}-{self._user_id}-{str(utc_time)}"
         else:
             self._conversation_id = conversation_id
         self._utterances: List[Utterance] = []
@@ -53,17 +53,17 @@ class Dialogue:
 
     @property
     def conversation_id(self) -> str:
-        """Returns the conversation id."""
+        """Returns the conversation ID."""
         return self._conversation_id
 
     @property
     def agent_id(self) -> str:
-        """Returns the agent id."""
+        """Returns the agent ID."""
         return self._agent_id
 
     @property
     def user_id(self) -> str:
-        """Returns the user id."""
+        """Returns the user ID."""
         return self._user_id
 
     @property
@@ -78,7 +78,7 @@ class Dialogue:
 
     @property
     def current_turn_id(self) -> int:
-        """Returns the id of the current utterance."""
+        """Returns the ID of the current utterance."""
         return len(self._utterances)
 
     def add_utterance(self, utterance: Utterance) -> None:
