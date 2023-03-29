@@ -13,6 +13,7 @@ _FIELD_UTTERANCE_ID = "utterance ID"
 _FIELD_INTENT = "intent"
 _FIELD_SLOT_VALUES = "slot_values"
 _FIELD_CONVERSATION = "conversation"
+_FIELD_CONVERSATION_ID = "conversation ID"
 _FIELD_PARTICIPANT = "participant"
 
 
@@ -75,7 +76,6 @@ def json_to_dialogues(
     filepath: str,
     agent_id: str,
     user_id: str,
-    conversation_id: str,
 ) -> List[Dialogue]:
     """Parses a JSON file containing dialogues.
 
@@ -93,6 +93,7 @@ def json_to_dialogues(
 
     dialogues = []
     for dialogue_data in data:
+        conversation_id = dialogue_data.get(_FIELD_CONVERSATION_ID, None)
         dialogue = Dialogue(agent_id, user_id, conversation_id)
         for utterance_data in dialogue_data.get(_FIELD_CONVERSATION):
             annotated_utterance = json_to_annotated_utterance(utterance_data)

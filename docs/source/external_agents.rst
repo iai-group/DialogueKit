@@ -1,24 +1,31 @@
----
-orphan: true
----
-
 External Agents
 ===============
 
-Rasa parrot
---------------
+DialogueKit is shipped with 4 agents, which are presented below.
+New agents can be implemented by inheriting from :py:class:`dialoguekit.participant.agent.Agent`.
 
-The :py:mod:`sample_agents.rasa_parrot_agent.py` **Agent** is just an example of how a Rasa agent could be used in DialogueKit.
-This **Agent** talks to the :py:mod:`additional.rasa-parrot` which does all the processing while the **DialogueKit Rasa Agent** only handles the communication.
+ParrotAgent
+-----------
 
+:py:mod:`sample_agents.parrot_agent`
+
+This agent will welcome the user, but will always parrot (echo) what the user says.
+
+RasaParrotAgent
+---------------
+
+:py:mod:`sample_agents.rasa_parrot_agent`
+
+This agent is just an example of how a Rasa agent could be used in DialogueKit.
+It talks to the :py:mod:`external_agents.rasa-parrot` which does all the processing, while the RasaParrotAgent only handles the communication.
 
 How to use the Rasa parrot
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""
 
 Start the Rasa service
 """"""""""""""""""""""
 
-To use the Rasa parroting **Agent** we firstly need to start the **Rasa service**.
+To use RasaParrotAgent, we firstly need to start the **Rasa service**.
 
 1. Move to the right directory
 
@@ -45,11 +52,11 @@ To use the Rasa parroting **Agent** we firstly need to start the **Rasa service*
         rasa run -m models --endpoints endpoints.yml --port 5002 --credentials credentials.yml
 
 
-Use the Rasa parroting Agent
-""""""""""""""""""""""""""""
+Use RasaParrotAgent
+"""""""""""""""""""
 
-We can now talk to the Rasa parroting service with the **Agent**.
-To do this we need to actually use the **Agent** in our project.
+We can now talk to the Rasa parroting service with the RasaParrotAgent.
+To do this we need to actually use the RasaParrotAgent in our project.
 An example can be seen below.
 
 .. code-block:: python
@@ -62,6 +69,19 @@ An example can be seen below.
     dc.close()
 
 
-In this example we use a **User** to talk to the Rasa parroting service.
+In this example, we use a user to talk to the Rasa parroting service.
 This allows us to interact with the parrot with python inputs.
 
+MovieBotAgent
+-------------
+
+:py:mod:`sample_agents.moviebot_agent`
+
+A connector agent for `IAI MovieBot <https://github.com/iai-group/moviebot>`_ .
+
+WozAgent
+--------
+
+:py:mod:`sample_agents.woz_agent`
+
+Allows a real human to play the role of the agent ("wizard") when interacting with a user. This can be useful, e.g., when testing user simulators.

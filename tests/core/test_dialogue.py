@@ -49,7 +49,7 @@ def dialogue_history_1() -> Dialogue:
         agent_utterance_3,
     ]
 
-    dialogue_history = Dialogue(agent_id, user_id, "CNV1")
+    dialogue_history = Dialogue(agent_id, user_id, conversation_id)
     for utterance in utterances:
         dialogue_history.add_utterance(utterance)
     return dialogue_history
