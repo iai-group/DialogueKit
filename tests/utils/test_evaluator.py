@@ -19,7 +19,6 @@ def annotated_dialogues() -> List[Dialogue]:
         filepath="tests/data/annotated_dialogues.json",
         agent_id=DialogueParticipant.AGENT,
         user_id=DialogueParticipant.USER,
-        conversation_id="CNV1",
     )
     return export_dialogues
 
