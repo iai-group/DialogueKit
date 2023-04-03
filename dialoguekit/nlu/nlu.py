@@ -12,7 +12,7 @@ class NLU:
     def __init__(
         self,
         intent_classifier: IntentClassifier,
-        slot_annotators: List[Any],
+        slot_annotators: List[SlotAnnotator],
     ) -> None:
         """Represents a Natural Language Understanding (NLU) component.
 
