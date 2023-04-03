@@ -30,7 +30,14 @@ class NLU:
     def annotate_slot_values(
         self, utterance: Utterance
     ) -> List[SlotValueAnnotation]:
-        """Annotates a given utterance with slot annotators."""
+        """Annotates a given utterance with slot annotators.
+
+        Args:
+            utterance: Utterance to annotate.
+
+        Returns:
+            List of slot value annotations.
+        """
         annotation_list = []
         for slot_annotator in self._slot_annotators:
             annotation_list.extend(slot_annotator.get_annotations(utterance))
