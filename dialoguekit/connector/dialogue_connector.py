@@ -16,12 +16,9 @@ the User, the DialogueConnector sends it to the other party by calling their
 import json
 import os
 
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.dialogue import Dialogue
-from dialoguekit.participant.agent import Agent
-from dialoguekit.participant.user import User
+from dialoguekit.core import AnnotatedUtterance, Dialogue
+from dialoguekit.participant import Agent, User
 from dialoguekit.platforms.platform import Platform
-from dialoguekit.platforms.terminal_platform import TerminalPlatform
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
@@ -55,10 +52,6 @@ class DialogueConnector:
         """Return the dialogue history."""
         return self._dialogue_history
 
-    def get_platform(self) -> Platform:
-        """Returns the platform."""
-        return self._platform
-
     def register_user_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
@@ -75,8 +68,21 @@ class DialogueConnector:
             annotated_utterance: User utterance.
         """
         self._dialogue_history.add_utterance(annotated_utterance)
-        self._platform.display_user_utterance(annotated_utterance)
+        self._platform.display_user_utterance(
+            self._user.id, annotated_utterance
+        )
         self._agent.receive_utterance(annotated_utterance)
+
+    def register_utterance_feedback(
+        self, utterance_id: str, value: int
+    ) -> None:
+        """Registers utterance level feedback from the user.
+
+        Args:
+            utterance_id: Utterance ID.
+            value: Feedback value.
+        """
+        pass
 
     def register_agent_utterance(
         self, annotated_utterance: AnnotatedUtterance
@@ -97,7 +103,9 @@ class DialogueConnector:
             annotated_utterance: Agent utterance.
         """
         self._dialogue_history.add_utterance(annotated_utterance)
-        self._platform.display_agent_utterance(annotated_utterance)
+        self._platform.display_agent_utterance(
+            self._user.id, annotated_utterance
+        )
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
         if annotated_utterance.intent == self._agent.stop_intent:
@@ -161,23 +169,3 @@ class DialogueConnector:
         for _ in range(len(self._dialogue_history.utterances)):
             self._dialogue_history.utterances.pop()
         # TODO: save dialogue history, subject to config parameters
-
-
-if __name__ == "__main__":
-    from dialoguekit.participant.user import User
-    from sample_agents.moviebot_agent import MovieBotAgent
-
-    # Participants
-    agent = MovieBotAgent(
-        agent_id="MovieBot01", uri="http://152.94.232.43:5001/"
-    )
-    user = User(id="TEST01")
-
-    platform = TerminalPlatform()
-    dm = DialogueConnector(agent, user, platform)
-
-    user.connect_dialogue_connector(dm)
-    agent.connect_dialogue_connector(dm)
-    dm.start()
-
-    dm.close()

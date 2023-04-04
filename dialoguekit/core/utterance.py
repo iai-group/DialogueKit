@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.participant import DialogueParticipant
 
 
 @dataclass(eq=True, unsafe_hash=True)

@@ -10,12 +10,10 @@ from __future__ import annotations
 from enum import Enum
 from typing import TYPE_CHECKING
 
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.utterance import Utterance
-from dialoguekit.participant.participant import DialogueParticipant, Participant
+from dialoguekit.participant import DialogueParticipant, Participant
 
 if TYPE_CHECKING:
-    from dialoguekit.connector.dialogue_connector import DialogueConnector
+    from dialoguekit.core import AnnotatedUtterance, Utterance
 
 
 class UserType(Enum):
@@ -35,27 +33,36 @@ class User(Participant):
         """
         super().__init__(id=id, type=DialogueParticipant.USER)
         self._user_type = user_type
+        self._is_ready_for_input = False
 
-    def connect_dialogue_connector(self, dialogue_connector: DialogueConnector):
-        """Connects the User with a DialogueConnector.
+    @property
+    def is_ready_for_input(self) -> bool:
+        """Returns whether the user is ready for input."""
+        return self._is_ready_for_input
 
-        Args:
-            dialogue_connector: DialogueConnector instance.
-        """
-        super().connect_dialogue_connector(dialogue_connector)
-        platform = self._dialogue_connector.get_platform()
-        platform.register_user_callback(self.on_user_input)
-
-    def on_user_input(self, text: str) -> None:
+    def handle_input(self, text: str) -> None:
         """Gets called every time there is a new user input.
 
         Args:
             text: User input.
         """
-        utterance = AnnotatedUtterance(
-            text, participant=DialogueParticipant.USER
+        if self._is_ready_for_input:
+            self._is_ready_for_input = False
+            utterance = AnnotatedUtterance(
+                text, participant=DialogueParticipant.USER
+            )
+            self._dialogue_connector.register_user_utterance(utterance)
+
+    def handle_utterance_feedback(self, utterance_id: str, value: int) -> None:
+        """Gets called every time there is a new user feedback.
+
+        Args:
+            utterance_id: Utterance ID.
+            value: Feedback value.
+        """
+        self._dialogue_connector.register_utterance_feedback(
+            utterance_id, value
         )
-        self._dialogue_connector.register_user_utterance(utterance)
 
     def receive_utterance(self, utterance: Utterance) -> None:
         """Gets called every time there is a new agent utterance.
@@ -63,5 +70,4 @@ class User(Participant):
         Args:
             utterance: Agent utterance.
         """
-        platform = self._dialogue_connector.get_platform()
-        platform.listen_for_user_input()
+        self._is_ready_for_input = True
