@@ -100,14 +100,14 @@ class Platform(ABC):
             user_id: User ID.
             text: User input.
         """
-        self.get_user(user_id).handle_user_input(text)
+        self.get_user(user_id).handle_input(text)
 
     def feedback(self, user_id: str, utterance_id: str, value: int) -> None:
-        """Gets called every time there is a new user feedback.
+        """Gets called every time there is a new utterance feedback.
 
         Args:
             user_id: User ID.
             utterance_id: Utterance ID.
             value: Feedback value.
         """
-        pass
+        self.get_user(user_id).handle_utterance_feedback(utterance_id, value)
