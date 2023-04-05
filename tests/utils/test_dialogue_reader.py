@@ -1,5 +1,7 @@
 """Tests for the dialogue reader."""
 
+from typing import List
+
 import pytest
 
 from dialoguekit.utils.dialogue_reader import json_to_dialogues
@@ -23,22 +25,22 @@ def test_json_to_dialogues() -> None:
 
 
 @pytest.mark.parametrize(
-    "agent_id, user_id, expected_dialogue_count",
+    "agent_ids, user_ids, expected_dialogue_count",
     [
-        ("MovieBotTester", None, 1),
+        (["MovieBotTester"], None, 1),
         (None, None, 3),
-        ("TestAgent", "TestUser", 0),
-        (None, "TEST03", 1),
-        ("MovieBotTester", "TEST03", 1),
+        (["TestAgent"], ["TestUser"], 0),
+        (None, ["TEST03"], 1),
+        (["MovieBotTester"], ["TEST03"], 1),
     ],
 )
 def test_json_to_dialogues_filtered(
-    agent_id: str, user_id: str, expected_dialogue_count: int
+    agent_ids: List[str], user_ids: List[str], expected_dialogue_count: int
 ) -> None:
     """Tests reading of json dialogues with filtering parameters."""
     dialogues = json_to_dialogues(
         filepath="tests/data/annotated_dialogues.json",
-        agent_id=agent_id,
-        user_id=user_id,
+        agent_ids=agent_ids,
+        user_ids=user_ids,
     )
     assert len(dialogues) == expected_dialogue_count

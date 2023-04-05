@@ -73,15 +73,17 @@ def json_to_annotated_utterance(
 
 def json_to_dialogues(
     filepath: str,
-    agent_id: str = None,
-    user_id: str = None,
+    agent_ids: List[str] = None,
+    user_ids: List[str] = None,
 ) -> List[Dialogue]:
     """Parses a JSON file containing dialogues.
 
     Args:
         filepath: Path to JSON file containing the dialogues.
-        agent_id: Agent's id to filter loaded dialogues. Defaults to None.
-        user_id: User's id to filter loaded dialogues. Defaults to None.
+        agent_ids: List of agents' id to filter loaded dialogues. Defaults to
+          None.
+        user_ids: List of users' id to filter loaded dialogues. Defaults to
+          None.
 
     Returns:
         A list of Dialogue objects.
@@ -92,15 +94,15 @@ def json_to_dialogues(
     dialogues = []
     for dialogue_data in data:
         conversation_id = dialogue_data.get(_FIELD_CONVERSATION_ID, None)
-        _agent_id = dialogue_data.get(_FIELD_AGENT, {}).get("id", "Agent")
-        _user_id = dialogue_data.get(_FIELD_USER, {}).get("id", "User")
-        if (agent_id and _agent_id != agent_id) or (
-            user_id and _user_id != user_id
+        agent_id = dialogue_data.get(_FIELD_AGENT, {}).get("id", "Agent")
+        user_id = dialogue_data.get(_FIELD_USER, {}).get("id", "User")
+        if (agent_ids and agent_id not in agent_ids) or (
+            user_ids and user_id not in user_ids
         ):
-            # Filter loaded dialogues based on agent_id and/or user_id if
+            # Filter loaded dialogues based on agent_ids and/or user_ids if
             # provided
             continue
-        dialogue = Dialogue(_agent_id, _user_id, conversation_id)
+        dialogue = Dialogue(agent_id, user_id, conversation_id)
         for utterance_data in dialogue_data.get(_FIELD_CONVERSATION):
             annotated_utterance = json_to_annotated_utterance(utterance_data)
             dialogue.add_utterance(annotated_utterance)
