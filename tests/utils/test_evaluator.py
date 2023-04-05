@@ -17,8 +17,6 @@ def annotated_dialogues() -> List[Dialogue]:
     """Test dialogue fixture."""
     export_dialogues = json_to_dialogues(
         filepath="tests/data/annotated_dialogues.json",
-        agent_id=DialogueParticipant.AGENT,
-        user_id=DialogueParticipant.USER,
     )
     return export_dialogues
 
