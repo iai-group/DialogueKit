@@ -1,3 +1,5 @@
 -r pre_commit.txt
 scikit-learn >= 0.24
 rasa >= 3.0.8
+flask == 2.2.3
+flask-socketio == 5.3.3
