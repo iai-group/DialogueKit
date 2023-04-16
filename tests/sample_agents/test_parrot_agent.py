@@ -4,41 +4,22 @@ import sys
 
 import pytest
 
-from dialoguekit.connector.dialogue_connector import DialogueConnector
-from dialoguekit.participant.agent import AgentType
-from dialoguekit.participant.user import User, UserType
-from dialoguekit.platforms.terminal_platform import TerminalPlatform
+from dialoguekit.platforms import TerminalPlatform
 from sample_agents.parrot_agent import ParrotAgent
 
 
 @pytest.fixture
-def user() -> User:
-    """User fixture."""
-    return User("TestUser", user_type=UserType.SIMULATOR)
-
-
-@pytest.fixture
-def agent() -> ParrotAgent:
-    """Parrot agent fixture."""
-    agent = ParrotAgent("TestParrotAgent")
-    assert agent.id == "TestParrotAgent"
-    assert agent._agent_type == AgentType.BOT
-    return agent
-
-
-@pytest.fixture
-def connector(user: User, agent: ParrotAgent) -> DialogueConnector:
+def platform() -> TerminalPlatform:
     """Dialogue connector fixture."""
-    connector = DialogueConnector(
-        agent, user, TerminalPlatform(), save_dialogue_history=False
-    )
-    return connector
+    platform = TerminalPlatform(ParrotAgent)
+    return platform
 
 
-def test_greetings(connector: DialogueConnector, monkeypatch) -> None:
+def test_greetings(platform: TerminalPlatform, monkeypatch) -> None:
     """Test for welcome and goodbye methods."""
     monkeypatch.setattr(sys, "stdin", io.StringIO("EXIT"))
-    connector.start()
+    platform.start()
+    connector = platform.get_user("terminal_user").get_dialogue_connector()
     assert len(connector.dialogue_history.utterances) == 3
     assert (
         connector.dialogue_history.utterances[0].text

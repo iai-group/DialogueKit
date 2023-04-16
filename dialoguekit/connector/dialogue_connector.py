@@ -13,12 +13,17 @@ but this is not required.  Whenever there is a message from either the Agent or
 the User, the DialogueConnector sends it to the other party by calling their
 `receive_{agent/user}_utterance()` method.
 """
+from __future__ import annotations
+
 import json
 import os
+from typing import TYPE_CHECKING
 
 from dialoguekit.core import AnnotatedUtterance, Dialogue
 from dialoguekit.participant import Agent, User
-from dialoguekit.platforms.platform import Platform
+
+if TYPE_CHECKING:
+    from dialoguekit.platforms import Platform
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 

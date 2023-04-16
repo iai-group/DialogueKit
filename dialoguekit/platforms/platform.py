@@ -1,15 +1,14 @@
 """The Platform facilitates displaying of the conversation."""
-
 from abc import ABC, abstractmethod
-from typing import Dict
+from typing import Callable, Dict, Type
 
-from dialoguekit.connector.dialogue_connector import DialogueConnector
+from dialoguekit.connector import DialogueConnector
 from dialoguekit.core import Utterance
 from dialoguekit.participant import Agent, User
 
 
 class Platform(ABC):
-    def __init__(self, agent_class: type[Agent]) -> None:
+    def __init__(self, agent_class: Type[Agent]) -> None:
         """Represents a platform.
 
         Args:
@@ -19,6 +18,15 @@ class Platform(ABC):
             raise ValueError("agent_class must be a subclass of Agent")
         self._agent_class = agent_class
         self._active_users: Dict[str, User] = {}
+
+    @abstractmethod
+    def start(self) -> None:
+        """Starts the platform.
+
+        Raises:
+            NotImplementedError: If the method is not implemented.
+        """
+        raise NotImplementedError
 
     @abstractmethod
     def display_agent_utterance(
@@ -47,6 +55,15 @@ class Platform(ABC):
 
         Raises:
             NotImplementedError: If the method is not implemented.
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def listen_for_user_input(self, callback: Callable) -> None:
+        """Listens for user input.
+
+        Args:
+            callback: Callback function.
         """
         raise NotImplementedError
 
