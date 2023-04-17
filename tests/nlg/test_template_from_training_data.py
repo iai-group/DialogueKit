@@ -191,11 +191,13 @@ def test_extract_utterance_template():
         [
             AnnotatedUtterance(
                 text="thank you",
+                utterance_id="CNV1_TEST03_19",
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),
             AnnotatedUtterance(
                 text="/exit",
+                utterance_id="CNV1_TEST03_21",
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),

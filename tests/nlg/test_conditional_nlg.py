@@ -5,9 +5,7 @@ import pytest
 
 from dialoguekit.core import AnnotatedUtterance, Annotation, Intent
 from dialoguekit.nlg import ConditionalNLG
-from dialoguekit.nlg.template_from_training_data import (
-    extract_utterance_template,
-)
+from dialoguekit.nlg.template_from_training_data import extract_utterance_template
 from dialoguekit.nlu import SatisfactionClassifierSVM
 from dialoguekit.participant import DialogueParticipant
 
@@ -41,6 +39,7 @@ def test_generate_utterance_text(nlg_class: ConditionalNLG):
     """
     expected_response1 = AnnotatedUtterance(
         text="something like the A Test Movie Title",
+        utterance_id="CNV1_TEST03_5",
         intent=Intent("REVEAL.EXPAND"),
         participant=DialogueParticipant.AGENT,
         metadata={"satisfaction": 2},

@@ -7,9 +7,7 @@ from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg_template import TemplateNLG
-from dialoguekit.nlg.template_from_training_data import (
-    extract_utterance_template,
-)
+from dialoguekit.nlg.template_from_training_data import extract_utterance_template
 from dialoguekit.participant.participant import DialogueParticipant
 
 ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
@@ -30,6 +28,7 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
     """Tests utterance generation."""
     expected_response1 = AnnotatedUtterance(
         text="something like the A Test Movie Title",
+        utterance_id="CNV1_TEST03_5",
         intent=Intent("REVEAL.EXPAND"),
         participant=DialogueParticipant.AGENT,
     )
