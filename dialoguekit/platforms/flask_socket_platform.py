@@ -5,9 +5,8 @@ from typing import Any, Dict, Type
 from flask import Flask, request
 from flask_socketio import Namespace, SocketIO, send
 
-from dialoguekit.connector import DialogueConnector
 from dialoguekit.core import Utterance
-from dialoguekit.participant import Agent, User
+from dialoguekit.participant.agent import Agent
 from dialoguekit.platforms.platform import Platform
 
 logger = logging.getLogger(__name__)
@@ -20,21 +19,19 @@ class FlaskSocketPlatform(Platform):
         Args:
             agent_class: The class of the agent.
         """
-        if not issubclass(agent_class, Agent):
-            raise ValueError("agent_class must be a subclass of Agent")
-        self._agent_class = agent_class
-        self._active_users: Dict[str, User] = {}
+        super().__init__(agent_class)
         self.app = Flask(__name__)
         self.socketio = SocketIO(self.app, cors_allowed_origins="*")
 
-    def start(self) -> None:
+    def start(self, host: str = "127.0.0.1", port: str = "5000") -> None:
         """Starts the platform.
 
-        Raises:
-            NotImplementedError: If the method is not implemented.
+        Args:
+            host: Hostname.
+            port: Port.
         """
         self.socketio.on_namespace(ChatNamespace("/", self))
-        self.socketio.run(self.app, host="127.0.0.1", port="5000")
+        self.socketio.run(self.app, host=host, port=port)
 
     def display_agent_utterance(
         self, user_id: str, utterance: Utterance
@@ -44,9 +41,6 @@ class FlaskSocketPlatform(Platform):
         Args:
             user_id: User ID.
             utterance: An instance of Utterance.
-
-        Raises:
-            NotImplementedError: If the method is not implemented.
         """
         send(utterance.text, room=user_id)
 
@@ -58,73 +52,8 @@ class FlaskSocketPlatform(Platform):
         Args:
             user_id: User ID.
             utterance: An instance of Utterance.
-
-        Raises:
-            NotImplementedError: If the method is not implemented.
         """
         send(utterance.text, room=user_id)
-
-    def get_new_agent(self) -> Agent:
-        """Returns a new instance of the agent.
-
-        Returns:
-            Agent.
-        """
-        return self._agent_class("agent")
-
-    def get_user(self, user_id: str) -> User:
-        """Returns the user.
-
-        Args:
-            user_id: User ID.
-
-        Returns:
-            User.
-        """
-        return self._active_users.get(user_id)
-
-    def connect(self, user_id: str) -> None:
-        """Connects a user to an agent.
-
-        Args:
-            user_id: User ID.
-        """
-        self._active_users[user_id] = User(user_id)
-        dialogue_connector = DialogueConnector(
-            agent=self.get_new_agent(),
-            user=self._active_users[user_id],
-            platform=self,
-        )
-        dialogue_connector.start()
-
-    def disconnect(self, user_id: str) -> None:
-        """Disconnects a user from an agent.
-
-        Args:
-            user_id: User ID.
-        """
-        user = self._active_users.pop(user_id)
-        dialogue_connector = user.get_dialogue_connector()
-        dialogue_connector.close()
-
-    def message(self, user_id: str, text: str) -> None:
-        """Gets called every time there is a new user input.
-
-        Args:
-            user_id: User ID.
-            text: User input.
-        """
-        self.get_user(user_id).handle_input(text)
-
-    def feedback(self, user_id: str, utterance_id: str, value: int) -> None:
-        """Gets called every time there is a new utterance feedback.
-
-        Args:
-            user_id: User ID.
-            utterance_id: Utterance ID.
-            value: Feedback value.
-        """
-        self.get_user(user_id).handle_utterance_feedback(utterance_id, value)
 
 
 class ChatNamespace(Namespace):
@@ -170,6 +99,5 @@ class ChatNamespace(Namespace):
             data: Data received from client.
         """
         logger.info(f"Feedback received: {data}")
-        # TODO: Implement feedback
-        # issue: https://github.com/iai-group/DialogueKit/issues/219
+        self._platform.feedback(request.sid, data["feedback"])
         send({"info": "Feedback received"})

@@ -44,9 +44,9 @@ class User(Participant):
         """
         super().connect_dialogue_connector(dialogue_connector)
         platform = self._dialogue_connector.get_platform()
-        platform.register_user_callback(self.on_user_input)
+        platform.register_user_callback(self.handle_input)
 
-    def on_user_input(self, text: str) -> None:
+    def handle_input(self, text: str) -> None:
         """Gets called every time there is a new user input.
 
         Args:
