@@ -1,20 +1,23 @@
 [
     {
-        "conversation ID": "\"39GHHAVOMGCMCWD43ZNZ2ARD9RF4JH\"",
+        "conversation ID": "CNV1",
         "conversation": [
             {
                 "participant": "USER",
                 "utterance": "hello\n",
+                "utterance ID": "CNV1_TEST03_0",
                 "intent": "DISCLOSE.NON-DISCLOSE"
             },
             {
                 "participant": "AGENT",
                 "utterance": "Which genres do you prefer?\n",
+                "utterance ID": "CNV1_MovieBotTester_1",
                 "intent": "INQUIRE.ELICIT"
             },
             {
                 "participant": "USER",
                 "utterance": "action, fantasy\n",
+                "utterance ID": "CNV1_TEST03_2",
                 "intent": "DISCLOSE",
                 "slot_values": [
                     [
@@ -30,16 +33,19 @@
             {
                 "participant": "AGENT",
                 "utterance": "I have found almost 500 fantasy and action films. Can you guide me more to narrow down the search space?\n",
+                "utterance ID": "CNV1_MovieBotTester_3",
                 "intent": "REVEAL.EXPAND"
             },
             {
                 "participant": "AGENT",
                 "utterance": "Can you give me a few keywords? For example, 'space opera' or 'galactic war'.\n",
+                "utterance ID": "CNV1_MovieBotTester_4",
                 "intent": "REVEAL.EXPAND"
             },
             {
                 "participant": "USER",
                 "utterance": "something like the lord of the rings\n",
+                "utterance ID": "CNV1_TEST03_5",
                 "intent": "REVEAL.EXPAND",
                 "slot_values": [
                     [
@@ -51,6 +57,7 @@
             {
                 "participant": "AGENT",
                 "utterance": "There is a fantasy and action, lord film named \"\"Kung Fu Hustle\"\". Have you seen this one?\n",
+                "utterance ID": "CNV1_MovieBotTester_6",
                 "intent": "REVEAL.LIST",
                 "slot_values": [
                     [
@@ -62,11 +69,13 @@
             {
                 "participant": "USER",
                 "utterance": "anything else?\n",
+                "utterance ID": "CNV1_TEST03_7",
                 "intent": "REVEAL.SIMILAR"
             },
             {
                 "participant": "AGENT",
                 "utterance": "There is a fantasy and action, lord film named \"\"Conan the Barbarian\"\". Have you seen this one?\n",
+                "utterance ID": "CNV1_MovieBotTester_8",
                 "intent": "REVEAL.SIMILAR",
                 "slot_values": [
                     [
@@ -78,11 +87,13 @@
             {
                 "participant": "USER",
                 "utterance": "already seen it\n",
+                "utterance ID": "CNV1_TEST03_9",
                 "intent": "NOTE.NOTE-YES"
             },
             {
                 "participant": "AGENT",
                 "utterance": "I would like to recommend you a fantasy and action, lord film named \"\"Dracula Untold\"\". Have you watched it?\n",
+                "utterance ID": "CNV1_MovieBotTester_10",
                 "intent": "REVEAL.SIMILAR",
                 "slot_values": [
                     [
@@ -94,11 +105,13 @@
             {
                 "participant": "USER",
                 "utterance": "i know this one\n",
+                "utterance ID": "CNV1_TEST03_11",
                 "intent": "NOTE.NOTE-YES"
             },
             {
                 "participant": "AGENT",
                 "utterance": "Sorry, I don't have any fantasy and action, lord films named similar to one. Please select from the list of options to continue.\n",
+                "utterance ID": "CNV1_MovieBotTester_12",
                 "intent": "SUGGEST",
                 "slot_values": [
                     [
@@ -122,11 +135,13 @@
             {
                 "participant": "USER",
                 "utterance": "a new movie\n",
+                "utterance ID": "CNV1_TEST03_13",
                 "intent": "DISCLOSE"
             },
             {
                 "participant": "AGENT",
                 "utterance": "Sorry, I couldn't find any fantasy and action, lord films named similar to one from the year  > 2010. Please select from the list of options to continue.\n",
+                "utterance ID": "CNV1_MovieBotTester_14",
                 "intent": "SUGGEST",
                 "slot_values": [
                     [
@@ -150,11 +165,13 @@
             {
                 "participant": "USER",
                 "utterance": "Release year shouldn't be the \"\"year  > 2010\"\".\n",
+                "utterance ID": "CNV1_TEST03_15",
                 "intent": "INQUIRE"
             },
             {
                 "participant": "AGENT",
                 "utterance": "Sorry, I couldn't find any fantasy and action, lord films named similar to one. Please select from the list of options to continue.\n",
+                "utterance ID": "CNV1_MovieBotTester_16",
                 "intent": "SUGGEST",
                 "slot_values": [
                     [
@@ -178,6 +195,7 @@
             {
                 "participant": "USER",
                 "utterance": "No movies named like \"\"one\"\".\n",
+                "utterance ID": "CNV1_TEST03_17",
                 "intent": "REVEAL.REFINE",
                 "slot_values": [
                     [
@@ -189,6 +207,7 @@
             {
                 "participant": "AGENT",
                 "utterance": "I would like to recommend you a fantasy and action, lord film named \"\"Bright\"\". Have you watched it?\n",
+                "utterance ID": "CNV1_MovieBotTester_18",
                 "intent": "REVEAL.LIST",
                 "slot_values": [
                     [
@@ -212,11 +231,13 @@
             {
                 "participant": "USER",
                 "utterance": "thank you\n",
+                "utterance ID": "CNV1_TEST03_19",
                 "intent": "COMPLETE"
             },
             {
                 "participant": "AGENT",
                 "utterance": "Sorry, I don't have any action, lord films named similar to thank you. Please select from the list of options to continue.\n",
+                "utterance ID": "CNV1_MovieBotTester_20",
                 "intent": "FAILED",
                 "slot_values": [
                     [
@@ -236,11 +257,13 @@
             {
                 "participant": "USER",
                 "utterance": "/exit\n",
+                "utterance ID": "CNV1_TEST03_21",
                 "intent": "COMPLETE"
             },
             {
                 "participant": "AGENT",
                 "utterance": "You are exiting. I hope you found a movie. Bye.\",\n",
+                "utterance ID": "CNV1_MovieBotTester_22",
                 "intent": "END"
             }
         ],
