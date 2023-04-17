@@ -21,13 +21,13 @@ If you want to install a DialogueKit from a specific commit or straight from git
 
 The command will install the latest version from the main branch.
 
-- On Windows you may need to run this command before pip installing
+  - On Windows you may need to run this command before pip installing
 
 ```shell
 ssh -t git github.com
 ```
 
-- pip install
+  - pip install
 
 ```shell
 pip install git+ssh://git@github.com/iai-group/dialoguekit.git
@@ -35,7 +35,7 @@ pip install git+ssh://git@github.com/iai-group/dialoguekit.git
 
 If you want to specify a specific commit as the source of the package append the commit hash to the end of the command separated with a "@".
 
-- Specific commit as the source of the package.
+  - Specific commit as the source of the package.
 
 ```shell
 pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275105cc1ca7698783719551c2
@@ -43,33 +43,19 @@ pip install git+ssh://git@github.com/iai-group/dialoguekit.git@faa5c1fca37aaa275
 
 ## Usage example
 
-1. Define agent and user
-
-   ```python
-   from dialoguekit.core.utterance import Utterance
-   from dialoguekit.participant.user import User, UserType
-   from sample_agents.parrot_agent import ParrotAgent
-
-   # Participants
-   agent = ParrotAgent("A01")
-   user = User("U01")
-   ```
-
-2. Create and connect platform and dialogue manager
+1. Create and connect a platform that manages dialogues. The platform requires information about the agent it serves.
 
    ```python
    from dialoguekit.platforms.terminal_platform import TerminalPlatform
-   from dialoguekit.connector.dialogue_connector import DialogueConnector
+   from sample_agents.parrot_agent import ParrotAgent
 
-   platform = TerminalPlatform()
-   dc = DialogueConnector(agent, user, platform)
+   platform = TerminalPlatform(ParrotAgent)
    ```
 
-3. Start conversation
+2. Start conversation
 
    ```python
-     dc.start()
-     dc.close()
+      platform.start()
    ```
 
 ## Conventions
@@ -86,9 +72,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 (Alphabetically ordered by last name)
 
-- Jafar Afzali (2022)
-- Krisztian Balog (2021-present)
-- Nolwenn Bernard (2022-present)
-- Aleksander Drzewiecki (2022)
-- Ivica Kostric (2023)
-- Shuo Zhang (2021)
+  - Jafar Afzali (2022)
+  - Krisztian Balog (2021-present)
+  - Nolwenn Bernard (2022-present)
+  - Aleksander Drzewiecki (2022)
+  - Ivica Kostric (2023)
+  - Shuo Zhang (2021)

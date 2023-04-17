@@ -1,5 +1,7 @@
 """Interface representing the basic unit of communication."""
 
+from __future__ import annotations
+
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import TYPE_CHECKING
@@ -13,7 +15,7 @@ class Utterance:
     """Represents an utterance."""
 
     text: str = field(hash=True)
-    participant: "DialogueParticipant" = field(hash=True)
+    participant: DialogueParticipant = field(hash=True)
     timestamp: datetime = field(default=None, hash=True)
 
     def _timestamp_text(self) -> str:

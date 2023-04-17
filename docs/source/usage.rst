@@ -11,30 +11,13 @@ only parrots back what the user said.
 
     .. code-block:: python
 
-        from dialoguekit.participant.user import User
-        from sample_agents.parrot_agent import ParrotAgent
         from dialoguekit.platforms.terminal_platform import TerminalPlatform
-        from dialoguekit.connector.dialogue_connector import DialogueConnector
-
-2. Define agent and user
-
-    .. code-block:: python
-
-        # Participants
-        agent = ParrotAgent("A01")
-        user = User("U01")
-
-3. Create and connect platform and dialogue connector
-    
-    .. code-block:: python
-
-        platform = TerminalPlatform()
-        dc = DialogueConnector(agent, user, platform)
+        from sample_agents.parrot_agent import ParrotAgent
 
 
-4. Start conversation
+2. Start conversation
 
     .. code-block:: python
 
-        dc.start()
-        dc.close()
+        platform = TerminalPlatform(ParrotAgent)
+        platform.start()

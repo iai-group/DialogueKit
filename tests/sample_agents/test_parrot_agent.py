@@ -1,6 +1,7 @@
 """Tests for ParrotAgent."""
 import io
 import sys
+from unittest.mock import patch
 
 import pytest
 
@@ -12,10 +13,11 @@ from sample_agents.parrot_agent import ParrotAgent
 def platform() -> TerminalPlatform:
     """Dialogue connector fixture."""
     platform = TerminalPlatform(ParrotAgent)
-    return platform
+    yield platform
 
 
-def test_greetings(platform: TerminalPlatform, monkeypatch) -> None:
+@patch("dialoguekit.connector.dialogue_connector.DialogueConnector.close")
+def test_greetings(close, platform: TerminalPlatform, monkeypatch) -> None:
     """Test for welcome and goodbye methods."""
     monkeypatch.setattr(sys, "stdin", io.StringIO("EXIT"))
     platform.start()

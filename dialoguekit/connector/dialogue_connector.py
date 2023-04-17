@@ -19,11 +19,13 @@ import json
 import os
 from typing import TYPE_CHECKING
 
-from dialoguekit.core import AnnotatedUtterance, Dialogue
-from dialoguekit.participant import Agent, User
+from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.dialogue import Dialogue
+from dialoguekit.participant.agent import Agent
+from dialoguekit.participant.user import User
 
 if TYPE_CHECKING:
-    from dialoguekit.platforms import Platform
+    from dialoguekit.platforms.platform import Platform
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
@@ -57,6 +59,10 @@ class DialogueConnector:
         """Return the dialogue history."""
         return self._dialogue_history
 
+    def get_platform(self) -> Platform:
+        """Returns the platform."""
+        return self._platform
+
     def register_user_utterance(
         self, annotated_utterance: AnnotatedUtterance
     ) -> None:
@@ -77,17 +83,6 @@ class DialogueConnector:
             self._user.id, annotated_utterance
         )
         self._agent.receive_utterance(annotated_utterance)
-
-    def register_utterance_feedback(
-        self, utterance_id: str, value: int
-    ) -> None:
-        """Registers utterance level feedback from the user.
-
-        Args:
-            utterance_id: Utterance ID.
-            value: Feedback value.
-        """
-        pass
 
     def register_agent_utterance(
         self, annotated_utterance: AnnotatedUtterance

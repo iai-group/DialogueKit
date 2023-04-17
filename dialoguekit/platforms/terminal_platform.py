@@ -7,6 +7,7 @@ from typing import Type
 
 from dialoguekit.core import Utterance
 from dialoguekit.participant import Agent
+from dialoguekit.participant.user import User
 from dialoguekit.platforms import Platform
 
 
@@ -20,6 +21,16 @@ class TerminalPlatform(Platform):
         """
         super().__init__(agent_class)
         self._user_id = user_id or "terminal_user"
+
+    def start(self) -> None:
+        """Starts the platform."""
+        self.connect(self._user_id)
+        user: User = self._active_users[self._user_id]
+        while True:
+            if not user.ready_for_input:
+                break
+            text = input()
+            self.message(self._user_id, text)
 
     def display_agent_utterance(
         self, user_id: str, utterance: Utterance
@@ -40,7 +51,3 @@ class TerminalPlatform(Platform):
             utterance: An instance of Utterance.
         """
         print(f"USER:  {utterance.text}\n")
-
-    def start(self) -> None:
-        """Starts the platform."""
-        self.connect(self._user_id)

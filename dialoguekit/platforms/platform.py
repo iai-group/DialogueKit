@@ -1,6 +1,6 @@
 """The Platform facilitates displaying of the conversation."""
 from abc import ABC, abstractmethod
-from typing import Callable, Dict, Type
+from typing import Dict, Type
 
 from dialoguekit.connector import DialogueConnector
 from dialoguekit.core import Utterance
@@ -58,22 +58,13 @@ class Platform(ABC):
         """
         raise NotImplementedError
 
-    @abstractmethod
-    def listen_for_user_input(self, callback: Callable) -> None:
-        """Listens for user input.
-
-        Args:
-            callback: Callback function.
-        """
-        raise NotImplementedError
-
     def get_new_agent(self) -> Agent:
         """Returns a new instance of the agent.
 
         Returns:
             Agent.
         """
-        return self._agent_class("agent")
+        return self._agent_class(str(self._agent_class))
 
     def get_user(self, user_id: str) -> User:
         """Returns the user.
@@ -127,4 +118,5 @@ class Platform(ABC):
             utterance_id: Utterance ID.
             value: Feedback value.
         """
-        self.get_user(user_id).handle_utterance_feedback(utterance_id, value)
+        # TODO implement feedback
+        # Issue: https://github.com/iai-group/DialogueKit/issues/219
