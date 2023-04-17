@@ -5,9 +5,10 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from typing import TYPE_CHECKING, Dict
 
+from dialoguekit.core import Utterance
+
 if TYPE_CHECKING:
     from dialoguekit.connector.dialogue_connector import DialogueConnector
-    from dialoguekit.core import Utterance
 
 
 class DialogueParticipant(Enum):

@@ -2,8 +2,10 @@
 
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import TYPE_CHECKING
 
-from dialoguekit.participant import DialogueParticipant
+if TYPE_CHECKING:
+    from dialoguekit.participant import DialogueParticipant
 
 
 @dataclass(eq=True, unsafe_hash=True)
@@ -11,7 +13,7 @@ class Utterance:
     """Represents an utterance."""
 
     text: str = field(hash=True)
-    participant: DialogueParticipant = field(hash=True)
+    participant: "DialogueParticipant" = field(hash=True)
     timestamp: datetime = field(default=None, hash=True)
 
     def _timestamp_text(self) -> str:

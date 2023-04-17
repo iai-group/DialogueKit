@@ -13,10 +13,9 @@ from typing import TYPE_CHECKING
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.participant import DialogueParticipant, Participant
-from dialoguekit.platforms.platform import Platform
 
 if TYPE_CHECKING:
-    from dialoguekit.connector.dialogue_connector import DialogueConnector
+    from dialoguekit.platforms.platform import Platform
 
 
 class UserType(Enum):
