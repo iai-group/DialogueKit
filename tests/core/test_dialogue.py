@@ -15,6 +15,7 @@ def dialogue_history_1() -> Dialogue:
     """Dialogue with unannotated utterances fixture."""
     agent_id = "agent-001"
     user_id = "USR01"
+    conversation_id = "CNV1"
     agent_utterance_1 = Utterance(
         "Hello", participant=DialogueParticipant.AGENT
     )
@@ -34,7 +35,7 @@ def dialogue_history_1() -> Dialogue:
         agent_utterance_3,
     ]
 
-    dialogue_history = Dialogue(agent_id, user_id)
+    dialogue_history = Dialogue(agent_id, user_id, conversation_id)
     for utterance in utterances:
         dialogue_history.add_utterance(utterance)
     return dialogue_history
@@ -45,6 +46,7 @@ def dialogue_history_2() -> Dialogue:
     """Dialogue with annotated utterances and metadata fixture."""
     agent_id = "agent-002"
     user_id = "USR02"
+    conversation_id = "CNV1"
     agent_utterance_1 = AnnotatedUtterance(
         "Hello",
         participant=DialogueParticipant.AGENT,
@@ -65,7 +67,7 @@ def dialogue_history_2() -> Dialogue:
         agent_utterance_2,
     ]
 
-    dialogue_history = Dialogue(agent_id, user_id)
+    dialogue_history = Dialogue(agent_id, user_id, conversation_id)
     dialogue_history.metadata.update(
         {"description": "Dialogue fixture for testing"}
     )
@@ -78,7 +80,7 @@ def dialogue_history_2() -> Dialogue:
 @pytest.fixture(scope="module")
 def dialogue_history_3() -> Dialogue:
     """Empty dialogue fixture."""
-    return Dialogue("agent-003", "USR03")
+    return Dialogue("agent-003", "USR03", "CNV1")
 
 
 def test_ids(dialogue_history_1: Dialogue) -> None:
@@ -126,6 +128,7 @@ def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
 
     assert dialogue_dict_1.get("agent") == "agent-001"
     assert dialogue_dict_1.get("user") == "USR01"
+    assert dialogue_dict_1.get("conversation ID") == "CNV1"
     assert dialogue_dict_1.get("metadata") is None
     assert len(dialogue_dict_1.get("conversation")) == 5
     utterance_1 = dialogue_dict_1.get("conversation")[0]

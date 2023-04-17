@@ -4,8 +4,8 @@ Usage
 Simple Example
 --------------
 
-In this example we will have a user that is terminal-based and an agent that
-only parrots back what the user said.
+This example starts a dialogue in the terminal between a user and an agent that parrots back the user's utterances.
+
 
 1. Imports
 

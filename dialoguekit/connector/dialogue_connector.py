@@ -36,6 +36,7 @@ class DialogueConnector:
         agent: Agent,
         user: User,
         platform: Platform,
+        conversation_id: str = None,
         save_dialogue_history: bool = True,
     ) -> None:
         """Represents a dialogue connector.
@@ -44,6 +45,7 @@ class DialogueConnector:
             agent: An instance of Agent.
             user: An instance of User.
             platform: An instance of Platform.
+            conversation_id: Conversation ID. Defaults to None.
             save_dialogue_history: Flag to save the dialogue or not.
         """
         self._platform = platform
@@ -51,7 +53,7 @@ class DialogueConnector:
         self._agent.connect_dialogue_connector(self)
         self._user = user
         self._user.connect_dialogue_connector(self)
-        self._dialogue_history = Dialogue(agent.id, user.id)
+        self._dialogue_history = Dialogue(agent.id, user.id, conversation_id)
         self._save_dialogue_history = save_dialogue_history
 
     @property

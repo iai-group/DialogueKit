@@ -4,6 +4,7 @@
 [![PyPi version](https://img.shields.io/pypi/v/dialoguekit)](https://pypi.org/project/dialoguekit/)
 ![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/adrzewiecki/35bb996459f0949b38da651c66cf95cb/raw/coverage.DialogueKit.main.json)
 ![Tests](https://img.shields.io/github/actions/workflow/status/iai-group/DialogueKit/merge.yaml?label=Tests&branch=main)
+![docs](https://img.shields.io/github/actions/workflow/status/iai-group/DialogueKit/build_docs.yaml?label=docs&branch=main)
 ![Python version](https://img.shields.io/badge/python-3.9-blue)
 
 DialogueKit is a library for conversational information access (CIA). It contains based classes for fundamental [concepts](https://iai-group.github.io/DialogueKit/main/concepts.html), such as dialogue participants, dialogue management, [natural language understanding](https://iai-group.github.io/DialogueKit/main/nlu.html), natural language generation, etc. In addition to the fundamental concepts DialogueKit contains an evaluation module, for evaluating the performance of and CIA systems.
@@ -17,7 +18,7 @@ DialogueKit is published to PyPI, install it by running:
 pip install dialoguekit
 ```
 
-If you want to install a DialogueKit from a specific commit or straight from github this is still possible.
+Follow the commands below to install DialogueKit from a specific commit or straight from GitHub.
 
 The command will install the latest version from the main branch.
 
