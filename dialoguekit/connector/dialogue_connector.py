@@ -13,15 +13,19 @@ but this is not required.  Whenever there is a message from either the Agent or
 the User, the DialogueConnector sends it to the other party by calling their
 `receive_{agent/user}_utterance()` method.
 """
+from __future__ import annotations
+
 import json
 import os
+from typing import TYPE_CHECKING
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.participant.agent import Agent
 from dialoguekit.participant.user import User
-from dialoguekit.platforms.platform import Platform
-from dialoguekit.platforms.terminal_platform import TerminalPlatform
+
+if TYPE_CHECKING:
+    from dialoguekit.platforms.platform import Platform
 
 _DIALOGUE_EXPORT_PATH = "dialogue_export"
 
@@ -161,23 +165,3 @@ class DialogueConnector:
         for _ in range(len(self._dialogue_history.utterances)):
             self._dialogue_history.utterances.pop()
         # TODO: save dialogue history, subject to config parameters
-
-
-if __name__ == "__main__":
-    from dialoguekit.participant.user import User
-    from sample_agents.moviebot_agent import MovieBotAgent
-
-    # Participants
-    agent = MovieBotAgent(
-        agent_id="MovieBot01", uri="http://152.94.232.43:5001/"
-    )
-    user = User(id="TEST01")
-
-    platform = TerminalPlatform()
-    dm = DialogueConnector(agent, user, platform)
-
-    user.connect_dialogue_connector(dm)
-    agent.connect_dialogue_connector(dm)
-    dm.start()
-
-    dm.close()
