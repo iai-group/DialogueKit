@@ -243,7 +243,15 @@
                 "utterance": "You are exiting. I hope you found a movie. Bye.\",\n",
                 "intent": "END"
             }
-        ]
+        ],
+        "agent": {
+            "id": "MovieBotTester",
+            "type": "AGENT"
+        },
+        "user": {
+            "id": "TEST03",
+            "type": "USER"
+        }
     },
     {
         "conversation ID": "\"3WOKGM4L721JEJM00BS2Y3IMR910O8\"",
