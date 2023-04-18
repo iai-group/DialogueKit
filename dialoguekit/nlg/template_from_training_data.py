@@ -9,7 +9,9 @@ from typing import DefaultDict, Dict, List, Optional, Set, Union
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
-from dialoguekit.nlu.models.satisfaction_classifier import SatisfactionClassifier
+from dialoguekit.nlu.models.satisfaction_classifier import (
+    SatisfactionClassifier,
+)
 from dialoguekit.participant.participant import DialogueParticipant
 from dialoguekit.utils.dialogue_reader import (
     _FIELD_CONVERSATION,
