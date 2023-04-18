@@ -9,11 +9,11 @@ from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.intent import Intent
 
 _FIELD_UTTERANCE = "utterance"
-_FIELD_UTTERANCE_ID = "utterance ID"
+_FIELD_UTTERANCE_ID = "utterance_id"
 _FIELD_INTENT = "intent"
 _FIELD_SLOT_VALUES = "slot_values"
 _FIELD_CONVERSATION = "conversation"
-_FIELD_CONVERSATION_ID = "conversation ID"
+_FIELD_CONVERSATION_ID = "conversation_id"
 _FIELD_PARTICIPANT = "participant"
 
 
