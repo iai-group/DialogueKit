@@ -103,6 +103,7 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances
     )
     assert dialogue_history_1.utterances[0].text == "Hello"
+    assert dialogue_history_1.utterances[0].utterance_id == "CNV1_agent-001_0"
     assert (
         dialogue_history_1.utterances[0].participant
         == DialogueParticipant.AGENT
@@ -111,6 +112,7 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances[1].participant == DialogueParticipant.USER
     )
     assert dialogue_history_1.utterances[1].text == "Hi"
+    assert dialogue_history_1.utterances[1].utterance_id == "CNV1_USR01_1"
     assert (
         dialogue_history_1.utterances[4].participant
         == DialogueParticipant.AGENT
@@ -133,6 +135,7 @@ def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
     assert len(dialogue_dict_1.get("conversation")) == 5
     utterance_1 = dialogue_dict_1.get("conversation")[0]
     assert utterance_1["utterance"] == "Hello"
+    assert utterance_1["utterance ID"] == "CNV1_agent-001_0"
     assert utterance_1.get("slot_values") is None
 
 

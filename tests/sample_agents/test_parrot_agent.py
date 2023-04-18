@@ -49,6 +49,14 @@ def test_greetings(connector: DialogueConnector, monkeypatch) -> None:
         == "Hello, I'm Parrot. What can I help u with?"
     )
     assert (
+        connector.dialogue_history.utterances[0].utterance_id
+        == "CNV1_TestParrotAgent_0"
+    )
+    assert (
         connector.dialogue_history.utterances[-1].text
         == "It was nice talking to you. Bye"
+    )
+    assert (
+        connector.dialogue_history.utterances[-1].utterance_id
+        == "CNV1_TestParrotAgent_2"
     )
