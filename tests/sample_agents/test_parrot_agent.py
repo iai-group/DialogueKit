@@ -21,7 +21,7 @@ def test_greetings(close, platform: TerminalPlatform, monkeypatch) -> None:
     """Test for welcome and goodbye methods."""
     monkeypatch.setattr(sys, "stdin", io.StringIO("EXIT"))
     platform.start()
-    connector = platform.get_user("terminal_user").get_dialogue_connector()
+    connector = platform.get_user("terminal_user").dialogue_connector
     assert len(connector.dialogue_history.utterances) == 3
     assert (
         connector.dialogue_history.utterances[0].text

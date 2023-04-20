@@ -98,8 +98,7 @@ class Platform(ABC):
             user_id: User ID.
         """
         user = self._active_users.pop(user_id)
-        dialogue_connector = user.get_dialogue_connector()
-        dialogue_connector.close()
+        user.dialogue_connector.close()
 
     def message(self, user_id: str, text: str) -> None:
         """Gets called every time there is a new user input.
@@ -118,5 +117,5 @@ class Platform(ABC):
             utterance_id: Utterance ID.
             value: Feedback value.
         """
-        # TODO implement feedback
         # Issue: https://github.com/iai-group/DialogueKit/issues/219
+        pass

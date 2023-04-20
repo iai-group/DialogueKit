@@ -37,7 +37,8 @@ class Participant(ABC):
         """Returns the participant id."""
         return self._id
 
-    def get_dialogue_connector(self) -> DialogueConnector:
+    @property
+    def dialogue_connector(self) -> DialogueConnector:
         """Returns the DialogueConnector instance for the participant.
 
         Returns:

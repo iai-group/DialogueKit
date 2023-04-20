@@ -12,15 +12,17 @@ from dialoguekit.platforms import Platform
 
 
 class TerminalPlatform(Platform):
-    def __init__(self, agent_class: Type[Agent], user_id: str = None) -> None:
+    def __init__(
+        self, agent_class: Type[Agent], user_id: str = "terminal_user"
+    ) -> None:
         """Represents a terminal platform. It handles a single user.
 
         Args:
             agent_class: The class of the agent.
-            user_id: User ID (default: terminal_user).
+            user_id: User ID. Defaults to "terminal_user".
         """
         super().__init__(agent_class)
-        self._user_id = user_id or "terminal_user"
+        self._user_id = user_id
 
     def start(self) -> None:
         """Starts the platform."""
