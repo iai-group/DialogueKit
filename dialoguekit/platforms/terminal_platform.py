@@ -40,6 +40,7 @@ class TerminalPlatform(Platform):
         """Displays an agent utterance.
 
         Args:
+            user_id: User ID.
             utterance: An instance of Utterance.
         """
         print(f"AGENT: {utterance.text}")
@@ -50,6 +51,7 @@ class TerminalPlatform(Platform):
         """Displays a user utterance.
 
         Args:
+            user_id: User ID.
             utterance: An instance of Utterance.
         """
         print(f"USER:  {utterance.text}\n")
