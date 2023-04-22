@@ -1,6 +1,7 @@
 """Tests for AnnotationConverterRasa."""
 
 import pytest
+
 from dialoguekit.core import Intent, Utterance
 from dialoguekit.participant import DialogueParticipant
 from dialoguekit.utils import AnnotationConverterRasa

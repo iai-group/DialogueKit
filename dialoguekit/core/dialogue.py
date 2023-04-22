@@ -6,6 +6,7 @@ from typing import Any, Dict, List, Text
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.utterance import Utterance
+from dialoguekit.participant.participant import DialogueParticipant
 
 
 class Dialogue:
@@ -89,6 +90,14 @@ class Dialogue:
         Args:
             utterance: An instance of Utterance.
         """
+        if utterance.utterance_id is None:
+            utterance.utterance_id = "{}_{}_{}".format(
+                self.conversation_id,
+                self.agent_id
+                if utterance.participant is DialogueParticipant.AGENT
+                else self.user_id,
+                self.current_turn_id,
+            )
         self._utterances.append(utterance)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -110,6 +119,7 @@ class Dialogue:
             utterance_info: Dict[str, Any] = {
                 "participant": utterance.participant.name,
                 "utterance": utterance.text,
+                "utterance ID": utterance.utterance_id,
             }
 
             if isinstance(utterance, AnnotatedUtterance):
