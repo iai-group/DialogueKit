@@ -2,7 +2,7 @@ DialogueKit Dialogue Export Format
 =====================================
 
 DialogueKit follows a specific format when exporting dialogues to JSON.
-Dialogues are stored in seperate files for each user-agent pair.
+Dialogues are stored in separate files for each user-agent pair.
 
 Format
 ------

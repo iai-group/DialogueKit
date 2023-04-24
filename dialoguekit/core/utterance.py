@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from dialoguekit.participant.participant import DialogueParticipant
+    from dialoguekit.participant import DialogueParticipant
 
 
 @dataclass(eq=True, unsafe_hash=True)
@@ -16,6 +16,7 @@ class Utterance:
 
     text: str = field(hash=True)
     participant: DialogueParticipant = field(hash=True)
+    utterance_id: str = field(default=None, hash=True)
     timestamp: datetime = field(default=None, hash=True)
 
     def _timestamp_text(self) -> str:

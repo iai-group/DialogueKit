@@ -1,6 +1,7 @@
 """Tests for IntentClassifierRasa."""
 
 import pytest
+
 from dialoguekit.core import Intent, Utterance
 from dialoguekit.nlu import IntentClassifierRasa
 from dialoguekit.participant import DialogueParticipant

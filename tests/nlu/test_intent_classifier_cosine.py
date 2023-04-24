@@ -3,6 +3,7 @@
 import os
 
 import pytest
+
 from dialoguekit.core import Intent, Utterance
 from dialoguekit.nlu import IntentClassifierCosine
 from dialoguekit.participant import DialogueParticipant

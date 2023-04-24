@@ -36,6 +36,7 @@ class DialogueConnector:
         agent: Agent,
         user: User,
         platform: Platform,
+        conversation_id: str = None,
         save_dialogue_history: bool = True,
     ) -> None:
         """Represents a dialogue connector.
@@ -44,6 +45,7 @@ class DialogueConnector:
             agent: An instance of Agent.
             user: An instance of User.
             platform: An instance of Platform.
+            conversation_id: Conversation ID. Defaults to None.
             save_dialogue_history: Flag to save the dialogue or not.
         """
         self._platform = platform
@@ -51,7 +53,7 @@ class DialogueConnector:
         self._agent.connect_dialogue_connector(self)
         self._user = user
         self._user.connect_dialogue_connector(self)
-        self._dialogue_history = Dialogue(agent.id, user.id)
+        self._dialogue_history = Dialogue(agent.id, user.id, conversation_id)
         self._save_dialogue_history = save_dialogue_history
 
     @property
@@ -79,7 +81,9 @@ class DialogueConnector:
             annotated_utterance: User utterance.
         """
         self._dialogue_history.add_utterance(annotated_utterance)
-        self._platform.display_user_utterance(annotated_utterance)
+        self._platform.display_user_utterance(
+            self._user.id, annotated_utterance
+        )
         self._agent.receive_utterance(annotated_utterance)
 
     def register_agent_utterance(
@@ -101,7 +105,9 @@ class DialogueConnector:
             annotated_utterance: Agent utterance.
         """
         self._dialogue_history.add_utterance(annotated_utterance)
-        self._platform.display_agent_utterance(annotated_utterance)
+        self._platform.display_agent_utterance(
+            self._user.id, annotated_utterance
+        )
         # TODO: Replace with appropriate intent (make sure all intent schemes
         # have an EXIT intent.)
         if annotated_utterance.intent == self._agent.stop_intent:

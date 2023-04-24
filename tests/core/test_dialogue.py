@@ -2,10 +2,13 @@
 
 import pytest
 
-from dialoguekit.core import Dialogue, Utterance
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.annotation import Annotation
-from dialoguekit.core.intent import Intent
+from dialoguekit.core import (
+    AnnotatedUtterance,
+    Annotation,
+    Dialogue,
+    Intent,
+    Utterance,
+)
 from dialoguekit.participant import DialogueParticipant
 
 
@@ -15,6 +18,7 @@ def dialogue_history_1() -> Dialogue:
     """Dialogue with unannotated utterances fixture."""
     agent_id = "agent-001"
     user_id = "USR01"
+    conversation_id = "CNV1"
     agent_utterance_1 = Utterance(
         "Hello", participant=DialogueParticipant.AGENT
     )
@@ -34,7 +38,7 @@ def dialogue_history_1() -> Dialogue:
         agent_utterance_3,
     ]
 
-    dialogue_history = Dialogue(agent_id, user_id)
+    dialogue_history = Dialogue(agent_id, user_id, conversation_id)
     for utterance in utterances:
         dialogue_history.add_utterance(utterance)
     return dialogue_history
@@ -45,6 +49,7 @@ def dialogue_history_2() -> Dialogue:
     """Dialogue with annotated utterances and metadata fixture."""
     agent_id = "agent-002"
     user_id = "USR02"
+    conversation_id = "CNV1"
     agent_utterance_1 = AnnotatedUtterance(
         "Hello",
         participant=DialogueParticipant.AGENT,
@@ -65,7 +70,7 @@ def dialogue_history_2() -> Dialogue:
         agent_utterance_2,
     ]
 
-    dialogue_history = Dialogue(agent_id, user_id)
+    dialogue_history = Dialogue(agent_id, user_id, conversation_id)
     dialogue_history.metadata.update(
         {"description": "Dialogue fixture for testing"}
     )
@@ -78,7 +83,7 @@ def dialogue_history_2() -> Dialogue:
 @pytest.fixture(scope="module")
 def dialogue_history_3() -> Dialogue:
     """Empty dialogue fixture."""
-    return Dialogue("agent-003", "USR03")
+    return Dialogue("agent-003", "USR03", "CNV1")
 
 
 def test_ids(dialogue_history_1: Dialogue) -> None:
@@ -101,6 +106,7 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances
     )
     assert dialogue_history_1.utterances[0].text == "Hello"
+    assert dialogue_history_1.utterances[0].utterance_id == "CNV1_agent-001_0"
     assert (
         dialogue_history_1.utterances[0].participant
         == DialogueParticipant.AGENT
@@ -109,6 +115,7 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances[1].participant == DialogueParticipant.USER
     )
     assert dialogue_history_1.utterances[1].text == "Hi"
+    assert dialogue_history_1.utterances[1].utterance_id == "CNV1_USR01_1"
     assert (
         dialogue_history_1.utterances[4].participant
         == DialogueParticipant.AGENT
@@ -126,10 +133,12 @@ def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
 
     assert dialogue_dict_1.get("agent") == "agent-001"
     assert dialogue_dict_1.get("user") == "USR01"
+    assert dialogue_dict_1.get("conversation ID") == "CNV1"
     assert dialogue_dict_1.get("metadata") is None
     assert len(dialogue_dict_1.get("conversation")) == 5
     utterance_1 = dialogue_dict_1.get("conversation")[0]
     assert utterance_1["utterance"] == "Hello"
+    assert utterance_1["utterance ID"] == "CNV1_agent-001_0"
     assert utterance_1.get("slot_values") is None
 
 
