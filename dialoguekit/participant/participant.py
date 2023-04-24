@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Dict
 
 if TYPE_CHECKING:
     from dialoguekit.connector.dialogue_connector import DialogueConnector
-    from dialoguekit.core.utterance import Utterance
+    from dialoguekit.core import Utterance
 
 
 class DialogueParticipant(Enum):
@@ -35,6 +35,15 @@ class Participant(ABC):
     def id(self):
         """Returns the participant id."""
         return self._id
+
+    @property
+    def dialogue_connector(self) -> DialogueConnector:
+        """Returns the DialogueConnector instance for the participant.
+
+        Returns:
+            A DialogueConnector instance.
+        """
+        return self._dialogue_connector
 
     def to_dict(self) -> Dict[str, str]:
         """Returns participant as a dictionary.

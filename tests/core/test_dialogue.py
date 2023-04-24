@@ -2,10 +2,13 @@
 
 import pytest
 
-from dialoguekit.core import Dialogue, Utterance
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.annotation import Annotation
-from dialoguekit.core.intent import Intent
+from dialoguekit.core import (
+    AnnotatedUtterance,
+    Annotation,
+    Dialogue,
+    Intent,
+    Utterance,
+)
 from dialoguekit.participant import DialogueParticipant
 
 

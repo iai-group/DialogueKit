@@ -1,12 +1,15 @@
 """Interface representing the sequence of utterances in a dialogue."""
+from __future__ import annotations
 
 import calendar
 import datetime
-from typing import Any, Dict, List, Text
+from typing import TYPE_CHECKING, Any, Dict, List, Text
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.utterance import Utterance
-from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.participant import DialogueParticipant
+
+if TYPE_CHECKING:
+    from dialoguekit.core.utterance import Utterance
 
 
 class Dialogue:
