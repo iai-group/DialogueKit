@@ -64,7 +64,7 @@ class Platform(ABC):
         Returns:
             Agent.
         """
-        return self._agent_class(str(self._agent_class))
+        return self._agent_class(self._agent_class.__name__)
 
     def get_user(self, user_id: str) -> User:
         """Returns the user.

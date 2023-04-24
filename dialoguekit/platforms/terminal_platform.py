@@ -33,6 +33,7 @@ class TerminalPlatform(Platform):
                 break
             text = input()
             self.message(self._user_id, text)
+        self.disconnect(self._user_id)
 
     def display_agent_utterance(
         self, user_id: str, utterance: Utterance

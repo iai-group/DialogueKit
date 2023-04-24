@@ -4,11 +4,16 @@ For communicating with an agent, the specific user instance needs to be
 connected with a DialogueConnector by invoking
 `register_dialogue_connector()`.
 """
+from __future__ import annotations
+
 from enum import Enum
+from typing import TYPE_CHECKING
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.participant import DialogueParticipant, Participant
+
+if TYPE_CHECKING:
+    from dialoguekit.core.utterance import Utterance
 
 
 class UserType(Enum):
