@@ -1,15 +1,49 @@
 """The Platform facilitates displaying of the conversation."""
+from __future__ import annotations
+
 import logging
-from typing import Any, Dict, Type
+from dataclasses import asdict, dataclass
+from typing import TYPE_CHECKING, Type
 
 from flask import Flask, request
-from flask_socketio import Namespace, SocketIO, send
+from flask_socketio import Namespace, SocketIO, emit, send
 
-from dialoguekit.core import Utterance
-from dialoguekit.participant.agent import Agent
+from dialoguekit.core import AnnotatedUtterance
 from dialoguekit.platforms.platform import Platform
 
+if TYPE_CHECKING:
+    from dialoguekit.core import Utterance
+    from dialoguekit.participant.agent import Agent
+
+
 logger = logging.getLogger(__name__)
+
+
+@dataclass
+class Message:
+    text: str
+    intent: str = None
+
+    @classmethod
+    def from_utterance(self, utterance: Utterance) -> Message:
+        """Converts an utterance to a message.
+
+        Args:
+            utterance: An instance of Utterance.
+
+        Returns:
+            An instance of Message.
+        """
+        message = Message(utterance.text)
+        if isinstance(utterance, AnnotatedUtterance):
+            message.intent = utterance.intent
+        return message
+
+
+@dataclass
+class Response:
+    recipient: str
+    message: Message
 
 
 class FlaskSocketPlatform(Platform):
@@ -42,18 +76,26 @@ class FlaskSocketPlatform(Platform):
             user_id: User ID.
             utterance: An instance of Utterance.
         """
-        send(utterance.text, room=user_id)
+        message = Message.from_utterance(utterance)
+        emit(
+            "message",
+            asdict(Response(user_id, message)),
+            json=True,
+            room=user_id,
+        )
 
     def display_user_utterance(
         self, user_id: str, utterance: Utterance
     ) -> None:
-        """Emits user utterance to the client.
+        """Overrides the method in Platform to avoid raising an error.
+
+        This method is not used in FlaskSocketPlatform.
 
         Args:
             user_id: User ID.
             utterance: An instance of Utterance.
         """
-        send(utterance.text, room=user_id)
+        pass
 
 
 class ChatNamespace(Namespace):
@@ -67,7 +109,7 @@ class ChatNamespace(Namespace):
         super().__init__(namespace)
         self._platform = platform
 
-    def on_connect(self, data: Dict[str, Any]) -> None:
+    def on_connect(self) -> None:
         """Connects client to server.
 
         Args:
