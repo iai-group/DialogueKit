@@ -83,7 +83,7 @@ class FlaskSocketPlatform(Platform):
             utterance: An instance of Utterance.
         """
         message = Message.from_utterance(utterance)
-        send(
+        self.socketio.send(
             asdict(Response(user_id, message)),
             room=user_id,
         )
