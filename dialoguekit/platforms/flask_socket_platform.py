@@ -3,10 +3,10 @@ from __future__ import annotations
 
 import logging
 from dataclasses import asdict, dataclass
-from typing import TYPE_CHECKING, Type
+from typing import TYPE_CHECKING, Type, cast
 
-from flask import Flask, request
-from flask_socketio import Namespace, SocketIO, emit, send
+from flask import Flask, Request, request
+from flask_socketio import Namespace, SocketIO, send
 
 from dialoguekit.core import AnnotatedUtterance
 from dialoguekit.platforms.platform import Platform
@@ -17,6 +17,12 @@ if TYPE_CHECKING:
 
 
 logger = logging.getLogger(__name__)
+
+
+class SocketIORequest(Request):
+    """A request that contains a sid attribute."""
+
+    sid: str
 
 
 @dataclass
@@ -36,7 +42,7 @@ class Message:
         """
         message = Message(utterance.text)
         if isinstance(utterance, AnnotatedUtterance):
-            message.intent = utterance.intent
+            message.intent = str(utterance.intent)
         return message
 
 
@@ -77,10 +83,8 @@ class FlaskSocketPlatform(Platform):
             utterance: An instance of Utterance.
         """
         message = Message.from_utterance(utterance)
-        emit(
-            "message",
+        send(
             asdict(Response(user_id, message)),
-            json=True,
             room=user_id,
         )
 
@@ -104,7 +108,7 @@ class ChatNamespace(Namespace):
 
         Args:
             namespace: Namespace.
-            controller_flask: Controller.
+            platform: An instance of FlaskSocketPlatform.
         """
         super().__init__(namespace)
         self._platform = platform
@@ -115,15 +119,15 @@ class ChatNamespace(Namespace):
         Args:
             data: Data received from client.
         """
-        user_id = request.sid
-        self._platform.connect(user_id)
-        logger.info(f"Client connected; user_id: {user_id}")
+        req: SocketIORequest = cast(SocketIORequest, request)
+        self._platform.connect(req.sid)
+        logger.info(f"Client connected; user_id: {req.sid}")
 
     def on_disconnect(self) -> None:
         """Disconnects client from server."""
-        user_id = request.sid
-        self._platform.disconnect(user_id)
-        logger.info(f"Client disconnected; user_id: {user_id}")
+        req: SocketIORequest = cast(SocketIORequest, request)
+        self._platform.disconnect(req.sid)
+        logger.info(f"Client disconnected; user_id: {req.sid}")
 
     def on_message(self, data: dict) -> None:
         """Receives message from client and sends response.
@@ -131,7 +135,8 @@ class ChatNamespace(Namespace):
         Args:
             data: Data received from client.
         """
-        self._platform.message(request.sid, data["message"])
+        req: SocketIORequest = cast(SocketIORequest, request)
+        self._platform.message(req.sid, data["message"])
         logger.info(f"Message received: {data}")
 
     def on_feedback(self, data: dict) -> None:
@@ -140,6 +145,7 @@ class ChatNamespace(Namespace):
         Args:
             data: Data received from client.
         """
+        req: SocketIORequest = cast(SocketIORequest, request)
         logger.info(f"Feedback received: {data}")
-        self._platform.feedback(request.sid, data["feedback"])
+        self._platform.feedback(req.sid, **data["feedback"])
         send({"info": "Feedback received"})
