@@ -64,6 +64,16 @@ def test_message_from_annotated_utterance():
     assert annotated_message.intent == intent
 
 
+@mock.patch("flask_socketio.SocketIO.run")
+def test_platform_start(mock_run, platform):
+    """Test that the platform starts the server."""
+    host = "127.0.0.1"
+    port = "5001"
+
+    platform.start(host, port)
+    mock_run.assert_called_once_with(platform.app, host=host, port=port)
+
+
 def test_connection(platform, socket_client):
     """Test that a connection is established."""
     assert socket_client.is_connected()
