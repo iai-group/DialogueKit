@@ -1,3 +1,5 @@
+"""Test the classes in flask_socket_platform.py."""
+
 from unittest import mock
 
 import pytest
@@ -11,6 +13,7 @@ from sample_agents import ParrotAgent
 
 class TestFlaskSocketPlatform(FlaskSocketPlatform):
     def __init__(self, *args, **kwargs):
+        """Initialize the platform with mock methods."""
         super().__init__(*args, **kwargs)
         self.connect = mock.MagicMock(spec=self.connect)
         self.disconnect = mock.MagicMock(spec=self.disconnect)
@@ -20,6 +23,7 @@ class TestFlaskSocketPlatform(FlaskSocketPlatform):
 
 @pytest.fixture
 def platform():
+    """Create a FlaskSocketPlatform with a ParrotAgent."""
     platform = TestFlaskSocketPlatform(agent_class=ParrotAgent)
     platform.app.config["TESTING"] = True
     yield platform
@@ -27,6 +31,7 @@ def platform():
 
 @pytest.fixture
 def socket_client(platform):
+    """Create a test client for socketio."""
     platform.socketio.on_namespace(ChatNamespace("/", platform))
     yield platform.socketio.test_client(
         platform.app,
@@ -35,6 +40,7 @@ def socket_client(platform):
 
 
 def test_message_from_utterance():
+    """Test that a Message is created from an Utterance."""
     text = "Hello, world!"
     utterance = Utterance(text, DialogueParticipant.AGENT)
 
@@ -45,6 +51,7 @@ def test_message_from_utterance():
 
 
 def test_message_from_annotated_utterance():
+    """Test that a Message is created from an AnnotatedUtterance."""
     text = "Hello, world!"
     intent = "greeting"
     annotated_utterance = AnnotatedUtterance(
@@ -58,6 +65,7 @@ def test_message_from_annotated_utterance():
 
 
 def test_connection(platform, socket_client):
+    """Test that a connection is established."""
     assert socket_client.is_connected()
 
     platform.connect.assert_called_once()
@@ -65,6 +73,7 @@ def test_connection(platform, socket_client):
 
 
 def test_disconnection(platform, socket_client):
+    """Test platform disconnects the user when client disconnects."""
     socket_client.disconnect()
 
     platform.connect.assert_called_once()
@@ -72,12 +81,14 @@ def test_disconnection(platform, socket_client):
 
 
 def test_receive_message(platform, socket_client):
+    """Test platform receives a message from the client."""
     socket_client.send({"message": "Hello!"})
 
     platform.message.assert_called_once_with(mock.ANY, "Hello!")
 
 
 def test_receive_feedback(platform, socket_client):
+    """Test platform receives feedback from the client."""
     feedback_data = {"utterance_id": 5, "value": 1}
     socket_client.emit("feedback", {"feedback": feedback_data})
 
@@ -90,6 +101,7 @@ def test_receive_feedback(platform, socket_client):
 
 @mock.patch("flask_socketio.SocketIO.send")
 def test_display_agent_utterance(send, platform):
+    """Test that the agent utterance is sent to the user."""
     user_id = "test_user_id"
     text = "Hello, I'm an agent!"
     utterance = Utterance(text, DialogueParticipant.AGENT)
