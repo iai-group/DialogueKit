@@ -10,7 +10,8 @@
             {
                 "participant": "AGENT",
                 "utterance": "Which genres do you prefer?\n",
-                "intent": "INQUIRE.ELICIT"
+                "intent": "INQUIRE.ELICIT",
+                "utterance_feedback": 1
             },
             {
                 "participant": "USER",
@@ -30,7 +31,8 @@
             {
                 "participant": "AGENT",
                 "utterance": "I have found almost 500 fantasy and action films. Can you guide me more to narrow down the search space?\n",
-                "intent": "REVEAL.EXPAND"
+                "intent": "REVEAL.EXPAND",
+                "utterance_feedback": 0
             },
             {
                 "participant": "AGENT",

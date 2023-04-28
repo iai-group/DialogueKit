@@ -6,6 +6,7 @@ import datetime
 from typing import TYPE_CHECKING, Any, Dict, List, Text
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.feedback import UtteranceFeedback
 from dialoguekit.participant import DialogueParticipant
 
 if TYPE_CHECKING:
@@ -34,6 +35,7 @@ class Dialogue:
         else:
             self._conversation_id = conversation_id
         self._utterances: List[Utterance] = []
+        self._utterance_feedbacks: List[UtteranceFeedback] = []
         self._metadata: Dict[str, Any] = {}
 
     def __str__(self) -> Text:
@@ -78,6 +80,11 @@ class Dialogue:
         return self._utterances
 
     @property
+    def utterance_feedbacks(self) -> List[UtteranceFeedback]:
+        """Returns the utterances in the dialogue."""
+        return self._utterance_feedbacks
+
+    @property
     def metadata(self) -> Dict[str, Any]:
         """Returns the metadata of the dialogue."""
         return self._metadata
@@ -103,6 +110,23 @@ class Dialogue:
             )
         self._utterances.append(utterance)
 
+    def add_utterance_feedback(
+        self, utterance_feedback: UtteranceFeedback
+    ) -> None:
+        """Adds user's feedback on utterance level.
+
+        The feedback previously added for a given utterance is overwritten.
+
+        Args:
+            utterance_feedback: User's feedback.
+        """
+        self._utterance_feedbacks = [
+            feedback
+            for feedback in self._utterance_feedbacks
+            if feedback.utterance_id != utterance_feedback.utterance_id
+        ]
+        self._utterance_feedbacks.append(utterance_feedback)
+
     def to_dict(self) -> Dict[str, Any]:
         """Converts the dialogue to a dictionary.
 
@@ -124,6 +148,17 @@ class Dialogue:
                 "utterance": utterance.text,
                 "utterance ID": utterance.utterance_id,
             }
+
+            feedback = next(
+                (
+                    user_feedback
+                    for user_feedback in self._utterance_feedbacks
+                    if user_feedback.utterance_id == utterance.utterance_id
+                ),
+                None,
+            )
+            if feedback is not None:
+                utterance_info["utterance_feedback"] = feedback.feedback.value
 
             if isinstance(utterance, AnnotatedUtterance):
                 if utterance.intent is not None:

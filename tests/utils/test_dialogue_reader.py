@@ -22,6 +22,16 @@ def test_json_to_dialogues() -> None:
     assert dialogues[0].utterances[1].participant == "AGENT"
     assert dialogues[0].utterances[0].intent.label == "DISCLOSE.NON-DISCLOSE"
     assert dialogues[0].utterances[1].intent.label == "INQUIRE.ELICIT"
+    assert dialogues[0].utterance_feedbacks[0].feedback == 1
+    assert (
+        dialogues[0].utterance_feedbacks[0].utterance_id
+        == "CNV1_MovieBotTester_1"
+    )
+    assert dialogues[1].utterance_feedbacks[0].feedback == 0
+    assert (
+        dialogues[1].utterance_feedbacks[0].utterance_id
+        == "CNV1_MovieBotTester_3"
+    )
 
 
 @pytest.mark.parametrize(
