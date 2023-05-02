@@ -19,7 +19,6 @@ from dialoguekit.utils.dialogue_reader import (
     _FIELD_PARTICIPANT,
     _FIELD_SLOT_VALUES,
     _FIELD_UTTERANCE,
-    _FIELD_UTTERANCE_ID,
 )
 
 # The default satisfaction level used for classifying the NLG template.
@@ -116,7 +115,7 @@ def extract_utterance_template(  # noqa: C901
                 if satisfaction_classifier:
                     annotated_utterance = AnnotatedUtterance(
                         text=utterance_record.get(_FIELD_UTTERANCE).strip(),
-                        utterance_id=utterance_record.get(_FIELD_UTTERANCE_ID),
+                        utterance_id=None,
                         intent=Intent(utterance_record.get(_FIELD_INTENT)),
                         metadata={
                             "satisfaction": _DEFAULT_SATISFACTION
@@ -126,7 +125,7 @@ def extract_utterance_template(  # noqa: C901
                 else:
                     annotated_utterance = AnnotatedUtterance(
                         text=utterance_record.get(_FIELD_UTTERANCE).strip(),
-                        utterance_id=utterance_record.get(_FIELD_UTTERANCE_ID),
+                        utterance_id=None,
                         intent=Intent(utterance_record.get(_FIELD_INTENT)),
                         participant=DialogueParticipant.AGENT,
                     )
