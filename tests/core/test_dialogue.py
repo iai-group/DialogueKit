@@ -1,5 +1,8 @@
 """Tests for the Dialogue class."""
 
+import calendar
+import datetime
+
 import pytest
 
 from dialoguekit.core import (
@@ -92,6 +95,19 @@ def dialogue_history_3() -> Dialogue:
     return Dialogue("agent-003", "USR03", "CNV1")
 
 
+def test_initialization():
+    """Tests dialogue initialization."""
+    agent_id = "agent-002"
+    user_id = "USR02"
+    conversation_id = "CNV1"
+    dialogue_1 = Dialogue(agent_id, user_id, conversation_id)
+    assert dialogue_1.conversation_id == conversation_id
+    dialogue_2 = Dialogue(agent_id, user_id)
+    date = datetime.datetime.utcnow()
+    utc_time = calendar.timegm(date.utctimetuple())
+    assert dialogue_2.conversation_id == f"{agent_id}-{user_id}-{str(utc_time)}"
+
+
 def test_ids(dialogue_history_1: Dialogue) -> None:
     """Tests dialogue parameters.
 
@@ -126,6 +142,29 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances[4].participant
         == DialogueParticipant.AGENT
     )
+
+
+def test_add_utterance() -> None:
+    """Tests adding utterance to dialogue history."""
+    agent_id = "agent-002"
+    user_id = "USR02"
+    conversation_id = "CNV1"
+    utterance_no_id = AnnotatedUtterance(
+        "Hi", participant=DialogueParticipant.USER, intent=Intent("GREETINGS")
+    )
+    utterance_with_id = AnnotatedUtterance(
+        "Hi",
+        utterance_id="u_1",
+        participant=DialogueParticipant.AGENT,
+        intent=Intent("GREETINGS"),
+    )
+    dialogue_history = Dialogue(agent_id, user_id, conversation_id)
+
+    dialogue_history.add_utterance(utterance_no_id)
+    dialogue_history.add_utterance(utterance_with_id)
+
+    assert dialogue_history.utterances[0].utterance_id == "CNV1_USR02_0"
+    assert dialogue_history.utterances[1].utterance_id == "u_1"
 
 
 def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
