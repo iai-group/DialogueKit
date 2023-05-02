@@ -30,7 +30,6 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
     """Tests utterance generation."""
     expected_response1 = AnnotatedUtterance(
         text="something like the A Test Movie Title",
-        utterance_id="CNV1_TEST03_5",
         intent=Intent("REVEAL.EXPAND"),
         participant=DialogueParticipant.AGENT,
     )

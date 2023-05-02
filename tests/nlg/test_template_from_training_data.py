@@ -191,19 +191,16 @@ def test_extract_utterance_template():
         [
             AnnotatedUtterance(
                 text="thank you",
-                utterance_id=None,
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),
             AnnotatedUtterance(
                 text="/exit",
-                utterance_id=None,
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),
             AnnotatedUtterance(
                 text="I would like to quit now.",
-                utterance_id=None,
                 intent=Intent(label="COMPLETE"),
                 participant=DialogueParticipant.AGENT,
             ),
@@ -212,7 +209,6 @@ def test_extract_utterance_template():
 
     test_annotation = AnnotatedUtterance(
         text="something like the {TITLE}",
-        utterance_id=None,
         intent=Intent(label="REVEAL.EXPAND"),
         annotations=[Annotation(slot="TITLE")],
         participant=DialogueParticipant.AGENT,
