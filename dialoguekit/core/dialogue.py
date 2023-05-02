@@ -81,7 +81,7 @@ class Dialogue:
 
     @property
     def utterance_feedbacks(self) -> List[UtteranceFeedback]:
-        """Returns the utterances in the dialogue."""
+        """Returns feedbacks on utterances in the dialogue."""
         return self._utterance_feedbacks
 
     @property
