@@ -34,10 +34,10 @@ def test_json_to_dialogues() -> None:
         == "CNV1_MovieBotTester_1"
     )
     assert (
-        dialogues[1].utterance_feedbacks[0].feedback == BinaryFeedback.NEGATIVE
+        dialogues[0].utterance_feedbacks[1].feedback == BinaryFeedback.NEGATIVE
     )
     assert (
-        dialogues[1].utterance_feedbacks[0].utterance_id
+        dialogues[0].utterance_feedbacks[1].utterance_id
         == "CNV1_MovieBotTester_3"
     )
 
