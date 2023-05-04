@@ -54,7 +54,7 @@ class Response:
 
 class FlaskSocketPlatform(Platform):
     def __init__(self, agent_class: Type[Agent]) -> None:
-        """Represents a platform.
+        """Represents a platform that uses Flask-SocketIO.
 
         Args:
             agent_class: The class of the agent.
@@ -114,11 +114,7 @@ class ChatNamespace(Namespace):
         self._platform = platform
 
     def on_connect(self) -> None:
-        """Connects client to server.
-
-        Args:
-            data: Data received from client.
-        """
+        """Connects client to platform."""
         req: SocketIORequest = cast(SocketIORequest, request)
         self._platform.connect(req.sid)
         logger.info(f"Client connected; user_id: {req.sid}")
