@@ -144,4 +144,3 @@ class ChatNamespace(Namespace):
         req: SocketIORequest = cast(SocketIORequest, request)
         logger.info(f"Feedback received: {data}")
         self._platform.feedback(req.sid, **data["feedback"])
-        send({"info": "Feedback received"})
