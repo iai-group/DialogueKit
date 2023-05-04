@@ -6,7 +6,7 @@ from dataclasses import asdict, dataclass
 from typing import TYPE_CHECKING, Type, cast
 
 from flask import Flask, Request, request
-from flask_socketio import Namespace, SocketIO, send
+from flask_socketio import Namespace, SocketIO
 
 from dialoguekit.core import AnnotatedUtterance
 from dialoguekit.platforms.platform import Platform
