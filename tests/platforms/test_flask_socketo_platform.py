@@ -105,8 +105,7 @@ def test_receive_feedback(platform, socket_client):
     platform.feedback.assert_called_once_with(mock.ANY, **feedback_data)
 
     received = socket_client.get_received()
-    assert len(received) == 1
-    assert received[0]["args"]["info"] == "Feedback received"
+    assert len(received) == 0
 
 
 @mock.patch("flask_socketio.SocketIO.send")
