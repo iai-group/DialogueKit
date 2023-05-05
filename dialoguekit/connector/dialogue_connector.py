@@ -119,7 +119,7 @@ class DialogueConnector:
     def register_user_feedback(
         self, utterance_feedback: UtteranceFeedback
     ) -> None:
-        """Registers users feedback for a utterance from dialogue history.
+        """Registers user's feedback for a utterance from dialogue history.
 
         Args:
             utterance_feedback: User's feedback for a utterance.
