@@ -31,12 +31,13 @@ from dialoguekit.core.intent import Intent
 from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlu.intent_classifier import IntentClassifier
+from dialoguekit.nlu.slot_annotator import SlotAnnotator
 from dialoguekit.utils.annotation_converter_dialoguekit_to_rasa import (
     AnnotationConverterRasa,
 )
 
 
-class IntentClassifierRasa(IntentClassifier):
+class IntentClassifierRasa(IntentClassifier, SlotAnnotator):
     def __init__(
         self,
         intents: List[Intent],
