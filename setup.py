@@ -38,5 +38,10 @@ setuptools.setup(
     include_package_data=True,
     python_requires=">=3.9",
     zip_safe=False,
-    install_requires=["rasa>=3.0"],
+    install_requires=[
+        "rasa>=3.0",
+        "Flask==2.2.3",
+        "flask-socketio==5.3.3",
+        "Werkzeug==2.2.3",
+    ],
 )
