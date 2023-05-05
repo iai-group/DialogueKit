@@ -17,8 +17,6 @@ def annotated_dialogues() -> List[Dialogue]:
     """Test dialogue fixture."""
     export_dialogues = json_to_dialogues(
         filepath="tests/data/annotated_dialogues.json",
-        agent_id=DialogueParticipant.AGENT,
-        user_id=DialogueParticipant.USER,
     )
     return export_dialogues
 
@@ -117,7 +115,7 @@ def test_reward_type_error(reward_config: Dict[str, Any]) -> None:
     Args:
         reward_config: Test reward config.
     """
-    dialogue = Dialogue("AGENT01", "USER01")
+    dialogue = Dialogue("AGENT01", "USER01", "CNV1")
     dialogue.add_utterance(
         Utterance(
             "Hello, which genres do you prefer?", DialogueParticipant.AGENT

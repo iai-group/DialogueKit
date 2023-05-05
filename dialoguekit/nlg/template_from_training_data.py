@@ -13,6 +13,13 @@ from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifier,
 )
 from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.utils.dialogue_reader import (
+    _FIELD_CONVERSATION,
+    _FIELD_INTENT,
+    _FIELD_PARTICIPANT,
+    _FIELD_SLOT_VALUES,
+    _FIELD_UTTERANCE,
+)
 
 # The default satisfaction level used for classifying the NLG template.
 _DEFAULT_SATISFACTION = 3
@@ -102,13 +109,13 @@ def extract_utterance_template(  # noqa: C901
             counter_participant_utterance = None
             participant_utterance = None
             satisfaction = None
-            for utterance_record in dialog.get("conversation"):
-                participant = utterance_record.get("participant")
+            for utterance_record in dialog.get(_FIELD_CONVERSATION):
+                participant = utterance_record.get(_FIELD_PARTICIPANT)
 
                 if satisfaction_classifier:
                     annotated_utterance = AnnotatedUtterance(
-                        text=utterance_record.get("utterance").strip(),
-                        intent=Intent(utterance_record.get("intent")),
+                        text=utterance_record.get(_FIELD_UTTERANCE).strip(),
+                        intent=Intent(utterance_record.get(_FIELD_INTENT)),
                         metadata={
                             "satisfaction": _DEFAULT_SATISFACTION
                         },  # Satisfaction defaults to 3 (Normal)
@@ -116,8 +123,8 @@ def extract_utterance_template(  # noqa: C901
                     )
                 else:
                     annotated_utterance = AnnotatedUtterance(
-                        text=utterance_record.get("utterance").strip(),
-                        intent=Intent(utterance_record.get("intent")),
+                        text=utterance_record.get(_FIELD_UTTERANCE).strip(),
+                        intent=Intent(utterance_record.get(_FIELD_INTENT)),
                         participant=DialogueParticipant.AGENT,
                     )
                 annotated_utterance_copy = copy.deepcopy(annotated_utterance)
@@ -138,7 +145,9 @@ def extract_utterance_template(  # noqa: C901
                     # Keep the original utterance as template when it does not
                     # contain slot values.
                     if "slot_values" in utterance_record:
-                        for slot, value in utterance_record.get("slot_values"):
+                        for slot, value in utterance_record.get(
+                            _FIELD_SLOT_VALUES
+                        ):
                             annotated_utterance.add_annotations(
                                 [Annotation(slot=slot, value=value)]
                             )
