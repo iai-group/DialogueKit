@@ -17,5 +17,5 @@ Platform
 :py:mod:`dialoguekit.platforms.platform`
 
 The platform's responsibility is to facilitate the conversation and ensure that the participant can see the agent's utterances and reply to it.
-DialogueKit includes a simple terminal-based platform.
-However, other platforms (e.g., various messaging apps/services, such as Telegram or Facebook Messenger or Flask chat) can be created by inheriting from :py:class:`dialoguekit.platforms.platform.Platform`.
+DialogueKit includes a simple terminal-based platform and a Flask-SocketIO-based platform.
+However, other platforms (e.g., various messaging apps/services, such as Telegram or Facebook Messenger or Flask REST API) can be created by inheriting from :py:class:`dialoguekit.platforms.platform.Platform`.
