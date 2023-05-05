@@ -78,4 +78,5 @@ with open("README.md", "r", encoding="utf-8") as fh:
   - Nolwenn Bernard (2022-present)
   - Aleksander Drzewiecki (2022)
   - Ivica Kostric (2023)
+  - Weronika Lajewska (2023)
   - Shuo Zhang (2021)
