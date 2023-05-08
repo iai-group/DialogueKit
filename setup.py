@@ -43,5 +43,6 @@ setuptools.setup(
         "Flask==2.2.3",
         "flask-socketio==5.3.3",
         "Werkzeug==2.2.3",
+        "websockets<11.0",
     ],
 )
