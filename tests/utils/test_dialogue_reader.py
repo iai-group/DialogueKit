@@ -27,10 +27,11 @@ def test_json_to_dialogues() -> None:
     assert dialogues[0].utterances[0].utterance_id == "CNV1_TEST03_0"
     assert dialogues[0].utterances[-1].utterance_id == "CNV1_MovieBotTester_22"
     assert (
-        dialogues[0].utterance_feedbacks[0].feedback == BinaryFeedback.POSITIVE
+        dialogues[0].get_utterance_feedback("CNV1_TEST03_0").feedback
+        == BinaryFeedback.POSITIVE
     )
     assert (
-        dialogues[0].utterance_feedbacks[0].utterance_id
+        dialogues[0].get_utterance_feedback("CNV1_TEST03_0").utterance_id
         == "CNV1_MovieBotTester_1"
     )
     assert (
