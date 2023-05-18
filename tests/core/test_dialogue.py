@@ -81,10 +81,11 @@ def dialogue_history_2() -> Dialogue:
     for utterance in utterances:
         dialogue_history.add_utterance(utterance)
 
+    utterance_id = "CNV1_agent-002_2"
     utterance_feedback_1 = UtteranceFeedback(
-        utterance_id="CNV1_agent-002_2", feedback=BinaryFeedback.POSITIVE
+        utterance_id=utterance_id, feedback=BinaryFeedback.POSITIVE
     )
-    dialogue_history.add_utterance_feedback(utterance_feedback_1)
+    dialogue_history.add_utterance_feedback(utterance_feedback_1, utterance_id)
 
     return dialogue_history
 

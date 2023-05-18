@@ -121,7 +121,8 @@ def json_to_dialogues(
                         feedback=BinaryFeedback.POSITIVE
                         if utterance_feedback == 1
                         else BinaryFeedback.NEGATIVE,
-                    )
+                    ),
+                    annotated_utterance.utterance_id,
                 )
         dialogues.append(dialogue)
 
