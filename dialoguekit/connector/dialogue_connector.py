@@ -122,7 +122,8 @@ class DialogueConnector:
         """Registers user's feedback for a utterance from dialogue history.
 
         Args:
-            feedback: User's feedback for a utterance.
+            feedback: User's feedback (BinaryFeedback.{NEGATIVE|POSITIVE}) for a
+              utterance.
             utterance_id: Utterance ID.
         """
         utterance_feedback = UtteranceFeedback(utterance_id, feedback)
