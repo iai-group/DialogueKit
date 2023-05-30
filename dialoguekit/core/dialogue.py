@@ -6,6 +6,7 @@ import datetime
 from typing import TYPE_CHECKING, Any, Dict, List, Text
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.feedback import UtteranceFeedback
 from dialoguekit.participant import DialogueParticipant
 
 if TYPE_CHECKING:
@@ -34,6 +35,7 @@ class Dialogue:
         else:
             self._conversation_id = conversation_id
         self._utterances: List[Utterance] = []
+        self._utterance_feedbacks: Dict[str, UtteranceFeedback] = {}
         self._metadata: Dict[str, Any] = {}
 
     def __str__(self) -> Text:
@@ -77,6 +79,10 @@ class Dialogue:
         """Returns the utterances in the dialogue."""
         return self._utterances
 
+    def get_utterance_feedback(self, utterance_id: str) -> UtteranceFeedback:
+        """Returns feedback on given utterance."""
+        return self._utterance_feedbacks[utterance_id]
+
     @property
     def metadata(self) -> Dict[str, Any]:
         """Returns the metadata of the dialogue."""
@@ -103,6 +109,19 @@ class Dialogue:
             )
         self._utterances.append(utterance)
 
+    def add_utterance_feedback(
+        self, utterance_feedback: UtteranceFeedback, utterance_id: str
+    ) -> None:
+        """Adds user's feedback on utterance level.
+
+        The feedback previously added for a given utterance is overwritten.
+
+        Args:
+            utterance_feedback: User's feedback.
+            utterance_id: Utterance ID.
+        """
+        self._utterance_feedbacks[utterance_id] = utterance_feedback
+
     def to_dict(self) -> Dict[str, Any]:
         """Converts the dialogue to a dictionary.
 
@@ -124,6 +143,10 @@ class Dialogue:
                 "utterance": utterance.text,
                 "utterance ID": utterance.utterance_id,
             }
+
+            feedback = self._utterance_feedbacks.get(utterance.utterance_id)
+            if feedback is not None:
+                utterance_info["utterance_feedback"] = feedback.feedback.value
 
             if isinstance(utterance, AnnotatedUtterance):
                 if utterance.intent is not None:

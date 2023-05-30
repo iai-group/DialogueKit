@@ -4,6 +4,7 @@ from typing import List
 
 import pytest
 
+from dialoguekit.core.feedback import BinaryFeedback
 from dialoguekit.utils.dialogue_reader import json_to_dialogues
 
 
@@ -25,6 +26,26 @@ def test_json_to_dialogues() -> None:
     assert dialogues[0].conversation_id == "CNV1"
     assert dialogues[0].utterances[0].utterance_id == "CNV1_TEST03_0"
     assert dialogues[0].utterances[-1].utterance_id == "CNV1_MovieBotTester_22"
+    assert (
+        dialogues[0].get_utterance_feedback("CNV1_MovieBotTester_1").feedback
+        == BinaryFeedback.POSITIVE
+    )
+    assert (
+        dialogues[0]
+        .get_utterance_feedback("CNV1_MovieBotTester_1")
+        .utterance_id
+        == "CNV1_MovieBotTester_1"
+    )
+    assert (
+        dialogues[0].get_utterance_feedback("CNV1_MovieBotTester_3").feedback
+        == BinaryFeedback.NEGATIVE
+    )
+    assert (
+        dialogues[0]
+        .get_utterance_feedback("CNV1_MovieBotTester_3")
+        .utterance_id
+        == "CNV1_MovieBotTester_3"
+    )
 
 
 @pytest.mark.parametrize(

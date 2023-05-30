@@ -12,6 +12,7 @@ from dialoguekit.core import (
     Intent,
     Utterance,
 )
+from dialoguekit.core.feedback import BinaryFeedback, UtteranceFeedback
 from dialoguekit.participant import DialogueParticipant
 
 
@@ -49,7 +50,7 @@ def dialogue_history_1() -> Dialogue:
 
 @pytest.fixture(scope="module")
 def dialogue_history_2() -> Dialogue:
-    """Dialogue with annotated utterances and metadata fixture."""
+    """Dialogue with annotated utterances, metadata fixture, and feedback."""
     agent_id = "agent-002"
     user_id = "USR02"
     conversation_id = "CNV1"
@@ -79,6 +80,12 @@ def dialogue_history_2() -> Dialogue:
     )
     for utterance in utterances:
         dialogue_history.add_utterance(utterance)
+
+    utterance_id = "CNV1_agent-002_2"
+    utterance_feedback_1 = UtteranceFeedback(
+        utterance_id=utterance_id, feedback=BinaryFeedback.POSITIVE
+    )
+    dialogue_history.add_utterance_feedback(utterance_feedback_1, utterance_id)
 
     return dialogue_history
 
@@ -207,6 +214,8 @@ def test_to_dict_d2(dialogue_history_2: Dialogue) -> None:
 
     assert last_utterance["intent"] == "ELICIT"
     assert last_utterance["slot_values"] == [["COLOR", "color"]]
+
+    assert last_utterance.get("utterance_feedback") == 1
 
 
 def test_to_dict_d3(dialogue_history_3: Dialogue) -> None:

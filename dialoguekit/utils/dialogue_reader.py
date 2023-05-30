@@ -6,10 +6,12 @@ from typing import Any, Dict, List
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.dialogue import Dialogue
+from dialoguekit.core.feedback import BinaryFeedback, UtteranceFeedback
 from dialoguekit.core.intent import Intent
 
 _FIELD_UTTERANCE = "utterance"
 _FIELD_UTTERANCE_ID = "utterance_id"
+_FIELD_UTTERANCE_FEEDBACK = "utterance_feedback"
 _FIELD_INTENT = "intent"
 _FIELD_SLOT_VALUES = "slot_values"
 _FIELD_CONVERSATION = "conversation"
@@ -109,6 +111,19 @@ def json_to_dialogues(
         for utterance_data in dialogue_data.get(_FIELD_CONVERSATION):
             annotated_utterance = json_to_annotated_utterance(utterance_data)
             dialogue.add_utterance(annotated_utterance)
+            utterance_feedback = utterance_data.get(
+                _FIELD_UTTERANCE_FEEDBACK, None
+            )
+            if utterance_feedback is not None:
+                dialogue.add_utterance_feedback(
+                    UtteranceFeedback(
+                        utterance_id=annotated_utterance.utterance_id,
+                        feedback=BinaryFeedback.POSITIVE
+                        if utterance_feedback == 1
+                        else BinaryFeedback.NEGATIVE,
+                    ),
+                    annotated_utterance.utterance_id,
+                )
         dialogues.append(dialogue)
 
     return dialogues

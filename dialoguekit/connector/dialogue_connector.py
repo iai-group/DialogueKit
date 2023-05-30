@@ -21,6 +21,7 @@ from typing import TYPE_CHECKING
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue import Dialogue
+from dialoguekit.core.feedback import BinaryFeedback, UtteranceFeedback
 from dialoguekit.participant.agent import Agent
 from dialoguekit.participant.user import User
 
@@ -114,6 +115,21 @@ class DialogueConnector:
             self.close()
         else:
             self._user.receive_utterance(annotated_utterance)
+
+    def register_user_feedback(
+        self, feedback: BinaryFeedback, utterance_id: str
+    ) -> None:
+        """Registers user's feedback for a utterance from dialogue history.
+
+        Args:
+            feedback: User's feedback (BinaryFeedback.{NEGATIVE|POSITIVE}) for a
+              utterance.
+            utterance_id: Utterance ID.
+        """
+        utterance_feedback = UtteranceFeedback(utterance_id, feedback)
+        self._dialogue_history.add_utterance_feedback(
+            utterance_feedback, utterance_id
+        )
 
     def start(self) -> None:
         """Starts the conversation."""
