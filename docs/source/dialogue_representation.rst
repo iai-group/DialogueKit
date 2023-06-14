@@ -44,6 +44,13 @@ DialogueKit is shipped with:
 
 Other types of annotation can be implemented by inheriting from :py:class:`dialoguekit.core.annotation.Annotation`.
 
+Feedback
+--------
+
+:py:mod:`dialoguekit.core.feedback`
+
+This object represents user's feedback. Currently only binary feedback (like/dislike) is supported on the utterance level. Later, it might be extended to graded feedback as well as conversation-level feedback.
+
 Dialogue
 --------
 

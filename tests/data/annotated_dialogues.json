@@ -1,6 +1,6 @@
 [
     {
-        "conversation ID": "\"39GHHAVOMGCMCWD43ZNZ2ARD9RF4JH\"",
+        "conversation_id": "CNV1",
         "conversation": [
             {
                 "participant": "USER",
@@ -10,7 +10,8 @@
                         "intent": "DISCLOSE.NON-DISCLOSE",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_0"
             },
             {
                 "participant": "AGENT",
@@ -20,7 +21,9 @@
                         "intent": "INQUIRE.ELICIT",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_feedback": 1,
+                "utterance_id": "CNV1_MovieBotTester_1"
             },
             {
                 "participant": "USER",
@@ -39,7 +42,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_2"
             },
             {
                 "participant": "AGENT",
@@ -49,7 +53,9 @@
                         "intent": "REVEAL.EXPAND",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_feedback": 0,
+                "utterance_id": "CNV1_MovieBotTester_3"
             },
             {
                 "participant": "AGENT",
@@ -59,7 +65,8 @@
                         "intent": "REVEAL.EXPAND",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_MovieBotTester_4"
             },
             {
                 "participant": "USER",
@@ -74,7 +81,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_5"
             },
             {
                 "participant": "AGENT",
@@ -89,7 +97,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_MovieBotTester_6"
             },
             {
                 "participant": "USER",
@@ -99,7 +108,8 @@
                         "intent": "REVEAL.SIMILAR",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_7"
             },
             {
                 "participant": "AGENT",
@@ -114,7 +124,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_MovieBotTester_8"
             },
             {
                 "participant": "USER",
@@ -124,7 +135,8 @@
                         "intent": "NOTE.NOTE-YES",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_9"
             },
             {
                 "participant": "AGENT",
@@ -139,7 +151,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_MovieBotTester_10"
             },
             {
                 "participant": "USER",
@@ -149,7 +162,8 @@
                         "intent": "NOTE.NOTE-YES",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_11"
             },
             {
                 "participant": "AGENT",
@@ -176,7 +190,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_MovieBotTester_12"
             },
             {
                 "participant": "USER",
@@ -186,7 +201,8 @@
                         "intent": "DISCLOSE",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_13"
             },
             {
                 "participant": "AGENT",
@@ -213,7 +229,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_MovieBotTester_14"
             },
             {
                 "participant": "USER",
@@ -223,7 +240,8 @@
                         "intent": "INQUIRE",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_15"
             },
             {
                 "participant": "AGENT",
@@ -250,7 +268,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_MovieBotTester_16"
             },
             {
                 "participant": "USER",
@@ -265,7 +284,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_17"
             },
             {
                 "participant": "AGENT",
@@ -292,7 +312,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_MovieBotTester_18"
             },
             {
                 "participant": "USER",
@@ -302,7 +323,8 @@
                         "intent": "COMPLETE",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_19"
             },
             {
                 "participant": "AGENT",
@@ -325,7 +347,8 @@
                             ]
                         ]
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_MovieBotTester_20"
             },
             {
                 "participant": "USER",
@@ -335,7 +358,8 @@
                         "intent": "COMPLETE",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_TEST03_21"
             },
             {
                 "participant": "AGENT",
@@ -345,7 +369,8 @@
                         "intent": "END",
                         "slot_values": []
                     }
-                ]
+                ],
+                "utterance_id": "CNV1_MovieBotTester_22"
             }
         ],
         "agent": {
@@ -358,7 +383,7 @@
         }
     },
     {
-        "conversation ID": "\"3WOKGM4L721JEJM00BS2Y3IMR910O8\"",
+        "conversation_id": "\"3WOKGM4L721JEJM00BS2Y3IMR910O8\"",
         "conversation": [
             {
                 "participant": "USER",
@@ -1178,7 +1203,7 @@
         ]
     },
     {
-        "conversation ID": "\"3IXEICO7934U5MDNYHUI1EY03KLT65\"",
+        "conversation_id": "\"3IXEICO7934U5MDNYHUI1EY03KLT65\"",
         "conversation": [
             {
                 "participant": "USER",

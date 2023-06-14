@@ -29,6 +29,7 @@ class AnnotatedUtterance(Utterance):
         """Returns the annotated utterance as a utterance."""
         return Utterance(
             text=self.text,
+            utterance_id=self.utterance_id,
             participant=self.participant,
             timestamp=self.timestamp,
         )

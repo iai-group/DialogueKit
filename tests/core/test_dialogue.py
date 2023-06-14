@@ -1,12 +1,18 @@
 """Tests for the Dialogue class."""
 
+import calendar
+import datetime
+
 import pytest
 
-from dialoguekit.core import Dialogue, Utterance
-from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.annotation import Annotation
-from dialoguekit.core.dialogue_act import DialogueAct
-from dialoguekit.core.intent import Intent
+from dialoguekit.core import (
+    AnnotatedUtterance,
+    Annotation,
+    Dialogue,
+    Intent,
+    Utterance,
+)
+from dialoguekit.core.feedback import BinaryFeedback, UtteranceFeedback
 from dialoguekit.participant import DialogueParticipant
 
 
@@ -44,7 +50,7 @@ def dialogue_history_1() -> Dialogue:
 
 @pytest.fixture(scope="module")
 def dialogue_history_2() -> Dialogue:
-    """Dialogue with annotated utterances and metadata fixture."""
+    """Dialogue with annotated utterances, metadata fixture, and feedback."""
     agent_id = "agent-002"
     user_id = "USR02"
     conversation_id = "CNV1"
@@ -78,6 +84,12 @@ def dialogue_history_2() -> Dialogue:
     for utterance in utterances:
         dialogue_history.add_utterance(utterance)
 
+    utterance_id = "CNV1_agent-002_2"
+    utterance_feedback_1 = UtteranceFeedback(
+        utterance_id=utterance_id, feedback=BinaryFeedback.POSITIVE
+    )
+    dialogue_history.add_utterance_feedback(utterance_feedback_1, utterance_id)
+
     return dialogue_history
 
 
@@ -85,6 +97,19 @@ def dialogue_history_2() -> Dialogue:
 def dialogue_history_3() -> Dialogue:
     """Empty dialogue fixture."""
     return Dialogue("agent-003", "USR03", "CNV1")
+
+
+def test_initialization():
+    """Tests dialogue initialization."""
+    agent_id = "agent-002"
+    user_id = "USR02"
+    conversation_id = "CNV1"
+    dialogue_1 = Dialogue(agent_id, user_id, conversation_id)
+    assert dialogue_1.conversation_id == conversation_id
+    dialogue_2 = Dialogue(agent_id, user_id)
+    date = datetime.datetime.utcnow()
+    utc_time = calendar.timegm(date.utctimetuple())
+    assert dialogue_2.conversation_id == f"{agent_id}-{user_id}-{str(utc_time)}"
 
 
 def test_ids(dialogue_history_1: Dialogue) -> None:
@@ -107,6 +132,7 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances
     )
     assert dialogue_history_1.utterances[0].text == "Hello"
+    assert dialogue_history_1.utterances[0].utterance_id == "CNV1_agent-001_0"
     assert (
         dialogue_history_1.utterances[0].participant
         == DialogueParticipant.AGENT
@@ -115,10 +141,34 @@ def test_utterances(dialogue_history_1: Dialogue) -> None:
         dialogue_history_1.utterances[1].participant == DialogueParticipant.USER
     )
     assert dialogue_history_1.utterances[1].text == "Hi"
+    assert dialogue_history_1.utterances[1].utterance_id == "CNV1_USR01_1"
     assert (
         dialogue_history_1.utterances[4].participant
         == DialogueParticipant.AGENT
     )
+
+
+def test_add_utterance() -> None:
+    """Tests adding utterance to dialogue history."""
+    agent_id = "agent-002"
+    user_id = "USR02"
+    conversation_id = "CNV1"
+    utterance_no_id = AnnotatedUtterance(
+        "Hi", participant=DialogueParticipant.USER, intent=Intent("GREETINGS")
+    )
+    utterance_with_id = AnnotatedUtterance(
+        "Hi",
+        utterance_id="u_1",
+        participant=DialogueParticipant.AGENT,
+        intent=Intent("GREETINGS"),
+    )
+    dialogue_history = Dialogue(agent_id, user_id, conversation_id)
+
+    dialogue_history.add_utterance(utterance_no_id)
+    dialogue_history.add_utterance(utterance_with_id)
+
+    assert dialogue_history.utterances[0].utterance_id == "CNV1_USR02_0"
+    assert dialogue_history.utterances[1].utterance_id == "u_1"
 
 
 def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
@@ -138,6 +188,7 @@ def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
     utterance_1 = dialogue_dict_1.get("conversation")[0]
     assert utterance_1["utterance"] == "Hello"
     assert utterance_1.get("dialogue_acts") is None
+    assert utterance_1["utterance ID"] == "CNV1_agent-001_0"
 
 
 def test_to_dict_d2(dialogue_history_2: Dialogue) -> None:
@@ -165,6 +216,8 @@ def test_to_dict_d2(dialogue_history_2: Dialogue) -> None:
         "intent": "ELICIT",
         "slot_values": [["COLOR", "color"]],
     }
+
+    assert last_utterance.get("utterance_feedback") == 1
 
 
 def test_to_dict_d3(dialogue_history_3: Dialogue) -> None:

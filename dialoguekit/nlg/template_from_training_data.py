@@ -14,6 +14,14 @@ from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifier,
 )
 from dialoguekit.participant.participant import DialogueParticipant
+from dialoguekit.utils.dialogue_reader import (
+    _FIELD_CONVERSATION,
+    _FIELD_DIALOGUE_ACTS,
+    _FIELD_INTENT,
+    _FIELD_PARTICIPANT,
+    _FIELD_SLOT_VALUES,
+    _FIELD_UTTERANCE,
+)
 
 # The default satisfaction level used for classifying the NLG template.
 _DEFAULT_SATISFACTION = 3
@@ -105,12 +113,29 @@ def extract_utterance_template(  # noqa: C901
             counter_participant_utterance = None
             participant_utterance = None
             satisfaction = None
-            for utterance_record in dialog.get("conversation"):
-                participant = utterance_record.get("participant")
+            for utterance_record in dialog.get(_FIELD_CONVERSATION):
+                participant = utterance_record.get(_FIELD_PARTICIPANT)
 
+                dialogue_acts = []
+                for da in utterance_record.get(_FIELD_DIALOGUE_ACTS, []):
+                    intent = (
+                        Intent(da.get(_FIELD_INTENT, None))
+                        if da.get(_FIELD_INTENT, None)
+                        else None
+                    )
+                    slot_value_pairs = da.get(_FIELD_SLOT_VALUES, [])
+                    if slot_value_pairs:
+                        slot_value_pairs = [
+                            Annotation(slot, value)
+                            for slot, value in slot_value_pairs
+                        ]
+                    dialogue_acts.append(
+                        DialogueAct(intent=intent, annotations=slot_value_pairs)
+                    )
                 if satisfaction_classifier:
                     annotated_utterance = AnnotatedUtterance(
-                        text=utterance_record.get("utterance").strip(),
+                        text=utterance_record.get(_FIELD_UTTERANCE).strip(),
+                        dialogue_acts=dialogue_acts,
                         metadata={
                             "satisfaction": _DEFAULT_SATISFACTION
                         },  # Satisfaction defaults to 3 (Normal)
@@ -118,7 +143,8 @@ def extract_utterance_template(  # noqa: C901
                     )
                 else:
                     annotated_utterance = AnnotatedUtterance(
-                        text=utterance_record.get("utterance").strip(),
+                        text=utterance_record.get(_FIELD_UTTERANCE).strip(),
+                        dialogue_acts=dialogue_acts,
                         participant=DialogueParticipant.AGENT,
                     )
                 annotated_utterance_copy = copy.deepcopy(annotated_utterance)
@@ -138,24 +164,7 @@ def extract_utterance_template(  # noqa: C901
 
                     # Keep the original utterance as template when it does not
                     # contain slot values.
-                    dialogue_acts = []
-                    for da in utterance_record.get("dialogue_acts", []):
-                        intent = (
-                            Intent(da.get("intent", None))
-                            if da.get("intent", None)
-                            else None
-                        )
-                        slot_value_pairs = da.get("slot_values", [])
-                        if slot_value_pairs:
-                            slot_value_pairs = [
-                                Annotation(slot, value)
-                                for slot, value in slot_value_pairs
-                            ]
-                        dialogue_acts.append(
-                            DialogueAct(
-                                intent=intent, annotations=slot_value_pairs
-                            )
-                        )
+
                     annotated_utterance.add_dialogue_acts(dialogue_acts)
                     if satisfaction_classifier:
                         annotated_utterance_copy = copy.deepcopy(
