@@ -32,12 +32,17 @@ def json_to_annotated_utterance(
 
                 {
                     "participant": "USER",
-                    "utterance": "hello",
+                    "utterance": "I like action movies.",
                     "dialogue_acts":
                         [
                             {
-                                "intent": "DISCLOSE.NON-DISCLOSE",
-                                "annotations": [],
+                                "intent": "DISCLOSE",
+                                "slot_values": [
+                                    [
+                                        "GENRE",
+                                        "action"
+                                    ]
+                                ]
                             }
                         ]
                 }
