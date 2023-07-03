@@ -57,6 +57,7 @@ def test_comparison():
 
 
 def test_get_intents() -> None:
+    """Tests getting intents from utterance."""
     u1 = AnnotatedUtterance(
         text="Test1",
         dialogue_acts=[DialogueAct(Intent("1")), DialogueAct(Intent("2"))],
@@ -67,6 +68,7 @@ def test_get_intents() -> None:
 
 
 def test_add_dialogue_acts() -> None:
+    """Tests adding dialogue acts to utterance."""
     u1 = AnnotatedUtterance(
         text="Test1",
         dialogue_acts=[DialogueAct(Intent("1"))],
