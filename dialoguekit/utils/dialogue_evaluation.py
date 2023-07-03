@@ -153,21 +153,23 @@ class Evaluator:
             # Start dialogue with Agent first.
             for j, utterance in enumerate(dialogue.utterances):
                 if utterance.participant == DialogueParticipant.AGENT.name:
-                    dialogue_utterances_start_agent = dialogue.utterances[j:]
+                    dialogue_utterances_start_agent: List[
+                        AnnotatedUtterance
+                    ] = dialogue.utterances[j:]
                     break
             previous_sender = dialogue_utterances_start_agent[0].participant
-            previous_intents = dialogue_utterances_start_agent[0].get_intents()  # type: ignore[attr-defined]   # noqa
+            previous_intents = dialogue_utterances_start_agent[0].get_intents()
             for j, annotated_utterance in enumerate(
                 dialogue_utterances_start_agent, start=1
             ):
                 if (
                     annotated_utterance.participant == previous_sender
-                    and previous_intents == annotated_utterance.get_intents()  # type: ignore[attr-defined] # noqa
+                    and previous_intents == annotated_utterance.get_intents()
                 ):
                     n_repeat_intents += 1
                     previous_intents = None
                     continue
-                previous_intents = annotated_utterance.get_intents()  # type: ignore[attr-defined] # noqa
+                previous_intents = annotated_utterance.get_intents()
                 previous_sender = annotated_utterance.participant
 
             results["dialogues"][i]["repeats"] = n_repeat_intents
@@ -201,7 +203,7 @@ class Evaluator:
             ],
         }
 
-        dialogue_intents = []
+        dialogue_intents: List[Intent] = []
         reward = self._reward_config["full_set_points"]
         for dialogue in self._dialogues:
             for utterance in dialogue.utterances:
