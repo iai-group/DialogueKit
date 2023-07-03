@@ -42,7 +42,7 @@ def _replace_slot_with_placeholder(
 
 def build_template_from_instances(
     utterances: List[AnnotatedUtterance],
-) -> Dict[Intent, List[AnnotatedUtterance]]:
+) -> Dict[str, List[AnnotatedUtterance]]:
     """Builds the NLG template.
 
     The Intent the Utterance comes with will be used. If no intent is present
@@ -80,7 +80,7 @@ def extract_utterance_template(  # noqa: C901
     satisfaction_classifier: Optional[
         Union[None, SatisfactionClassifier]
     ] = None,
-) -> Dict[Intent, List[AnnotatedUtterance]]:
+) -> Dict[str, List[AnnotatedUtterance]]:
     """Extracts utterance templates for each intent.
 
     If a Satisfaction Classifier is provided it will be used to classify the

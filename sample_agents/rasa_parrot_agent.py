@@ -7,6 +7,7 @@ This agent depends on Rasa parrot project to parrot back. See
 import requests
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.agent import Agent
 from dialoguekit.participant.participant import DialogueParticipant
@@ -39,7 +40,7 @@ class RasaParrotAgent(Agent):
         """Sends the agent's goodbye message."""
         utterance = AnnotatedUtterance(
             "It was nice talking to you. Bye",
-            intent=self.stop_intent,
+            dialogue_acts=[DialogueAct(intent=self.stop_intent)],
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(utterance)

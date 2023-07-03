@@ -7,14 +7,13 @@ from typing import Any, Dict, List, Optional
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue_act import DialogueAct
-from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg_abstract import AbstractNLG
 from dialoguekit.participant.participant import DialogueParticipant
 
 
 class TemplateNLG(AbstractNLG):
     def __init__(
-        self, response_templates: Dict[Intent, List[AnnotatedUtterance]]
+        self, response_templates: Dict[str, List[AnnotatedUtterance]]
     ) -> None:
         """Template-based NLG.
 

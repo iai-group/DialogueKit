@@ -7,14 +7,13 @@ from typing import Dict, List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.dialogue_act import DialogueAct
-from dialoguekit.core.intent import Intent
 from dialoguekit.nlg.nlg_template import TemplateNLG
 from dialoguekit.participant.participant import DialogueParticipant
 
 
 class ConditionalNLG(TemplateNLG):
     def __init__(
-        self, response_templates: Dict[Intent, List[AnnotatedUtterance]]
+        self, response_templates: Dict[str, List[AnnotatedUtterance]]
     ) -> None:
         """Template-based NLG with support for conditional."""
         super().__init__(response_templates=response_templates)
