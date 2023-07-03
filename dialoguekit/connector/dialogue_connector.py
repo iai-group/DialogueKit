@@ -106,7 +106,9 @@ class DialogueConnector:
             annotated_utterance: Agent utterance.
         """
         self._dialogue_history.add_utterance(annotated_utterance)
-        self._platform.display_agent_utterance(annotated_utterance)
+        self._platform.display_agent_utterance(
+            self._user.id, annotated_utterance
+        )
         if self._agent.stop_intent in annotated_utterance.get_intents():
             self.close()
         else:

@@ -46,12 +46,21 @@ def test_build_template_from_instances_default():
             dialogue_acts=[DialogueAct(Intent("Test2"))],
             participant=DialogueParticipant.AGENT,
         ),
+        AnnotatedUtterance(
+            text="Test Utterance 3-1",
+            dialogue_acts=[
+                DialogueAct(Intent("Test1")),
+                DialogueAct(Intent("Test3")),
+            ],
+            participant=DialogueParticipant.AGENT,
+        ),
     ]
 
     template = build_template_from_instances(utterances=utterances)
     assert template
-    assert len(template.keys()) == 2
-    assert len(template[Intent("Test1")]) == 3
+    assert len(template.keys()) == 3
+    assert len(template["Test1"]) == 3
+    assert len(template["Test1;Test3"]) == 1
 
 
 def test_build_template_from_instances_no_intents():
@@ -154,7 +163,7 @@ def test_build_template_from_instances_duplicate_deletion():
 
     template = build_template_from_instances(utterances=utterances)
     assert template
-    assert len(template[Intent("Test1")]) == 1
+    assert len(template["Test1"]) == 1
 
 
 def test_replace_slot_with_placeholder():
@@ -202,7 +211,7 @@ def test_extract_utterance_template():
 
     pprint(templates)
     assert templates
-    assert set(templates.get(Intent("COMPLETE"))) == set(
+    assert set(templates.get("COMPLETE")) == set(
         [
             AnnotatedUtterance(
                 text="thank you",
@@ -230,7 +239,7 @@ def test_extract_utterance_template():
         participant=DialogueParticipant.AGENT,
     )
 
-    assert templates.get(Intent("REVEAL.EXPAND")) == [test_annotation]
+    assert templates.get("REVEAL.EXPAND") == [test_annotation]
 
 
 def test_extract_utterance_template_with_satisfaction():
@@ -240,5 +249,5 @@ def test_extract_utterance_template_with_satisfaction():
         satisfaction_classifier=SatisfactionClassifierSVM(),
     )
 
-    for annotated_utterance in templates[Intent("DISCLOSE")]:
+    for annotated_utterance in templates["DISCLOSE"]:
         assert 0 < annotated_utterance.metadata.get("satisfaction") <= 4

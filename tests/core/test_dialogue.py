@@ -12,6 +12,7 @@ from dialoguekit.core import (
     Intent,
     Utterance,
 )
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.feedback import BinaryFeedback, UtteranceFeedback
 from dialoguekit.participant import DialogueParticipant
 
@@ -154,13 +155,15 @@ def test_add_utterance() -> None:
     user_id = "USR02"
     conversation_id = "CNV1"
     utterance_no_id = AnnotatedUtterance(
-        "Hi", participant=DialogueParticipant.USER, intent=Intent("GREETINGS")
+        "Hi",
+        participant=DialogueParticipant.USER,
+        dialogue_acts=[DialogueAct(Intent("GREETINGS"))],
     )
     utterance_with_id = AnnotatedUtterance(
         "Hi",
         utterance_id="u_1",
         participant=DialogueParticipant.AGENT,
-        intent=Intent("GREETINGS"),
+        dialogue_acts=[DialogueAct(Intent("GREETINGS"))],
     )
     dialogue_history = Dialogue(agent_id, user_id, conversation_id)
 

@@ -58,8 +58,10 @@ def build_template_from_instances(
     for utterance in utterances:
         if utterance.dialogue_acts:
             _replace_slot_with_placeholder(utterance)
-            for intent in utterance.get_intents():
-                template[intent].append(utterance)
+            intents = ";".join(
+                [intent.label for intent in utterance.get_intents()]
+            )
+            template[intents].append(utterance)
         else:
             print(
                 f'Utterance was skipped.\nUtterance "{utterance.text}", \
@@ -67,7 +69,7 @@ def build_template_from_instances(
             )
 
     return_template = {
-        intent: list(set(utterance)) for intent, utterance in template.items()
+        intents: list(set(utterance)) for intents, utterance in template.items()
     }
     return return_template
 
@@ -98,15 +100,15 @@ def extract_utterance_template(  # noqa: C901
         satisfaction_classifier: SatisfactionClassifier.
 
     Returns:
-        Dict with Intents and lists with corresponding AnnotatedUtterances.
+        Dict with intents and lists with corresponding AnnotatedUtterances.
     """
     if not os.path.isfile(annotated_dialogue_file):
         raise FileNotFoundError(
             f"Annotated dialog file not found: {annotated_dialogue_file}"
         )
-    response_templates: DefaultDict[
-        Intent, Set[AnnotatedUtterance]
-    ] = defaultdict(set)
+    response_templates: DefaultDict[str, Set[AnnotatedUtterance]] = defaultdict(
+        set
+    )
     with open(annotated_dialogue_file, encoding="utf-8") as input_file:
         annotated_dialogs = json.load(input_file)
         for dialog in annotated_dialogs:
@@ -165,15 +167,18 @@ def extract_utterance_template(  # noqa: C901
                     # Keep the original utterance as template when it does not
                     # contain slot values.
 
-                    annotated_utterance.add_dialogue_acts(dialogue_acts)
                     if satisfaction_classifier:
                         annotated_utterance_copy = copy.deepcopy(
                             annotated_utterance
                         )
                     _replace_slot_with_placeholder(annotated_utterance)
-
-                    for intent in annotated_utterance.get_intents():
-                        response_templates[intent].add(annotated_utterance)
+                    intents = ";".join(
+                        [
+                            intent.label
+                            for intent in annotated_utterance.get_intents()
+                        ]
+                    )
+                    response_templates[intents].add(annotated_utterance)
                     participant_utterance = annotated_utterance_copy
                 else:
                     if participant_utterance and satisfaction_classifier:

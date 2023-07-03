@@ -3,12 +3,13 @@ from __future__ import annotations
 
 import logging
 from dataclasses import asdict, dataclass
-from typing import TYPE_CHECKING, Type, cast
+from typing import TYPE_CHECKING, List, Type, cast
 
 from flask import Flask, Request, request
 from flask_socketio import Namespace, SocketIO
 
 from dialoguekit.core import AnnotatedUtterance
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.platforms.platform import Platform
 
 if TYPE_CHECKING:
@@ -28,7 +29,7 @@ class SocketIORequest(Request):
 @dataclass
 class Message:
     text: str
-    intent: str = None
+    dialogue_acts: List[DialogueAct] = None
 
     @classmethod
     def from_utterance(self, utterance: Utterance) -> Message:
@@ -42,7 +43,16 @@ class Message:
         """
         message = Message(utterance.text)
         if isinstance(utterance, AnnotatedUtterance):
-            message.intent = str(utterance.intent)
+            message.dialogue_acts = [
+                {
+                    "intent": str(da.intent),
+                    "annotations": [
+                        {"slot": annotation.slot, "value": annotation.value}
+                        for annotation in da.annotations
+                    ],
+                }
+                for da in utterance.dialogue_acts
+            ]
         return message
 
 
