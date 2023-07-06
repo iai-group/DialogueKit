@@ -71,9 +71,7 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
 def test_generate_utterance_text_force_annotation(nlg_class: TemplateNLG):
     """Tests utterance generation with forcing annotations."""
     test = nlg_class.generate_utterance_text(
-        dialogue_acts=[
-            DialogueAct(intent=Intent("COMPLETE"), annotations=None)
-        ],
+        dialogue_acts=[DialogueAct(intent=Intent("COMPLETE"))],
         force_annotation=True,
     )
     assert test.get_intents() == [Intent("COMPLETE")]
@@ -95,7 +93,7 @@ def test_generate_utterance_text_force_annotation(nlg_class: TemplateNLG):
 def test_no_annotations(nlg_class: TemplateNLG):
     """Tests utterance generation without annotations."""
     test = nlg_class.generate_utterance_text(
-        dialogue_acts=[DialogueAct(intent=Intent("COMPLETE"), annotations=None)]
+        dialogue_acts=[DialogueAct(intent=Intent("COMPLETE"))]
     )
 
     assert test.get_intents() == [Intent("COMPLETE")]
@@ -119,9 +117,7 @@ def test_filter_templates(nlg_class: TemplateNLG):
 
     with pytest.raises(ValueError):
         test_response = nlg_class.generate_utterance_text(
-            dialogue_acts=[
-                DialogueAct(intent=Intent("REVEAL.EXPAND"), annotations=None)
-            ]
+            dialogue_acts=[DialogueAct(intent=Intent("REVEAL.EXPAND"))]
         )
 
 

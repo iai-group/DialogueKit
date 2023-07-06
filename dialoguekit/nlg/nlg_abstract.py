@@ -22,7 +22,7 @@ class AbstractNLG(ABC):
         arguments and returns a textual utterance, based on the arguments.
 
         Args:
-            dialogue_acts: Dialogue acts of the utterance to generate.
+            dialogue_acts: Dialogue acts of the utterance to be generated.
             force_annotation: A flag to indicate whether annotations should be
               forced or not.
 
