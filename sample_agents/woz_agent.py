@@ -7,6 +7,7 @@ simulated users.
 from typing import List, Optional
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.agent import Agent, AgentType
@@ -48,7 +49,7 @@ class WOZAgent(Agent):
         text = input("Your GOODBYE message: ")
         response = AnnotatedUtterance(
             text,
-            intent=self.stop_intent,
+            dialogue_acts=[DialogueAct(intent=self.stop_intent)],
             participant=DialogueParticipant.AGENT,
         )
         response
@@ -99,7 +100,7 @@ class WOZAgent(Agent):
         text = input("Your response: ")
         response = AnnotatedUtterance(
             text,
-            intent=response_intent,
+            dialogue_acts=[DialogueAct(intent=response_intent)],
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(response)

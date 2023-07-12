@@ -6,10 +6,12 @@ from typing import Any, Dict, List
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.dialogue import Dialogue
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.feedback import BinaryFeedback, UtteranceFeedback
 from dialoguekit.core.intent import Intent
 
 _FIELD_UTTERANCE = "utterance"
+_FIELD_DIALOGUE_ACTS = "dialogue_acts"
 _FIELD_UTTERANCE_ID = "utterance_id"
 _FIELD_UTTERANCE_FEEDBACK = "utterance_feedback"
 _FIELD_INTENT = "intent"
@@ -33,8 +35,19 @@ def json_to_annotated_utterance(
 
                 {
                     "participant": "USER",
-                    "utterance": "hello",
-                    "intent": "DISCLOSE.NON-DISCLOSE"
+                    "utterance": "I like action movies.",
+                    "dialogue_acts":
+                        [
+                            {
+                                "intent": "DISCLOSE",
+                                "slot_values": [
+                                    [
+                                        "GENRE",
+                                        "action"
+                                    ]
+                                ]
+                            }
+                        ]
                 }
 
     Returns:
@@ -45,15 +58,21 @@ def json_to_annotated_utterance(
     utterance_text = json_utterance.get(_FIELD_UTTERANCE)
     utterance_id = json_utterance.get(_FIELD_UTTERANCE_ID)
 
-    intent = json_utterance.get(_FIELD_INTENT)
-    if intent:
-        intent = Intent(intent)
+    dialogue_acts = list()
+    for da in json_utterance.get(_FIELD_DIALOGUE_ACTS, []):
+        intent = da.get(_FIELD_INTENT)
+        if intent:
+            intent = Intent(intent)
 
-    annotations = json_utterance.get(_FIELD_SLOT_VALUES)
-    if annotations:
-        annotations = [
-            Annotation(slot=slot, value=value) for slot, value in annotations
-        ]
+        annotations = json_utterance.get(_FIELD_SLOT_VALUES)
+        if annotations:
+            annotations = [
+                Annotation(slot=slot, value=value)
+                for slot, value in annotations
+            ]
+
+        dialogue_acts.append(DialogueAct(intent, annotations))
+
     metadata = {}
     for k, v in json_utterance.items():
         if k not in (
@@ -62,6 +81,7 @@ def json_to_annotated_utterance(
                 _FIELD_PARTICIPANT,
                 _FIELD_SLOT_VALUES,
                 _FIELD_INTENT,
+                _FIELD_DIALOGUE_ACTS,
             ]
         ):
             metadata[k] = v
@@ -70,8 +90,7 @@ def json_to_annotated_utterance(
         text=utterance_text,
         utterance_id=utterance_id,
         participant=participant,
-        annotations=annotations,
-        intent=intent,
+        dialogue_acts=dialogue_acts,
         metadata=metadata,
     )
 

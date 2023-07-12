@@ -109,9 +109,7 @@ class DialogueConnector:
         self._platform.display_agent_utterance(
             self._user.id, annotated_utterance
         )
-        # TODO: Replace with appropriate intent (make sure all intent schemes
-        # have an EXIT intent.)
-        if annotated_utterance.intent == self._agent.stop_intent:
+        if self._agent.stop_intent in annotated_utterance.get_intents():
             self.close()
         else:
             self._user.receive_utterance(annotated_utterance)

@@ -1,6 +1,7 @@
 """Tests for extracting templates from training data."""
 
 from dialoguekit.core import AnnotatedUtterance, Annotation, Intent
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.nlg.template_from_training_data import (
     _replace_slot_with_placeholder,
     build_template_from_instances,
@@ -17,44 +18,53 @@ def test_build_template_from_instances_default():
     utterances = [
         AnnotatedUtterance(
             text="Test Utterance 1-1",
-            intent=Intent(label="Test1"),
+            dialogue_acts=[DialogueAct(Intent("Test1"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 1-2",
-            intent=Intent(label="Test1"),
+            dialogue_acts=[DialogueAct(Intent("Test1"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 1-3",
-            intent=Intent(label="Test1"),
+            dialogue_acts=[DialogueAct(Intent("Test1"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-1",
-            intent=Intent(label="Test2"),
+            dialogue_acts=[DialogueAct(Intent("Test2"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-2",
-            intent=Intent(label="Test2"),
+            dialogue_acts=[DialogueAct(Intent("Test2"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-3",
-            intent=Intent(label="Test2"),
+            dialogue_acts=[DialogueAct(Intent("Test2"))],
+            participant=DialogueParticipant.AGENT,
+        ),
+        AnnotatedUtterance(
+            text="Test Utterance 3-1",
+            dialogue_acts=[
+                DialogueAct(Intent("Test1")),
+                DialogueAct(Intent("Test3")),
+            ],
             participant=DialogueParticipant.AGENT,
         ),
     ]
 
     template = build_template_from_instances(utterances=utterances)
     assert template
-    assert len(template.keys()) == 2
-    assert len(template[Intent("Test1")]) == 3
+    assert len(template.keys()) == 3
+    assert len(template["Test1"]) == 3
+    assert len(template["Test1;Test3"]) == 1
 
 
 def test_build_template_from_instances_no_intents():
-    """Tests if exception gets raised if length is missmatched."""
+    """Tests if exception gets raised if length is mismatched."""
     utterances = [
         AnnotatedUtterance(
             text="Test Utterance 1-1", participant=DialogueParticipant.AGENT
@@ -86,27 +96,27 @@ def test_build_template_from_instances_skip_no_intent():
         AnnotatedUtterance(text="Skip", participant=DialogueParticipant.AGENT),
         AnnotatedUtterance(
             text="Test Utterance 1-1",
-            intent=Intent(label="Test1"),
+            dialogue_acts=[DialogueAct(Intent("Test1"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 1-2",
-            intent=Intent(label="Test1"),
+            dialogue_acts=[DialogueAct(Intent("Test1"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-1",
-            intent=Intent(label="Test2"),
+            dialogue_acts=[DialogueAct(Intent("Test2"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-2",
-            intent=Intent(label="Test2"),
+            dialogue_acts=[DialogueAct(Intent("Test2"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-3",
-            intent=Intent(label="Test2"),
+            dialogue_acts=[DialogueAct(Intent("Test2"))],
             participant=DialogueParticipant.AGENT,
         ),
     ]
@@ -126,34 +136,34 @@ def test_build_template_from_instances_duplicate_deletion():
         AnnotatedUtterance(text="Skip", participant=DialogueParticipant.AGENT),
         AnnotatedUtterance(
             text="Test Utterance 1-1",
-            intent=Intent(label="Test1"),
+            dialogue_acts=[DialogueAct(Intent("Test1"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 1-1",
-            intent=Intent(label="Test1"),
+            dialogue_acts=[DialogueAct(Intent("Test1"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-1",
-            intent=Intent(label="Test2"),
+            dialogue_acts=[DialogueAct(Intent("Test2"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-2",
-            intent=Intent(label="Test2"),
+            dialogue_acts=[DialogueAct(Intent("Test2"))],
             participant=DialogueParticipant.AGENT,
         ),
         AnnotatedUtterance(
             text="Test Utterance 2-3",
-            intent=Intent(label="Test2"),
+            dialogue_acts=[DialogueAct(Intent("Test2"))],
             participant=DialogueParticipant.AGENT,
         ),
     ]
 
     template = build_template_from_instances(utterances=utterances)
     assert template
-    assert len(template[Intent("Test1")]) == 1
+    assert len(template["Test1"]) == 1
 
 
 def test_replace_slot_with_placeholder():
@@ -163,13 +173,27 @@ def test_replace_slot_with_placeholder():
         text="I like action or fantasy movies.",
         participant=DialogueParticipant.AGENT,
     )
-    a1.add_annotations([Annotation(slot="GENRE", value="action")])
-    a1.add_annotations([Annotation(slot="GENRE", value="fantasy")])
+    a1.add_dialogue_acts(
+        [
+            DialogueAct(
+                annotations=[
+                    Annotation(slot="GENRE", value="action"),
+                    Annotation(slot="GENRE", value="fantasy"),
+                ]
+            )
+        ]
+    )
 
     a2 = AnnotatedUtterance(
         text="How about old street?", participant=DialogueParticipant.AGENT
     )
-    a2.add_annotations([Annotation(slot="TITLE", value="old street")])
+    a2.add_dialogue_acts(
+        [
+            DialogueAct(
+                annotations=[Annotation(slot="TITLE", value="old street")]
+            )
+        ]
+    )
     annotated_utterances = [
         (a1, "I like {GENRE} or {GENRE} movies."),
         (a2, "How about {TITLE}?"),
@@ -187,21 +211,21 @@ def test_extract_utterance_template():
 
     pprint(templates)
     assert templates
-    assert set(templates.get(Intent("COMPLETE"))) == set(
+    assert set(templates.get("COMPLETE")) == set(
         [
             AnnotatedUtterance(
                 text="thank you",
-                intent=Intent(label="COMPLETE"),
+                dialogue_acts=[DialogueAct(Intent("COMPLETE"))],
                 participant=DialogueParticipant.AGENT,
             ),
             AnnotatedUtterance(
                 text="/exit",
-                intent=Intent(label="COMPLETE"),
+                dialogue_acts=[DialogueAct(Intent("COMPLETE"))],
                 participant=DialogueParticipant.AGENT,
             ),
             AnnotatedUtterance(
                 text="I would like to quit now.",
-                intent=Intent(label="COMPLETE"),
+                dialogue_acts=[DialogueAct(Intent("COMPLETE"))],
                 participant=DialogueParticipant.AGENT,
             ),
         ]
@@ -209,12 +233,13 @@ def test_extract_utterance_template():
 
     test_annotation = AnnotatedUtterance(
         text="something like the {TITLE}",
-        intent=Intent(label="REVEAL.EXPAND"),
-        annotations=[Annotation(slot="TITLE")],
+        dialogue_acts=[
+            DialogueAct(Intent("REVEAL.EXPAND"), [Annotation(slot="TITLE")])
+        ],
         participant=DialogueParticipant.AGENT,
     )
 
-    assert templates.get(Intent("REVEAL.EXPAND")) == [test_annotation]
+    assert templates.get("REVEAL.EXPAND") == [test_annotation]
 
 
 def test_extract_utterance_template_with_satisfaction():
@@ -224,5 +249,5 @@ def test_extract_utterance_template_with_satisfaction():
         satisfaction_classifier=SatisfactionClassifierSVM(),
     )
 
-    for annotated_utterance in templates[Intent("DISCLOSE")]:
+    for annotated_utterance in templates["DISCLOSE"]:
         assert 0 < annotated_utterance.metadata.get("satisfaction") <= 4

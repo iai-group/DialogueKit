@@ -16,6 +16,7 @@ server with the right configuration.
 import requests
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.participant.agent import Agent, AgentType
@@ -66,7 +67,9 @@ class MovieBotAgent(Agent):
         response_raw = r.json()
         response = AnnotatedUtterance(
             response_raw["message"]["text"],
-            intent=Intent(response_raw["message"]["intent"]),
+            dialogue_acts=[
+                DialogueAct(intent=Intent(response_raw["message"]["intent"]))
+            ],
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(response)
@@ -90,7 +93,7 @@ class MovieBotAgent(Agent):
         )
         response = AnnotatedUtterance(
             r.json()["message"]["text"],
-            intent=self.stop_intent,
+            dialogue_acts=[DialogueAct(intent=self.stop_intent)],
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(response)
@@ -124,7 +127,9 @@ class MovieBotAgent(Agent):
         print(response_raw["message"]["intent"])
         response = AnnotatedUtterance(
             response_raw["message"]["text"],
-            intent=Intent(response_raw["message"]["intent"]),
+            dialogue_acts=[
+                DialogueAct(intent=Intent(response_raw["message"]["intent"]))
+            ],
             participant=DialogueParticipant.AGENT,
         )
         self._dialogue_connector.register_agent_utterance(response)
