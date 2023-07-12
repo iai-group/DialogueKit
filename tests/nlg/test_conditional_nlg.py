@@ -127,7 +127,7 @@ def test_generate_utterance_text_with_satisfaction(nlg_class: ConditionalNLG):
         nlg_class: Test NLG object.
     """
     test_response = nlg_class.generate_utterance_text_conditional(
-        dialogue_acts=[DialogueAct(Intent("COMPLETE"), None)],
+        dialogue_acts=[DialogueAct(Intent("COMPLETE"))],
         conditional="satisfaction",
         conditional_value=3,
     )
@@ -159,7 +159,7 @@ def test_filter_templates(nlg_class: ConditionalNLG):
 
     with pytest.raises(ValueError):
         test_response = nlg_class.generate_utterance_text_conditional(
-            [DialogueAct(intent=Intent("REVEAL.EXPAND"), annotations=None)],
+            [DialogueAct(intent=Intent("REVEAL.EXPAND"))],
             conditional="satisfaction",
             conditional_value=3,
         )
