@@ -10,7 +10,7 @@ response by the natural language generator.
 For example, the dialogue act with intent ELICIT is generated if the agent does
 not store any user preferences. For the user intent REVEAL, the dialogue policy
 triggers the generation of an item recommendation (dialogue act with intent
-RECOMMEND). 
+RECOMMEND).
 """
 
 from abc import ABC, abstractmethod
@@ -26,7 +26,7 @@ class DialoguePolicy(ABC):
 
     @abstractmethod
     def next_dialogue_act(
-        user_utterance: Utterance, dialogue_history: List[Utterance]
+        self, user_utterance: Utterance, dialogue_history: List[Utterance]
     ) -> DialogueAct:
         """Returns the next dialogue act given the user utterance and history.
 
