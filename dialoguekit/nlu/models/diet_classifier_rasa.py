@@ -77,6 +77,7 @@ class IntentClassifierRasa(IntentClassifier, SlotAnnotator):
 
         try:
             self.load_model()
+            self._processes_utterances: Dict[str, Any] = {}
         except Exception:
             self.init_pipeline()
 
@@ -118,7 +119,7 @@ class IntentClassifierRasa(IntentClassifier, SlotAnnotator):
             ),
             resource=self._def_resource,
         )
-        self._processes_utterances: Dict[str, Any] = {}
+        self._processes_utterances = {}
 
     def train_model(
         self,
@@ -314,5 +315,3 @@ class IntentClassifierRasa(IntentClassifier, SlotAnnotator):
         pipeline_path = os.path.join(self._model_path, "pipeline.pkl")
         self._component_pipeline = pickle.load(open(pipeline_path, "rb"))
         logging.info(f"Model loaded from {self._model_path}.")
-
-        self._processes_utterances: Dict[str, Any] = {}
