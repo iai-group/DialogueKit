@@ -130,6 +130,7 @@ dmypy.json
 
 # Rasa traning folder
 .rasa/*
+tests/.rasa/*
 moviebot/*
 testing/*
 

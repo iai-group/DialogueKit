@@ -8,7 +8,9 @@ https://iai-group.github.io/DialogueKit/nlu.html#rasa-as-a-component-library
 """
 
 import copy
+import logging
 import os
+import pickle
 import tempfile
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Text, Type
@@ -73,7 +75,10 @@ class IntentClassifierRasa(IntentClassifier, SlotAnnotator):
         else:
             raise TypeError("Provided 'training_data_path' is not a string!")
 
-        self.init_pipeline()
+        try:
+            self.load_model()
+        except Exception:
+            self.init_pipeline()
 
     def init_pipeline(self) -> None:
         """Creates classifier and initialize.
@@ -278,18 +283,18 @@ class IntentClassifierRasa(IntentClassifier, SlotAnnotator):
 
         return message
 
-    def save_model(self, file_path: str) -> None:
-        """Saves the trained model to a file.
+    def save_model(self, file_path: str = None) -> None:
+        """Saves the trained model and preprocess pipeline.
 
         Args:
             file_path: File path.
-
-        Raises:
-            NotImplementedError: If not implemented in derived class.
         """
-        raise NotImplementedError("Rasa Diet")
+        self._diet.persist()
+        pipeline_path = os.path.join(self._model_path, "pipeline.pkl")
+        pickle.dump(self._component_pipeline, open(pipeline_path, "wb"))
+        logging.info(f"Model saved to {self._model_path}.")
 
-    def load_model(self, file_path: str) -> None:
+    def load_model(self, file_path: str = None) -> None:
         """Loads a model from a file.
 
         Args:
@@ -298,4 +303,16 @@ class IntentClassifierRasa(IntentClassifier, SlotAnnotator):
         Raises:
             NotImplementedError: If not implemented in derived class.
         """
-        raise NotImplementedError
+        self._diet = DIETClassifier.load(
+            {**DIETClassifier.get_default_config()},
+            model_storage=self._def_model_storage,
+            execution_context=ExecutionContext(
+                GraphSchema({}), node_name="diet_1"
+            ),
+            resource=self._def_resource,
+        )
+        pipeline_path = os.path.join(self._model_path, "pipeline.pkl")
+        self._component_pipeline = pickle.load(open(pipeline_path, "rb"))
+        logging.info(f"Model loaded from {self._model_path}.")
+
+        self._processes_utterances: Dict[str, Any] = {}
