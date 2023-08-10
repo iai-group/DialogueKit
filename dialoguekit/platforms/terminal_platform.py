@@ -31,7 +31,7 @@ class TerminalPlatform(Platform):
         while True:
             if not user.ready_for_input:
                 break
-            text = input()
+            text = input("USER:  ")
             self.message(self._user_id, text)
         self.disconnect(self._user_id)
 
@@ -55,4 +55,4 @@ class TerminalPlatform(Platform):
             user_id: User ID.
             utterance: An instance of Utterance.
         """
-        print(f"USER:  {utterance.text}\n")
+        pass
