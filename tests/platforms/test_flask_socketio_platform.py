@@ -35,7 +35,6 @@ def socket_client(platform):
     platform.socketio.on_namespace(ChatNamespace("/", platform))
     yield platform.socketio.test_client(
         platform.app,
-        flask_test_client=platform.app.test_client(),
     )
 
 

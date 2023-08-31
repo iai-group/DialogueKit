@@ -9,7 +9,7 @@ packages = setuptools.find_packages(where="dialoguekit")
 
 setuptools.setup(
     name="dialoguekit",
-    version="0.0.9",
+    version="0.0.9dev0",
     author="Jafar Afzali, Krisztian Balog, Nolwenn Bernard, \
         Aleksander Drzewiecki and Shuo Zhang",
     author_email="author@example.com",
@@ -40,9 +40,9 @@ setuptools.setup(
     zip_safe=False,
     install_requires=[
         "rasa>=3.0",
-        "Flask==2.2.3",
-        "flask-socketio==5.3.3",
-        "Werkzeug==2.2.3",
+        "Flask>=2.3.2",
+        "flask-socketio>=5.3.3",
+        "Werkzeug>=2.3.3",
         "websockets<11.0",
     ],
 )
