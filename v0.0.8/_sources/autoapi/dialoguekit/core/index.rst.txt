@@ -1,0 +1,52 @@
+:py:mod:`dialoguekit.core`
+==========================
+
+.. py:module:: dialoguekit.core
+
+.. autoapi-nested-parse::
+
+   Module level init for the core classes.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   annotated_utterance/index.rst
+   annotation/index.rst
+   dialogue/index.rst
+   domain/index.rst
+   intent/index.rst
+   slot_value_annotation/index.rst
+   utterance/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   dialoguekit.core.AnnotatedUtterance
+   dialoguekit.core.Annotation
+   dialoguekit.core.Dialogue
+   dialoguekit.core.Domain
+   dialoguekit.core.Intent
+   dialoguekit.core.SlotValueAnnotation
+   dialoguekit.core.Utterance
+
+
+
+
+
+
+
+
+
+
+

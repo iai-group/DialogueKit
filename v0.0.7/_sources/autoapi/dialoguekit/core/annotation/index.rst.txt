@@ -1,0 +1,39 @@
+:py:mod:`dialoguekit.core.annotation`
+=====================================
+
+.. py:module:: dialoguekit.core.annotation
+
+.. autoapi-nested-parse::
+
+   Interface representing an annotation.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   dialoguekit.core.annotation.Annotation
+
+
+
+
+.. py:class:: Annotation(slot: str = None, value: str = None)
+
+   Represents an annotation.
+
+   .. py:property:: slot
+      :type: str
+
+      Returns the annotation slot.
+
+   .. py:property:: value
+      :type: str
+
+      Returns the annotation value.
+
+

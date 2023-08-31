@@ -1,0 +1,26 @@
+:py:mod:`dialoguekit`
+=====================
+
+.. py:module:: dialoguekit
+
+.. autoapi-nested-parse::
+
+   Main module level init.
+
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   connector/index.rst
+   core/index.rst
+   nlg/index.rst
+   nlu/index.rst
+   participant/index.rst
+   platforms/index.rst
+   utils/index.rst
+
+

@@ -1,0 +1,34 @@
+:py:mod:`dialoguekit.platforms`
+===============================
+
+.. py:module:: dialoguekit.platforms
+
+.. autoapi-nested-parse::
+
+   Module level init for the platforms.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   platform/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   dialoguekit.platforms.Platform
+
+
+
+
+

@@ -1,0 +1,41 @@
+:py:mod:`dialoguekit.utils`
+===========================
+
+.. py:module:: dialoguekit.utils
+
+.. autoapi-nested-parse::
+
+   Module level init for utilities.
+
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   annotation_converter/index.rst
+   annotation_converter_dialoguekit_to_rasa/index.rst
+   dialogue_evaluation/index.rst
+   dialogue_reader/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   dialoguekit.utils.AnnotationConverter
+   dialoguekit.utils.AnnotationConverterRasa
+   dialoguekit.utils.Evaluator
+
+
+
+
+
+
+
