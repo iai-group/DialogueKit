@@ -11,7 +11,7 @@ from dialoguekit.participant.participant import DialogueParticipant
 
 @dataclass
 class DialogueState:
-    """A class to represent the state of a dialogue"""
+    """A class to represent the state of a dialogue."""
 
     history: List[AnnotatedUtterance] = field(default_factory=list)
     last_user_intent: str = None
@@ -23,7 +23,7 @@ class DialogueState:
 
 class DialogueStateTracker:
     def __init__(self) -> None:
-        """Initializes the dialogue state tracker"""
+        """Initializes the dialogue state tracker."""
         self._dialogue_state = DialogueState()
 
     def get_state(self) -> DialogueState:
