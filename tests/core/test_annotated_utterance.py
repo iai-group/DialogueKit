@@ -79,4 +79,4 @@ def test_add_dialogue_acts() -> None:
     )
 
     assert u1.get_intents() == [Intent("1"), Intent("2")]
-    assert u1.get_annotations() == {Annotation("year", "2023")}
+    assert u1.get_dialogue_act_annotations() == {Annotation("year", "2023")}

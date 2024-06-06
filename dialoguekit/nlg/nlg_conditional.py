@@ -1,4 +1,5 @@
 """Conditional NLG."""
+
 import random
 from collections import defaultdict
 from copy import deepcopy
@@ -6,6 +7,7 @@ from numbers import Number
 from typing import Dict, List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.nlg.nlg_template import TemplateNLG
 from dialoguekit.participant.participant import DialogueParticipant
@@ -21,6 +23,7 @@ class ConditionalNLG(TemplateNLG):
     def generate_utterance_text(
         self,
         dialogue_acts: List[DialogueAct],
+        annotations: Optional[Union[List[Annotation], None]] = None,
         force_annotation: Optional[bool] = False,
     ) -> AnnotatedUtterance:
         """Turns a structured utterance into a textual one.
@@ -53,6 +56,7 @@ class ConditionalNLG(TemplateNLG):
 
         Args:
             dialogue_acts: The dialogue acts of the wanted Utterance.
+            annotations: The wanted annotations in the response Utterance.
             force_annotation: if 'True' and 'annotations' are provided,
               responses without annotations will also be filtered out during
               step 2.
@@ -68,12 +72,14 @@ class ConditionalNLG(TemplateNLG):
         """
         return self.generate_utterance_text_conditional(
             dialogue_acts=dialogue_acts,
+            annotations=annotations,
             force_annotation=force_annotation,
         )
 
     def generate_utterance_text_conditional(
         self,
         dialogue_acts: List[DialogueAct],
+        annotations: Optional[Union[List[Annotation], None]] = None,
         conditional: Optional[Union[str, None]] = None,
         conditional_value: Optional[Union[Number, None]] = None,
         force_annotation: Optional[bool] = False,
@@ -101,6 +107,7 @@ class ConditionalNLG(TemplateNLG):
 
         Args:
             dialogue_acts: The dialogue acts of the wanted Utterance.
+            annotations: The wanted annotations in the response Utterance.
             conditional: The desired metadata field to use as a conditional.
             conditional_value: The desired conditional value score.
             force_annotation: If 'True' and 'annotations' are provided,
@@ -122,6 +129,9 @@ class ConditionalNLG(TemplateNLG):
                 template_from methods"
             )
 
+        if annotations is None:
+            annotations = []
+
         templates = self._response_templates.get(
             ";".join([da.intent.label for da in dialogue_acts])
         )
@@ -136,6 +146,7 @@ class ConditionalNLG(TemplateNLG):
         templates = self._filter_templates(
             templates=templates,
             dialogue_acts=dialogue_acts,
+            annotations=annotations,
             force_annotation=force_annotation,
         )
         # Check if filtering has filtered out everything
@@ -152,8 +163,9 @@ class ConditionalNLG(TemplateNLG):
             response_utterance = random.choice(templates)
             response_utterance = deepcopy(response_utterance)
 
-        # Clear out dialogue acts
+        # Clear out dialogue acts and annotations
         response_utterance.dialogue_acts = []
+        response_utterance.annotations = []
 
         # If annotations are provided, use them to fill in the template
         for da in dialogue_acts:
@@ -163,6 +175,11 @@ class ConditionalNLG(TemplateNLG):
                         f"{{{annotation.slot}}}", annotation.value, 1
                     )
             response_utterance.add_dialogue_acts([da])
+        for annotation in annotations:
+            response_utterance.text = response_utterance.text.replace(
+                f"{{{annotation.slot}}}", annotation.value, 1
+            )
+            response_utterance.add_annotations([annotation])
         return response_utterance
 
     def _select_closest_to_conditional(

@@ -191,6 +191,7 @@ def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
     utterance_1 = dialogue_dict_1.get("conversation")[0]
     assert utterance_1["utterance"] == "Hello"
     assert utterance_1.get("dialogue_acts") is None
+    assert utterance_1.get("annotations") is None
     assert utterance_1["utterance ID"] == "CNV1_agent-001_0"
 
 

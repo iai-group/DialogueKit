@@ -16,6 +16,7 @@ _FIELD_UTTERANCE_ID = "utterance_id"
 _FIELD_UTTERANCE_FEEDBACK = "utterance_feedback"
 _FIELD_INTENT = "intent"
 _FIELD_SLOT_VALUES = "slot_values"
+_FIELD_ANNOTATIONS = "annotations"
 _FIELD_CONVERSATION = "conversation"
 _FIELD_CONVERSATION_ID = "conversation_id"
 _FIELD_PARTICIPANT = "participant"
@@ -73,6 +74,12 @@ def json_to_annotated_utterance(
 
         dialogue_acts.append(DialogueAct(intent, annotations))
 
+    annotations = json_utterance.get(_FIELD_ANNOTATIONS)
+    if annotations:
+        annotations = [
+            Annotation(slot=slot, value=value) for slot, value in annotations
+        ]
+
     metadata = {}
     for k, v in json_utterance.items():
         if k not in (
@@ -82,6 +89,7 @@ def json_to_annotated_utterance(
                 _FIELD_SLOT_VALUES,
                 _FIELD_INTENT,
                 _FIELD_DIALOGUE_ACTS,
+                _FIELD_ANNOTATIONS,
             ]
         ):
             metadata[k] = v
@@ -91,6 +99,7 @@ def json_to_annotated_utterance(
         utterance_id=utterance_id,
         participant=participant,
         dialogue_acts=dialogue_acts,
+        annotations=annotations,
         metadata=metadata,
     )
 
@@ -137,9 +146,11 @@ def json_to_dialogues(
                 dialogue.add_utterance_feedback(
                     UtteranceFeedback(
                         utterance_id=annotated_utterance.utterance_id,
-                        feedback=BinaryFeedback.POSITIVE
-                        if utterance_feedback == 1
-                        else BinaryFeedback.NEGATIVE,
+                        feedback=(
+                            BinaryFeedback.POSITIVE
+                            if utterance_feedback == 1
+                            else BinaryFeedback.NEGATIVE
+                        ),
                     ),
                     annotated_utterance.utterance_id,
                 )

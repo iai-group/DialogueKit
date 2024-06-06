@@ -1,4 +1,4 @@
-"""Interface extending utterances with dialogue acts."""
+"""Interface extending utterances with annotations."""
 
 from dataclasses import asdict, dataclass, field
 from typing import Any, Dict, List, Set
@@ -11,14 +11,17 @@ from dialoguekit.core.utterance import Utterance
 
 @dataclass(eq=True, unsafe_hash=True)
 class AnnotatedUtterance(Utterance):
-    """Represents an utterance, with dialogue acts.
+    """Represents an utterance, with annotations.
 
     The AnnotatedUtterance is a Utterance with additional information.
-    In some cases we want to send an utterance with the Intent and or
-    Annotations.
+    In some cases we want to send an utterance with dialogue acts and/or
+    Annotations. Dialogue acts are a specific type of annotation.
     """
 
     dialogue_acts: List[DialogueAct] = field(
+        default_factory=list, compare=True, hash=False
+    )
+    annotations: List[Annotation] = field(
         default_factory=list, compare=True, hash=False
     )
     metadata: Dict[str, Any] = field(
@@ -38,8 +41,6 @@ class AnnotatedUtterance(Utterance):
     def from_utterance(cls, utterance: Utterance):
         """Creates an instance of AnnotatedUtterance from an utterance."""
         args = asdict(utterance)
-        if hasattr(utterance, "dialogue_acts"):
-            args["dialogue_acts"] = getattr(utterance, "dialogue_acts")
         return cls(**args)
 
     def add_dialogue_acts(self, dialogue_acts: List[DialogueAct]) -> None:
@@ -54,12 +55,20 @@ class AnnotatedUtterance(Utterance):
         """Returns utterance's intents."""
         return [da.intent for da in self.dialogue_acts]
 
-    def get_annotations(self) -> Set[Annotation]:
-        """Returns utterance's annotations."""
+    def get_dialogue_act_annotations(self) -> Set[Annotation]:
+        """Returns the annotations from the dialogue acts."""
         annotations = set()
         for da in self.dialogue_acts:
             annotations.update(da.annotations)
         return annotations
+
+    def add_annotations(self, annotations: List[Annotation]) -> None:
+        """Adds annotations to the utterance.
+
+        Args:
+            annotations: List of annotations.
+        """
+        self.annotations.extend(annotations)
 
     def get_text_placeholders(self) -> str:
         """Replaces the utterance text with placeholders.

@@ -1,9 +1,10 @@
 """Abstract interface for NLG."""
 
 from abc import ABC, abstractmethod
-from typing import List, Union
+from typing import List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.dialogue_act import DialogueAct
 
 
@@ -14,6 +15,7 @@ class AbstractNLG(ABC):
     def generate_utterance_text(
         self,
         dialogue_acts: List[DialogueAct],
+        annotations: Optional[Union[List[Annotation], None]] = None,
         force_annotation: bool = False,
     ) -> Union[AnnotatedUtterance, bool]:
         """Turns a structured utterance into a textual one.
@@ -23,6 +25,8 @@ class AbstractNLG(ABC):
 
         Args:
             dialogue_acts: Dialogue acts of the utterance to be generated.
+            annotations: If provided, these annotations should be considered
+              during generation.
             force_annotation: A flag to indicate whether annotations should be
               forced or not.
 

@@ -1,11 +1,13 @@
 """NLG component."""
+
 import json
 import random
 import sys
 from copy import deepcopy
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
+from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.nlg.nlg_abstract import AbstractNLG
 from dialoguekit.participant.participant import DialogueParticipant
@@ -28,6 +30,7 @@ class TemplateNLG(AbstractNLG):
     def generate_utterance_text(
         self,
         dialogue_acts: List[DialogueAct],
+        annotations: Optional[Union[List[Annotation], None]] = None,
         force_annotation: Optional[bool] = False,
     ) -> AnnotatedUtterance:
         """Turns a structured utterance into a textual one.
@@ -55,6 +58,7 @@ class TemplateNLG(AbstractNLG):
 
         Args:
             dialogue_acts: The dialogue acts of the wanted Utterance.
+            annotations: The wanted annotations in the response Utterance.
             force_annotation: if 'True' and 'annotations' are provided,
               responses without annotations will also be filtered out during
               step 2.
@@ -74,6 +78,9 @@ class TemplateNLG(AbstractNLG):
                 template_from methods"
             )
 
+        if annotations is None:
+            annotations = []
+
         templates = self._response_templates.get(
             ";".join([da.intent.label for da in dialogue_acts])
         )
@@ -89,6 +96,7 @@ class TemplateNLG(AbstractNLG):
         templates = self._filter_templates(
             templates=templates,
             dialogue_acts=dialogue_acts,
+            annotations=annotations,
             force_annotation=force_annotation,
         )
         # Check if filtering has filtered out everything
@@ -98,8 +106,9 @@ class TemplateNLG(AbstractNLG):
         response_utterance = random.choice(templates)
         response_utterance = deepcopy(response_utterance)
 
-        # Clear out dialogue acts
+        # Clear out dialogue acts and annotations
         response_utterance.dialogue_acts = []
+        response_utterance.annotations = []
 
         # If annotations are provided, use them to fill in the template
         for da in dialogue_acts:
@@ -109,6 +118,11 @@ class TemplateNLG(AbstractNLG):
                         f"{{{annotation.slot}}}", annotation.value, 1
                     )
             response_utterance.add_dialogue_acts([da])
+        for annotation in annotations:
+            response_utterance.text = response_utterance.text.replace(
+                f"{{{annotation.slot}}}", annotation.value, 1
+            )
+            response_utterance.add_annotations([annotation])
         return response_utterance
 
     def dump_template(self, filepath: str) -> None:
@@ -126,13 +140,14 @@ class TemplateNLG(AbstractNLG):
         self,
         templates: List[AnnotatedUtterance],
         dialogue_acts: List[DialogueAct],
+        annotations: List[Annotation],
         force_annotation: bool,
     ) -> List[AnnotatedUtterance]:
-        """Filters available templates based on dialogue acts' annotations.
+        """Filters available templates based on utterance's annotations.
 
-        The list of  dialogue acts' annotations is used to filter the templates
-        in such a way, that only the templates that are possible to instantiate
-        given these annotations are returned.
+        The list of annotations is used to filter the templates in such a way,
+        that only the templates that are possible to instantiate given these
+        annotations are returned.
         If a template does not contain any annotations it will remain in the
         list of available templates. Templates that do not contain any
         annotations will not be removed, as long as 'force_annotations' is set
@@ -141,6 +156,7 @@ class TemplateNLG(AbstractNLG):
         Args:
             templates: Template annotated utterance.
             dialogue_acts: List of dialogue acts to be used for filtering.
+            annotations: List of annotations to be used for filtering.
             force_annotation: If 'True' and annotations are provided templates
                 without annotations will also be filtered out.
 
@@ -150,7 +166,7 @@ class TemplateNLG(AbstractNLG):
         """
         filtered_annotated_utterances = []
 
-        annotations_slots = set(
+        da_annotations_slots = set(
             [
                 (da.intent, annotation.slot)
                 for da in dialogue_acts
@@ -158,9 +174,10 @@ class TemplateNLG(AbstractNLG):
                 for annotation in da.annotations
             ]
         )
+        annotations_slots = set([annotation.slot for annotation in annotations])
 
         for annotated_utterance in templates:
-            utterance_slots = set(
+            utterance_da_slots = set(
                 [
                     (da.intent, annotation.slot)
                     for da in annotated_utterance.dialogue_acts
@@ -168,17 +185,26 @@ class TemplateNLG(AbstractNLG):
                     for annotation in da.annotations
                 ]
             )
-            if all(x in annotations_slots for x in utterance_slots):
+            utterance_slots = set(
+                [
+                    annotation.slot
+                    for annotation in annotated_utterance.annotations
+                ]
+            )
+            if all(
+                x in da_annotations_slots for x in utterance_da_slots
+            ) and all(x in annotations_slots for x in utterance_slots):
                 filtered_annotated_utterances.append(annotated_utterance)
 
-        if (
-            force_annotation
-            and len([da for da in dialogue_acts if da.annotations]) > 0
+        if force_annotation and (
+            len([da for da in dialogue_acts if da.annotations]) > 0
+            or len(annotations) > 0
         ):
             filtered_annotated_utterances = [
                 template
                 for template in filtered_annotated_utterances
-                if len(template.get_annotations()) > 0
+                if len(template.get_dialogue_act_annotations()) > 0
+                or len(template.annotations) > 0
             ]
         return filtered_annotated_utterances
 
@@ -224,7 +250,9 @@ class TemplateNLG(AbstractNLG):
         max_annotations = {"amount": 0, "examples": []}
 
         template_lengths = [
-            len(template.get_annotations()) for template in templates
+            len(template.get_dialogue_act_annotations())
+            + len(template.annotations)
+            for template in templates
         ]
         max_annotations["amount"] = max(template_lengths)
         min_annotations["amount"] = min(template_lengths)

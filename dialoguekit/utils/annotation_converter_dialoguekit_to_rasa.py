@@ -1,4 +1,5 @@
 """Convert annotations to be compatible with the rasa models."""
+
 import json
 import time
 from collections import defaultdict
@@ -48,9 +49,11 @@ class AnnotationConverterRasa(AnnotationConverter):
         formatted_string = LiteralString(
             "".join(
                 [
-                    "- " + s.strip() + "\n"
-                    if i > 0
-                    else "- " + s.strip() + "\n"
+                    (
+                        "- " + s.strip() + "\n"
+                        if i > 0
+                        else "- " + s.strip() + "\n"
+                    )
                     for i, s in enumerate(v)
                 ]
             )
@@ -115,18 +118,18 @@ class AnnotationConverterRasa(AnnotationConverter):
                             turn["utterance_annotated"] = turn[
                                 "utterance_annotated"
                             ].replace(f"{value}", f"{{{placeholder_label}}}", 1)
-                        # Utterance with annotation
-                        for pair in slot_values:
                             turn["utterance_annotated"] = turn[
                                 "utterance_annotated"
                             ].replace(
-                                f"{{{str(pair[0])}}}",
-                                "[{}]({})".format(pair[1], pair[0]),
+                                f"{{{str(annotation[0])}}}",
+                                "[{}]({})".format(annotation[1], annotation[0]),
                                 1,
                             )
 
                             # Annotation types with examples
-                            self._slot_value_pairs[pair[0]].add(pair[1])
+                            self._slot_value_pairs[annotation[0]].add(
+                                annotation[1]
+                            )
 
                     # Intent with examples
                     if intent not in self._intent_examples[turn["participant"]]:
@@ -134,9 +137,23 @@ class AnnotationConverterRasa(AnnotationConverter):
                             intent
                         ] = set()
 
-                    self._intent_examples[turn["participant"]][intent].add(
-                        turn.get("utterance_annotated", utterance)
+                for annotation in turn.get("annotations", []):
+                    placeholder_label, value = annotation[0], annotation[1]
+                    turn["utterance_annotated"] = turn[
+                        "utterance_annotated"
+                    ].replace(f"{value}", f"{{{placeholder_label}}}", 1)
+                    turn["utterance_annotated"] = turn[
+                        "utterance_annotated"
+                    ].replace(
+                        f"{{{str(annotation[0])}}}",
+                        "[{}]({})".format(annotation[1], annotation[0]),
+                        1,
                     )
+                    self._slot_value_pairs[annotation[0]].add(annotation[1])
+
+                self._intent_examples[turn["participant"]][intent].add(
+                    turn.get("utterance_annotated", utterance)
+                )
 
         self._slot_value_pairs = {
             k: list(v) for k, v in self._slot_value_pairs.items()

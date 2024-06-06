@@ -15,6 +15,7 @@ from dialoguekit.nlu.models.satisfaction_classifier import (
 )
 from dialoguekit.participant.participant import DialogueParticipant
 from dialoguekit.utils.dialogue_reader import (
+    _FIELD_ANNOTATIONS,
     _FIELD_CONVERSATION,
     _FIELD_DIALOGUE_ACTS,
     _FIELD_INTENT,
@@ -30,6 +31,19 @@ _DEFAULT_SATISFACTION = 3
 def _replace_slot_with_placeholder(
     annotated_utterance: AnnotatedUtterance,
 ) -> None:
+    """Replaces the slot values for all types of annotation with placeholders.
+
+    Args:
+        annotated_utterance: Utterance to modify.
+    """
+    annotations = annotated_utterance.annotations
+    for annotation in annotations:
+        placeholder_label, value = annotation.slot, annotation.value
+        annotated_utterance.text = annotated_utterance.text.replace(
+            value, f"{{{placeholder_label}}}", 1
+        )
+        annotation.value = None
+
     dialogue_acts = annotated_utterance.dialogue_acts
     for da in dialogue_acts:
         for annotation in da.annotations:
@@ -45,14 +59,16 @@ def build_template_from_instances(
 ) -> Dict[str, List[AnnotatedUtterance]]:
     """Builds the NLG template.
 
-    The Intent the Utterance comes with will be used. If no intent is present
-    for an utterance it will be skipped.
+    The dialogue acts from the utterances will be used to build the templates.
+    If an utterance has multiple dialogue acts, the intents will be concatenated
+    with a semicolon. If an utterance does not have any dialogue acts, it will
+    be skipped.
 
     Args:
-        utterances : List of AnnotatedUtterance-s.
+        utterances : List of utterances to build the template from.
 
     Returns:
-        Dict with Intents and lists with corresponding AnnotatedUtterances.
+        Dictionary with intents as keys and lists of corresponding templates.
     """
     template = defaultdict(list)
     for utterance in utterances:
@@ -65,7 +81,7 @@ def build_template_from_instances(
         else:
             print(
                 f'Utterance was skipped.\nUtterance "{utterance.text}", \
-                    does not have an associated intent.'
+                    does not have an associated dialogue act.'
             )
 
     return_template = {
@@ -100,7 +116,7 @@ def extract_utterance_template(  # noqa: C901
         satisfaction_classifier: SatisfactionClassifier.
 
     Returns:
-        Dict with intents and lists with corresponding AnnotatedUtterances.
+        Dictionary with intents as keys and lists of corresponding templates.
     """
     if not os.path.isfile(annotated_dialogue_file):
         raise FileNotFoundError(
@@ -166,7 +182,13 @@ def extract_utterance_template(  # noqa: C901
 
                     # Keep the original utterance as template when it does not
                     # contain slot values.
-
+                    if "annotations" in utterance_record:
+                        for slot, value in utterance_record.get(
+                            _FIELD_ANNOTATIONS
+                        ):
+                            annotated_utterance.add_annotations(
+                                [Annotation(slot, value)]
+                            )
                     if satisfaction_classifier:
                         annotated_utterance_copy = copy.deepcopy(
                             annotated_utterance

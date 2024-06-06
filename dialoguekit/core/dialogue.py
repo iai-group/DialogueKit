@@ -1,4 +1,5 @@
 """Interface representing the sequence of utterances in a dialogue."""
+
 from __future__ import annotations
 
 import calendar
@@ -102,9 +103,11 @@ class Dialogue:
         if utterance.utterance_id is None:
             utterance.utterance_id = "{}_{}_{}".format(
                 self.conversation_id,
-                self.agent_id
-                if utterance.participant is DialogueParticipant.AGENT
-                else self.user_id,
+                (
+                    self.agent_id
+                    if utterance.participant is DialogueParticipant.AGENT
+                    else self.user_id
+                ),
                 self.current_turn_id,
             )
         self._utterances.append(utterance)
@@ -153,9 +156,9 @@ class Dialogue:
                 for da in utterance.dialogue_acts:
                     dialogue_acts.append(
                         {
-                            "intent": da.intent.label
-                            if da.intent is not None
-                            else "",
+                            "intent": (
+                                da.intent.label if da.intent is not None else ""
+                            ),
                             "slot_values": [
                                 [annotation.slot, annotation.value]
                                 for annotation in da.annotations
@@ -166,6 +169,13 @@ class Dialogue:
 
                 for k, v in utterance.metadata.items():
                     utterance_info[k] = v
+
+                annotations = utterance.annotations
+                if annotations:
+                    slot_values = []
+                    for annotation in annotations:
+                        slot_values.append([annotation.slot, annotation.value])
+                    utterance_info["annotations"] = slot_values
 
             dialogue_as_dict["conversation"].append(utterance_info)
         return dialogue_as_dict
