@@ -22,6 +22,7 @@ _FIELD_CONVERSATION_ID = "conversation_id"
 _FIELD_PARTICIPANT = "participant"
 _FIELD_AGENT = "agent"
 _FIELD_USER = "user"
+_FIELD_METADATA = "metadata"
 
 
 def json_to_annotated_utterance(
@@ -136,6 +137,10 @@ def json_to_dialogues(
             # provided
             continue
         dialogue = Dialogue(agent_id, user_id, conversation_id)
+        metadata = dialogue_data.get(_FIELD_METADATA, None)
+        if metadata:
+            dialogue._metadata = metadata
+
         for utterance_data in dialogue_data.get(_FIELD_CONVERSATION):
             annotated_utterance = json_to_annotated_utterance(utterance_data)
             dialogue.add_utterance(annotated_utterance)
