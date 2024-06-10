@@ -66,7 +66,7 @@ def json_to_annotated_utterance(
         if intent:
             intent = Intent(intent)
 
-        annotations = json_utterance.get(_FIELD_SLOT_VALUES)
+        annotations = json_utterance.get(_FIELD_SLOT_VALUES, [])
         if annotations:
             annotations = [
                 Annotation(slot=slot, value=value)
@@ -75,7 +75,7 @@ def json_to_annotated_utterance(
 
         dialogue_acts.append(DialogueAct(intent, annotations))
 
-    annotations = json_utterance.get(_FIELD_ANNOTATIONS)
+    annotations = json_utterance.get(_FIELD_ANNOTATIONS, [])
     if annotations:
         annotations = [
             Annotation(slot=slot, value=value) for slot, value in annotations
