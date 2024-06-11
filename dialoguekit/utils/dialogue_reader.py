@@ -66,7 +66,7 @@ def json_to_annotated_utterance(
         if intent:
             intent = Intent(intent)
 
-        annotations = json_utterance.get(_FIELD_SLOT_VALUES, [])
+        annotations = da.get(_FIELD_SLOT_VALUES, [])
         if annotations:
             annotations = [
                 Annotation(slot=slot, value=value)
