@@ -111,6 +111,27 @@ class TemplateNLG(AbstractNLG):
         response_utterance.annotations = []
 
         # If annotations are provided, use them to fill in the template
+        response_utterance = self._fill_template_with_annotations(
+            response_utterance, dialogue_acts, annotations
+        )
+        return response_utterance
+
+    def _fill_template_with_annotations(
+        self,
+        response_utterance: AnnotatedUtterance,
+        dialogue_acts: List[DialogueAct],
+        annotations: List[Annotation],
+    ) -> AnnotatedUtterance:
+        """Fills the template response based on provided annotations.
+
+        Args:
+            response_utterance: Template response.
+            dialogue_acts: Dialogue acts with slot-value pairs for annotations.
+            annotations: Annotations to fill the template with.
+
+        Returns:
+            Response template filled with annotations.
+        """
         for da in dialogue_acts:
             if da.annotations:
                 for annotation in da.annotations:

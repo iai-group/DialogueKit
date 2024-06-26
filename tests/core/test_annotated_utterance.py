@@ -42,7 +42,7 @@ def test_comparison():
     )
     assert u1 != u2
 
-    # Test Intent difference
+    # Test Dialogue act difference
     u1 = AnnotatedUtterance(
         text="Test1",
         dialogue_acts=[DialogueAct(Intent("1")), DialogueAct(Intent("2"))],
@@ -51,6 +51,21 @@ def test_comparison():
     u2 = AnnotatedUtterance(
         text="Test1",
         dialogue_acts=[DialogueAct(Intent("2"))],
+        participant=DialogueParticipant.AGENT,
+    )
+    assert u1 != u2
+
+    # Test Annotation difference
+    u1 = AnnotatedUtterance(
+        text="Test1",
+        dialogue_acts=[DialogueAct(Intent("1"))],
+        annotations=[Annotation("slot", "value1")],
+        participant=DialogueParticipant.AGENT,
+    )
+    u2 = AnnotatedUtterance(
+        text="Test1",
+        dialogue_acts=[DialogueAct(Intent("1"))],
+        annotations=[Annotation("slot", "value2")],
         participant=DialogueParticipant.AGENT,
     )
     assert u1 != u2
@@ -79,4 +94,4 @@ def test_add_dialogue_acts() -> None:
     )
 
     assert u1.get_intents() == [Intent("1"), Intent("2")]
-    assert u1.get_dialogue_act_annotations() == {Annotation("year", "2023")}
+    assert u1.get_dialogue_act_annotations() == [Annotation("year", "2023")]

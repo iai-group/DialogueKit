@@ -1,7 +1,7 @@
 """Interface extending utterances with annotations."""
 
 from dataclasses import asdict, dataclass, field
-from typing import Any, Dict, List, Set
+from typing import Any, Dict, List
 
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.dialogue_act import DialogueAct
@@ -55,12 +55,13 @@ class AnnotatedUtterance(Utterance):
         """Returns utterance's intents."""
         return [da.intent for da in self.dialogue_acts]
 
-    def get_dialogue_act_annotations(self) -> Set[Annotation]:
+    def get_dialogue_act_annotations(self) -> List[Annotation]:
         """Returns the annotations from the dialogue acts."""
-        annotations = set()
-        for da in self.dialogue_acts:
-            annotations.update(da.annotations)
-        return annotations
+        return [
+            annotation
+            for da in self.dialogue_acts
+            for annotation in da.annotations
+        ]
 
     def add_annotations(self, annotations: List[Annotation]) -> None:
         """Adds annotations to the utterance.

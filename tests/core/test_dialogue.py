@@ -59,6 +59,7 @@ def dialogue_history_2() -> Dialogue:
         "Hello",
         participant=DialogueParticipant.AGENT,
         dialogue_acts=[DialogueAct(Intent("GREETINGS"))],
+        annotations=[Annotation("STATE", "start")],
     )
     user_utterance_1 = AnnotatedUtterance(
         "Hi",
@@ -213,8 +214,10 @@ def test_to_dict_d2(dialogue_history_2: Dialogue) -> None:
     assert len(dialogue_dict_2.get("conversation")) == 3
 
     utterances = dialogue_dict_2.get("conversation")
-    last_utterance = utterances.pop()
 
+    assert utterances[0]["annotations"] == [["STATE", "start"]]
+
+    last_utterance = utterances.pop()
     assert len(last_utterance["dialogue_acts"]) == 1
     assert last_utterance["dialogue_acts"][0] == {
         "intent": "ELICIT",

@@ -168,18 +168,9 @@ class ConditionalNLG(TemplateNLG):
         response_utterance.annotations = []
 
         # If annotations are provided, use them to fill in the template
-        for da in dialogue_acts:
-            if da.annotations:
-                for annotation in da.annotations:
-                    response_utterance.text = response_utterance.text.replace(
-                        f"{{{annotation.slot}}}", annotation.value, 1
-                    )
-            response_utterance.add_dialogue_acts([da])
-        for annotation in annotations:
-            response_utterance.text = response_utterance.text.replace(
-                f"{{{annotation.slot}}}", annotation.value, 1
-            )
-            response_utterance.add_annotations([annotation])
+        response_utterance = self._fill_template_with_annotations(
+            response_utterance, dialogue_acts, annotations
+        )
         return response_utterance
 
     def _select_closest_to_conditional(
