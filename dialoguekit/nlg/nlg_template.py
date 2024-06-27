@@ -224,7 +224,7 @@ class TemplateNLG(AbstractNLG):
             filtered_annotated_utterances = [
                 template
                 for template in filtered_annotated_utterances
-                if len(template.get_dialogue_act_annotations()) > 0
+                if template.num_dialogue_act_annotations() > 0
                 or len(template.annotations) > 0
             ]
         return filtered_annotated_utterances
@@ -271,8 +271,7 @@ class TemplateNLG(AbstractNLG):
         max_annotations = {"amount": 0, "examples": []}
 
         template_lengths = [
-            len(template.get_dialogue_act_annotations())
-            + len(template.annotations)
+            template.num_dialogue_act_annotations() + len(template.annotations)
             for template in templates
         ]
         max_annotations["amount"] = max(template_lengths)

@@ -55,13 +55,15 @@ class AnnotatedUtterance(Utterance):
         """Returns utterance's intents."""
         return [da.intent for da in self.dialogue_acts]
 
-    def get_dialogue_act_annotations(self) -> List[Annotation]:
-        """Returns the annotations from the dialogue acts."""
-        return [
-            annotation
-            for da in self.dialogue_acts
-            for annotation in da.annotations
-        ]
+    def num_dialogue_act_annotations(self) -> int:
+        """Returns the number of slot-value annotations in dialogue acts."""
+        return len(
+            [
+                annotation
+                for da in self.dialogue_acts
+                for annotation in da.annotations
+            ]
+        )
 
     def add_annotations(self, annotations: List[Annotation]) -> None:
         """Adds annotations to the utterance.
