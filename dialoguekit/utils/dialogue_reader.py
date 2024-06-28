@@ -9,6 +9,7 @@ from dialoguekit.core.dialogue import Dialogue
 from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.feedback import BinaryFeedback, UtteranceFeedback
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
 
 _FIELD_UTTERANCE = "utterance"
 _FIELD_DIALOGUE_ACTS = "dialogue_acts"
@@ -45,7 +46,9 @@ def json_to_annotated_utterance(
                                 "slot_values": [
                                     [
                                         "GENRE",
-                                        "action"
+                                        "action",
+                                        7,
+                                        13
                                     ]
                                 ]
                             }
@@ -69,8 +72,8 @@ def json_to_annotated_utterance(
         annotations = da.get(_FIELD_SLOT_VALUES, [])
         if annotations:
             annotations = [
-                Annotation(slot=slot, value=value)
-                for slot, value in annotations
+                SlotValueAnnotation(key=slot, value=value, start=start, end=end)
+                for slot, value, start, end in annotations
             ]
 
         dialogue_acts.append(DialogueAct(intent, annotations))
@@ -78,7 +81,7 @@ def json_to_annotated_utterance(
     annotations = json_utterance.get(_FIELD_ANNOTATIONS, [])
     if annotations:
         annotations = [
-            Annotation(slot=slot, value=value) for slot, value in annotations
+            Annotation(key=slot, value=value) for slot, value in annotations
         ]
 
     metadata = {}

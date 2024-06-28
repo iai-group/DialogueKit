@@ -1,4 +1,5 @@
 """The Platform facilitates displaying of the conversation."""
+
 from __future__ import annotations
 
 import logging
@@ -46,7 +47,7 @@ class Message:
                 {
                     "intent": str(da.intent),
                     "annotations": [
-                        {"slot": annotation.slot, "value": annotation.value}
+                        {"slot": annotation.key, "value": annotation.value}
                         for annotation in da.annotations
                     ],
                 }

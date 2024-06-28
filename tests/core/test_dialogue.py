@@ -10,6 +10,7 @@ from dialoguekit.core import (
     Annotation,
     Dialogue,
     Intent,
+    SlotValueAnnotation,
     Utterance,
 )
 from dialoguekit.core.dialogue_act import DialogueAct
@@ -70,7 +71,9 @@ def dialogue_history_2() -> Dialogue:
         "What is your favorite color?",
         participant=DialogueParticipant.AGENT,
         dialogue_acts=[
-            DialogueAct(Intent("ELICIT"), [Annotation("COLOR", "color")])
+            DialogueAct(
+                Intent("ELICIT"), [SlotValueAnnotation("COLOR", "color")]
+            )
         ],
     )
     utterances = [
@@ -221,7 +224,7 @@ def test_to_dict_d2(dialogue_history_2: Dialogue) -> None:
     assert len(last_utterance["dialogue_acts"]) == 1
     assert last_utterance["dialogue_acts"][0] == {
         "intent": "ELICIT",
-        "slot_values": [["COLOR", "color"]],
+        "slot_values": [["COLOR", "color", None, None]],
     }
 
     assert last_utterance.get("utterance_feedback") == 1

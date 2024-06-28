@@ -1,6 +1,6 @@
 """Tests for extracting templates from training data."""
 
-from dialoguekit.core import AnnotatedUtterance, Annotation, Intent
+from dialoguekit.core import AnnotatedUtterance, Intent, SlotValueAnnotation
 from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.nlg.template_from_training_data import (
     _replace_slot_with_placeholder,
@@ -177,8 +177,8 @@ def test_replace_slot_with_placeholder():
         [
             DialogueAct(
                 annotations=[
-                    Annotation(slot="GENRE", value="action"),
-                    Annotation(slot="GENRE", value="fantasy"),
+                    SlotValueAnnotation(key="GENRE", value="action"),
+                    SlotValueAnnotation(key="GENRE", value="fantasy"),
                 ]
             )
         ]
@@ -190,7 +190,9 @@ def test_replace_slot_with_placeholder():
     a2.add_dialogue_acts(
         [
             DialogueAct(
-                annotations=[Annotation(slot="TITLE", value="old street")]
+                annotations=[
+                    SlotValueAnnotation(key="TITLE", value="old street")
+                ]
             )
         ]
     )
@@ -234,7 +236,9 @@ def test_extract_utterance_template():
     test_annotation = AnnotatedUtterance(
         text="something like the {TITLE}",
         dialogue_acts=[
-            DialogueAct(Intent("REVEAL.EXPAND"), [Annotation(slot="TITLE")])
+            DialogueAct(
+                Intent("REVEAL.EXPAND"), [SlotValueAnnotation(key="TITLE")]
+            )
         ],
         participant=DialogueParticipant.AGENT,
     )
@@ -243,7 +247,7 @@ def test_extract_utterance_template():
 
 
 def test_extract_utterance_template_with_satisfaction():
-    """Tests tempalte generation with satisfaction."""
+    """Tests template generation with satisfaction."""
     templates = extract_utterance_template(
         ANNOTATED_DIALOGUE_FILE,
         satisfaction_classifier=SatisfactionClassifierSVM(),

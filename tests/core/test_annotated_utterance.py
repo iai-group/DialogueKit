@@ -3,6 +3,7 @@
 from dialoguekit.core import AnnotatedUtterance, Intent
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.dialogue_act import DialogueAct
+from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
 from dialoguekit.participant import DialogueParticipant
 
 
@@ -59,13 +60,13 @@ def test_comparison():
     u1 = AnnotatedUtterance(
         text="Test1",
         dialogue_acts=[DialogueAct(Intent("1"))],
-        annotations=[Annotation("slot", "value1")],
+        annotations=[Annotation("key", "value1")],
         participant=DialogueParticipant.AGENT,
     )
     u2 = AnnotatedUtterance(
         text="Test1",
         dialogue_acts=[DialogueAct(Intent("1"))],
-        annotations=[Annotation("slot", "value2")],
+        annotations=[Annotation("key", "value2")],
         participant=DialogueParticipant.AGENT,
     )
     assert u1 != u2
@@ -90,7 +91,7 @@ def test_add_dialogue_acts() -> None:
         participant=DialogueParticipant.AGENT,
     )
     u1.add_dialogue_acts(
-        [DialogueAct(Intent("2"), [Annotation("year", "2023")])]
+        [DialogueAct(Intent("2"), [SlotValueAnnotation("year", "2023")])]
     )
 
     assert u1.get_intents() == [Intent("1"), Intent("2")]

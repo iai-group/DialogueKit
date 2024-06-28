@@ -1,6 +1,5 @@
 """Interface representing slot-value annotations."""
 
-
 from dataclasses import dataclass, field
 
 from dialoguekit.core.annotation import Annotation
@@ -10,7 +9,7 @@ from dialoguekit.core.annotation import Annotation
 class SlotValueAnnotation(Annotation):
     """Represents slot-value annotation."""
 
-    slot: str = field(default=None, hash=True)
+    key: str = field(default=None, hash=True)  # i.e., slot name
     value: str = field(default=None, hash=True)
     start: int = field(default=None, hash=True)
     end: int = field(default=None, hash=True)

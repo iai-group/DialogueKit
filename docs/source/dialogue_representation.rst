@@ -36,7 +36,7 @@ Annotations
 
 :py:mod:`dialoguekit.core.annotation`
 
-By default, an annotation has a slot and a value, for example, the slot *price* has the value *$10* in the following utterance *"This dish costs $10."*.
+By default, an annotation has a key and an optional value, for example, the key *satisfaction* has the value *True* in the following utterance *"That's perfect, thanks!"*.
 
 DialogueKit is shipped with:
 

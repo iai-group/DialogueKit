@@ -10,6 +10,7 @@ from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
 from dialoguekit.nlu.models.satisfaction_classifier import (
     SatisfactionClassifier,
 )
@@ -38,7 +39,7 @@ def _replace_slot_with_placeholder(
     """
     annotations = annotated_utterance.annotations
     for annotation in annotations:
-        placeholder_label, value = annotation.slot, annotation.value
+        placeholder_label, value = annotation.key, annotation.value
         annotated_utterance.text = annotated_utterance.text.replace(
             value, f"{{{placeholder_label}}}", 1
         )
@@ -47,7 +48,7 @@ def _replace_slot_with_placeholder(
     dialogue_acts = annotated_utterance.dialogue_acts
     for da in dialogue_acts:
         for annotation in da.annotations:
-            placeholder_label, value = annotation.slot, annotation.value
+            placeholder_label, value = annotation.key, annotation.value
             annotated_utterance.text = annotated_utterance.text.replace(
                 value, f"{{{placeholder_label}}}", 1
             )
@@ -144,8 +145,8 @@ def extract_utterance_template(  # noqa: C901
                     slot_value_pairs = da.get(_FIELD_SLOT_VALUES, [])
                     if slot_value_pairs:
                         slot_value_pairs = [
-                            Annotation(slot, value)
-                            for slot, value in slot_value_pairs
+                            SlotValueAnnotation(slot, value, start, end)
+                            for slot, value, start, end in slot_value_pairs
                         ]
                     dialogue_acts.append(
                         DialogueAct(intent=intent, annotations=slot_value_pairs)

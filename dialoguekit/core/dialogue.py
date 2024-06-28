@@ -160,7 +160,12 @@ class Dialogue:
                                 da.intent.label if da.intent is not None else ""
                             ),
                             "slot_values": [
-                                [annotation.slot, annotation.value]
+                                [
+                                    annotation.key,
+                                    annotation.value,
+                                    annotation.start,
+                                    annotation.end,
+                                ]
                                 for annotation in da.annotations
                             ],
                         }
@@ -172,10 +177,10 @@ class Dialogue:
 
                 annotations = utterance.annotations
                 if annotations:
-                    slot_values = []
+                    key_values = []
                     for annotation in annotations:
-                        slot_values.append([annotation.slot, annotation.value])
-                    utterance_info["annotations"] = slot_values
+                        key_values.append([annotation.key, annotation.value])
+                    utterance_info["annotations"] = key_values
 
             dialogue_as_dict["conversation"].append(utterance_info)
         return dialogue_as_dict

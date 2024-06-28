@@ -4,7 +4,12 @@ from unittest import mock
 
 import pytest
 
-from dialoguekit.core import AnnotatedUtterance, Annotation, Intent, Utterance
+from dialoguekit.core import (
+    AnnotatedUtterance,
+    Intent,
+    SlotValueAnnotation,
+    Utterance,
+)
 from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.participant import DialogueParticipant
 from dialoguekit.platforms import FlaskSocketPlatform
@@ -140,7 +145,7 @@ def test_display_agent_annotated_utterance(send, platform):
         dialogue_acts=[
             DialogueAct(
                 intent=Intent("ELICIT"),
-                annotations=[Annotation("TITLE", "Inception")],
+                annotations=[SlotValueAnnotation("TITLE", "Inception")],
             )
         ],
     )
