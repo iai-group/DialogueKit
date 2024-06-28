@@ -1,4 +1,5 @@
 """Interface representing the sequence of utterances in a dialogue."""
+
 from __future__ import annotations
 
 import calendar
@@ -102,9 +103,11 @@ class Dialogue:
         if utterance.utterance_id is None:
             utterance.utterance_id = "{}_{}_{}".format(
                 self.conversation_id,
-                self.agent_id
-                if utterance.participant is DialogueParticipant.AGENT
-                else self.user_id,
+                (
+                    self.agent_id
+                    if utterance.participant is DialogueParticipant.AGENT
+                    else self.user_id
+                ),
                 self.current_turn_id,
             )
         self._utterances.append(utterance)
@@ -149,8 +152,20 @@ class Dialogue:
                 utterance_info["utterance_feedback"] = feedback.feedback.value
 
             if isinstance(utterance, AnnotatedUtterance):
-                if utterance.intent is not None:
-                    utterance_info["intent"] = utterance.intent.label
+                dialogue_acts = list()
+                for da in utterance.dialogue_acts:
+                    dialogue_acts.append(
+                        {
+                            "intent": (
+                                da.intent.label if da.intent is not None else ""
+                            ),
+                            "slot_values": [
+                                [annotation.slot, annotation.value]
+                                for annotation in da.annotations
+                            ],
+                        }
+                    )
+                utterance_info["dialogue_acts"] = dialogue_acts
 
                 for k, v in utterance.metadata.items():
                     utterance_info[k] = v
@@ -160,6 +175,7 @@ class Dialogue:
                     slot_values = []
                     for annotation in annotations:
                         slot_values.append([annotation.slot, annotation.value])
-                    utterance_info["slot_values"] = slot_values
+                    utterance_info["annotations"] = slot_values
+
             dialogue_as_dict["conversation"].append(utterance_info)
         return dialogue_as_dict

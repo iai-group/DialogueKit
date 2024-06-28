@@ -12,6 +12,7 @@ from dialoguekit.core import (
     Intent,
     Utterance,
 )
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.feedback import BinaryFeedback, UtteranceFeedback
 from dialoguekit.participant import DialogueParticipant
 
@@ -57,16 +58,20 @@ def dialogue_history_2() -> Dialogue:
     agent_utterance_1 = AnnotatedUtterance(
         "Hello",
         participant=DialogueParticipant.AGENT,
-        intent=Intent("GREETINGS"),
+        dialogue_acts=[DialogueAct(Intent("GREETINGS"))],
+        annotations=[Annotation("STATE", "start")],
     )
     user_utterance_1 = AnnotatedUtterance(
-        "Hi", participant=DialogueParticipant.USER, intent=Intent("GREETINGS")
+        "Hi",
+        participant=DialogueParticipant.USER,
+        dialogue_acts=[DialogueAct(Intent("GREETINGS"))],
     )
     agent_utterance_2 = AnnotatedUtterance(
         "What is your favorite color?",
         participant=DialogueParticipant.AGENT,
-        intent=Intent("ELICIT"),
-        annotations=[Annotation("COLOR", "color")],
+        dialogue_acts=[
+            DialogueAct(Intent("ELICIT"), [Annotation("COLOR", "color")])
+        ],
     )
     utterances = [
         agent_utterance_1,
@@ -151,13 +156,15 @@ def test_add_utterance() -> None:
     user_id = "USR02"
     conversation_id = "CNV1"
     utterance_no_id = AnnotatedUtterance(
-        "Hi", participant=DialogueParticipant.USER, intent=Intent("GREETINGS")
+        "Hi",
+        participant=DialogueParticipant.USER,
+        dialogue_acts=[DialogueAct(Intent("GREETINGS"))],
     )
     utterance_with_id = AnnotatedUtterance(
         "Hi",
         utterance_id="u_1",
         participant=DialogueParticipant.AGENT,
-        intent=Intent("GREETINGS"),
+        dialogue_acts=[DialogueAct(Intent("GREETINGS"))],
     )
     dialogue_history = Dialogue(agent_id, user_id, conversation_id)
 
@@ -184,8 +191,9 @@ def test_to_dict_d1(dialogue_history_1: Dialogue) -> None:
     assert len(dialogue_dict_1.get("conversation")) == 5
     utterance_1 = dialogue_dict_1.get("conversation")[0]
     assert utterance_1["utterance"] == "Hello"
+    assert utterance_1.get("dialogue_acts") is None
+    assert utterance_1.get("annotations") is None
     assert utterance_1["utterance ID"] == "CNV1_agent-001_0"
-    assert utterance_1.get("slot_values") is None
 
 
 def test_to_dict_d2(dialogue_history_2: Dialogue) -> None:
@@ -206,14 +214,15 @@ def test_to_dict_d2(dialogue_history_2: Dialogue) -> None:
     assert len(dialogue_dict_2.get("conversation")) == 3
 
     utterances = dialogue_dict_2.get("conversation")
+
+    assert utterances[0]["annotations"] == [["STATE", "start"]]
+
     last_utterance = utterances.pop()
-
-    assert set([(u["intent"], u.get("slot_values")) for u in utterances]) == {
-        ("GREETINGS", None)
+    assert len(last_utterance["dialogue_acts"]) == 1
+    assert last_utterance["dialogue_acts"][0] == {
+        "intent": "ELICIT",
+        "slot_values": [["COLOR", "color"]],
     }
-
-    assert last_utterance["intent"] == "ELICIT"
-    assert last_utterance["slot_values"] == [["COLOR", "color"]]
 
     assert last_utterance.get("utterance_feedback") == 1
 

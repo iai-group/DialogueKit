@@ -4,7 +4,8 @@ from unittest import mock
 
 import pytest
 
-from dialoguekit.core import AnnotatedUtterance, Intent, Utterance
+from dialoguekit.core import AnnotatedUtterance, Annotation, Intent, Utterance
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.participant import DialogueParticipant
 from dialoguekit.platforms import FlaskSocketPlatform
 from dialoguekit.platforms.flask_socket_platform import ChatNamespace, Message
@@ -46,7 +47,7 @@ def test_message_from_utterance():
     message = Message.from_utterance(utterance)
 
     assert message.text == text
-    assert message.intent is None
+    assert message.dialogue_acts is None
 
 
 def test_message_from_annotated_utterance():
@@ -54,13 +55,17 @@ def test_message_from_annotated_utterance():
     text = "Hello, world!"
     intent = "greeting"
     annotated_utterance = AnnotatedUtterance(
-        text, DialogueParticipant.AGENT, intent=Intent(intent)
+        text,
+        DialogueParticipant.AGENT,
+        dialogue_acts=[DialogueAct(intent=Intent(intent))],
     )
 
     annotated_message = Message.from_utterance(annotated_utterance)
 
     assert annotated_message.text == text
-    assert annotated_message.intent == intent
+    assert annotated_message.dialogue_acts == [
+        {"intent": intent, "annotations": []}
+    ]
 
 
 @mock.patch("flask_socketio.SocketIO.run")
@@ -118,7 +123,43 @@ def test_display_agent_utterance(send, platform):
     send.assert_called_once_with(
         {
             "recipient": user_id,
-            "message": {"text": text, "intent": None},
+            "message": {"text": text, "dialogue_acts": None},
+        },
+        room=user_id,
+    )
+
+
+@mock.patch("flask_socketio.SocketIO.send")
+def test_display_agent_annotated_utterance(send, platform):
+    """Test that the agent utterance is sent to the user."""
+    user_id = "test_user_id"
+    text = "Have you seen the movie Inception?"
+    utterance = AnnotatedUtterance(
+        text,
+        DialogueParticipant.AGENT,
+        dialogue_acts=[
+            DialogueAct(
+                intent=Intent("ELICIT"),
+                annotations=[Annotation("TITLE", "Inception")],
+            )
+        ],
+    )
+
+    platform.display_agent_utterance(user_id, utterance)
+    send.assert_called_once_with(
+        {
+            "recipient": user_id,
+            "message": {
+                "text": text,
+                "dialogue_acts": [
+                    {
+                        "intent": "ELICIT",
+                        "annotations": [
+                            {"slot": "TITLE", "value": "Inception"}
+                        ],
+                    }
+                ],
+            },
         },
         room=user_id,
     )

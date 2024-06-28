@@ -5,7 +5,7 @@ from typing import List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
-from dialoguekit.core.intent import Intent
+from dialoguekit.core.dialogue_act import DialogueAct
 
 
 class AbstractNLG(ABC):
@@ -14,7 +14,7 @@ class AbstractNLG(ABC):
     @abstractmethod
     def generate_utterance_text(
         self,
-        intent: Intent,
+        dialogue_acts: List[DialogueAct],
         annotations: Optional[Union[List[Annotation], None]] = None,
         force_annotation: bool = False,
     ) -> Union[AnnotatedUtterance, bool]:
@@ -24,9 +24,9 @@ class AbstractNLG(ABC):
         arguments and returns a textual utterance, based on the arguments.
 
         Args:
-            intent: The underlying intent of the utterance.
-            annotations: If provided, these annotations should be included in
-              the utterance.
+            dialogue_acts: Dialogue acts of the utterance to be generated.
+            annotations: If provided, these annotations should be considered
+              during generation.
             force_annotation: A flag to indicate whether annotations should be
               forced or not.
 

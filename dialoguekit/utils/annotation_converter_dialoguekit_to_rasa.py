@@ -1,4 +1,5 @@
 """Convert annotations to be compatible with the rasa models."""
+
 import json
 import time
 from collections import defaultdict
@@ -39,7 +40,7 @@ class AnnotationConverterRasa(AnnotationConverter):
         """Reformats string to be compatible with rasa.
 
         Args:
-            v: strings to be reformated.
+            v: Strings to be reformated.
 
         Returns:
             String containing the original items to be inserted into the rasa
@@ -48,9 +49,11 @@ class AnnotationConverterRasa(AnnotationConverter):
         formatted_string = LiteralString(
             "".join(
                 [
-                    "- " + s.strip() + "\n"
-                    if i > 0
-                    else "- " + s.strip() + "\n"
+                    (
+                        "- " + s.strip() + "\n"
+                        if i > 0
+                        else "- " + s.strip() + "\n"
+                    )
                     for i, s in enumerate(v)
                 ]
             )
@@ -63,8 +66,8 @@ class AnnotationConverterRasa(AnnotationConverter):
         """Used to change the python yaml data representation.
 
         Args:
-            style: Style used to represent type
-            representer: ScalerNode representer
+            style: Style used to represent type.
+            representer: ScalerNode representer.
 
         Returns:
             Representer used for rasa formatting.
@@ -81,7 +84,7 @@ class AnnotationConverterRasa(AnnotationConverter):
         """Removes whitespaces.
 
         Args:
-            utterance_text: text to be formatted.
+            utterance_text: Text to be formatted.
 
         Returns:
             String without whitespaces.
@@ -98,33 +101,55 @@ class AnnotationConverterRasa(AnnotationConverter):
 
         for conversation in data:
             for turn in conversation["conversation"]:
-                intent = turn.get("intent", None)
-                slot_values = turn.get("slot_values", [])
-                utterance = self._remove_whitespace(turn.get("utterance", ""))
+                for da in turn.get("dialogue_acts", []):
+                    intent = da.get("intent", None)
+                    slot_values = da.get("slot_values", [])
+                    utterance = self._remove_whitespace(
+                        turn.get("utterance", "")
+                    )
 
-                if len(slot_values) > 0:
-                    turn["utterance_annotated"] = utterance
-                    for annotation in slot_values:
-                        placeholder_label, value = annotation[0], annotation[1]
-                        turn["utterance_annotated"] = turn[
-                            "utterance_annotated"
-                        ].replace(f"{value}", f"{{{placeholder_label}}}", 1)
-                    # Utterance with annotation
-                    for pair in slot_values:
-                        turn["utterance_annotated"] = turn[
-                            "utterance_annotated"
-                        ].replace(
-                            f"{{{str(pair[0])}}}",
-                            "[{}]({})".format(pair[1], pair[0]),
-                            1,
-                        )
+                    if len(slot_values) > 0:
+                        turn["utterance_annotated"] = utterance
+                        for annotation in slot_values:
+                            placeholder_label, value = (
+                                annotation[0],
+                                annotation[1],
+                            )
+                            turn["utterance_annotated"] = turn[
+                                "utterance_annotated"
+                            ].replace(f"{value}", f"{{{placeholder_label}}}", 1)
+                            turn["utterance_annotated"] = turn[
+                                "utterance_annotated"
+                            ].replace(
+                                f"{{{str(annotation[0])}}}",
+                                "[{}]({})".format(annotation[1], annotation[0]),
+                                1,
+                            )
 
-                        # Annotation types with examples
-                        self._slot_value_pairs[pair[0]].add(pair[1])
+                            # Annotation types with examples
+                            self._slot_value_pairs[annotation[0]].add(
+                                annotation[1]
+                            )
 
-                # Intent with examples
-                if intent not in self._intent_examples[turn["participant"]]:
-                    self._intent_examples[turn["participant"]][intent] = set()
+                    # Intent with examples
+                    if intent not in self._intent_examples[turn["participant"]]:
+                        self._intent_examples[turn["participant"]][
+                            intent
+                        ] = set()
+
+                for annotation in turn.get("annotations", []):
+                    placeholder_label, value = annotation[0], annotation[1]
+                    turn["utterance_annotated"] = turn[
+                        "utterance_annotated"
+                    ].replace(f"{value}", f"{{{placeholder_label}}}", 1)
+                    turn["utterance_annotated"] = turn[
+                        "utterance_annotated"
+                    ].replace(
+                        f"{{{str(annotation[0])}}}",
+                        "[{}]({})".format(annotation[1], annotation[0]),
+                        1,
+                    )
+                    self._slot_value_pairs[annotation[0]].add(annotation[1])
 
                 self._intent_examples[turn["participant"]][intent].add(
                     turn.get("utterance_annotated", utterance)

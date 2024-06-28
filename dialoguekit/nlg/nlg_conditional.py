@@ -1,4 +1,5 @@
 """Conditional NLG."""
+
 import random
 from collections import defaultdict
 from copy import deepcopy
@@ -7,21 +8,21 @@ from typing import Dict, List, Optional, Union
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
 from dialoguekit.core.annotation import Annotation
-from dialoguekit.core.intent import Intent
+from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.nlg.nlg_template import TemplateNLG
 from dialoguekit.participant.participant import DialogueParticipant
 
 
 class ConditionalNLG(TemplateNLG):
     def __init__(
-        self, response_templates: Dict[Intent, List[AnnotatedUtterance]]
+        self, response_templates: Dict[str, List[AnnotatedUtterance]]
     ) -> None:
         """Template-based NLG with support for conditional."""
         super().__init__(response_templates=response_templates)
 
     def generate_utterance_text(
         self,
-        intent: Intent,
+        dialogue_acts: List[DialogueAct],
         annotations: Optional[Union[List[Annotation], None]] = None,
         force_annotation: Optional[bool] = False,
     ) -> AnnotatedUtterance:
@@ -54,7 +55,7 @@ class ConditionalNLG(TemplateNLG):
 
 
         Args:
-            intent: The intent of the wanted Utterance.
+            dialogue_acts: The dialogue acts of the wanted Utterance.
             annotations: The wanted annotations in the response Utterance.
             force_annotation: if 'True' and 'annotations' are provided,
               responses without annotations will also be filtered out during
@@ -70,14 +71,14 @@ class ConditionalNLG(TemplateNLG):
                 raised.
         """
         return self.generate_utterance_text_conditional(
-            intent=intent,
+            dialogue_acts=dialogue_acts,
             annotations=annotations,
             force_annotation=force_annotation,
         )
 
     def generate_utterance_text_conditional(
         self,
-        intent: Intent,
+        dialogue_acts: List[DialogueAct],
         annotations: Optional[Union[List[Annotation], None]] = None,
         conditional: Optional[Union[str, None]] = None,
         conditional_value: Optional[Union[Number, None]] = None,
@@ -105,7 +106,7 @@ class ConditionalNLG(TemplateNLG):
                 Select a random one without looking at the conditional_value.
 
         Args:
-            intent: The intent of the wanted Utterance.
+            dialogue_acts: The dialogue acts of the wanted Utterance.
             annotations: The wanted annotations in the response Utterance.
             conditional: The desired metadata field to use as a conditional.
             conditional_value: The desired conditional value score.
@@ -127,20 +128,24 @@ class ConditionalNLG(TemplateNLG):
                 "The template is not generated, use of of the\
                 template_from methods"
             )
+
         if annotations is None:
             annotations = []
 
-        templates = self._response_templates.get(intent)
+        templates = self._response_templates.get(
+            ";".join([da.intent.label for da in dialogue_acts])
+        )
 
         # If desired 'intent' is not in the template, use fallback.
         if templates is None:
             return AnnotatedUtterance(
-                intent=intent,
+                dialogue_acts=dialogue_acts,
                 text="Sorry, I did not understand you.",
                 participant=DialogueParticipant.AGENT,
             )
         templates = self._filter_templates(
             templates=templates,
+            dialogue_acts=dialogue_acts,
             annotations=annotations,
             force_annotation=force_annotation,
         )
@@ -158,15 +163,14 @@ class ConditionalNLG(TemplateNLG):
             response_utterance = random.choice(templates)
             response_utterance = deepcopy(response_utterance)
 
-        # Clear out annotations
+        # Clear out dialogue acts and annotations
+        response_utterance.dialogue_acts = []
         response_utterance.annotations = []
 
-        if annotations is not None:
-            for annotation in annotations:
-                response_utterance.text = response_utterance.text.replace(
-                    f"{{{annotation.slot}}}", annotation.value, 1
-                )
-            response_utterance.add_annotations(annotations)
+        # If annotations are provided, use them to fill in the template
+        response_utterance = self._fill_template_with_annotations(
+            response_utterance, dialogue_acts, annotations
+        )
         return response_utterance
 
     def _select_closest_to_conditional(
