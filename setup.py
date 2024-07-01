@@ -1,4 +1,5 @@
 """Packaging of DialogueKit."""
+
 import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -9,7 +10,7 @@ packages = setuptools.find_packages(where="dialoguekit")
 
 setuptools.setup(
     name="dialoguekit",
-    version="0.0.9dev0",
+    version="0.0.9dev1",
     author="Jafar Afzali, Krisztian Balog, Nolwenn Bernard, \
         Aleksander Drzewiecki and Shuo Zhang",
     author_email="author@example.com",
