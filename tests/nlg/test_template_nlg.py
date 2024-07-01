@@ -1,12 +1,13 @@
 """Test cases for NLG."""
+
 import json
 
 import pytest
 
 from dialoguekit.core.annotated_utterance import AnnotatedUtterance
-from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
 from dialoguekit.nlg.nlg_template import TemplateNLG
 from dialoguekit.nlg.template_from_training_data import (
     extract_utterance_template,
@@ -35,7 +36,9 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
             DialogueAct(
                 intent=Intent("REVEAL.EXPAND"),
                 annotations=[
-                    Annotation(slot="TITLE", value="A Test Movie Title")
+                    SlotValueAnnotation(
+                        slot="TITLE", value="A Test Movie Title"
+                    )
                 ],
             )
         ],
@@ -48,7 +51,9 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
                 DialogueAct(
                     intent=Intent("REVEAL.EXPAND"),
                     annotations=[
-                        Annotation(slot="TITLE", value="A Test Movie Title")
+                        SlotValueAnnotation(
+                            slot="TITLE", value="A Test Movie Title"
+                        )
                     ],
                 )
             ],
@@ -81,7 +86,9 @@ def test_generate_utterance_text_force_annotation(nlg_class: TemplateNLG):
             DialogueAct(
                 intent=Intent("TRAVERSE.REPEAT"),
                 annotations=[
-                    Annotation(slot="DIRECTOR", value="TEST_DIRECTOR_NAME")
+                    SlotValueAnnotation(
+                        slot="DIRECTOR", value="TEST_DIRECTOR_NAME"
+                    )
                 ],
             )
         ],
@@ -106,7 +113,7 @@ def test_filter_templates(nlg_class: TemplateNLG):
             DialogueAct(
                 intent=Intent("REVEAL.EXPAND"),
                 annotations=[
-                    Annotation(slot="TITLE", value="test_movie_title")
+                    SlotValueAnnotation(slot="TITLE", value="test_movie_title")
                 ],
             )
         ],

@@ -1,4 +1,5 @@
 """Tests slot_value_annotation class."""
+
 from dialoguekit.core import SlotValueAnnotation
 
 

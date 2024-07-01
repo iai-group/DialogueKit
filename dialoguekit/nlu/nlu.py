@@ -2,18 +2,18 @@
 
 from typing import List
 
-from dialoguekit.core.annotation import Annotation
 from dialoguekit.core.intent import Intent
+from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlu.intent_classifier import IntentClassifier
-from dialoguekit.nlu.slot_annotator import SlotAnnotator
+from dialoguekit.nlu.slot_annotator import SlotValueAnnotator
 
 
 class NLU:
     def __init__(
         self,
         intent_classifier: IntentClassifier,
-        slot_annotators: List[SlotAnnotator],
+        slot_annotators: List[SlotValueAnnotator],
     ) -> None:
         """Represents a Natural Language Understanding (NLU) component.
 
@@ -28,7 +28,9 @@ class NLU:
         """Classifies the intent of a given agent utterance."""
         return self._intent_classifier.classify_intent(utterance)
 
-    def annotate_slot_values(self, utterance: Utterance) -> List[Annotation]:
+    def annotate_slot_values(
+        self, utterance: Utterance
+    ) -> List[SlotValueAnnotation]:
         """Annotates a given utterance with slot annotators.
 
         Args:

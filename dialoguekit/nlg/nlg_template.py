@@ -134,14 +134,15 @@ class TemplateNLG(AbstractNLG):
         """
         for da in dialogue_acts:
             if da.annotations:
-                for annotation in da.annotations:
+                for da_annotation in da.annotations:
                     response_utterance.text = response_utterance.text.replace(
-                        f"{{{annotation.slot}}}", annotation.value, 1
+                        f"{{{da_annotation.slot}}}", da_annotation.value, 1
                     )
             response_utterance.add_dialogue_acts([da])
+
         for annotation in annotations:
             response_utterance.text = response_utterance.text.replace(
-                f"{{{annotation.slot}}}", annotation.value, 1
+                f"{{{annotation.key}}}", annotation.value, 1
             )
             response_utterance.add_annotations([annotation])
         return response_utterance
@@ -195,7 +196,7 @@ class TemplateNLG(AbstractNLG):
                 for annotation in da.annotations
             ]
         )
-        annotations_slots = set([annotation.slot for annotation in annotations])
+        annotations_slots = set([annotation.key for annotation in annotations])
 
         for annotated_utterance in templates:
             utterance_da_slots = set(
@@ -208,7 +209,7 @@ class TemplateNLG(AbstractNLG):
             )
             utterance_slots = set(
                 [
-                    annotation.slot
+                    annotation.key
                     for annotation in annotated_utterance.annotations
                 ]
             )

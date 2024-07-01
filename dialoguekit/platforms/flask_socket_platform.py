@@ -1,4 +1,5 @@
 """The Platform facilitates displaying of the conversation."""
+
 from __future__ import annotations
 
 import logging

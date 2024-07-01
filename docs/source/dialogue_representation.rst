@@ -36,11 +36,11 @@ Annotations
 
 :py:mod:`dialoguekit.core.annotation`
 
-By default, an annotation has a slot and a value, for example, the slot *price* has the value *$10* in the following utterance *"This dish costs $10."*.
+By default, an annotation has a key and an optional value, for example, the key *satisfaction* has the value *True* in the following utterance *"That's perfect, thanks!"*.
 
 DialogueKit is shipped with:
 
-* **SlotValueAnnotation** :py:mod:`dialoguekit.core.slot_value_annotation`: slot-value pairs, where a slot refers to an entity or a property in the domain.
+* **SlotValueAnnotation** :py:mod:`dialoguekit.core.slot_value_annotation`: slot-value pairs, where a slot refers to an entity or a property in the domain. For example, the utterance *"This dish costs $10."* can be annotated with the slot-value pair *price: 10*. Additionally, the slot-value annotation can store the start and end character positions of the value in the utterance.
 
 Other types of annotation can be implemented by inheriting from :py:class:`dialoguekit.core.annotation.Annotation`.
 
