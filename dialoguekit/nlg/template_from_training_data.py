@@ -48,7 +48,7 @@ def _replace_slot_with_placeholder(
     dialogue_acts = annotated_utterance.dialogue_acts
     for da in dialogue_acts:
         for annotation in da.annotations:
-            placeholder_label, value = annotation.key, annotation.value
+            placeholder_label, value = annotation.slot, annotation.value
             annotated_utterance.text = annotated_utterance.text.replace(
                 value, f"{{{placeholder_label}}}", 1
             )

@@ -197,7 +197,7 @@ class IntentClassifierRasa(IntentClassifier, SlotValueAnnotator):
         ]
         slot_value_annotation = [
             SlotValueAnnotation(
-                key=found_entity["entity"],
+                slot=found_entity["entity"],
                 value=found_entity["value"],
                 start=found_entity["start"],
                 end=found_entity["end"],

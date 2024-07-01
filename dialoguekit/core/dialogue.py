@@ -161,7 +161,7 @@ class Dialogue:
                             ),
                             "slot_values": [
                                 [
-                                    annotation.key,
+                                    annotation.slot,
                                     annotation.value,
                                     annotation.start,
                                     annotation.end,

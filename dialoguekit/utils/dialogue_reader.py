@@ -72,7 +72,7 @@ def json_to_annotated_utterance(
         annotations = da.get(_FIELD_SLOT_VALUES, [])
         if annotations:
             annotations = [
-                SlotValueAnnotation(key=slot, value=value, start=start, end=end)
+                SlotValueAnnotation(slot, value, start, end)
                 for slot, value, start, end in annotations
             ]
 
@@ -81,7 +81,7 @@ def json_to_annotated_utterance(
     annotations = json_utterance.get(_FIELD_ANNOTATIONS, [])
     if annotations:
         annotations = [
-            Annotation(key=slot, value=value) for slot, value in annotations
+            Annotation(key=key, value=value) for key, value in annotations
         ]
 
     metadata = {}

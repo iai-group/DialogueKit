@@ -47,7 +47,7 @@ class Message:
                 {
                     "intent": str(da.intent),
                     "annotations": [
-                        {"slot": annotation.key, "value": annotation.value}
+                        {"slot": annotation.slot, "value": annotation.value}
                         for annotation in da.annotations
                     ],
                 }

@@ -177,8 +177,8 @@ def test_replace_slot_with_placeholder():
         [
             DialogueAct(
                 annotations=[
-                    SlotValueAnnotation(key="GENRE", value="action"),
-                    SlotValueAnnotation(key="GENRE", value="fantasy"),
+                    SlotValueAnnotation(slot="GENRE", value="action"),
+                    SlotValueAnnotation(slot="GENRE", value="fantasy"),
                 ]
             )
         ]
@@ -191,7 +191,7 @@ def test_replace_slot_with_placeholder():
         [
             DialogueAct(
                 annotations=[
-                    SlotValueAnnotation(key="TITLE", value="old street")
+                    SlotValueAnnotation(slot="TITLE", value="old street")
                 ]
             )
         ]
@@ -237,7 +237,8 @@ def test_extract_utterance_template():
         text="something like the {TITLE}",
         dialogue_acts=[
             DialogueAct(
-                Intent("REVEAL.EXPAND"), [SlotValueAnnotation(key="TITLE")]
+                Intent("REVEAL.EXPAND"),
+                [SlotValueAnnotation(slot="TITLE")],
             )
         ],
         participant=DialogueParticipant.AGENT,

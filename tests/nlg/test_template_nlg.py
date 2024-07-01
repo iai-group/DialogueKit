@@ -36,7 +36,9 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
             DialogueAct(
                 intent=Intent("REVEAL.EXPAND"),
                 annotations=[
-                    SlotValueAnnotation(key="TITLE", value="A Test Movie Title")
+                    SlotValueAnnotation(
+                        slot="TITLE", value="A Test Movie Title"
+                    )
                 ],
             )
         ],
@@ -50,7 +52,7 @@ def test_generate_utterance_text(nlg_class: TemplateNLG):
                     intent=Intent("REVEAL.EXPAND"),
                     annotations=[
                         SlotValueAnnotation(
-                            key="TITLE", value="A Test Movie Title"
+                            slot="TITLE", value="A Test Movie Title"
                         )
                     ],
                 )
@@ -85,7 +87,7 @@ def test_generate_utterance_text_force_annotation(nlg_class: TemplateNLG):
                 intent=Intent("TRAVERSE.REPEAT"),
                 annotations=[
                     SlotValueAnnotation(
-                        key="DIRECTOR", value="TEST_DIRECTOR_NAME"
+                        slot="DIRECTOR", value="TEST_DIRECTOR_NAME"
                     )
                 ],
             )
@@ -111,7 +113,7 @@ def test_filter_templates(nlg_class: TemplateNLG):
             DialogueAct(
                 intent=Intent("REVEAL.EXPAND"),
                 annotations=[
-                    SlotValueAnnotation(key="TITLE", value="test_movie_title")
+                    SlotValueAnnotation(slot="TITLE", value="test_movie_title")
                 ],
             )
         ],
