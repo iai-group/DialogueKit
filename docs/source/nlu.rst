@@ -1,10 +1,20 @@
 Natural Language Understanding (NLU)
 ====================================
 
-The NLU component is responsible for obtaining a structured representation of text utterances. Currently, it entails intent classification, entity recognition, and user satisfaction prediction.
+The NLU component is responsible for obtaining a structured representation of text utterances. Currently, it entails dialogue acts recognition, key-value annotation, and user satisfaction prediction.
+
+Dialogue Acts Recognition
+-------------------------
+
+A dialogue act is a semantic unit that comprises one intent and slot-value pairs; an utterance can have multiple dialogue acts. The task of dialogue act recognition can be seen as a combination of intent classification and slot filling. These subtasks can be performed jointly or disjointly. DialogueKit is designed to support both approaches, see base classes: :py:mod:`dialoguekit.nlu.dialogue_acts_extractor.DialogueActsExtractor` and :py:mod:`dialoguekit.nlu.disjoint_dialogue_act_extractor.DisjointDialogueActExtractor`.
+
+Disjoint Dialogue Act Recognition
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In this component, the task of intent classification and slot filling are performed in a disjoint manner. That is, the intent classifier predicts the intent of the utterance, while the slot filler predicts the slot-value pairs in the utterance. These are then combined to form one dialogue act.
 
 Intent Classification
----------------------
+"""""""""""""""""""""
 
 Thus far two different NLU pipelines are implemented for intent classification.
 
@@ -14,24 +24,22 @@ Thus far two different NLU pipelines are implemented for intent classification.
 
 See below for details on how the Rasa DIET classifier is used in our implementation.
 
-Rasa as a component library
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+**Rasa as a component library**
 
-*diet_classifier_rasa* implement Rasa's DIET classifier. This is a Dual Intent and Entity Transformer, their paper can be read 
+:py:class:`dialoguekit.nlu.models.diet_classifier_rasa.IntentClassifierRasa` implement Rasa's DIET classifier. This is a Dual Intent and Entity Transformer, their paper can be read 
 `here. <https://arxiv.org/pdf/2004.09936.pdf>`_
 
 Normally, one would use Rasa as the underlying platform. Here, instead, we use it as a component in DialogueKit. Rasa is distributed with a Apache 2.0 license, granting us free use.
 
-General idea
-""""""""""""
+*General idea*
+
 
 In general, the idea is to import the necessary packages and re-implement the Rasa workflow with their components and structures. 
 However, because of how Rasa is structured, DialogueKit objects need to be transformed to Rasa components before use.
 
-Implementation
-""""""""""""""
+*Implementation*
 
-The implementation is in *diet_classifier_rasa*; this model can be trained and thus uses multiple Rasa components and structures.
+The implementation is in :py:mod:`dialoguekit.nlu.models.diet_classifier_rasa`; this model can be trained and thus uses multiple Rasa components and structures.
 Below is a list of all the Rasa imports that are used.
 
 .. code-block:: python
@@ -49,8 +57,8 @@ Below is a list of all the Rasa imports that are used.
     from rasa.nlu.classifiers.diet_classifier import DIETClassifier
     from rasa.shared.importers.rasa import RasaFileImporter
 
-Entity Extraction
------------------
+Slot Filling
+""""""""""""
 
 As of now only one implementation exists, the Rasa DIET classifier.
 

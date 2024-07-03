@@ -5,9 +5,10 @@ from typing import List
 
 from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
 from dialoguekit.core.utterance import Utterance
+from dialoguekit.nlu.annotator import Annotator
 
 
-class SlotValueAnnotator(abc.ABC):
+class SlotValueAnnotator(Annotator):
     def __init__(self) -> None:
         """Instantiates a slot annotator."""
         super().__init__()

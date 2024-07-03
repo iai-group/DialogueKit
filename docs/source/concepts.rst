@@ -30,9 +30,9 @@ Natural Language Understanding (NLU)
 ------------------------------------
 
 NLU is responsible for obtaining a structured representation of raw text utterances.
-Currently, it entails intent classification, entity recognition, and user satisfaction prediction.
+Currently, it entails dialogue acts recognition, key-value annotation, and user satisfaction prediction.
 
-For example, in case of restaurant recommendation, the intent *DISCLOSE* and the slot value pair (*food*, *Turkish*) can be extracted from the utterance "I am looking for a cheap Turkish restaurant."
+For example, in case of restaurant recommendation, the dialogue act *DISCLOSE(food=Turkish,price=cheap)* can be extracted from the utterance "I am looking for a cheap Turkish restaurant."
 
 Natural Language Generation (NLG)
 ---------------------------------
