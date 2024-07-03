@@ -41,6 +41,7 @@ class Annotator(ABC):
         """
         raise NotImplementedError
 
+    @classmethod
     @abstractmethod
     def load_annotator(self, path: str) -> Annotator:
         """Loads the annotator from a path.

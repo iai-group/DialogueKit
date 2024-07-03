@@ -259,9 +259,9 @@ class IntentClassifierRasa(IntentClassifier, SlotValueAnnotator):
             classified_message = self._diet.process([message])[0]
 
             # Add to cache
-            self._processes_utterances[classified_message.data["text"]] = (
-                classified_message
-            )
+            self._processes_utterances[
+                classified_message.data["text"]
+            ] = classified_message
 
     def process_message(
         self, loaded_pipeline: List[GraphComponent], message: Message
@@ -299,6 +299,7 @@ class IntentClassifierRasa(IntentClassifier, SlotValueAnnotator):
         """
         self.save_model(path)
 
+    @classmethod
     def load_model(self, file_path: str) -> IntentClassifierRasa:
         """Loads a model from a file.
 
@@ -313,6 +314,7 @@ class IntentClassifierRasa(IntentClassifier, SlotValueAnnotator):
         """
         raise NotImplementedError
 
+    @classmethod
     def load_annotator(self, path: str) -> IntentClassifierRasa:
         """Loads the model from a given path.
 
@@ -322,4 +324,4 @@ class IntentClassifierRasa(IntentClassifier, SlotValueAnnotator):
         Returns:
             Loaded model.
         """
-        self.load_model(path)
+        return self.load_model(path)

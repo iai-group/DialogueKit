@@ -8,7 +8,7 @@ annotators.
 from __future__ import annotations
 
 import os
-from typing import List
+from typing import List, cast
 
 from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.intent import Intent
@@ -84,6 +84,7 @@ class DisjointDialogueActExtractor(DialogueActsExtractor):
             slot_annotator_path = os.path.join(path, f"slot_annotator_{i}")
             slot_annotator.save_annotator(slot_annotator_path)
 
+    @classmethod
     def load(self, path: str) -> DisjointDialogueActExtractor:
         """Loads the intent classifier and slot annotators from a folder.
 
@@ -100,15 +101,19 @@ class DisjointDialogueActExtractor(DialogueActsExtractor):
             raise FileNotFoundError(f"Folder {path} does not exist")
 
         intent_classifier_path = os.path.join(path, "intent_classifier")
-        intent_classifier = self._intent_classifier.load_model(
-            intent_classifier_path
-        )
+        intent_classifier = IntentClassifier.load_model(intent_classifier_path)
 
-        slot_annotators = []
-        for i, slot_annotator in enumerate(self._slot_value_annotators):
-            slot_annotator_path = os.path.join(path, f"slot_annotator_{i}")
-            slot_annotators.append(
-                slot_annotator.load_annotator(slot_annotator_path)
+        slot_value_annotators = []
+        for _, slot_annotator_filename in enumerate(
+            filter(lambda x: "slot_annotator" in x, os.listdir(path))
+        ):
+            slot_annotator = SlotValueAnnotator.load_annotator(
+                os.path.join(path, slot_annotator_filename)
+            )
+            slot_value_annotators.append(
+                cast(SlotValueAnnotator, slot_annotator)
             )
 
-        return DisjointDialogueActExtractor(intent_classifier, slot_annotators)
+        return DisjointDialogueActExtractor(
+            intent_classifier, slot_value_annotators
+        )

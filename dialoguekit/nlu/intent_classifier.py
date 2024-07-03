@@ -63,6 +63,7 @@ class IntentClassifier(ABC):
         """
         raise NotImplementedError
 
+    @classmethod
     @abstractmethod
     def load_model(self, file_path: str) -> None:
         """Loads a model from a file.

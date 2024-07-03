@@ -41,6 +41,7 @@ class DialogueActsExtractor(ABC):
         """
         raise NotImplementedError
 
+    @classmethod
     @abstractmethod
     def load(self, path: str) -> DialogueActsExtractor:
         """Loads the dialogue act extractor from a path.

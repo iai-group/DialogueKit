@@ -77,6 +77,7 @@ class IntentClassifierCosine(IntentClassifier):
         dump(self._tfidf_vectorizer, f"{file_path}_vectorizer.joblib")
         dump(self._labels, f"{file_path}_labels.joblib")
 
+    @classmethod
     def load_model(self, file_path: str) -> None:
         """Loads a model from a file.
 

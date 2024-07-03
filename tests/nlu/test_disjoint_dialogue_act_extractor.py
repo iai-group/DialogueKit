@@ -1,6 +1,6 @@
 """Tests for disjoint dialogue act extractor."""
 
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 import pytest
 
@@ -10,8 +10,6 @@ from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlu.disjoint_dialogue_act_extractor import (
     DisjointDialogueActExtractor,
 )
-from dialoguekit.nlu.intent_classifier import IntentClassifier
-from dialoguekit.nlu.slot_value_annotator import SlotValueAnnotator
 from dialoguekit.participant.participant import DialogueParticipant
 
 
@@ -46,6 +44,7 @@ def dialogue_act_extractor(
 def test_extract_dialogue_acts(
     dialogue_act_extractor: DisjointDialogueActExtractor,
 ) -> None:
+    """Test dialogue act extraction."""
     utterance = Utterance(
         "I am looking for an action movie", DialogueParticipant.USER
     )
