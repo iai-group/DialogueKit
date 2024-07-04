@@ -1,4 +1,4 @@
-"""Extension of DialogueKit's NLU module."""
+"""Natural language understanding."""
 
 from typing import List
 
