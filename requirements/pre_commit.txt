@@ -6,7 +6,7 @@ pytest
 pytest-cov
 pydocstyle==6.1.1
 mypy==1.11.1
-types-setuptools
+typeshed
 docformatter
 types-PyYAML
 types-requests
