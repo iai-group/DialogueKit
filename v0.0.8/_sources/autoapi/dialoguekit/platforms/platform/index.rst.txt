@@ -1,0 +1,43 @@
+dialoguekit.platforms.platform
+==============================
+
+.. py:module:: dialoguekit.platforms.platform
+
+.. autoapi-nested-parse::
+
+   The Platform facilitates displaying of the conversation.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.platforms.platform.Platform
+
+
+Module Contents
+---------------
+
+.. py:class:: Platform
+
+   Represents a platform.
+
+
+   .. py:method:: display_agent_utterance(utterance: dialoguekit.core.utterance.Utterance) -> None
+
+      Diplays an agent utterance.
+
+      :param utterance: An instance of Utterance.
+
+
+
+   .. py:method:: display_user_utterance(utterance: dialoguekit.core.utterance.Utterance) -> None
+
+      Diplays a user utterance.
+
+      :param utterance: An instance of Utterance.
+
+
+

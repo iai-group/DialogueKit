@@ -1,0 +1,52 @@
+dialoguekit.nlg.nlg_abstract
+============================
+
+.. py:module:: dialoguekit.nlg.nlg_abstract
+
+.. autoapi-nested-parse::
+
+   Abstract interface for NLG.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlg.nlg_abstract.AbstractNLG
+
+
+Module Contents
+---------------
+
+.. py:class:: AbstractNLG
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Represents a Natural Language Generation (NLG) component.
+
+
+   .. py:method:: generate_utterance_text(intent: dialoguekit.core.intent.Intent, annotations: Optional[Union[List[dialoguekit.core.annotation.Annotation], None]] = None, force_annotation: bool = False) -> Union[dialoguekit.core.annotated_utterance.AnnotatedUtterance, bool]
+      :abstractmethod:
+
+
+      Turns a structured utterance into a textual one.
+
+      This method is supposed to be implemented in a way that takes the
+      arguments and returns a textual utterance, based on the arguments.
+
+      :param intent: The underlying intent of the utterance.
+      :param annotations: If provided, these annotations should be included in
+                          the utterance.
+      :param force_annotation: A flag to indicate whether annotations should be
+                               forced or not.
+
+      :returns: Generated response using templates.
+                If generation fails, False should be returned.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+
+

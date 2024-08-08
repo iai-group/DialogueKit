@@ -1,0 +1,118 @@
+dialoguekit.utils.annotation_converter_dialoguekit_to_rasa
+==========================================================
+
+.. py:module:: dialoguekit.utils.annotation_converter_dialoguekit_to_rasa
+
+.. autoapi-nested-parse::
+
+   Convert annotations to be compatible with the rasa models.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.converter
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.LiteralString
+   dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa
+
+
+Module Contents
+---------------
+
+.. py:class:: LiteralString
+
+   Bases: :py:obj:`str`
+
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+.. py:class:: AnnotationConverterRasa(filepath: Optional[str] = '', save_to_path: Optional[str] = None)
+
+   Bases: :py:obj:`dialoguekit.utils.annotation_converter.AnnotationConverter`
+
+
+   Converts annotations to be compatible with rasa.
+
+   :param filepath: Training data path.
+   :param save_to_path: Path to store the converted annotations.
+
+
+   .. py:method:: rasa_string(v: List[str]) -> str
+
+      Reformats string to be compatible with rasa.
+
+      :param v: strings to be reformated.
+
+      :returns: String containing the original items to be inserted into the rasa
+                training data.
+
+
+
+   .. py:method:: change_style(style: str, representer: Callable) -> Callable[[Any, Any], Any]
+
+      Used to change the python yaml data representation.
+
+      :param style: Style used to represent type
+      :param representer: ScalerNode representer
+
+      :returns: Representer used for rasa formatting.
+
+
+
+   .. py:method:: read_original() -> None
+
+      Reads the original training data.
+
+
+
+   .. py:method:: run() -> Dict[str, str]
+
+      Generates 4 conversions of DialogueKit to Rasa compatible files.
+
+      The generated files are saved in the self._save_to_path.
+
+      Generated files:
+          1. <originalname>_reformat.yaml
+              The original file saved as a yaml
+
+          2. <originalname>_types_w_examples.yaml
+              The entity types with the corresponding entities identified in
+              the text. Used to debug and give an overview
+
+          3. <originalname>_rasa_user.yaml
+              Conversion of the annotation file to a rasa nlu doc.
+              This file represents the USER utterances with intents
+
+          4. <originalname>_rasa_agent.yaml
+              Conversion of the annotation file to a rasa nlu doc.
+              This file represents the AGENT utterances with intents
+
+      :returns: path to file pairs
+      :rtype: Filename
+
+
+
+   .. py:method:: dialoguekit_to_rasa(utterances: List[dialoguekit.core.utterance.Utterance], intents: List[dialoguekit.core.intent.Intent]) -> str
+
+      Converts utterances to be rasa compatible.
+
+      :param utterances: Utterances to convert.
+      :param intents: The intents of the utterances.
+
+      :returns: Rasa string with the utterances.
+
+
+
+.. py:data:: converter
+

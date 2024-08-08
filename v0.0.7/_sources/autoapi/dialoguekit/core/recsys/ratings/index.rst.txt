@@ -1,0 +1,95 @@
+dialoguekit.core.recsys.ratings
+===============================
+
+.. py:module:: dialoguekit.core.recsys.ratings
+
+.. autoapi-nested-parse::
+
+   Represents item ratings and provides access either based on items or users.
+
+   Ratings are normalized in the [-1,1] range, where -1 corresponds to
+   (strong) dislike, 0 is neutral, and 1 is (strong) like.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.recsys.ratings.Ratings
+
+
+Module Contents
+---------------
+
+.. py:class:: Ratings(item_collection: dialoguekit.core.recsys.item_collection.ItemCollection = None)
+
+   Initializes a ratings instance.
+
+   :param item_collection: If provided, only ratings on items in
+                           ItemCollection are accepted.
+   :type item_collection: optional
+
+
+   .. py:method:: load_ratings_csv(file_path: str, delimiter: str = ',', min_rating: float = 0.5, max_rating: float = 5.0) -> None
+
+      Loads ratings from a csv file.
+
+      The file is assumed to have userID, itemID, and rating columns
+      (following the MovieLens format). Additional columns that may be present
+      are ignored. UserID and itemID are strings, rating is a float.
+
+      Ratings are assumed to be given in the [min_rating, max_rating] range,
+      which gets normalized into the [-1,1] range. (Default min/max rating
+      values are based on the MovieLens collection.)
+
+      If an ItemCollection is provided in the constructor, then ratings are
+      filtered to items that are present in the collection.
+
+      :param file_path: Path to CSV file.
+      :param delimiter: Field separator (default: comma).
+      :param min_rating: Minimum rating (default: 0.5).
+      :param max_rating: Maximum rating (default: 5.0).
+
+
+
+   .. py:method:: get_user_ratings(user_id: str) -> Dict[str, float]
+
+      Returns all ratings of a given user.
+
+      :param user_id: User ID.
+
+      :returns: Dictionary with item IDs as keys and ratings as values.
+
+
+
+   .. py:method:: get_item_ratings(item_id: str) -> Dict[str, float]
+
+      Returns all ratings given to a specific item.
+
+      :param item_id: Item ID.
+
+      :returns: Dictionary with user IDs as keys and ratings as values.
+
+
+
+   .. py:method:: get_user_item_rating(user_id: str, item_id: str) -> Optional[float]
+
+      Returns the rating by a given user on a specific item.
+
+      :param user_id: User ID.
+      :param item_id: Item ID.
+
+      :returns: Rating as float or None.
+
+
+
+   .. py:method:: get_random_user_id() -> str
+
+      Returns a random user ID.
+
+      :returns: User ID.
+
+
+

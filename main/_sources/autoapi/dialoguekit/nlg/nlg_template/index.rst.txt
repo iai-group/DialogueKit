@@ -1,0 +1,111 @@
+dialoguekit.nlg.nlg_template
+============================
+
+.. py:module:: dialoguekit.nlg.nlg_template
+
+.. autoapi-nested-parse::
+
+   NLG component.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlg.nlg_template.TemplateNLG
+
+
+Module Contents
+---------------
+
+.. py:class:: TemplateNLG(response_templates: Dict[str, List[dialoguekit.core.annotated_utterance.AnnotatedUtterance]])
+
+   Bases: :py:obj:`dialoguekit.nlg.nlg_abstract.AbstractNLG`
+
+
+   Template-based NLG.
+
+   To use this NLG component, one of the template extraction methods from
+   `template_from_training_data.py` has to be used.
+
+   :param response_templates: Response templates for NLG.
+
+
+   .. py:method:: generate_utterance_text(dialogue_acts: List[dialoguekit.core.dialogue_act.DialogueAct], annotations: Optional[Union[List[dialoguekit.core.annotation.Annotation], None]] = None, force_annotation: Optional[bool] = False) -> dialoguekit.core.annotated_utterance.AnnotatedUtterance
+
+      Turns a structured utterance into a textual one.
+
+      .. note::
+
+          If the template does not contain the desired intent, a fallback will
+          be used. Stating "Sorry, I did not understand you." The response
+          will have the same 'intent'.
+
+      Generating a response is a multi-step process:
+
+      1. Responses to the desired 'intent' will be selected.
+
+      2. Based on the list of 'annotations', only the possible responses are
+         kept, i.e., filter out responses that are not usable.
+
+      3. If 'satisfaction' is provided:
+         Filter to the closest responses that are possible, and select a
+         random one.
+
+      4. If 'satisfaction' is not provided:
+         Select a random one without looking at the satisfaction metric.
+
+
+      :param dialogue_acts: The dialogue acts of the wanted Utterance.
+      :param annotations: The wanted annotations in the response Utterance.
+      :param force_annotation: if 'True' and 'annotations' are provided,
+                               responses without annotations will also be filtered out during
+                               step 2.
+
+      :returns: Generated response utterance using templates.
+
+                .. note::
+
+                    Note: if the filtering after step 1 and 2 does not find any
+                    response that satisfies the criteria 'ValueError' will be
+                    raised.
+
+
+
+   .. py:method:: dump_template(filepath: str) -> None
+
+      Dump template to JSON.
+
+
+
+   .. py:method:: get_intent_annotation_specifications(dialogue_acts: List[dialoguekit.core.dialogue_act.DialogueAct]) -> Dict[str, Dict[str, Any]]
+
+      Returns dictionary with the min and max annotated utterances.
+
+      The dictionary is structured as such:
+
+      .. code:: python
+
+          {
+              "min":{
+                  "amount": int
+                  "examples": List[AnnotatedUtterance]
+              }
+              "max":{
+                  "amount": int
+                  "examples": List[AnnotatedUtterance]
+              }
+          }
+
+      This is useful if you want to look into which options the NLG has for a
+      specific Intent and which annotations are needed.
+
+      :param dialogue_acts: List of dialogue acts of the desired responses.
+
+      :returns: _description_
+      :rtype: List[Annotation]
+
+
+

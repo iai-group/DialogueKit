@@ -1,0 +1,87 @@
+dialoguekit.nlu.intent_classifier
+=================================
+
+.. py:module:: dialoguekit.nlu.intent_classifier
+
+.. autoapi-nested-parse::
+
+   Abstract interface for intent classification.
+
+   This interface assumes a single intent per utterance, i.a., approaches
+   the task as a single-label classification problem. The generalization to
+   multi-label classification is left to future work.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.intent_classifier.IntentClassifier
+
+
+Module Contents
+---------------
+
+.. py:class:: IntentClassifier(intents: List[dialoguekit.core.intent.Intent])
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Initializes the intent classifier.
+
+   :param intents: List of allowed intents.
+
+
+   .. py:method:: train_model(utterances: List[dialoguekit.core.utterance.Utterance], labels: List[dialoguekit.core.intent.Intent]) -> None
+      :abstractmethod:
+
+
+      Trains a model based on a set of labeled utterances.
+
+      :param utterances: List of Utterance instances.
+      :param labels: List of associated intent labels.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+
+
+   .. py:method:: classify_intent(utterance: dialoguekit.core.utterance.Utterance) -> dialoguekit.core.intent.Intent
+      :abstractmethod:
+
+
+      Classifies the intent of an utterance.
+
+      :param utterance: An utterance.
+
+      :returns: Predicted intent.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+
+
+   .. py:method:: save_model(file_path: str) -> None
+      :abstractmethod:
+
+
+      Saves the trained model to a file.
+
+      :param file_path: File path.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+
+
+   .. py:method:: load_model(file_path: str) -> None
+      :abstractmethod:
+
+
+      Loads a model from a file.
+
+      :param file_path: File path.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+
+
