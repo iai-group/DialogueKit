@@ -56,3 +56,20 @@ def test_extract_dialogue_acts(
     assert extracted_dialogue_acts[0].annotations == [
         SlotValueAnnotation("GENRE", "action")
     ]
+
+
+def test_extract_dialogue_acts_no_intent(
+    dialogue_act_extractor: DisjointDialogueActExtractor,
+) -> None:
+    """Test dialogue act extraction with no intent."""
+    utterance = Utterance(
+        "I am looking for an action movie", DialogueParticipant.USER
+    )
+    dialogue_act_extractor._intent_classifier.classify_intent.return_value = (
+        None
+    )
+    extracted_dialogue_acts = dialogue_act_extractor.extract_dialogue_acts(
+        utterance
+    )
+    assert len(extracted_dialogue_acts) == 0
+    assert extracted_dialogue_acts == []

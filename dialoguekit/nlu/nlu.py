@@ -1,4 +1,16 @@
-"""Natural language understanding."""
+"""Natural language understanding.
+
+The NLU module comprises a dialogue act extractor and a list of annotators.
+The dialogue act extractor analyses an utterance to identify its corresponding
+dialogue acts. The annotators are used to extract other types of annotations
+from the utterance such as user sentiment.
+
+For example in the following utterance:
+> That seems like a great book.
+We can extract the following annotations:
+- Dialogue act: ACCEPT_RECOMMENDATION
+- Sentiment: POSITIVE
+"""
 
 from typing import List
 

@@ -1,12 +1,12 @@
 Natural Language Understanding (NLU)
 ====================================
 
-The NLU component is responsible for obtaining a structured representation of text utterances. Currently, it entails dialogue acts recognition, key-value annotation, and user satisfaction prediction.
+The NLU component is responsible for obtaining a structured representation of text utterances. Currently, it entails dialogue acts recognition, key-value annotation (e.g., user sentiment), and user satisfaction prediction.
 
 Dialogue Acts Recognition
 -------------------------
 
-A dialogue act is a semantic unit that comprises one intent and slot-value pairs; an utterance can have multiple dialogue acts. The task of dialogue act recognition can be seen as a combination of intent classification and slot filling. These subtasks can be performed jointly or disjointly. DialogueKit is designed to support both approaches, see base classes: :py:mod:`dialoguekit.nlu.dialogue_acts_extractor.DialogueActsExtractor` and :py:mod:`dialoguekit.nlu.disjoint_dialogue_act_extractor.DisjointDialogueActExtractor`.
+A dialogue act is a semantic unit that comprises a single intent and slot-value pairs; an utterance can have multiple dialogue acts. The task of dialogue act recognition can be seen as a combination of intent classification and slot filling. These subtasks can be performed jointly or disjointly. DialogueKit is designed to support both approaches, see base classes: :py:mod:`dialoguekit.nlu.dialogue_acts_extractor.DialogueActsExtractor` and :py:mod:`dialoguekit.nlu.disjoint_dialogue_act_extractor.DisjointDialogueActExtractor`.
 
 Disjoint Dialogue Act Recognition
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

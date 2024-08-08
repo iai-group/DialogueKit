@@ -1,8 +1,8 @@
 """Dialogue act extractor with disjoint intent classification and slot filling.
 
 It is assumed that the intent classifier assigns a single intent to the
-utterance and corresponds to the slot-value pairs extracted by the slot
-annotators.
+utterance that corresponds to the slot-value pairs extracted by the
+slot-value annotators.
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ class DisjointDialogueActExtractor(DialogueActsExtractor):
 
         Args:
             intent_classifier: Intent classifier.
-            slot_value_annotators: List of slot value pairs annotators.
+            slot_value_annotators: List of slot-value annotators.
         """
         super().__init__()
         self._intent_classifier = intent_classifier
@@ -42,7 +42,7 @@ class DisjointDialogueActExtractor(DialogueActsExtractor):
     def annotate_slot_values(
         self, utterance: Utterance
     ) -> List[SlotValueAnnotation]:
-        """Annotates a given utterance with slot annotators.
+        """Annotates a given utterance with slot-value annotators.
 
         Args:
             utterance: Utterance to annotate.
@@ -56,7 +56,7 @@ class DisjointDialogueActExtractor(DialogueActsExtractor):
         return annotation_list
 
     def extract_dialogue_acts(self, utterance: Utterance) -> List[DialogueAct]:
-        """Extracts one dialogue act from an utterance.
+        """Extracts a single dialogue act from an utterance.
 
         Args:
             utterance: Utterance.
@@ -66,10 +66,12 @@ class DisjointDialogueActExtractor(DialogueActsExtractor):
         """
         intent = self.classify_intent(utterance)
         annotations = self.annotate_slot_values(utterance)
+        if intent is None:
+            return []
         return [DialogueAct(intent, annotations)]
 
     def save(self, path: str) -> None:
-        """Saves the intent classifier and slot annotators to a folder.
+        """Saves the intent classifier and slot-value annotators to a folder.
 
         Args:
             path: Path to save the dialogue act extractor.
@@ -80,16 +82,19 @@ class DisjointDialogueActExtractor(DialogueActsExtractor):
         intent_classifier_path = os.path.join(path, "intent_classifier")
         self._intent_classifier.save_model(intent_classifier_path)
 
-        for i, slot_annotator in enumerate(self._slot_value_annotators):
-            slot_annotator_path = os.path.join(path, f"slot_annotator_{i}")
-            slot_annotator.save_annotator(slot_annotator_path)
+        for i, slot_value_annotator in enumerate(self._slot_value_annotators):
+            slot_value_annotator_path = os.path.join(
+                path, f"slot_value_annotator_{i}"
+            )
+            slot_value_annotator.save_annotator(slot_value_annotator_path)
 
     @classmethod
     def load(self, path: str) -> DisjointDialogueActExtractor:
-        """Loads the intent classifier and slot annotators from a folder.
+        """Loads the intent classifier and slot-value annotators from a folder.
 
         Args:
-            path: Path to folder with intent classifier and slot annotators.
+            path: Path to folder with intent classifier and slot-value
+              annotators.
 
         Raises:
             FileNotFoundError: If the given folder does not exist.
@@ -104,14 +109,14 @@ class DisjointDialogueActExtractor(DialogueActsExtractor):
         intent_classifier = IntentClassifier.load_model(intent_classifier_path)
 
         slot_value_annotators = []
-        for _, slot_annotator_filename in enumerate(
-            filter(lambda x: "slot_annotator" in x, os.listdir(path))
+        for _, slot_value_annotator_filename in enumerate(
+            filter(lambda x: "slot_value_annotator" in x, os.listdir(path))
         ):
-            slot_annotator = SlotValueAnnotator.load_annotator(
-                os.path.join(path, slot_annotator_filename)
+            slot_value_annotator = SlotValueAnnotator.load_annotator(
+                os.path.join(path, slot_value_annotator_filename)
             )
             slot_value_annotators.append(
-                cast(SlotValueAnnotator, slot_annotator)
+                cast(SlotValueAnnotator, slot_value_annotator)
             )
 
         return DisjointDialogueActExtractor(
