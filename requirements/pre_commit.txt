@@ -5,7 +5,7 @@ flake8==5.0.4
 pytest
 pytest-cov
 pydocstyle==6.1.1
-mypy
+mypy==1.11.1
 docformatter
 types-PyYAML
 types-requests

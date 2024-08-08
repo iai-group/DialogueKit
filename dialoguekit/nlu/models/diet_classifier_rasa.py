@@ -7,6 +7,8 @@ A short description of how we use Rasa as a component library can be seen at:
 https://iai-group.github.io/DialogueKit/nlu.html#rasa-as-a-component-library
 """
 
+from __future__ import annotations
+
 import copy
 import os
 import tempfile
@@ -31,7 +33,7 @@ from dialoguekit.core.intent import Intent
 from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
 from dialoguekit.core.utterance import Utterance
 from dialoguekit.nlu.intent_classifier import IntentClassifier
-from dialoguekit.nlu.slot_annotator import SlotValueAnnotator
+from dialoguekit.nlu.slot_value_annotator import SlotValueAnnotator
 from dialoguekit.utils.annotation_converter_dialoguekit_to_rasa import (
     AnnotationConverterRasa,
 )
@@ -285,11 +287,20 @@ class IntentClassifierRasa(IntentClassifier, SlotValueAnnotator):
             file_path: File path.
 
         Raises:
-            NotImplementedError: If not implemented in derived class.
+            NotImplementedError: Not implemented in derived class.
         """
         raise NotImplementedError("Rasa Diet")
 
-    def load_model(self, file_path: str) -> None:
+    def save_annotator(self, path: str) -> None:
+        """Saves the annotator to a given path.
+
+        Args:
+            path: Path to save the annotator.
+        """
+        self.save_model(path)
+
+    @classmethod
+    def load_model(self, file_path: str) -> IntentClassifierRasa:
         """Loads a model from a file.
 
         Args:
@@ -297,5 +308,20 @@ class IntentClassifierRasa(IntentClassifier, SlotValueAnnotator):
 
         Raises:
             NotImplementedError: If not implemented in derived class.
+
+        Returns:
+            Loaded model.
         """
         raise NotImplementedError
+
+    @classmethod
+    def load_annotator(self, path: str) -> IntentClassifierRasa:
+        """Loads the model from a given path.
+
+        Args:
+            path: Path to the model.
+
+        Returns:
+            Loaded model.
+        """
+        return self.load_model(path)

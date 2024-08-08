@@ -1,18 +1,19 @@
 """Interface for slot-value pairs annotation."""
 
-import abc
+from abc import abstractmethod
 from typing import List
 
 from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
 from dialoguekit.core.utterance import Utterance
+from dialoguekit.nlu.annotator import Annotator
 
 
-class SlotValueAnnotator(abc.ABC):
+class SlotValueAnnotator(Annotator):
     def __init__(self) -> None:
         """Instantiates a slot annotator."""
         super().__init__()
 
-    @abc.abstractmethod
+    @abstractmethod
     def get_annotations(
         self, utterance: Utterance
     ) -> List[SlotValueAnnotation]:
