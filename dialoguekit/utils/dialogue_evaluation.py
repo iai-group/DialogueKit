@@ -155,7 +155,9 @@ class Evaluator:
                 if utterance.participant == DialogueParticipant.AGENT:
                     dialogue_utterances_start_agent: List[
                         AnnotatedUtterance
-                    ] = dialogue.utterances[j:]
+                    ] = dialogue.utterances[
+                        j:
+                    ]  # type: ignore[assignment]
                     break
             previous_sender = dialogue_utterances_start_agent[0].participant
             previous_intents = dialogue_utterances_start_agent[0].get_intents()
