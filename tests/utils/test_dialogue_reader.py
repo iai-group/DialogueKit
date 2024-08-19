@@ -6,6 +6,7 @@ import pytest
 
 from dialoguekit.core.feedback import BinaryFeedback
 from dialoguekit.core.intent import Intent
+from dialoguekit.participant import DialogueParticipant
 from dialoguekit.utils.dialogue_reader import json_to_dialogues
 
 
@@ -20,8 +21,8 @@ def test_json_to_dialogues() -> None:
     assert dialogues[0].user_id == "TEST03"
     assert dialogues[-1].agent_id == "Agent"
     assert dialogues[-1].user_id == "User"
-    assert dialogues[0].utterances[0].participant == "USER"
-    assert dialogues[0].utterances[1].participant == "AGENT"
+    assert dialogues[0].utterances[0].participant == DialogueParticipant.USER
+    assert dialogues[0].utterances[1].participant == DialogueParticipant.AGENT
     assert dialogues[0].utterances[0].get_intents() == [
         Intent("DISCLOSE.NON-DISCLOSE")
     ]

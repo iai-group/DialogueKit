@@ -89,7 +89,7 @@ class Evaluator:
 
         for dialogue in self._dialogues:
             for utterance in dialogue.utterances:
-                sender = str(utterance.participant)
+                sender = utterance.participant.name
                 statistics[sender] += 1
 
         if len(statistics.keys()) > 2:
@@ -152,7 +152,7 @@ class Evaluator:
 
             # Start dialogue with Agent first.
             for j, utterance in enumerate(dialogue.utterances):
-                if utterance.participant == DialogueParticipant.AGENT.name:
+                if utterance.participant == DialogueParticipant.AGENT:
                     dialogue_utterances_start_agent: List[
                         AnnotatedUtterance
                     ] = dialogue.utterances[j:]
@@ -209,7 +209,7 @@ class Evaluator:
             for utterance in dialogue.utterances:
                 if (
                     isinstance(utterance, AnnotatedUtterance)
-                    and utterance.participant == DialogueParticipant.USER.name
+                    and utterance.participant == DialogueParticipant.USER
                 ):
                     intents = [
                         Intent(intent.label.split(".")[0])
@@ -244,7 +244,7 @@ class Evaluator:
             num_user_acts = sum(
                 1
                 for utterance in dialogue.utterances
-                if utterance.participant == DialogueParticipant.USER.name
+                if utterance.participant == DialogueParticipant.USER
             )
             results["dialogues"][i]["user_turns"] = num_user_acts
             results["dialogues"][i][

@@ -10,6 +10,7 @@ from dialoguekit.core.dialogue_act import DialogueAct
 from dialoguekit.core.feedback import BinaryFeedback, UtteranceFeedback
 from dialoguekit.core.intent import Intent
 from dialoguekit.core.slot_value_annotation import SlotValueAnnotation
+from dialoguekit.participant import DialogueParticipant
 
 _FIELD_UTTERANCE = "utterance"
 _FIELD_DIALOGUE_ACTS = "dialogue_acts"
@@ -58,7 +59,7 @@ def json_to_annotated_utterance(
     Returns:
         An AnnotatedUtterance object representation of the json utterance.
     """
-    participant = json_utterance.get(_FIELD_PARTICIPANT)
+    participant = DialogueParticipant[json_utterance.get(_FIELD_PARTICIPANT)]
 
     utterance_text = json_utterance.get(_FIELD_UTTERANCE)
     utterance_id = json_utterance.get(_FIELD_UTTERANCE_ID)
