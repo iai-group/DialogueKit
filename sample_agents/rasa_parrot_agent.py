@@ -14,7 +14,7 @@ from dialoguekit.participant.participant import DialogueParticipant
 
 
 class RasaParrotAgent(Agent):
-    def __init__(self, agent_id: str):
+    def __init__(self, id: str):
         """Rasa Parrot agent.
 
         This agent connects to the sample Rasa parrot agent found here:
@@ -23,9 +23,9 @@ class RasaParrotAgent(Agent):
         To end the conversation the user has to say `EXIT`, `QUIT` or `STOP`.
 
         Args:
-            agent_id: Agent id.
+            id: Agent id.
         """
-        super().__init__(agent_id)
+        super().__init__(id)
         self._RASA_URI = "http://localhost:5002/webhooks/rest/webhook"
 
     def welcome(self) -> None:

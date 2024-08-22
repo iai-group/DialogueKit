@@ -29,7 +29,7 @@ _MOVIEBOT_STOP_INTENT = Intent("END")
 class MovieBotAgent(Agent):
     def __init__(
         self,
-        agent_id: str,
+        id: str,
         uri: str = _MOVIEBOT_DEFAULT_URI,
         stop_intent: Intent = _MOVIEBOT_STOP_INTENT,
     ) -> None:
@@ -38,13 +38,11 @@ class MovieBotAgent(Agent):
         Uses POST requests to MovieBot server as communication platform.
 
         Args:
-            agent_id: Agent id.
+            id: Agent id.
             uri: MovieBot server address.
             stop_intent: MovieBot stop intent.
         """
-        super().__init__(
-            agent_id, agent_type=AgentType.BOT, stop_intent=stop_intent
-        )
+        super().__init__(id, agent_type=AgentType.BOT, stop_intent=stop_intent)
         self._MOVIEBOT_URI = uri
 
     def welcome(self) -> None:

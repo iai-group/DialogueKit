@@ -8,16 +8,16 @@ from dialoguekit.participant.participant import DialogueParticipant
 
 
 class ParrotAgent(Agent):
-    def __init__(self, agent_id: str):
+    def __init__(self, id: str):
         """Parrot agent.
 
         This agent parrots back what the user utters.
         To end the conversation the user has to say `EXIT`.
 
         Args:
-            agent_id: Agent id.
+            id: Agent id.
         """
-        super().__init__(agent_id)
+        super().__init__(id)
 
     def welcome(self) -> None:
         """Sends the agent's welcome message."""
