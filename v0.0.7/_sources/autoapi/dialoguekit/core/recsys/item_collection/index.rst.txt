@@ -1,0 +1,80 @@
+dialoguekit.core.recsys.item_collection
+=======================================
+
+.. py:module:: dialoguekit.core.recsys.item_collection
+
+.. autoapi-nested-parse::
+
+   Represents a collection of items.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.recsys.item_collection.ItemCollection
+
+
+Module Contents
+---------------
+
+.. py:class:: ItemCollection
+
+   Initializes an empty item collection.
+
+
+   .. py:method:: get_item(item_id: str) -> dialoguekit.core.recsys.item.Item
+
+      Returns an item from the collection based on its ID.
+
+      :param item_id: Item ID.
+
+      :returns: Item or None, if not found.
+
+
+
+   .. py:method:: exists(item_id: str) -> bool
+
+      Checks if a given item exists in the item collection.
+
+      :param item_id: Item ID.
+
+      :returns: True if the item exists in the collection.
+
+
+
+   .. py:method:: num_items() -> int
+
+      Returns the number of items in the collection.
+
+      :returns: Number of items.
+
+
+
+   .. py:method:: add_item(item: dialoguekit.core.recsys.item.Item) -> None
+
+      Adds an item to the collection.
+
+      :param item: Item.
+
+
+
+   .. py:method:: load_items_csv(file_path: str, fields: List[Any], delimiter: str = ',') -> None
+
+      Loads an item collection from a CSV file.
+
+      The CSV file is assumed to have a header row, which is ignored. Instead,
+      the fields argument specifies which item properties the values
+      correspond to.
+
+      :param file_path: Path to CSV file.
+      :param fields: Mapping of CSV fields to item properties. ID and NAME are
+                     designated values for mapping to item ID and name. A None value
+                     means that the field is ignored. Otherwise, the value if fields
+                     is used as the name (key) of the item property.
+      :param delimiter: Field separator (default: comma).
+
+
+

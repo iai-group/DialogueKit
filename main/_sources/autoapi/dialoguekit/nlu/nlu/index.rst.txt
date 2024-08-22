@@ -1,0 +1,61 @@
+dialoguekit.nlu.nlu
+===================
+
+.. py:module:: dialoguekit.nlu.nlu
+
+.. autoapi-nested-parse::
+
+   Natural language understanding.
+
+   The NLU module comprises a dialogue act extractor and a list of annotators.
+   The dialogue act extractor analyses an utterance to identify its corresponding
+   dialogue acts. The annotators are used to extract other types of annotations
+   from the utterance such as user sentiment.
+
+   For example in the following utterance:
+   > That seems like a great book.
+   We can extract the following annotations:
+   - Dialogue act: ACCEPT_RECOMMENDATION
+   - Sentiment: POSITIVE
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.nlu.NLU
+
+
+Module Contents
+---------------
+
+.. py:class:: NLU(dialogue_act_extractor: dialoguekit.nlu.dialogue_acts_extractor.DialogueActsExtractor, annotators: List[dialoguekit.nlu.annotator.Annotator] = None)
+
+   Initializes the NLU module.
+
+   :param dialogue_act_extractor: Dialogue act extractor.
+   :param annotators: List of annotators.
+
+
+   .. py:method:: extract_dialogue_acts(utterance: dialoguekit.core.utterance.Utterance) -> List[dialoguekit.core.dialogue_act.DialogueAct]
+
+      Extracts dialogue acts from an utterance.
+
+      :param utterance: Utterance.
+
+      :returns: List of dialogue acts.
+
+
+
+   .. py:method:: get_annotations(utterance: dialoguekit.core.utterance.Utterance) -> List[dialoguekit.core.annotation.Annotation]
+
+      Annotates an utterance.
+
+      :param utterance: Utterance.
+
+      :returns: List of annotations.
+
+
+
