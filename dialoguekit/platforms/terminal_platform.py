@@ -3,6 +3,7 @@
 This platform is used for getting user input and displaying agent
 responses in the terminal.
 """
+
 from typing import Type
 
 from dialoguekit.core import Utterance
@@ -36,13 +37,14 @@ class TerminalPlatform(Platform):
         self.disconnect(self._user_id)
 
     def display_agent_utterance(
-        self, user_id: str, utterance: Utterance
+        self, agent_id: str, utterance: Utterance, user_id: str = None
     ) -> None:
         """Displays an agent utterance.
 
         Args:
-            user_id: User ID.
+            agent_id: Agent ID.
             utterance: An instance of Utterance.
+            user_id: User ID of the recipient.
         """
         print(f"AGENT: {utterance.text}")
 

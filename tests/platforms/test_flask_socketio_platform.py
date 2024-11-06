@@ -124,10 +124,11 @@ def test_display_agent_utterance(send, platform):
     text = "Hello, I'm an agent!"
     utterance = Utterance(text, DialogueParticipant.AGENT)
 
-    platform.display_agent_utterance(user_id, utterance)
+    agent_id = "test_agent_id"
+    platform.display_agent_utterance(agent_id, utterance, user_id)
     send.assert_called_once_with(
         {
-            "recipient": user_id,
+            "sender": agent_id,
             "message": {"text": text, "dialogue_acts": None},
         },
         room=user_id,
@@ -150,10 +151,11 @@ def test_display_agent_annotated_utterance(send, platform):
         ],
     )
 
-    platform.display_agent_utterance(user_id, utterance)
+    agent_id = "test_agent_id"
+    platform.display_agent_utterance(agent_id, utterance, user_id)
     send.assert_called_once_with(
         {
-            "recipient": user_id,
+            "sender": agent_id,
             "message": {
                 "text": text,
                 "dialogue_acts": [
