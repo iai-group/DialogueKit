@@ -21,8 +21,7 @@ ANNOTATED_DIALOGUE_FILE = "tests/data/annotated_dialogues.json"
 def nlg_class() -> ConditionalNLG:
     """Tests class init.
 
-    This method is also a testing fixture used for the rest of the
-    tests.
+    This method is also a testing fixture used for the rest of the tests.
     """
     template = extract_utterance_template(
         annotated_dialogue_file=ANNOTATED_DIALOGUE_FILE,

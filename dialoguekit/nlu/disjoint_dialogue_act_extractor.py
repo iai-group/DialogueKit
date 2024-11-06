@@ -1,8 +1,8 @@
 """Dialogue act extractor with disjoint intent classification and slot filling.
 
 It is assumed that the intent classifier assigns a single intent to the
-utterance that corresponds to the slot-value pairs extracted by the
-slot-value annotators.
+utterance that corresponds to the slot-value pairs extracted by the slot-value
+annotators.
 """
 
 from __future__ import annotations

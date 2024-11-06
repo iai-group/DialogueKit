@@ -1,8 +1,7 @@
 """Abstract representation of core user-related data and functionality.
 
 For communicating with an agent, the specific user instance needs to be
-connected with a DialogueConnector by invoking
-`register_dialogue_connector()`.
+connected with a DialogueConnector by invoking `register_dialogue_connector()`.
 """
 from __future__ import annotations
 

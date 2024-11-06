@@ -13,9 +13,9 @@ from dialoguekit.core.utterance import Utterance
 class AnnotatedUtterance(Utterance):
     """Represents an utterance, with annotations.
 
-    The AnnotatedUtterance is a Utterance with additional information.
-    In some cases we want to send an utterance with dialogue acts and/or
-    Annotations. Dialogue acts are a specific type of annotation.
+    The AnnotatedUtterance is a Utterance with additional information. In some
+    cases we want to send an utterance with dialogue acts and/or Annotations.
+    Dialogue acts are a specific type of annotation.
     """
 
     dialogue_acts: List[DialogueAct] = field(
