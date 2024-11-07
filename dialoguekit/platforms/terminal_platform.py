@@ -49,12 +49,12 @@ class TerminalPlatform(Platform):
         print(f"AGENT: {utterance.text}")
 
     def display_user_utterance(
-        self, user_id: str, utterance: Utterance
+        self, utterance: Utterance, user_id: str
     ) -> None:
         """Displays a user utterance.
 
         Args:
-            user_id: User ID.
             utterance: An instance of Utterance.
+            user_id: User ID.
         """
         pass

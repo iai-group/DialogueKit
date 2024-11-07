@@ -84,7 +84,7 @@ class DialogueConnector:
         """
         self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_user_utterance(
-            self._user.id, annotated_utterance
+            annotated_utterance, self._user.id
         )
         self._agent.receive_utterance(annotated_utterance)
 

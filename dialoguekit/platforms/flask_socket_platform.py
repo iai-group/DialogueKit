@@ -100,15 +100,15 @@ class FlaskSocketPlatform(Platform):
         )
 
     def display_user_utterance(
-        self, user_id: str, utterance: Utterance
+        self, utterance: Utterance, user_id: str
     ) -> None:
         """Overrides the method in Platform to avoid raising an error.
 
         This method is not used in FlaskSocketPlatform.
 
         Args:
-            user_id: User ID.
             utterance: An instance of Utterance.
+            user_id: User ID.
         """
         pass
 
