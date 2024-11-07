@@ -31,7 +31,7 @@ class Platform(ABC):
 
     @abstractmethod
     def display_agent_utterance(
-        self, agent_id: str, utterance: Utterance, user_id: str
+        self, utterance: Utterance, agent_id: str, user_id: str
     ) -> None:
         """Displays an agent utterance.
 
@@ -39,8 +39,8 @@ class Platform(ABC):
         user_id is provided to identify the recipient.
 
         Args:
-            agent_id: Agent ID.
             utterance: An instance of Utterance.
+            agent_id: Agent ID.
             user_id: User ID of the recipient.
 
         Raises:

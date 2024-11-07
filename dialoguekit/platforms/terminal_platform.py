@@ -37,14 +37,14 @@ class TerminalPlatform(Platform):
         self.disconnect(self._user_id)
 
     def display_agent_utterance(
-        self, agent_id: str, utterance: Utterance, user_id: str = None
+        self, utterance: Utterance, agent_id: str, user_id: str = None
     ) -> None:
         """Displays an agent utterance.
 
         Args:
-            agent_id: Agent ID.
             utterance: An instance of Utterance.
-            user_id: User ID of the recipient.
+            agent_id: Agent ID.
+            user_id: User ID of the recipient. Defaults to None.
         """
         print(f"AGENT: {utterance.text}")
 

@@ -125,7 +125,7 @@ def test_display_agent_utterance(send, platform):
     utterance = Utterance(text, DialogueParticipant.AGENT)
 
     agent_id = "test_agent_id"
-    platform.display_agent_utterance(agent_id, utterance, user_id)
+    platform.display_agent_utterance(utterance, agent_id, user_id)
     send.assert_called_once_with(
         {
             "sender": agent_id,
@@ -152,7 +152,7 @@ def test_display_agent_annotated_utterance(send, platform):
     )
 
     agent_id = "test_agent_id"
-    platform.display_agent_utterance(agent_id, utterance, user_id)
+    platform.display_agent_utterance(utterance, agent_id, user_id)
     send.assert_called_once_with(
         {
             "sender": agent_id,
