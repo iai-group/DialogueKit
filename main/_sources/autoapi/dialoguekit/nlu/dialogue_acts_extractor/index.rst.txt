@@ -1,0 +1,70 @@
+dialoguekit.nlu.dialogue_acts_extractor
+=======================================
+
+.. py:module:: dialoguekit.nlu.dialogue_acts_extractor
+
+.. autoapi-nested-parse::
+
+   Interface to extract dialogue acts from an utterance.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.dialogue_acts_extractor.DialogueActsExtractor
+
+
+Module Contents
+---------------
+
+.. py:class:: DialogueActsExtractor
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Initializes the dialogue acts extractor.
+
+
+   .. py:method:: extract_dialogue_acts(utterance: dialoguekit.core.utterance.Utterance) -> List[dialoguekit.core.dialogue_act.DialogueAct]
+      :abstractmethod:
+
+
+      Extracts dialogue acts from an utterance.
+
+      :param utterance: Utterance.
+
+      :raises NotImplementedError: If the method is not implemented in a subclass.
+
+      :returns: List of dialogue acts.
+
+
+
+   .. py:method:: save(path: str) -> None
+      :abstractmethod:
+
+
+      Saves the dialogue act extractor to a given path.
+
+      :param path: Path to save the dialogue act extractor.
+
+      :raises NotImplementedError: If the method is not implemented in a subclass.
+
+
+
+   .. py:method:: load(path: str) -> DialogueActsExtractor
+      :classmethod:
+
+      :abstractmethod:
+
+
+      Loads the dialogue act extractor from a path.
+
+      :param path: Path to the dialogue act extractor.
+
+      :raises NotImplementedError: If the method is not implemented in a subclass.
+
+
+

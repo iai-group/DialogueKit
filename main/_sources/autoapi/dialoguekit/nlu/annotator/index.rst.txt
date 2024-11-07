@@ -1,0 +1,72 @@
+dialoguekit.nlu.annotator
+=========================
+
+.. py:module:: dialoguekit.nlu.annotator
+
+.. autoapi-nested-parse::
+
+   Interface to annotate an utterance.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.annotator.Annotator
+
+
+Module Contents
+---------------
+
+.. py:class:: Annotator
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Initializes the annotator.
+
+
+   .. py:method:: get_annotations(utterance: dialoguekit.core.utterance.Utterance) -> List[dialoguekit.core.annotation.Annotation]
+      :abstractmethod:
+
+
+      Annotates an utterance.
+
+      :param utterance: Utterance.
+
+      :raises NotImplementedError: If the method is not implemented in a subclass.
+
+      :returns: List of annotations.
+
+
+
+   .. py:method:: save_annotator(path: str) -> None
+      :abstractmethod:
+
+
+      Saves the annotator to a given path.
+
+      :param path: Path to save the annotator.
+
+      :raises NotImplementedError: If the method is not implemented in a subclass.
+
+
+
+   .. py:method:: load_annotator(path: str) -> Annotator
+      :classmethod:
+
+      :abstractmethod:
+
+
+      Loads the annotator from a path.
+
+      :param path: Path to the annotator.
+
+      :raises NotImplementedError: If the method is not implemented in a subclass.
+
+      :returns: Annotator.
+
+
+

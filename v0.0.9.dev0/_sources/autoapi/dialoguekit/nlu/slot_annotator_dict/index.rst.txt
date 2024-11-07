@@ -1,0 +1,30 @@
+dialoguekit.nlu.slot_annotator_dict
+===================================
+
+.. py:module:: dialoguekit.nlu.slot_annotator_dict
+
+.. autoapi-nested-parse::
+
+   Dictionary-based slot annotator.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.slot_annotator_dict.SlotAnnotatorDict
+
+
+Module Contents
+---------------
+
+.. py:class:: SlotAnnotatorDict(slot_name: str, sf_dictionary)
+
+   Initializes the class.
+
+   :param slot_name: Name of the slot.
+   :param sf_dictionary: Surface form dictionary.
+
+

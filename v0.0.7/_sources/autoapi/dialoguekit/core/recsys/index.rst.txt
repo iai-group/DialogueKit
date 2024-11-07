@@ -1,0 +1,22 @@
+dialoguekit.core.recsys
+=======================
+
+.. py:module:: dialoguekit.core.recsys
+
+.. autoapi-nested-parse::
+
+   Recommender system level init.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/dialoguekit/core/recsys/item/index
+   /autoapi/dialoguekit/core/recsys/item_collection/index
+   /autoapi/dialoguekit/core/recsys/ratings/index
+
+
