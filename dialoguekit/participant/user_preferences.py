@@ -1,7 +1,7 @@
 """General representation of user preferences.
 
-Preferences are given to key-value pairs in terms of real values in the
-range [-1,1].
+Preferences are given to key-value pairs in terms of real values in the range
+[-1,1].
 """
 
 from collections import defaultdict

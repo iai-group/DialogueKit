@@ -1,7 +1,7 @@
 """Annotation converter interface.
 
-As the different modules used for NLU use different formats for
-training, file converters are needed.
+As the different modules used for NLU use different formats for training, file
+converters are needed.
 """
 
 from abc import ABC, abstractmethod

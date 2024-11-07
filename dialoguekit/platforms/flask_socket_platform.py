@@ -58,7 +58,7 @@ class Message:
 
 @dataclass
 class Response:
-    recipient: str
+    sender: str
     message: Message
 
 
@@ -84,17 +84,18 @@ class FlaskSocketPlatform(Platform):
         self.socketio.run(self.app, host=host, port=port)
 
     def display_agent_utterance(
-        self, user_id: str, utterance: Utterance
+        self, utterance: Utterance, agent_id: str, user_id: str
     ) -> None:
         """Emits agent utterance to the client.
 
         Args:
-            user_id: User ID.
             utterance: An instance of Utterance.
+            agent_id: Agent ID.
+            user_id: User ID of the recipient.
         """
         message = Message.from_utterance(utterance)
         self.socketio.send(
-            asdict(Response(user_id, message)),
+            asdict(Response(agent_id, message)),
             room=user_id,
         )
 

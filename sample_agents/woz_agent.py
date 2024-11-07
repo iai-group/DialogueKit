@@ -1,8 +1,7 @@
 """Wizard-of-Oz (WoZ) agent.
 
-A WoZ agent is one that is controlled by a human operator. It can be
-especially useful for human-human data collection or for testing
-simulated users.
+A WoZ agent is one that is controlled by a human operator. It can be especially
+useful for human-human data collection or for testing simulated users.
 """
 from typing import List, Optional
 

@@ -1,4 +1,5 @@
 """The Platform facilitates displaying of the conversation."""
+
 from abc import ABC, abstractmethod
 from typing import Dict, Type
 
@@ -30,13 +31,17 @@ class Platform(ABC):
 
     @abstractmethod
     def display_agent_utterance(
-        self, user_id: str, utterance: Utterance
+        self, utterance: Utterance, agent_id: str, user_id: str
     ) -> None:
         """Displays an agent utterance.
 
+        Considering that an agent can interact with multiple users, the
+        user_id is provided to identify the recipient.
+
         Args:
-            user_id: User ID.
             utterance: An instance of Utterance.
+            agent_id: Agent ID.
+            user_id: User ID of the recipient.
 
         Raises:
             NotImplementedError: If the method is not implemented.

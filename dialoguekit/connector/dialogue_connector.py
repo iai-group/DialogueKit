@@ -13,6 +13,7 @@ but this is not required.  Whenever there is a message from either the Agent or
 the User, the DialogueConnector sends it to the other party by calling their
 `receive_{agent/user}_utterance()` method.
 """
+
 from __future__ import annotations
 
 import json
@@ -107,7 +108,7 @@ class DialogueConnector:
         """
         self._dialogue_history.add_utterance(annotated_utterance)
         self._platform.display_agent_utterance(
-            self._user.id, annotated_utterance
+            annotated_utterance, self._agent.id, self._user.id
         )
         if self._agent.stop_intent in annotated_utterance.get_intents():
             self.close()
@@ -137,8 +138,8 @@ class DialogueConnector:
     def close(self) -> None:
         """Closes the conversation.
 
-        If '_save_dialogue_history' is set to True it will export the
-        dialogue history.
+        If '_save_dialogue_history' is set to True it will export the dialogue
+        history.
         """
         if self._save_dialogue_history:
             self._dump_dialogue_history()

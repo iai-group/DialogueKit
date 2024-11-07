@@ -1,7 +1,7 @@
 """Simplest possible agent that parrots back everything the user says.
 
-This agent depends on Rasa parrot project to parrot back. See
-'docs/rasa-parrot.md' for more information
+This agent depends on Rasa parrot project to parrot back. See 'docs/rasa-
+parrot.md' for more information
 """
 
 import requests

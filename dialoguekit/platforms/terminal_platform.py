@@ -1,8 +1,9 @@
 """Terminal platform.
 
-This platform is used for getting user input and displaying agent
-responses in the terminal.
+This platform is used for getting user input and displaying agent responses in
+the terminal.
 """
+
 from typing import Type
 
 from dialoguekit.core import Utterance
@@ -36,13 +37,14 @@ class TerminalPlatform(Platform):
         self.disconnect(self._user_id)
 
     def display_agent_utterance(
-        self, user_id: str, utterance: Utterance
+        self, utterance: Utterance, agent_id: str, user_id: str = None
     ) -> None:
         """Displays an agent utterance.
 
         Args:
-            user_id: User ID.
             utterance: An instance of Utterance.
+            agent_id: Agent ID.
+            user_id: User ID of the recipient. Defaults to None.
         """
         print(f"AGENT: {utterance.text}")
 
