@@ -1,4 +1,4 @@
-"""Convert annotations to be compatible with the rasa models."""
+"""Convert annotations to be compatible with Rasa models."""
 
 import json
 import time

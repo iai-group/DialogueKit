@@ -10,9 +10,11 @@ packages = setuptools.find_packages(where="dialoguekit")
 
 setuptools.setup(
     name="dialoguekit",
-    version="0.0.9.dev2",
-    author="Nolwenn Bernard, Krisztian Balog, Jafar Afzali, \
-        Aleksander Drzewiecki and Shuo Zhang",
+    version="0.1.0.dev0",
+    author=(
+        "Nolwenn Bernard, Krisztian Balog, Jafar Afzali, "
+        "Aleksander Drzewiecki, and Shuo Zhang"
+    ),
     author_email="author@example.com",
     description=(
         "Toolkit for building conversational information access systems."
@@ -37,10 +39,9 @@ setuptools.setup(
         ]
     },
     include_package_data=True,
-    python_requires=">=3.9",
+    python_requires=">=3.11",
     zip_safe=False,
     install_requires=[
-        "rasa>=3.0",
         "Flask>=2.3.2",
         "flask-socketio>=5.3.3",
         "Werkzeug>=2.3.3",

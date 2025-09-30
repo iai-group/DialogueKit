@@ -16,51 +16,12 @@ In this component, the task of intent classification and slot filling are perfor
 Intent Classification
 """""""""""""""""""""
 
-Thus far two different NLU pipelines are implemented for intent classification.
-
-* Cosine intent classifier :py:mod:`dialoguekit.nlu.models.intent_classifier_cosine`
-
-* Rasa DIET classifier :py:mod:`dialoguekit.nlu.models.diet_classifier_rasa`
-
-See below for details on how the Rasa DIET classifier is used in our implementation.
-
-**Rasa as a component library**
-
-:py:class:`dialoguekit.nlu.models.diet_classifier_rasa.IntentClassifierRasa` implement Rasa's DIET classifier. This is a Dual Intent and Entity Transformer, their paper can be read 
-`here. <https://arxiv.org/pdf/2004.09936.pdf>`_
-
-Normally, one would use Rasa as the underlying platform. Here, instead, we use it as a component in DialogueKit. Rasa is distributed with a Apache 2.0 license, granting us free use.
-
-*General idea*
-
-
-In general, the idea is to import the necessary packages and re-implement the Rasa workflow with their components and structures. 
-However, because of how Rasa is structured, DialogueKit objects need to be transformed to Rasa components before use.
-
-*Implementation*
-
-The implementation is in :py:mod:`dialoguekit.nlu.models.diet_classifier_rasa`; this model can be trained and thus uses multiple Rasa components and structures.
-Below is a list of all the Rasa imports that are used.
-
-.. code-block:: python
-
-    from rasa.engine.graph import ExecutionContext, GraphComponent, GraphSchema
-    from rasa.shared.nlu.constants import TEXT
-    from rasa.nlu.featurizers.sparse_featurizer.count_vectors_featurizer import (
-        CountVectorsFeaturizer,
-    )
-    from rasa.shared.nlu.training_data.message import Message
-    from rasa.engine.storage.resource import Resource
-    from rasa.nlu.tokenizers.whitespace_tokenizer import WhitespaceTokenizer
-    from rasa.engine.storage.local_model_storage import LocalModelStorage
-    from rasa.shared.nlu.training_data.training_data import TrainingData
-    from rasa.nlu.classifiers.diet_classifier import DIETClassifier
-    from rasa.shared.importers.rasa import RasaFileImporter
+There is a simple Cosine intent classifier implemented in DialogueKit, which can be used out-of-the-box :py:mod:`dialoguekit.nlu.models.intent_classifier_cosine`
 
 Slot Filling
 """"""""""""
 
-As of now only one implementation exists, the Rasa DIET classifier.
+There are no slot filling models implemented in the current version of DialogueKit. However, the base class :py:mod:`dialoguekit.nlu.models.slot_filler.SlotFiller` can be extended to implement a slot filling model.
 
 User Satisfaction Prediction
 ----------------------------
