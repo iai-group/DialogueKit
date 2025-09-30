@@ -6,7 +6,6 @@ from dialoguekit.nlu.disjoint_dialogue_act_extractor import (
     DisjointDialogueActExtractor,
 )
 from dialoguekit.nlu.intent_classifier import IntentClassifier
-from dialoguekit.nlu.models.diet_classifier_rasa import IntentClassifierRasa
 from dialoguekit.nlu.models.intent_classifier_cosine import (
     IntentClassifierCosine,
 )
@@ -21,7 +20,6 @@ from dialoguekit.nlu.slot_value_annotator import SlotValueAnnotator
 __all__ = [
     "NLU",
     "IntentClassifier",
-    "IntentClassifierRasa",
     "IntentClassifierCosine",
     "SatisfactionClassifier",
     "SatisfactionClassifierSVM",

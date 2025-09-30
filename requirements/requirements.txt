@@ -1,8 +1,8 @@
 -r pre_commit.txt
 scikit-learn >= 0.24
-rasa >= 3.0.8
 Flask >= 2.3.2
 flask-socketio >= 5.3.3
 Werkzeug>=2.3.3
 websockets<11.0
 botocore>=1.29.29
+requests
