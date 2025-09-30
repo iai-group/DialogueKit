@@ -5,4 +5,4 @@ flask-socketio >= 5.3.3
 Werkzeug>=2.3.3
 websockets<11.0
 botocore>=1.29.29
-requests
+requests>=2.32.5
