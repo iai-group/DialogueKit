@@ -1,10 +1,10 @@
-sphinx==7.3.7
-scipy==1.7.2
-sphinx_rtd_theme==2.0.0
+sphinx>=8.2.3
+scipy>=1.7.2
+sphinx_rtd_theme>=2.0.0
 sphinxcontrib-bibtex
 nbsphinx
 recommonmark
 sphinx-markdown-tables
-sphinx-autoapi==3.1.1
+sphinx-autoapi>=3.1.1
 myst-parser
-sphinx-multiversion==0.2.4
+sphinx-multiversion>=0.2.4
