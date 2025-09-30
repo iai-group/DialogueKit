@@ -8,7 +8,7 @@ on:
 
 jobs:
   build-and-test:
-    name: "Build and Test Python 3.9"
+    name: "Build and Test Python 3.11"
     runs-on: ubuntu-latest
     if: always()
     timeout-minutes: 20
@@ -18,7 +18,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: "3.11"
           cache: "pip"
 
       - name: Install Dependencies
@@ -30,7 +30,7 @@ jobs:
       - name: PyTest with code coverage
         continue-on-error: true
         run: |
-          pytest --cov=. --cov-report=term-missing --cov-report=xml --cov-branch
+          pytest --exclude-warning-annotations --cov=. --cov-report=term-missing --cov-report=xml --cov-branch
 
       - name: Get the Coverage
         shell: bash
@@ -67,7 +67,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.9"
+          python-version: "3.11"
           cache: "pip"
 
       - name: Install Dependencies

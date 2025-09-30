@@ -55,17 +55,17 @@ coverage.xml
 *.mo
 *.pot
 
-# Django stuff:
+# Django
 *.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
-# Flask stuff:
+# Flask
 instance/
 .webassets-cache
 
-# Scrapy stuff:
+# Scrapy
 .scrapy
 
 # Sphinx documentation
@@ -94,7 +94,7 @@ ipython_config.py
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
-# Celery stuff
+# Celery 
 celerybeat-schedule
 celerybeat.pid
 
@@ -128,20 +128,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Rasa traning folder
-.rasa/*
-moviebot/*
-testing/*
-
 # DS Store
 .DS_STORE
 
 # VS Code
 .vscode/*
-
-# rasa-parrot
-external_agents/rasa-parrot/models/*
-external_agents/rasa-parrot/.rasa/cache/*
 
 # DialogueKit Export
 dialogue_export
