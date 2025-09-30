@@ -30,7 +30,7 @@ jobs:
       - name: PyTest with code coverage
         continue-on-error: true
         run: |
-          pytest --cov=. --cov-report=term-missing --cov-report=xml --cov-branch
+          pytest --exclude-warning-annotations --cov=. --cov-report=term-missing --cov-report=xml --cov-branch
 
       - name: Get the Coverage
         shell: bash
