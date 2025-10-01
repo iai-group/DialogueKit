@@ -1,0 +1,30 @@
+dialoguekit.core.slot_value_annotation
+======================================
+
+.. py:module:: dialoguekit.core.slot_value_annotation
+
+.. autoapi-nested-parse::
+
+   Interface representing slot-value annotations.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.slot_value_annotation.SlotValueAnnotation
+
+
+Module Contents
+---------------
+
+.. py:class:: SlotValueAnnotation(slot: str = None, value: str = None, start: int = None, end: int = None)
+
+   Bases: :py:obj:`dialoguekit.core.annotation.Annotation`
+
+
+   Represents slot-value annotation.
+
+

@@ -1,0 +1,78 @@
+dialoguekit.participant.agent
+=============================
+
+.. py:module:: dialoguekit.participant.agent
+
+.. autoapi-nested-parse::
+
+   Interface defining core agent functionality.
+
+   This abstract class is to be subclassed both for bots and human ("Wizard of Oz")
+   agents.
+
+   An agent instance needs to be connected with a DialogueConnector by invoking
+   `register_dialogue_connector()`.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.participant.agent.AgentType
+   dialoguekit.participant.agent.Agent
+
+
+Module Contents
+---------------
+
+.. py:class:: AgentType(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Represents different types of agents (bot vs Wizard-of-Oz).
+
+
+   .. py:attribute:: BOT
+      :value: 0
+
+
+
+   .. py:attribute:: WOZ
+      :value: 1
+
+
+
+.. py:class:: Agent(id: str, agent_type: AgentType = AgentType.BOT)
+
+   Bases: :py:obj:`dialoguekit.participant.participant.Participant`
+
+
+   Represents an agent.
+
+   :param id: Agent ID.
+   :param agent_type: Agent type (default: BOT).
+
+
+   .. py:method:: welcome() -> None
+      :abstractmethod:
+
+
+      Sends the agent's welcome message.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+
+
+   .. py:method:: goodbye() -> None
+      :abstractmethod:
+
+
+      Sends the agent's goodbye message.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+
+

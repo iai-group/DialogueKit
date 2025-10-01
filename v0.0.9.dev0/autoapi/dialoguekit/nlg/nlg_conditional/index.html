@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dialoguekit.nlg.nlg_conditional &mdash; DialogueKit 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.png"/>
+      <script src="../../../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="dialoguekit.nlg.nlg_template" href="../nlg_template/index.html" />
+    <link rel="prev" title="dialoguekit.nlg.nlg_abstract" href="../nlg_abstract/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            DialogueKit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts.html">Main concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../components.html">Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external_agents.html">External Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dialogue_export.html">DialogueKit Dialogue Export Format</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">dialoguekit</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../connector/index.html">dialoguekit.connector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/index.html">dialoguekit.core</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">dialoguekit.nlg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../nlu/index.html">dialoguekit.nlu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../participant/index.html">dialoguekit.participant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../platforms/index.html">dialoguekit.platforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../utils/index.html">dialoguekit.utils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">DialogueKit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">dialoguekit</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">dialoguekit.nlg</a></li>
+      <li class="breadcrumb-item active">dialoguekit.nlg.nlg_conditional</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/dialoguekit/nlg/nlg_conditional/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dialoguekit.nlg.nlg_conditional">
+<span id="dialoguekit-nlg-nlg-conditional"></span><h1>dialoguekit.nlg.nlg_conditional<a class="headerlink" href="#module-dialoguekit.nlg.nlg_conditional" title="Link to this heading">¶</a></h1>
+<p>Conditional NLG.</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dialoguekit.nlg.nlg_conditional.ConditionalNLG" title="dialoguekit.nlg.nlg_conditional.ConditionalNLG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConditionalNLG</span></code></a></p></td>
+<td><p>Template-based NLG with support for conditional.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="dialoguekit.nlg.nlg_conditional.ConditionalNLG">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dialoguekit.nlg.nlg_conditional.</span></span><span class="sig-name descname"><span class="pre">ConditionalNLG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response_templates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/intent/index.html#dialoguekit.core.intent.Intent" title="dialoguekit.core.intent.Intent"><span class="pre">dialoguekit.core.intent.Intent</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/annotated_utterance/index.html#dialoguekit.core.annotated_utterance.AnnotatedUtterance" title="dialoguekit.core.annotated_utterance.AnnotatedUtterance"><span class="pre">dialoguekit.core.annotated_utterance.AnnotatedUtterance</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dialoguekit.nlg.nlg_conditional.ConditionalNLG" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../nlg_template/index.html#dialoguekit.nlg.nlg_template.TemplateNLG" title="dialoguekit.nlg.nlg_template.TemplateNLG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dialoguekit.nlg.nlg_template.TemplateNLG</span></code></a></p>
+<p>Template-based NLG with support for conditional.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.nlg.nlg_conditional.ConditionalNLG.generate_utterance_text">
+<span class="sig-name descname"><span class="pre">generate_utterance_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../core/intent/index.html#dialoguekit.core.intent.Intent" title="dialoguekit.core.intent.Intent"><span class="pre">dialoguekit.core.intent.Intent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/annotation/index.html#dialoguekit.core.annotation.Annotation" title="dialoguekit.core.annotation.Annotation"><span class="pre">dialoguekit.core.annotation.Annotation</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_annotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../core/annotated_utterance/index.html#dialoguekit.core.annotated_utterance.AnnotatedUtterance" title="dialoguekit.core.annotated_utterance.AnnotatedUtterance"><span class="pre">dialoguekit.core.annotated_utterance.AnnotatedUtterance</span></a></span></span><a class="headerlink" href="#dialoguekit.nlg.nlg_conditional.ConditionalNLG.generate_utterance_text" title="Link to this definition">¶</a></dt>
+<dd><p>Turns a structured utterance into a textual one.</p>
+<p>This method does essentially the same as
+TemplateNLG.generate_utterance_text(), if you want to use the
+conditional you should rather use the method
+generate_utterance_text_conditional().</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the template does not contain the desired intent, a fallback will
+be used. Stating “Sorry, I did not understand you.” The response
+will have the same ‘intent’.</p>
+</div>
+<p>Generating a response is a multi-step process:</p>
+<ol class="arabic simple">
+<li><p>Responses to the desired ‘intent’ will be selected.</p></li>
+<li><p>Based on the list of ‘annotations’, only the possible responses are
+kept, i.e., filter out responses that are not usable.</p></li>
+<li><p>If ‘satisfaction’ is provided:
+Filter to the closest responses that are possible, and select a
+random one.</p></li>
+<li><p>If ‘satisfaction’ is not provided:
+Select a random one without looking at the satisfaction metric.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>intent</strong> – The intent of the wanted Utterance.</p></li>
+<li><p><strong>annotations</strong> – The wanted annotations in the response Utterance.</p></li>
+<li><p><strong>force_annotation</strong> – if ‘True’ and ‘annotations’ are provided,
+responses without annotations will also be filtered out during
+step 2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Generated response utterance using templates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note: if the filtering after step 1 and 2 does not find any
+response that satisfies the criteria ‘ValueError’ will be
+raised.</p>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.nlg.nlg_conditional.ConditionalNLG.generate_utterance_text_conditional">
+<span class="sig-name descname"><span class="pre">generate_utterance_text_conditional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">intent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../core/intent/index.html#dialoguekit.core.intent.Intent" title="dialoguekit.core.intent.Intent"><span class="pre">dialoguekit.core.intent.Intent</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">annotations</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/annotation/index.html#dialoguekit.core.annotation.Annotation" title="dialoguekit.core.annotation.Annotation"><span class="pre">dialoguekit.core.annotation.Annotation</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conditional</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conditional_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numbers.Number</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_annotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../core/annotated_utterance/index.html#dialoguekit.core.annotated_utterance.AnnotatedUtterance" title="dialoguekit.core.annotated_utterance.AnnotatedUtterance"><span class="pre">dialoguekit.core.annotated_utterance.AnnotatedUtterance</span></a></span></span><a class="headerlink" href="#dialoguekit.nlg.nlg_conditional.ConditionalNLG.generate_utterance_text_conditional" title="Link to this definition">¶</a></dt>
+<dd><p>Turns a structured utterance into a textual one.</p>
+<p>The conditional field has to be part of the AnnotatedUtterance metadata
+field and also a Number.</p>
+<p>Note:
+If the template does not contain the desired intent, a fallback will be
+used. Stating “Sorry, I did not understand you.” The response will have
+the same ‘intent’.</p>
+<dl>
+<dt>Generating a response is a multi-step process.</dt><dd><ol class="arabic">
+<li><p>Responses to the desired ‘intent’ will be selected.</p></li>
+<li><dl class="simple">
+<dt>Based on the list of ‘annotations’ only the possible responses,</dt><dd><p>are kept. e.g. Filter out responses that are not possible to
+use are removed.</p>
+</dd>
+</dl>
+</li>
+<li><ol class="loweralpha simple">
+<li><p>If conditional is provided:</p></li>
+</ol>
+<blockquote>
+<div><p>Filter to the closest responses that are possible to the
+conditional_value, and select a random one.</p>
+</div></blockquote>
+</li>
+</ol>
+<ol class="arabic" start="3">
+<li><ol class="loweralpha simple" start="2">
+<li><p>If conditional is not provided:</p></li>
+</ol>
+<blockquote>
+<div><p>Select a random one without looking at the conditional_value.</p>
+</div></blockquote>
+</li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>intent</strong> – The intent of the wanted Utterance.</p></li>
+<li><p><strong>annotations</strong> – The wanted annotations in the response Utterance.</p></li>
+<li><p><strong>conditional</strong> – The desired metadata field to use as a conditional.</p></li>
+<li><p><strong>conditional_value</strong> – The desired conditional value score.</p></li>
+<li><p><strong>force_annotation</strong> – If ‘True’ and ‘annotations’ are provided,
+responses without annotations will also be filtered out during
+step 2.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Generated response utterance using templates.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note: if the filtering after step 1 and 2 does not find any
+response that satisfies the criteria ‘ValueError’ will be
+raised.</p>
+</div>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../nlg_abstract/index.html" class="btn btn-neutral float-left" title="dialoguekit.nlg.nlg_abstract" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../nlg_template/index.html" class="btn btn-neutral float-right" title="dialoguekit.nlg.nlg_template" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, IAI group, University of Stavanger.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v0.0.9.dev0
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../../../main/index.html">main</a></dd>
+            <dt>Tags</dt>
+            <dd><a href="../../../../../v0.0.7/index.html">v0.0.7</a></dd>
+            <dd><a href="../../../../../v0.0.8/index.html">v0.0.8</a></dd>
+            <dd><a href="../../../../../v0.0.9/index.html">v0.0.9</a></dd>
+            <dd><a href="index.html">v0.0.9.dev0</a></dd>
+            <dd><a href="../../../../../v0.0.9.dev1/index.html">v0.0.9.dev1</a></dd>
+            <dd><a href="../../../../../v0.1.0/index.html">v0.1.0</a></dd>
+        </dl>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

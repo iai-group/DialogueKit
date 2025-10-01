@@ -1,0 +1,197 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Natural Language Generation (NLG) &mdash; DialogueKit 0.0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+      <script src="_static/documentation_options.js?v=53b53b71"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dialogue Orchestration" href="dialogue_orchestration.html" />
+    <link rel="prev" title="Natural Language Understanding (NLU)" href="nlu.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            DialogueKit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">Main concepts</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="components.html">Components</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="dialogue_representation.html">Dialogue Representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="participant.html">Participant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nlu.html">Natural Language Understanding (NLU)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Natural Language Generation (NLG)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#usage-example">Usage Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conditionalnlg">ConditionalNLG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-nlg">Custom NLG</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dialogue_orchestration.html">Dialogue Orchestration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="evaluation.html">Evaluator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="external_agents.html">External Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dialogue_export.html">DialogueKit Dialogue Export Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DialogueKit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="components.html">Components</a></li>
+      <li class="breadcrumb-item active">Natural Language Generation (NLG)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/nlg.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="natural-language-generation-nlg">
+<h1>Natural Language Generation (NLG)<a class="headerlink" href="#natural-language-generation-nlg" title="Link to this heading">¶</a></h1>
+<p>The NLG components in DialogueKit are currently template-based.
+The basic template-based generation works by extracting templates from a set of training data. The templates are the user and agent utterances with the annotations removed. This version can be found here: <a class="reference internal" href="autoapi/dialoguekit/nlg/nlg_template/index.html#dialoguekit.nlg.nlg_template.TemplateNLG" title="dialoguekit.nlg.nlg_template.TemplateNLG"><code class="xref py py-class docutils literal notranslate"><span class="pre">dialoguekit.nlg.nlg_template.TemplateNLG</span></code></a>.</p>
+<p>An extended version of the basic template-based implementation which can perform conditional language generation is <a class="reference internal" href="autoapi/dialoguekit/nlg/nlg_conditional/index.html#dialoguekit.nlg.nlg_conditional.ConditionalNLG" title="dialoguekit.nlg.nlg_conditional.ConditionalNLG"><code class="xref py py-class docutils literal notranslate"><span class="pre">dialoguekit.nlg.nlg_conditional.ConditionalNLG</span></code></a>.
+Using a conditional may be useful in cases where other attributes than the intent and annotations may be of interest , for example, the user’s satisfaction.
+This can then be used to select templates that have a different tone based on the conditional.</p>
+<p>These two are used in similar ways. The only difference is that the <cite>ConditionalNLG</cite> can use a conditional in the <a class="reference internal" href="autoapi/dialoguekit/core/annotated_utterance/index.html#dialoguekit.core.annotated_utterance.AnnotatedUtterance.metadata" title="dialoguekit.core.annotated_utterance.AnnotatedUtterance.metadata"><code class="xref py py-attr docutils literal notranslate"><span class="pre">dialoguekit.core.annotated_utterance.AnnotatedUtterance.metadata</span></code></a> as long as the conditional value is a number.</p>
+<p>To start using these NLG classes a template needs to be generated.
+Two methods for doing this are provided:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="autoapi/dialoguekit/nlg/template_from_training_data/index.html#dialoguekit.nlg.template_from_training_data.build_template_from_instances" title="dialoguekit.nlg.template_from_training_data.build_template_from_instances"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dialoguekit.nlg.template_from_training_data.build_template_from_instances()</span></code></a></p></li>
+<li><p><a class="reference internal" href="autoapi/dialoguekit/nlg/template_from_training_data/index.html#dialoguekit.nlg.template_from_training_data.extract_utterance_template" title="dialoguekit.nlg.template_from_training_data.extract_utterance_template"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dialoguekit.nlg.template_from_training_data.extract_utterance_template()</span></code></a></p></li>
+</ul>
+</div></blockquote>
+<section id="usage-example">
+<h2>Usage Example<a class="headerlink" href="#usage-example" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dialoguekit.core.annotation</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dialoguekit.core.intent</span><span class="w"> </span><span class="kn">import</span> <span class="n">Intent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dialoguekit.nlg.nlg_template</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateNLG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dialoguekit.nlg.template_from_training_data</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">extract_utterance_template</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">template</span> <span class="o">=</span> <span class="n">extract_utterance_template</span><span class="p">(</span>
+    <span class="n">annotated_dialogue_file</span><span class="o">=</span><span class="n">ANNOTATED_DIALOGUE_FILE_PATH</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">nlg</span> <span class="o">=</span> <span class="n">TemplateNLG</span><span class="p">(</span><span class="n">response_templates</span><span class="o">=</span><span class="n">template</span><span class="p">)</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">nlg</span><span class="o">.</span><span class="n">generate_utterance_text</span><span class="p">(</span><span class="n">intent</span><span class="o">=</span><span class="n">Intent</span><span class="p">(</span><span class="s2">&quot;COMPLETE&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="conditionalnlg">
+<h2>ConditionalNLG<a class="headerlink" href="#conditionalnlg" title="Link to this heading">¶</a></h2>
+<p>The ConditionalNLG class contains two additional parameters to the <code class="docutils literal notranslate"><span class="pre">generate_utterance_text()</span></code> method.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">conditional:</span> <span class="pre">str</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">conditional_value:</span> <span class="pre">Number</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>These fields are used to find the utterance that has the closest <code class="docutils literal notranslate"><span class="pre">conditional_value</span></code> to the utterance metadata field with the key <code class="docutils literal notranslate"><span class="pre">conditional</span></code>.
+Note that this necessitates the need of a larger template with multiple values for the <code class="docutils literal notranslate"><span class="pre">conditional</span></code>.</p>
+</section>
+<section id="custom-nlg">
+<h2>Custom NLG<a class="headerlink" href="#custom-nlg" title="Link to this heading">¶</a></h2>
+<p>Any custom NLG component might be implemented by inheriting from <a class="reference internal" href="autoapi/dialoguekit/nlg/nlg_abstract/index.html#dialoguekit.nlg.nlg_abstract.AbstractNLG" title="dialoguekit.nlg.nlg_abstract.AbstractNLG"><code class="xref py py-class docutils literal notranslate"><span class="pre">dialoguekit.nlg.nlg_abstract.AbstractNLG</span></code></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="nlu.html" class="btn btn-neutral float-left" title="Natural Language Understanding (NLU)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dialogue_orchestration.html" class="btn btn-neutral float-right" title="Dialogue Orchestration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, IAI group, University of Stavanger.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v0.0.9
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../main/nlg.html">main</a></dd>
+            <dt>Tags</dt>
+            <dd><a href="../v0.0.7/nlg.html">v0.0.7</a></dd>
+            <dd><a href="../v0.0.8/nlg.html">v0.0.8</a></dd>
+            <dd><a href="nlg.html">v0.0.9</a></dd>
+            <dd><a href="../v0.0.9.dev0/nlg.html">v0.0.9.dev0</a></dd>
+            <dd><a href="../v0.0.9.dev1/nlg.html">v0.0.9.dev1</a></dd>
+            <dd><a href="../v0.1.0/nlg.html">v0.1.0</a></dd>
+        </dl>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

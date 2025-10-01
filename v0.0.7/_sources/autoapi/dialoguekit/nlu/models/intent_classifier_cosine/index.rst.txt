@@ -1,0 +1,74 @@
+dialoguekit.nlu.models.intent_classifier_cosine
+===============================================
+
+.. py:module:: dialoguekit.nlu.models.intent_classifier_cosine
+
+.. autoapi-nested-parse::
+
+   Implements intent classification based on cosine similarity.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.models.intent_classifier_cosine.IntentClassifierCosine
+
+
+Module Contents
+---------------
+
+.. py:class:: IntentClassifierCosine(intents: List[dialoguekit.core.intent.Intent])
+
+   Bases: :py:obj:`dialoguekit.nlu.intent_classifier.IntentClassifier`
+
+
+   Cosine Intent classifier.
+
+   :param intents: Allowed intents.
+
+
+   .. py:method:: train_model(utterances: List[dialoguekit.core.utterance.Utterance], labels: List[dialoguekit.core.intent.Intent]) -> None
+
+      Trains a model based on a set of labeled utterances.
+
+      :param utterances: List of Utterance instances.
+      :param labels: List of associated intent labels.
+
+
+
+   .. py:method:: classify_intent(utterance: dialoguekit.core.utterance.Utterance) -> dialoguekit.core.intent.Intent
+
+      Classifies the utterances intent.
+
+      Classifies the intent of an utterance based on based cosine
+      similarity of TF-IDF-weighted term vectors.
+
+      :param utterance: An utterance.
+
+      :returns: Predicted intent.
+
+
+
+   .. py:method:: save_model(file_path: str) -> None
+
+      Saves the trained model to a file.
+
+      This method uses the joblib library to save the model.
+
+      :param file_path: File path.
+
+
+
+   .. py:method:: load_model(file_path: str) -> None
+
+      Loads a model from a file.
+
+      This method uses the joblib library to load the model.
+
+      :param file_path: File path.
+
+
+

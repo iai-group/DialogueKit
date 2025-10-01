@@ -1,0 +1,59 @@
+dialoguekit.nlg.template_from_training_data
+===========================================
+
+.. py:module:: dialoguekit.nlg.template_from_training_data
+
+.. autoapi-nested-parse::
+
+   Extract user response utterance templates from annotated training data.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   dialoguekit.nlg.template_from_training_data.build_template_from_instances
+   dialoguekit.nlg.template_from_training_data.extract_utterance_template
+
+
+Module Contents
+---------------
+
+.. py:function:: build_template_from_instances(utterances: List[dialoguekit.core.annotated_utterance.AnnotatedUtterance]) -> Dict[str, List[dialoguekit.core.annotated_utterance.AnnotatedUtterance]]
+
+   Builds the NLG template.
+
+   The dialogue acts from the utterances will be used to build the templates.
+   If an utterance has multiple dialogue acts, the intents will be concatenated
+   with a semicolon. If an utterance does not have any dialogue acts, it will
+   be skipped.
+
+   :param utterances: List of utterances to build the template from.
+
+   :returns: Dictionary with intents as keys and lists of corresponding templates.
+
+
+.. py:function:: extract_utterance_template(annotated_dialogue_file: str, participant_to_learn: str = 'USER', satisfaction_classifier: Optional[Union[None, dialoguekit.nlu.models.satisfaction_classifier.SatisfactionClassifier]] = None) -> Dict[str, List[dialoguekit.core.annotated_utterance.AnnotatedUtterance]]
+
+   Extracts utterance templates for each intent.
+
+   If a Satisfaction Classifier is provided it will be used to classify the
+   utterances. The classification logic is as follows:
+
+       - Hold participant utterance.
+       - Hold counter-participant utterance.
+       - Concatenate participant and counter-participant utterance and
+         classify satisfaction.
+       - The next utterance from participant will be given the satisfaction
+         from the concatenated utterance from the previous utterances.
+         reflecting the satisfaction at that given point in time.
+
+   :param annotated_dialog_file: Annotated dialogue json file.
+   :param participant_to_learn: Which participant we want to create a template on.
+   :param satisfaction_classifier: SatisfactionClassifier.
+
+   :returns: Dictionary with intents as keys and lists of corresponding templates.
+
+

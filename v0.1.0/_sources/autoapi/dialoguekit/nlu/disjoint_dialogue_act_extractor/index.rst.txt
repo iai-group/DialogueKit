@@ -1,0 +1,86 @@
+dialoguekit.nlu.disjoint_dialogue_act_extractor
+===============================================
+
+.. py:module:: dialoguekit.nlu.disjoint_dialogue_act_extractor
+
+.. autoapi-nested-parse::
+
+   Dialogue act extractor with disjoint intent classification and slot filling.
+
+   It is assumed that the intent classifier assigns a single intent to the
+   utterance that corresponds to the slot-value pairs extracted by the slot-value
+   annotators.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.disjoint_dialogue_act_extractor.DisjointDialogueActExtractor
+
+
+Module Contents
+---------------
+
+.. py:class:: DisjointDialogueActExtractor(intent_classifier: dialoguekit.nlu.intent_classifier.IntentClassifier, slot_value_annotators: List[dialoguekit.nlu.slot_value_annotator.SlotValueAnnotator])
+
+   Bases: :py:obj:`dialoguekit.nlu.dialogue_acts_extractor.DialogueActsExtractor`
+
+
+   Initializes the dialogue act extractor.
+
+   :param intent_classifier: Intent classifier.
+   :param slot_value_annotators: List of slot-value annotators.
+
+
+   .. py:method:: classify_intent(utterance: dialoguekit.core.utterance.Utterance) -> dialoguekit.core.intent.Intent
+
+      Classifies the intent of a given agent utterance.
+
+
+
+   .. py:method:: annotate_slot_values(utterance: dialoguekit.core.utterance.Utterance) -> List[dialoguekit.core.slot_value_annotation.SlotValueAnnotation]
+
+      Annotates a given utterance with slot-value annotators.
+
+      :param utterance: Utterance to annotate.
+
+      :returns: List of annotations.
+
+
+
+   .. py:method:: extract_dialogue_acts(utterance: dialoguekit.core.utterance.Utterance) -> List[dialoguekit.core.dialogue_act.DialogueAct]
+
+      Extracts a single dialogue act from an utterance.
+
+      :param utterance: Utterance.
+
+      :returns: List with one dialogue act.
+
+
+
+   .. py:method:: save(path: str) -> None
+
+      Saves the intent classifier and slot-value annotators to a folder.
+
+      :param path: Path to save the dialogue act extractor.
+
+
+
+   .. py:method:: load(path: str) -> DisjointDialogueActExtractor
+      :classmethod:
+
+
+      Loads the intent classifier and slot-value annotators from a folder.
+
+      :param path: Path to folder with intent classifier and slot-value
+                   annotators.
+
+      :raises FileNotFoundError: If the given folder does not exist.
+
+      :returns: Dialogue act extractor with loaded models.
+
+
+

@@ -1,0 +1,80 @@
+dialoguekit.core.annotated_utterance
+====================================
+
+.. py:module:: dialoguekit.core.annotated_utterance
+
+.. autoapi-nested-parse::
+
+   Interface extending utterances with annotations.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.annotated_utterance.AnnotatedUtterance
+
+
+Module Contents
+---------------
+
+.. py:class:: AnnotatedUtterance
+
+   Bases: :py:obj:`dialoguekit.core.utterance.Utterance`
+
+
+   Represents an utterance, with additional annotations.
+
+   The AnnotatedUtterance is a Utterance with additional information.
+   In some cases we want to send an utterance with the Intent and or
+   Annotations.
+
+
+   .. py:attribute:: intent
+      :type:  dialoguekit.core.intent.Intent
+      :value: None
+
+
+
+   .. py:attribute:: annotations
+      :type:  List[dialoguekit.core.annotation.Annotation]
+      :value: []
+
+
+
+   .. py:attribute:: metadata
+      :type:  Dict[str, Any]
+
+
+   .. py:method:: get_utterance() -> dialoguekit.core.utterance.Utterance
+
+      Returns the annotated utterance as a utterance.
+
+
+
+   .. py:method:: from_utterance(utterance: dialoguekit.core.utterance.Utterance)
+      :classmethod:
+
+
+      Creates an instance of AnnotatedUtterance from an utterance.
+
+
+
+   .. py:method:: add_annotations(annotations: List[dialoguekit.core.annotation.Annotation]) -> None
+
+      Adds annotations to the utterance.
+
+      :param annotations: List of annotations.
+
+
+
+   .. py:method:: get_text_placeholders() -> str
+
+      Replaces the utterance text with placeholders.
+
+      :returns: The utterance text with annotations replaced with placeholders.
+
+
+

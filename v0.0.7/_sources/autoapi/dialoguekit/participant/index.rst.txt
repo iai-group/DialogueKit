@@ -1,0 +1,23 @@
+dialoguekit.participant
+=======================
+
+.. py:module:: dialoguekit.participant
+
+.. autoapi-nested-parse::
+
+   Participant init.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/dialoguekit/participant/agent/index
+   /autoapi/dialoguekit/participant/participant/index
+   /autoapi/dialoguekit/participant/user/index
+   /autoapi/dialoguekit/participant/user_preferences/index
+
+

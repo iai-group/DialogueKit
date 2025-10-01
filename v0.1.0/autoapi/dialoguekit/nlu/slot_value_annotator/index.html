@@ -1,0 +1,191 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dialoguekit.nlu.slot_value_annotator &mdash; DialogueKit 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.png"/>
+      <script src="../../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="dialoguekit.participant" href="../../participant/index.html" />
+    <link rel="prev" title="dialoguekit.nlu.slot_annotator_dict" href="../slot_annotator_dict/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            DialogueKit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts.html">Main concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../components.html">Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external_agents.html">External Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dialogue_export.html">DialogueKit Dialogue Export Format</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">dialoguekit</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../connector/index.html">dialoguekit.connector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/index.html">dialoguekit.core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../nlg/index.html">dialoguekit.nlg</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">dialoguekit.nlu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../participant/index.html">dialoguekit.participant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../platforms/index.html">dialoguekit.platforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../utils/index.html">dialoguekit.utils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">DialogueKit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">dialoguekit</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">dialoguekit.nlu</a></li>
+      <li class="breadcrumb-item active">dialoguekit.nlu.slot_value_annotator</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/dialoguekit/nlu/slot_value_annotator/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dialoguekit.nlu.slot_value_annotator">
+<span id="dialoguekit-nlu-slot-value-annotator"></span><h1>dialoguekit.nlu.slot_value_annotator<a class="headerlink" href="#module-dialoguekit.nlu.slot_value_annotator" title="Link to this heading">¶</a></h1>
+<p>Interface for slot-value pairs annotation.</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dialoguekit.nlu.slot_value_annotator.SlotValueAnnotator" title="dialoguekit.nlu.slot_value_annotator.SlotValueAnnotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SlotValueAnnotator</span></code></a></p></td>
+<td><p>Instantiates a slot annotator.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="dialoguekit.nlu.slot_value_annotator.SlotValueAnnotator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dialoguekit.nlu.slot_value_annotator.</span></span><span class="sig-name descname"><span class="pre">SlotValueAnnotator</span></span><a class="headerlink" href="#dialoguekit.nlu.slot_value_annotator.SlotValueAnnotator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../annotator/index.html#dialoguekit.nlu.annotator.Annotator" title="dialoguekit.nlu.annotator.Annotator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dialoguekit.nlu.annotator.Annotator</span></code></a></p>
+<p>Instantiates a slot annotator.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.nlu.slot_value_annotator.SlotValueAnnotator.get_annotations">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">utterance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../core/utterance/index.html#dialoguekit.core.utterance.Utterance" title="dialoguekit.core.utterance.Utterance"><span class="pre">dialoguekit.core.utterance.Utterance</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/slot_value_annotation/index.html#dialoguekit.core.slot_value_annotation.SlotValueAnnotation" title="dialoguekit.core.slot_value_annotation.SlotValueAnnotation"><span class="pre">dialoguekit.core.slot_value_annotation.SlotValueAnnotation</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dialoguekit.nlu.slot_value_annotator.SlotValueAnnotator.get_annotations" title="Link to this definition">¶</a></dt>
+<dd><p>Annotates utterance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>utterance</strong> – Utterance to annotate.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – If not implemented in derived class.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of annotations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../slot_annotator_dict/index.html" class="btn btn-neutral float-left" title="dialoguekit.nlu.slot_annotator_dict" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../participant/index.html" class="btn btn-neutral float-right" title="dialoguekit.participant" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, IAI group, University of Stavanger.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v0.1.0
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../../../main/index.html">main</a></dd>
+            <dt>Tags</dt>
+            <dd><a href="../../../../../v0.0.7/index.html">v0.0.7</a></dd>
+            <dd><a href="../../../../../v0.0.8/index.html">v0.0.8</a></dd>
+            <dd><a href="../../../../../v0.0.9/index.html">v0.0.9</a></dd>
+            <dd><a href="../../../../../v0.0.9.dev0/index.html">v0.0.9.dev0</a></dd>
+            <dd><a href="../../../../../v0.0.9.dev1/index.html">v0.0.9.dev1</a></dd>
+            <dd><a href="index.html">v0.1.0</a></dd>
+        </dl>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

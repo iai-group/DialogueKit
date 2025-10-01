@@ -1,0 +1,55 @@
+dialoguekit.core.dialogue_act
+=============================
+
+.. py:module:: dialoguekit.core.dialogue_act
+
+.. autoapi-nested-parse::
+
+   Interface representing a dialogue act.
+
+   For example in the following utterance, we have a dialogue act with an intent
+   and its annotations regarding the search for a restaurant:
+
+   >USER: I am looking for a cheap Turkish restaurant.
+   DialogueAct(
+       intent = Intent("DISCLOSE"),
+       annotations = [Annotation(food="Turkish"), Annotation(price_range="cheap")],
+   )
+
+   In the following utterance, the dialogue act only has an intent:
+   > USER: I like it.
+   DialogueAct(
+       intent = Intent("DISCLOSE")
+       annotations = []
+   )
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.dialogue_act.DialogueAct
+
+
+Module Contents
+---------------
+
+.. py:class:: DialogueAct
+
+   Represents a dialogue act that is an intent and its annotations.
+
+
+   .. py:attribute:: intent
+      :type:  dialoguekit.core.intent.Intent
+      :value: None
+
+
+
+   .. py:attribute:: annotations
+      :type:  List[dialoguekit.core.annotation.Annotation]
+      :value: []
+
+
+

@@ -1,0 +1,79 @@
+dialoguekit.participant.user
+============================
+
+.. py:module:: dialoguekit.participant.user
+
+.. autoapi-nested-parse::
+
+   Abstract representation of core user-related data and functionality.
+
+   For communicating with an agent, the specific user instance needs to be
+   connected with a DialogueConnector by invoking
+   `register_dialogue_connector()`.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.participant.user.UserType
+   dialoguekit.participant.user.User
+
+
+Module Contents
+---------------
+
+.. py:class:: UserType(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Represents different types of users (humans vs simulated users).
+
+
+   .. py:attribute:: HUMAN
+      :value: 0
+
+
+
+   .. py:attribute:: SIMULATOR
+      :value: 1
+
+
+
+.. py:class:: User(id: str, user_type: UserType = UserType.HUMAN)
+
+   Bases: :py:obj:`dialoguekit.participant.participant.Participant`
+
+
+   Represents a user.
+
+   :param id: User ID.
+   :param user_type: User type (default: HUMAN).
+
+
+   .. py:property:: ready_for_input
+      :type: bool
+
+
+      Returns whether the user is ready to listen for input.
+
+
+   .. py:method:: handle_input(text: str) -> None
+
+      Gets called every time there is a new user input.
+
+      :param text: User input.
+
+
+
+   .. py:method:: receive_utterance(utterance: dialoguekit.core.utterance.Utterance) -> None
+
+      Gets called every time there is a new agent utterance.
+
+      :param utterance: Agent utterance.
+
+
+

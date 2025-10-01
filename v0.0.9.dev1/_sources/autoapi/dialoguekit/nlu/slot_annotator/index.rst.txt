@@ -1,0 +1,44 @@
+dialoguekit.nlu.slot_annotator
+==============================
+
+.. py:module:: dialoguekit.nlu.slot_annotator
+
+.. autoapi-nested-parse::
+
+   Interface for slot-value pairs annotation.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.slot_annotator.SlotValueAnnotator
+
+
+Module Contents
+---------------
+
+.. py:class:: SlotValueAnnotator
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Instantiates a slot annotator.
+
+
+   .. py:method:: get_annotations(utterance: dialoguekit.core.utterance.Utterance) -> List[dialoguekit.core.slot_value_annotation.SlotValueAnnotation]
+      :abstractmethod:
+
+
+      Annotates utterance.
+
+      :param utterance: Utterance to annotate.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+      :returns: List of annotations.
+
+
+

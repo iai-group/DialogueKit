@@ -1,0 +1,87 @@
+dialoguekit.participant.participant
+===================================
+
+.. py:module:: dialoguekit.participant.participant
+
+.. autoapi-nested-parse::
+
+   Interface defining core participant functionality.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.participant.participant.DialogueParticipant
+   dialoguekit.participant.participant.Participant
+
+
+Module Contents
+---------------
+
+.. py:class:: DialogueParticipant(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Represents possible dialogue participants.
+
+
+   .. py:attribute:: AGENT
+      :value: 0
+
+
+
+   .. py:attribute:: USER
+      :value: 1
+
+
+
+.. py:class:: Participant(id: str, type: DialogueParticipant)
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Represents a participant.
+
+   Both agents and users are participants.
+
+   :param id: Participant's ID.
+   :param type: Participant's type.
+
+
+   .. py:property:: id
+
+      Returns the participant id.
+
+
+   .. py:method:: to_dict() -> Dict[str, str]
+
+      Returns participant as a dictionary.
+
+      :returns: A dictionary representation of the participant.
+
+
+
+   .. py:method:: connect_dialogue_connector(dialogue_connector: dialoguekit.connector.dialogue_connector.DialogueConnector) -> None
+
+      Connects the DialogueConnector instance for the participant.
+
+      :param dialogue_connector: A DialogueConnector instance.
+
+
+
+   .. py:method:: receive_utterance(utterance: dialoguekit.core.utterance.Utterance) -> None
+      :abstractmethod:
+
+
+      Responds to the other participant with an utterance.
+
+      :param utterance: The other participant's utterance.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+
+

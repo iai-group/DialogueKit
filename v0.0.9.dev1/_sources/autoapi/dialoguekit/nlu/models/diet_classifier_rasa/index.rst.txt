@@ -1,0 +1,163 @@
+dialoguekit.nlu.models.diet_classifier_rasa
+===========================================
+
+.. py:module:: dialoguekit.nlu.models.diet_classifier_rasa
+
+.. autoapi-nested-parse::
+
+   Rasa DIET classifier.
+
+   More information about the DIET classifier
+   https://rasa.com/docs/rasa/reference/rasa/nlu/classifiers/diet_classifier/
+
+   A short description of how we use Rasa as a component library can be seen at:
+   https://iai-group.github.io/DialogueKit/nlu.html#rasa-as-a-component-library
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.models.diet_classifier_rasa.IntentClassifierRasa
+
+
+Module Contents
+---------------
+
+.. py:class:: IntentClassifierRasa(intents: List[dialoguekit.core.intent.Intent], training_data_path: Optional[str] = '', model_path: Optional[str] = '.rasa')
+
+   Bases: :py:obj:`dialoguekit.nlu.intent_classifier.IntentClassifier`, :py:obj:`dialoguekit.nlu.slot_annotator.SlotValueAnnotator`
+
+
+   Initializes the intent classifier.
+
+   The training data path may be used with a Rasa nlu.yml file. It is also
+   possible to use the self.train_model function with a list of Utterance
+   and a list of Intent.
+
+   :param intents: List of allowed intents.
+   :param training_data_path: Path to the training data yml. Defaults to empty
+                              string.
+   :param model_path: Path to where rasa trained model will be stored.
+                      Defaults to '.rasa'.
+
+
+   .. py:method:: init_pipeline() -> None
+
+      Creates classifier and initialize.
+
+      A component pipeline of Rasa components is created and initialized.
+      The DIET classifier object then is created with the pipeline.
+
+      :raises TypeError if training_data_path is not a string.:
+
+
+
+   .. py:method:: train_model(utterances: Optional[List[dialoguekit.core.utterance.Utterance]] = None, labels: Optional[List[dialoguekit.core.intent.Intent]] = None) -> None
+
+      Trains a model based on a set of labeled utterances.
+
+      If no utterances or labels are provided 'training_data_path'
+      in the init is used for training the model.
+      The utterances and labels are used for creating a rasa nlu
+      document which is used for the training.
+
+      :param utterances: List of Utterance instances.
+      :param labels: List of associated intent labels.
+
+
+
+   .. py:method:: classify_intent(utterance: dialoguekit.core.utterance.Utterance) -> dialoguekit.core.intent.Intent
+
+      Classifies the intent of an utterance.
+
+      The utterance is transformed to a Rasa Message before being
+      classified. If the utterance has already been processed a cache is used.
+      Since DIET also extracts entities the cache is used if the same
+      Classifier object is used.
+
+      :param utterance: An utterance.
+
+      :returns: Predicted intent.
+      :rtype: Intent
+
+
+
+   .. py:method:: get_annotations(utterance: dialoguekit.core.utterance.Utterance) -> List[dialoguekit.core.slot_value_annotation.SlotValueAnnotation]
+
+      Extracts entities using rasa DIET classifier.
+
+      Extracts entities using rasa DIET. Since this model
+      does both intent classification and entity extraction,
+      the cache is used if the same Utterance has been
+      processes before.
+
+
+      :param utterance: User utterance.
+
+      :returns: List of extracted entities.
+
+
+
+   .. py:method:: create_component(component_class: Type[rasa.engine.graph.GraphComponent], config: Dict[Text, Any], idx: int, model_storage: rasa.engine.storage.local_model_storage.LocalModelStorage) -> rasa.engine.graph.GraphComponent
+
+      Creates a Rasa pipeline component.
+
+      :param component_class: Class of the component.
+      :param config: Component configuration.
+      :param idx: Id of component in pipeline.
+      :param model_storage: Pipeline component storage.
+
+      :returns: The pipeline component.
+
+
+
+   .. py:method:: process_utterance(utterance: dialoguekit.core.utterance.Utterance) -> None
+
+      Processes utterance and adds result to the cache.
+
+      If it is the first time this utterance is processed it is added to
+      the cache. Next time the same utterance is processed it is skipped, as
+      its processing result is in the cache.
+
+      :param utterance: Agent or User Utterance.
+
+
+
+   .. py:method:: process_message(loaded_pipeline: List[rasa.engine.graph.GraphComponent], message: rasa.shared.nlu.training_data.message.Message) -> rasa.shared.nlu.training_data.message.Message
+
+      Processes a Rasa Message through a pipeline.
+
+      :param loaded_pipeline: Rasa pipeline.
+      :param message: Rasa message.
+
+      :returns: Processed message with data.
+
+
+
+   .. py:method:: save_model(file_path: str) -> None
+      :abstractmethod:
+
+
+      Saves the trained model to a file.
+
+      :param file_path: File path.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+
+
+   .. py:method:: load_model(file_path: str) -> None
+      :abstractmethod:
+
+
+      Loads a model from a file.
+
+      :param file_path: File path.
+
+      :raises NotImplementedError: If not implemented in derived class.
+
+
+

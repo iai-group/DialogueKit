@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Main concepts &mdash; DialogueKit 0.0.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="shortcut icon" href="_static/favicon.png"/>
+      <script src="_static/documentation_options.js?v=1fd71caa"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Components" href="components.html" />
+    <link rel="prev" title="Usage" href="usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            DialogueKit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Main concepts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#participant">Participant</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#agent">Agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user">User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utterance">Utterance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#intent">Intent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#platform">Platform</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dialogue-connector">Dialogue Connector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#domain">Domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#annotations">Annotations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#user-preferences">User preferences</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="components.html">Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlu.html">Natural Language Understanding (NLU)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nlg.html">Natural Language Generation (NLG)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="external_agents.html">External Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dialogue_export.html">DialogueKit Dialogue Export Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">DialogueKit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Main concepts</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/concepts.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="main-concepts">
+<h1>Main concepts<a class="headerlink" href="#main-concepts" title="Link to this heading">¶</a></h1>
+<a class="reference internal image-reference" href="_images/DialogueKit-Architecture.png"><img alt="Image illustrating the connections between DialogueKit´s main components." src="_images/DialogueKit-Architecture.png" style="width: 400px;" />
+</a>
+<section id="participant">
+<h2>Participant<a class="headerlink" href="#participant" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="autoapi/dialoguekit/participant/participant/index.html#module-dialoguekit.participant.participant" title="dialoguekit.participant.participant"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.participant.participant</span></code></a></p>
+<p>Agents and users are the participants in a dialog. Generally, it is assumed that the agent is a conversational system and the user is a human.
+However, the agent might be played by a human (“Wizard-of-Oz”) and the human user might be simulated.</p>
+<p>DialogueKit assumes the agent to always start the conversation and also end it. (A user can initialize ending a conversation, but the responsibility lies on the agent to actually stop it.)</p>
+</section>
+<section id="agent">
+<h2>Agent<a class="headerlink" href="#agent" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="autoapi/dialoguekit/participant/agent/index.html#module-dialoguekit.participant.agent" title="dialoguekit.participant.agent"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.participant.agent</span></code></a></p>
+<p>Represents a conversational agent with some intelligent capabilities (typically defined by the dialogue policy, natural language understanding, and natural language generation components).</p>
+<p>DialogueKit is shipped with some sample agents (<strong>TODO:</strong> reference sample agents page). These are described below:</p>
+<ul class="simple">
+<li><p><strong>ParrotAgent</strong>: This agent will welcome the user, but will always parrot (echo) what the user says.</p></li>
+<li><p><strong>RasaParrotAgent</strong>: This agent looks like the <strong>ParrotAgent</strong> to the user, but is actually just a connector to a Rasa conversational agent. This conversational agent is also part of DialogueKit</p></li>
+<li><p><strong>MovieBotAgent</strong>: A connector agent for <a class="reference external" href="https://github.com/iai-group/moviebot">IAI MovieBot</a> .</p></li>
+<li><p><strong>WozAgent</strong>: Allows a real human to play the role of the agent (“wizard”) when interacting with a user. This can be useful, e.g., when testing user simulators.</p></li>
+</ul>
+</section>
+<section id="user">
+<h2>User<a class="headerlink" href="#user" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="autoapi/dialoguekit/participant/user/index.html#module-dialoguekit.participant.user" title="dialoguekit.participant.user"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.participant.user</span></code></a></p>
+<p>Represents a human interacting with an agent in natural language text.</p>
+</section>
+<section id="utterance">
+<h2>Utterance<a class="headerlink" href="#utterance" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="autoapi/dialoguekit/core/utterance/index.html#module-dialoguekit.core.utterance" title="dialoguekit.core.utterance"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.core.utterance</span></code></a></p>
+<p>Dialogue participants exchange utterances, which are represented as raw text. To store intent, annotations, or freely definable metadata associated with utterances, <a class="reference internal" href="autoapi/dialoguekit/core/annotated_utterance/index.html#module-dialoguekit.core.annotated_utterance" title="dialoguekit.core.annotated_utterance"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.core.annotated_utterance</span></code></a> should be used.</p>
+</section>
+<section id="intent">
+<h2>Intent<a class="headerlink" href="#intent" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="autoapi/dialoguekit/core/intent/index.html#module-dialoguekit.core.intent" title="dialoguekit.core.intent"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.core.intent</span></code></a></p>
+<p>The intent represents the action expressed by a participant in an utterance. For example, an agent asking the question <em>“Do you like pizza?”</em> may have the intent to <em>INQUIRE</em> a preference from the user.</p>
+</section>
+<section id="platform">
+<h2>Platform<a class="headerlink" href="#platform" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="autoapi/dialoguekit/platforms/platform/index.html#module-dialoguekit.platforms.platform" title="dialoguekit.platforms.platform"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.platforms.platform</span></code></a></p>
+<p>The platform’s responsibility is to facilitate the conversation. DialogueKit includes a simple terminal-based platform. However, it can support other platforms by facilitating communication via POST requests.</p>
+</section>
+<section id="dialogue-connector">
+<h2>Dialogue Connector<a class="headerlink" href="#dialogue-connector" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="autoapi/dialoguekit/connector/dialogue_connector/index.html#module-dialoguekit.connector.dialogue_connector" title="dialoguekit.connector.dialogue_connector"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.connector.dialogue_connector</span></code></a></p>
+<p>Holds and orchestrates the conversation between the participants.</p>
+</section>
+<section id="domain">
+<h2>Domain<a class="headerlink" href="#domain" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="autoapi/dialoguekit/core/domain/index.html#module-dialoguekit.core.domain" title="dialoguekit.core.domain"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.core.domain</span></code></a></p>
+<p>Defines the types of entities and the set of properties (“slots”) for each entity type.</p>
+</section>
+<section id="annotations">
+<h2>Annotations<a class="headerlink" href="#annotations" title="Link to this heading">¶</a></h2>
+<p>There are two types of annotations</p>
+<ul class="simple">
+<li><p><strong>Intent</strong> <a class="reference internal" href="autoapi/dialoguekit/core/intent/index.html#module-dialoguekit.core.intent" title="dialoguekit.core.intent"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.core.intent</span></code></a>: represents the dialogue action.</p></li>
+<li><p><strong>SlotValueAnnotation</strong> <a class="reference internal" href="autoapi/dialoguekit/core/slot_value_annotation/index.html#module-dialoguekit.core.slot_value_annotation" title="dialoguekit.core.slot_value_annotation"><code class="xref py py-mod docutils literal notranslate"><span class="pre">dialoguekit.core.slot_value_annotation</span></code></a>: slot-value pairs, where a slot refers to an entity or a property in the domain.</p></li>
+</ul>
+</section>
+<section id="user-preferences">
+<h2>User preferences<a class="headerlink" href="#user-preferences" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Preferences are expressed for specific slot-value pairs, where slots correspond to entities or properties in the domain.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="components.html" class="btn btn-neutral float-right" title="Components" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, IAI group, University of Stavanger.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v0.0.7
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../main/concepts.html">main</a></dd>
+            <dt>Tags</dt>
+            <dd><a href="concepts.html">v0.0.7</a></dd>
+            <dd><a href="../v0.0.8/concepts.html">v0.0.8</a></dd>
+            <dd><a href="../v0.0.9/concepts.html">v0.0.9</a></dd>
+            <dd><a href="../v0.0.9.dev0/concepts.html">v0.0.9.dev0</a></dd>
+            <dd><a href="../v0.0.9.dev1/concepts.html">v0.0.9.dev1</a></dd>
+            <dd><a href="../v0.1.0/concepts.html">v0.1.0</a></dd>
+        </dl>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

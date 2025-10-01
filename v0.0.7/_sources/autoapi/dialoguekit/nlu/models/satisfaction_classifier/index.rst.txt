@@ -1,0 +1,110 @@
+dialoguekit.nlu.models.satisfaction_classifier
+==============================================
+
+.. py:module:: dialoguekit.nlu.models.satisfaction_classifier
+
+.. autoapi-nested-parse::
+
+   Satisfaction classification.
+
+   The SVM model and data it was trained on are based on:
+   https://github.com/sunnweiwei/user-satisfaction-simulation
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.models.satisfaction_classifier.SatisfactionClassifier
+   dialoguekit.nlu.models.satisfaction_classifier.SatisfactionClassifierSVM
+
+
+Module Contents
+---------------
+
+.. py:class:: SatisfactionClassifier
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Helper class that provides a standard way to create an ABC using
+   inheritance.
+
+
+   .. py:method:: classify_text(dialogue_text: Union[str, List[str]]) -> Union[int, List[int]]
+      :abstractmethod:
+
+
+      Classifies text.
+
+      Allows for both list of string and a single string.
+
+      :param dialogue_text: Text to be classified.
+
+      :returns: If the provided input is a list, a list will be returned.
+                If the input is a string, the return will be a single int.
+
+
+
+   .. py:method:: classify_last_n_dialogue(dialogue: dialoguekit.core.dialogue.Dialogue, last_n: Optional[Union[int, None]] = None) -> int
+      :abstractmethod:
+
+
+      Classifies the last n utterances in a dialogue.
+
+      If `last_n` is None the whole dialogue will be classified.
+
+      :param dialogue: Dialogue to classify.
+      :param last_n: How many of the last utterances in the dialogue to use for
+                     the classification.
+
+      :raises TypeError: If `last_n` is greater then the length of the dialogue.
+
+      :returns: Satisfaction classification.
+
+
+
+.. py:class:: SatisfactionClassifierSVM
+
+   Bases: :py:obj:`SatisfactionClassifier`
+
+
+   SVM Satisfaction classifier.
+
+   The SVM model is pre-trained on the english data from:
+   https://github.com/sunnweiwei/user-satisfaction-simulation
+
+   It classifies the users overall satisfaction with the system. Based on
+   the agents responses to the user.
+
+   The scale:
+       1: Very dissatisfied
+       2: Dissatisfied
+       3: Normal
+       4: Satisfied
+       5: Very Satisfied
+
+
+   .. py:method:: classify_text(dialogue_text: Union[str, List[str]]) -> Union[int, List[int]]
+
+      Classifies satisfaction.
+
+      :param dialogue_text: Text to classify
+
+      :returns: The classification score to the utterances.
+
+
+
+   .. py:method:: classify_last_n_dialogue(dialogue: dialoguekit.core.dialogue.Dialogue, last_n: Optional[Union[int, None]] = None) -> int
+
+      Classify n last dialogues.
+
+      :param dialogue: Dialogue object to classify.
+      :param last_n: Number of the last utterances to use for classification.
+
+      :returns: Classification score.
+
+
+

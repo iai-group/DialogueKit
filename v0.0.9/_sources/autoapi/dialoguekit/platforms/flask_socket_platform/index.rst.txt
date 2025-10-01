@@ -1,0 +1,166 @@
+dialoguekit.platforms.flask_socket_platform
+===========================================
+
+.. py:module:: dialoguekit.platforms.flask_socket_platform
+
+.. autoapi-nested-parse::
+
+   The Platform facilitates displaying of the conversation.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   dialoguekit.platforms.flask_socket_platform.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.platforms.flask_socket_platform.SocketIORequest
+   dialoguekit.platforms.flask_socket_platform.Message
+   dialoguekit.platforms.flask_socket_platform.Response
+   dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform
+   dialoguekit.platforms.flask_socket_platform.ChatNamespace
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: SocketIORequest(environ: _typeshed.wsgi.WSGIEnvironment, populate_request: bool = True, shallow: bool = False)
+
+   Bases: :py:obj:`flask.Request`
+
+
+   A request that contains a sid attribute.
+
+
+   .. py:attribute:: sid
+      :type:  str
+
+
+.. py:class:: Message
+
+   .. py:attribute:: text
+      :type:  str
+
+
+   .. py:attribute:: intent
+      :type:  str
+      :value: None
+
+
+
+   .. py:method:: from_utterance(utterance: dialoguekit.core.Utterance) -> Message
+      :classmethod:
+
+
+      Converts an utterance to a message.
+
+      :param utterance: An instance of Utterance.
+
+      :returns: An instance of Message.
+
+
+
+.. py:class:: Response
+
+   .. py:attribute:: recipient
+      :type:  str
+
+
+   .. py:attribute:: message
+      :type:  Message
+
+
+.. py:class:: FlaskSocketPlatform(agent_class: Type[dialoguekit.participant.agent.Agent])
+
+   Bases: :py:obj:`dialoguekit.platforms.platform.Platform`
+
+
+   Represents a platform that uses Flask-SocketIO.
+
+   :param agent_class: The class of the agent.
+
+
+   .. py:attribute:: app
+
+
+   .. py:attribute:: socketio
+
+
+   .. py:method:: start(host: str = '127.0.0.1', port: str = '5000') -> None
+
+      Starts the platform.
+
+      :param host: Hostname.
+      :param port: Port.
+
+
+
+   .. py:method:: display_agent_utterance(user_id: str, utterance: dialoguekit.core.Utterance) -> None
+
+      Emits agent utterance to the client.
+
+      :param user_id: User ID.
+      :param utterance: An instance of Utterance.
+
+
+
+   .. py:method:: display_user_utterance(user_id: str, utterance: dialoguekit.core.Utterance) -> None
+
+      Overrides the method in Platform to avoid raising an error.
+
+      This method is not used in FlaskSocketPlatform.
+
+      :param user_id: User ID.
+      :param utterance: An instance of Utterance.
+
+
+
+.. py:class:: ChatNamespace(namespace: str, platform: FlaskSocketPlatform)
+
+   Bases: :py:obj:`flask_socketio.Namespace`
+
+
+   Represents a namespace.
+
+   :param namespace: Namespace.
+   :param platform: An instance of FlaskSocketPlatform.
+
+
+   .. py:method:: on_connect() -> None
+
+      Connects client to platform.
+
+
+
+   .. py:method:: on_disconnect() -> None
+
+      Disconnects client from server.
+
+
+
+   .. py:method:: on_message(data: dict) -> None
+
+      Receives message from client and sends response.
+
+      :param data: Data received from client.
+
+
+
+   .. py:method:: on_feedback(data: dict) -> None
+
+      Receives feedback from client.
+
+      :param data: Data received from client.
+
+
+

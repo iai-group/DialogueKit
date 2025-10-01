@@ -1,0 +1,23 @@
+dialoguekit.nlu.models
+======================
+
+.. py:module:: dialoguekit.nlu.models
+
+.. autoapi-nested-parse::
+
+   Module level init for nlg models.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/dialoguekit/nlu/models/diet_classifier_rasa/index
+   /autoapi/dialoguekit/nlu/models/intent_classifier_cosine/index
+   /autoapi/dialoguekit/nlu/models/satisfaction/index
+   /autoapi/dialoguekit/nlu/models/satisfaction_classifier/index
+
+

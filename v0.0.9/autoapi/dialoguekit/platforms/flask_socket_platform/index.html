@@ -1,0 +1,364 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dialoguekit.platforms.flask_socket_platform &mdash; DialogueKit 0.0.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.png"/>
+      <script src="../../../../_static/documentation_options.js?v=53b53b71"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="dialoguekit.platforms.platform" href="../platform/index.html" />
+    <link rel="prev" title="dialoguekit.platforms" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            DialogueKit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts.html">Main concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../components.html">Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external_agents.html">External Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dialogue_export.html">DialogueKit Dialogue Export Format</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">dialoguekit</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../connector/index.html">dialoguekit.connector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/index.html">dialoguekit.core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../nlg/index.html">dialoguekit.nlg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../nlu/index.html">dialoguekit.nlu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../participant/index.html">dialoguekit.participant</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">dialoguekit.platforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../utils/index.html">dialoguekit.utils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">DialogueKit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">dialoguekit</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">dialoguekit.platforms</a></li>
+      <li class="breadcrumb-item active">dialoguekit.platforms.flask_socket_platform</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/dialoguekit/platforms/flask_socket_platform/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dialoguekit.platforms.flask_socket_platform">
+<span id="dialoguekit-platforms-flask-socket-platform"></span><h1>dialoguekit.platforms.flask_socket_platform<a class="headerlink" href="#module-dialoguekit.platforms.flask_socket_platform" title="Link to this heading">¶</a></h1>
+<p>The Platform facilitates displaying of the conversation.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dialoguekit.platforms.flask_socket_platform.logger" title="dialoguekit.platforms.flask_socket_platform.logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logger</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dialoguekit.platforms.flask_socket_platform.SocketIORequest" title="dialoguekit.platforms.flask_socket_platform.SocketIORequest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SocketIORequest</span></code></a></p></td>
+<td><p>A request that contains a sid attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#dialoguekit.platforms.flask_socket_platform.Message" title="dialoguekit.platforms.flask_socket_platform.Message"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Message</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dialoguekit.platforms.flask_socket_platform.Response" title="dialoguekit.platforms.flask_socket_platform.Response"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Response</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform" title="dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FlaskSocketPlatform</span></code></a></p></td>
+<td><p>Represents a platform that uses Flask-SocketIO.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dialoguekit.platforms.flask_socket_platform.ChatNamespace" title="dialoguekit.platforms.flask_socket_platform.ChatNamespace"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ChatNamespace</span></code></a></p></td>
+<td><p>Represents a namespace.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.logger">
+<span class="sig-prename descclassname"><span class="pre">dialoguekit.platforms.flask_socket_platform.</span></span><span class="sig-name descname"><span class="pre">logger</span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.logger" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.SocketIORequest">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dialoguekit.platforms.flask_socket_platform.</span></span><span class="sig-name descname"><span class="pre">SocketIORequest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">environ</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">_typeshed.wsgi.WSGIEnvironment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">populate_request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shallow</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.SocketIORequest" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">flask.Request</span></code></p>
+<p>A request that contains a sid attribute.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.SocketIORequest.sid">
+<span class="sig-name descname"><span class="pre">sid</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.SocketIORequest.sid" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.Message">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dialoguekit.platforms.flask_socket_platform.</span></span><span class="sig-name descname"><span class="pre">Message</span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.Message" title="Link to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.Message.text">
+<span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.Message.text" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.Message.intent">
+<span class="sig-name descname"><span class="pre">intent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.Message.intent" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.Message.from_utterance">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_utterance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">utterance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dialoguekit.core.Utterance</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#dialoguekit.platforms.flask_socket_platform.Message" title="dialoguekit.platforms.flask_socket_platform.Message"><span class="pre">Message</span></a></span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.Message.from_utterance" title="Link to this definition">¶</a></dt>
+<dd><p>Converts an utterance to a message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>utterance</strong> – An instance of Utterance.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An instance of Message.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.Response">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dialoguekit.platforms.flask_socket_platform.</span></span><span class="sig-name descname"><span class="pre">Response</span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.Response" title="Link to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.Response.recipient">
+<span class="sig-name descname"><span class="pre">recipient</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.Response.recipient" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.Response.message">
+<span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#dialoguekit.platforms.flask_socket_platform.Message" title="dialoguekit.platforms.flask_socket_platform.Message"><span class="pre">Message</span></a></em><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.Response.message" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dialoguekit.platforms.flask_socket_platform.</span></span><span class="sig-name descname"><span class="pre">FlaskSocketPlatform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../participant/agent/index.html#dialoguekit.participant.agent.Agent" title="dialoguekit.participant.agent.Agent"><span class="pre">dialoguekit.participant.agent.Agent</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../platform/index.html#dialoguekit.platforms.platform.Platform" title="dialoguekit.platforms.platform.Platform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dialoguekit.platforms.platform.Platform</span></code></a></p>
+<p>Represents a platform that uses Flask-SocketIO.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>agent_class</strong> – The class of the agent.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform.app">
+<span class="sig-name descname"><span class="pre">app</span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform.app" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform.socketio">
+<span class="sig-name descname"><span class="pre">socketio</span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform.socketio" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'5000'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform.start" title="Link to this definition">¶</a></dt>
+<dd><p>Starts the platform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Hostname.</p></li>
+<li><p><strong>port</strong> – Port.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform.display_agent_utterance">
+<span class="sig-name descname"><span class="pre">display_agent_utterance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utterance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dialoguekit.core.Utterance</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform.display_agent_utterance" title="Link to this definition">¶</a></dt>
+<dd><p>Emits agent utterance to the client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> – User ID.</p></li>
+<li><p><strong>utterance</strong> – An instance of Utterance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform.display_user_utterance">
+<span class="sig-name descname"><span class="pre">display_user_utterance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utterance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dialoguekit.core.Utterance</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform.display_user_utterance" title="Link to this definition">¶</a></dt>
+<dd><p>Overrides the method in Platform to avoid raising an error.</p>
+<p>This method is not used in FlaskSocketPlatform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>user_id</strong> – User ID.</p></li>
+<li><p><strong>utterance</strong> – An instance of Utterance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.ChatNamespace">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dialoguekit.platforms.flask_socket_platform.</span></span><span class="sig-name descname"><span class="pre">ChatNamespace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">namespace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform" title="dialoguekit.platforms.flask_socket_platform.FlaskSocketPlatform"><span class="pre">FlaskSocketPlatform</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.ChatNamespace" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">flask_socketio.Namespace</span></code></p>
+<p>Represents a namespace.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>namespace</strong> – Namespace.</p></li>
+<li><p><strong>platform</strong> – An instance of FlaskSocketPlatform.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.ChatNamespace.on_connect">
+<span class="sig-name descname"><span class="pre">on_connect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.ChatNamespace.on_connect" title="Link to this definition">¶</a></dt>
+<dd><p>Connects client to platform.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.ChatNamespace.on_disconnect">
+<span class="sig-name descname"><span class="pre">on_disconnect</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.ChatNamespace.on_disconnect" title="Link to this definition">¶</a></dt>
+<dd><p>Disconnects client from server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.ChatNamespace.on_message">
+<span class="sig-name descname"><span class="pre">on_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.ChatNamespace.on_message" title="Link to this definition">¶</a></dt>
+<dd><p>Receives message from client and sends response.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – Data received from client.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.platforms.flask_socket_platform.ChatNamespace.on_feedback">
+<span class="sig-name descname"><span class="pre">on_feedback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dialoguekit.platforms.flask_socket_platform.ChatNamespace.on_feedback" title="Link to this definition">¶</a></dt>
+<dd><p>Receives feedback from client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – Data received from client.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="dialoguekit.platforms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../platform/index.html" class="btn btn-neutral float-right" title="dialoguekit.platforms.platform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, IAI group, University of Stavanger.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v0.0.9
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../../../main/index.html">main</a></dd>
+            <dt>Tags</dt>
+            <dd><a href="../../../../../v0.0.7/index.html">v0.0.7</a></dd>
+            <dd><a href="../../../../../v0.0.8/index.html">v0.0.8</a></dd>
+            <dd><a href="index.html">v0.0.9</a></dd>
+            <dd><a href="../../../../../v0.0.9.dev0/index.html">v0.0.9.dev0</a></dd>
+            <dd><a href="../../../../../v0.0.9.dev1/index.html">v0.0.9.dev1</a></dd>
+            <dd><a href="../../../../../v0.1.0/index.html">v0.1.0</a></dd>
+        </dl>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

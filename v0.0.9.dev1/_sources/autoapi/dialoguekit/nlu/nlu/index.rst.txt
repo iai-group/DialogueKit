@@ -1,0 +1,46 @@
+dialoguekit.nlu.nlu
+===================
+
+.. py:module:: dialoguekit.nlu.nlu
+
+.. autoapi-nested-parse::
+
+   Natural language understanding.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlu.nlu.NLU
+
+
+Module Contents
+---------------
+
+.. py:class:: NLU(intent_classifier: dialoguekit.nlu.intent_classifier.IntentClassifier, slot_annotators: List[dialoguekit.nlu.slot_annotator.SlotValueAnnotator])
+
+   Represents a Natural Language Understanding (NLU) component.
+
+   :param intent_classifier: Intent classifier.
+   :param slot_annotators: List of slot annotators.
+
+
+   .. py:method:: classify_intent(utterance: dialoguekit.core.utterance.Utterance) -> dialoguekit.core.intent.Intent
+
+      Classifies the intent of a given agent utterance.
+
+
+
+   .. py:method:: annotate_slot_values(utterance: dialoguekit.core.utterance.Utterance) -> List[dialoguekit.core.slot_value_annotation.SlotValueAnnotation]
+
+      Annotates a given utterance with slot annotators.
+
+      :param utterance: Utterance to annotate.
+
+      :returns: List of annotations.
+
+
+

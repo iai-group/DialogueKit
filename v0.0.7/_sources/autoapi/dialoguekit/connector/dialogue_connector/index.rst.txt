@@ -1,0 +1,109 @@
+dialoguekit.connector.dialogue_connector
+========================================
+
+.. py:module:: dialoguekit.connector.dialogue_connector
+
+.. autoapi-nested-parse::
+
+   Central broker for coordinating the communication between Agent and User.
+
+   The DialogueConnector is instantiated with an Agent and a User.  These are then
+   connected with the particular DialogueConnector instance by calling their
+   respective `connect_dialogue_connector()` methods.
+
+   By definition, the communication starts with the Agent's welcome message.
+   Each agent/user utterance is sent to the other party via their respective
+   `receive_utterance()` methods.
+   It is left to to specific Agent and User instances when and how they respond.
+   It is expected that most will respond immediately upon receiving an utterance,
+   but this is not required.  Whenever there is a message from either the Agent or
+   the User, the DialogueConnector sends it to the other party by calling their
+   `receive_{agent/user}_utterance()` method.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   dialoguekit.connector.dialogue_connector.agent
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.connector.dialogue_connector.DialogueConnector
+
+
+Module Contents
+---------------
+
+.. py:class:: DialogueConnector(agent: dialoguekit.participant.agent.Agent, user: dialoguekit.participant.user.User, platform: dialoguekit.platforms.platform.Platform, save_dialogue_history: bool = True)
+
+   Represents a dialogue connector.
+
+   :param agent: An instance of Agent.
+   :param user: An instance of User.
+   :param platform: An instance of Platform.
+   :param save_dialogue_history: Flag to save the dialogue or not.
+
+
+   .. py:property:: dialogue_history
+
+      Return the dialogue history.
+
+
+   .. py:method:: register_user_utterance(annotated_utterance: dialoguekit.core.annotated_utterance.AnnotatedUtterance) -> None
+
+      Registers an annotated utterance from the user.
+
+      In most cases the Agent should not know about the Users Intent and
+      Annotation-s. But for some use cases this additional information may
+      become useful, depending on the UI etc.
+      Thus the complete AnnotatedUtterance will be sent to the Agent. It is
+      the Agents responsibility to only use the information it is supposed
+      to.
+
+      :param annotated_utterance: User utterance.
+
+
+
+   .. py:method:: register_agent_utterance(annotated_utterance: dialoguekit.core.annotated_utterance.AnnotatedUtterance) -> None
+
+      Registers an annotated utterance from the agent.
+
+      This method takes a AnnotatedUtterance but only a Utterance gets sent to
+      the User. The AnnotatedUtterance gets used to store the conversation for
+      future reference, and if the Agent wants to end the conversation with
+      the "EXIT" Intent, the DialogueConnector will end the conversation with
+      the close() method.
+
+      .. note::
+
+         If the Intent label is 'EXIT' the DialogueConnector will close. Thus
+         it is only the agent that can close the DialogueConnector.
+
+      :param annotated_utterance: Agent utterance.
+
+
+
+   .. py:method:: start() -> None
+
+      Starts the conversation.
+
+
+
+   .. py:method:: close() -> None
+
+      Closes the conversation.
+
+      If '_save_dialogue_history' is set to True it will export the
+      dialogue history.
+
+
+
+.. py:data:: agent
+

@@ -1,0 +1,11 @@
+dialoguekit.nlu.models.satisfaction
+===================================
+
+.. py:module:: dialoguekit.nlu.models.satisfaction
+
+.. autoapi-nested-parse::
+
+   NLU satisfaction init.
+
+
+

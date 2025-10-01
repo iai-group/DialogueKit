@@ -1,0 +1,125 @@
+dialoguekit.platforms.platform
+==============================
+
+.. py:module:: dialoguekit.platforms.platform
+
+.. autoapi-nested-parse::
+
+   The Platform facilitates displaying of the conversation.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.platforms.platform.Platform
+
+
+Module Contents
+---------------
+
+.. py:class:: Platform(agent_class: Type[dialoguekit.participant.Agent])
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Represents a platform.
+
+   :param agent_class: The class of the agent.
+
+
+   .. py:method:: start() -> None
+      :abstractmethod:
+
+
+      Starts the platform.
+
+      :raises NotImplementedError: If the method is not implemented.
+
+
+
+   .. py:method:: display_agent_utterance(utterance: dialoguekit.core.Utterance, agent_id: str, user_id: str) -> None
+      :abstractmethod:
+
+
+      Displays an agent utterance.
+
+      Considering that an agent can interact with multiple users, the
+      user_id is provided to identify the recipient.
+
+      :param utterance: An instance of Utterance.
+      :param agent_id: Agent ID.
+      :param user_id: User ID of the recipient.
+
+      :raises NotImplementedError: If the method is not implemented.
+
+
+
+   .. py:method:: display_user_utterance(utterance: dialoguekit.core.Utterance, user_id: str) -> None
+      :abstractmethod:
+
+
+      Displays a user utterance.
+
+      :param utterance: An instance of Utterance.
+      :param user_id: User ID.
+
+      :raises NotImplementedError: If the method is not implemented.
+
+
+
+   .. py:method:: get_new_agent() -> dialoguekit.participant.Agent
+
+      Returns a new instance of the agent.
+
+      :returns: Agent.
+
+
+
+   .. py:method:: get_user(user_id: str) -> dialoguekit.participant.User
+
+      Returns the user.
+
+      :param user_id: User ID.
+
+      :returns: User.
+
+
+
+   .. py:method:: connect(user_id: str) -> None
+
+      Connects a user to an agent.
+
+      :param user_id: User ID.
+
+
+
+   .. py:method:: disconnect(user_id: str) -> None
+
+      Disconnects a user from an agent.
+
+      :param user_id: User ID.
+
+
+
+   .. py:method:: message(user_id: str, text: str) -> None
+
+      Gets called every time there is a new user input.
+
+      :param user_id: User ID.
+      :param text: User input.
+
+
+
+   .. py:method:: feedback(user_id: str, utterance_id: str, value: int) -> None
+
+      Gets called every time there is a new utterance feedback.
+
+      :param user_id: User ID.
+      :param utterance_id: Utterance ID.
+      :param value: Feedback value.
+
+
+

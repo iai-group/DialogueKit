@@ -1,0 +1,49 @@
+dialoguekit.core.domain
+=======================
+
+.. py:module:: dialoguekit.core.domain
+
+.. autoapi-nested-parse::
+
+   Interface representing domain knowledge.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.domain.Domain
+
+
+Module Contents
+---------------
+
+.. py:class:: Domain(config_file: str)
+
+   Represents domain knowledge.
+
+   The YAML configuration file should contain at least the fields name and
+   slot_names.
+
+   :param config_file: Name of YAML config file.
+
+   :raises KeyError: if the configuration does not have the fields name and
+       slot_names.
+
+
+   .. py:method:: get_slot_names() -> List[str]
+
+      Returns the list of slot names.
+
+      :returns: List of slot names.
+
+
+
+   .. py:method:: get_name() -> str
+
+      Returns the name of the domain.
+
+
+

@@ -1,0 +1,65 @@
+dialoguekit.core.intent
+=======================
+
+.. py:module:: dialoguekit.core.intent
+
+.. autoapi-nested-parse::
+
+   Interface representing an intent.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.intent.Intent
+
+
+Module Contents
+---------------
+
+.. py:class:: Intent(label: str, main_intent: Optional[Union[None, Any]] = None)
+
+   Initializes the intent.
+
+   :param label: Intent label.
+   :param main_intent: The main_intent intent.
+
+
+   .. py:property:: label
+      :type: str
+
+
+      Returns the Intent label.
+
+
+   .. py:property:: main_intent
+      :type: Union[Any, None]
+
+
+      Returns the main intent.
+
+
+   .. py:property:: sub_intents
+      :type: List[Any]
+
+
+      Returns a list of sub-intents.
+
+
+   .. py:property:: is_main_intent
+      :type: bool
+
+
+      Returns bool if it is the main intent.
+
+
+   .. py:property:: has_sub_intents
+      :type: bool
+
+
+      Returns bool if intent has sub intents.
+
+

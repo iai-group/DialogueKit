@@ -1,0 +1,52 @@
+dialoguekit.core.utterance
+==========================
+
+.. py:module:: dialoguekit.core.utterance
+
+.. autoapi-nested-parse::
+
+   Interface representing the basic unit of communication.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.utterance.Utterance
+
+
+Module Contents
+---------------
+
+.. py:class:: Utterance(text: str, participant: dialoguekit.participant.participant.DialogueParticipant, timestamp: Optional[datetime.datetime] = None)
+
+   Represents an utterance.
+
+   :param text: Utterance text.
+   :param participant: Who said the utterance.
+   :param timestamp: When was the utterance uttered.
+
+
+   .. py:property:: text
+      :type: str
+
+
+      Returns the utterance text.
+
+
+   .. py:property:: participant
+      :type: dialoguekit.participant.participant.DialogueParticipant
+
+
+      Returns the utterance participant.
+
+
+   .. py:property:: timestamp
+      :type: datetime.datetime
+
+
+      Returns the utterance timestamp.
+
+

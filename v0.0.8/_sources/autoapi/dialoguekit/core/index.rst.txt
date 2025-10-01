@@ -1,0 +1,26 @@
+dialoguekit.core
+================
+
+.. py:module:: dialoguekit.core
+
+.. autoapi-nested-parse::
+
+   Module level init for the core classes.
+
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/dialoguekit/core/annotated_utterance/index
+   /autoapi/dialoguekit/core/annotation/index
+   /autoapi/dialoguekit/core/dialogue/index
+   /autoapi/dialoguekit/core/domain/index
+   /autoapi/dialoguekit/core/intent/index
+   /autoapi/dialoguekit/core/slot_value_annotation/index
+   /autoapi/dialoguekit/core/utterance/index
+
+

@@ -1,0 +1,57 @@
+dialoguekit.utils.annotation_converter
+======================================
+
+.. py:module:: dialoguekit.utils.annotation_converter
+
+.. autoapi-nested-parse::
+
+   Annotation converter interface.
+
+   As the different modules used for NLU use different formats for
+   training, file converters are needed.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.utils.annotation_converter.AnnotationConverter
+
+
+Module Contents
+---------------
+
+.. py:class:: AnnotationConverter(filepath: str, save_to_path: Optional[str] = None)
+
+   Bases: :py:obj:`abc.ABC`
+
+
+   Annotation converter interface.
+
+   .. attribute:: filepath
+
+      String path to the original annotation file.
+
+   .. attribute:: save_to_path
+
+      Optional String path to the destination directory.
+
+
+   .. py:method:: run() -> Dict[str, str]
+      :abstractmethod:
+
+
+      Runs the converter.
+
+      The conversion will run and save to 'save_to_path' directory. If the
+      converter supports different file outputs, this method will run all the
+      supported conversions.
+
+      :returns: Dictionary with filename and filepath pairs.
+
+      :raises NotImplementedError:
+
+
+

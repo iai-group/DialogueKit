@@ -1,0 +1,117 @@
+dialoguekit.nlg.nlg_conditional
+===============================
+
+.. py:module:: dialoguekit.nlg.nlg_conditional
+
+.. autoapi-nested-parse::
+
+   Conditional NLG.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.nlg.nlg_conditional.ConditionalNLG
+
+
+Module Contents
+---------------
+
+.. py:class:: ConditionalNLG(response_templates: Dict[dialoguekit.core.intent.Intent, List[dialoguekit.core.annotated_utterance.AnnotatedUtterance]])
+
+   Bases: :py:obj:`dialoguekit.nlg.nlg_template.TemplateNLG`
+
+
+   Template-based NLG with support for conditional.
+
+
+   .. py:method:: generate_utterance_text(intent: dialoguekit.core.intent.Intent, annotations: Optional[Union[List[dialoguekit.core.annotation.Annotation], None]] = None, force_annotation: Optional[bool] = False) -> dialoguekit.core.annotated_utterance.AnnotatedUtterance
+
+      Turns a structured utterance into a textual one.
+
+      This method does essentially the same as
+      TemplateNLG.generate_utterance_text(), if you want to use the
+      conditional you should rather use the method
+      generate_utterance_text_conditional().
+
+      .. note::
+
+          If the template does not contain the desired intent, a fallback will
+          be used. Stating "Sorry, I did not understand you." The response
+          will have the same 'intent'.
+
+      Generating a response is a multi-step process:
+
+      1. Responses to the desired 'intent' will be selected.
+
+      2. Based on the list of 'annotations', only the possible responses are
+         kept, i.e., filter out responses that are not usable.
+
+      3. If 'satisfaction' is provided:
+         Filter to the closest responses that are possible, and select a
+         random one.
+
+      4. If 'satisfaction' is not provided:
+         Select a random one without looking at the satisfaction metric.
+
+
+      :param intent: The intent of the wanted Utterance.
+      :param annotations: The wanted annotations in the response Utterance.
+      :param force_annotation: if 'True' and 'annotations' are provided,
+                               responses without annotations will also be filtered out during
+                               step 2.
+
+      :returns: Generated response utterance using templates.
+
+                .. note::
+
+                    Note: if the filtering after step 1 and 2 does not find any
+                    response that satisfies the criteria 'ValueError' will be
+                    raised.
+
+
+
+   .. py:method:: generate_utterance_text_conditional(intent: dialoguekit.core.intent.Intent, annotations: Optional[Union[List[dialoguekit.core.annotation.Annotation], None]] = None, conditional: Optional[Union[str, None]] = None, conditional_value: Optional[Union[numbers.Number, None]] = None, force_annotation: Optional[bool] = False) -> dialoguekit.core.annotated_utterance.AnnotatedUtterance
+
+      Turns a structured utterance into a textual one.
+
+      The conditional field has to be part of the AnnotatedUtterance metadata
+      field and also a Number.
+
+      Note:
+      If the template does not contain the desired intent, a fallback will be
+      used. Stating "Sorry, I did not understand you." The response will have
+      the same 'intent'.
+
+      Generating a response is a multi-step process.
+          1. Responses to the desired 'intent' will be selected.
+          2. Based on the list of 'annotations' only the possible responses,
+              are kept. e.g. Filter out responses that are not possible to
+              use are removed.
+          3. a) If conditional is provided:
+              Filter to the closest responses that are possible to the
+              conditional_value, and select a random one.
+          3. b) If conditional is not provided:
+              Select a random one without looking at the conditional_value.
+
+      :param intent: The intent of the wanted Utterance.
+      :param annotations: The wanted annotations in the response Utterance.
+      :param conditional: The desired metadata field to use as a conditional.
+      :param conditional_value: The desired conditional value score.
+      :param force_annotation: If 'True' and 'annotations' are provided,
+                               responses without annotations will also be filtered out during
+                               step 2.
+
+      :returns: Generated response utterance using templates.
+
+                .. note::
+
+                    Note: if the filtering after step 1 and 2 does not find any
+                    response that satisfies the criteria 'ValueError' will be
+                    raised.
+
+
+

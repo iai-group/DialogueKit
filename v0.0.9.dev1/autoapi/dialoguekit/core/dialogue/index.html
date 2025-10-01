@@ -1,0 +1,261 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dialoguekit.core.dialogue &mdash; DialogueKit 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.png"/>
+      <script src="../../../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="dialoguekit.core.dialogue_act" href="../dialogue_act/index.html" />
+    <link rel="prev" title="dialoguekit.core.annotation" href="../annotation/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            DialogueKit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts.html">Main concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../components.html">Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external_agents.html">External Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dialogue_export.html">DialogueKit Dialogue Export Format</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">dialoguekit</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../connector/index.html">dialoguekit.connector</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">dialoguekit.core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../nlg/index.html">dialoguekit.nlg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../nlu/index.html">dialoguekit.nlu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../participant/index.html">dialoguekit.participant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../platforms/index.html">dialoguekit.platforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../utils/index.html">dialoguekit.utils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">DialogueKit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">dialoguekit</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">dialoguekit.core</a></li>
+      <li class="breadcrumb-item active">dialoguekit.core.dialogue</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/dialoguekit/core/dialogue/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dialoguekit.core.dialogue">
+<span id="dialoguekit-core-dialogue"></span><h1>dialoguekit.core.dialogue<a class="headerlink" href="#module-dialoguekit.core.dialogue" title="Link to this heading">¶</a></h1>
+<p>Interface representing the sequence of utterances in a dialogue.</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dialoguekit.core.dialogue.Dialogue" title="dialoguekit.core.dialogue.Dialogue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Dialogue</span></code></a></p></td>
+<td><p>Represents a dialogue.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dialoguekit.core.dialogue.</span></span><span class="sig-name descname"><span class="pre">Dialogue</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">agent_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conversation_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a dialogue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>agent_id</strong> – Agent ID.</p></li>
+<li><p><strong>user_id</strong> – User ID.</p></li>
+<li><p><strong>conversation_id</strong> – Conversation ID. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue.conversation_id">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">conversation_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue.conversation_id" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the conversation ID.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue.agent_id">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">agent_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue.agent_id" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the agent ID.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue.user_id">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">user_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue.user_id" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the user ID.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue.utterances">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">utterances</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../utterance/index.html#dialoguekit.core.utterance.Utterance" title="dialoguekit.core.utterance.Utterance"><span class="pre">dialoguekit.core.utterance.Utterance</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue.utterances" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the utterances in the dialogue.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue.get_utterance_feedback">
+<span class="sig-name descname"><span class="pre">get_utterance_feedback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">utterance_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../feedback/index.html#dialoguekit.core.feedback.UtteranceFeedback" title="dialoguekit.core.feedback.UtteranceFeedback"><span class="pre">dialoguekit.core.feedback.UtteranceFeedback</span></a></span></span><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue.get_utterance_feedback" title="Link to this definition">¶</a></dt>
+<dd><p>Returns feedback on given utterance.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue.metadata">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue.metadata" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the metadata of the dialogue.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue.current_turn_id">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current_turn_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue.current_turn_id" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the ID of the current utterance.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue.add_utterance">
+<span class="sig-name descname"><span class="pre">add_utterance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">utterance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../utterance/index.html#dialoguekit.core.utterance.Utterance" title="dialoguekit.core.utterance.Utterance"><span class="pre">dialoguekit.core.utterance.Utterance</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue.add_utterance" title="Link to this definition">¶</a></dt>
+<dd><p>Adds an utterance to the history.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>utterance</strong> – An instance of Utterance.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue.add_utterance_feedback">
+<span class="sig-name descname"><span class="pre">add_utterance_feedback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">utterance_feedback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../feedback/index.html#dialoguekit.core.feedback.UtteranceFeedback" title="dialoguekit.core.feedback.UtteranceFeedback"><span class="pre">dialoguekit.core.feedback.UtteranceFeedback</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">utterance_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue.add_utterance_feedback" title="Link to this definition">¶</a></dt>
+<dd><p>Adds user’s feedback on utterance level.</p>
+<p>The feedback previously added for a given utterance is overwritten.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>utterance_feedback</strong> – User’s feedback.</p></li>
+<li><p><strong>utterance_id</strong> – Utterance ID.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.core.dialogue.Dialogue.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dialoguekit.core.dialogue.Dialogue.to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Converts the dialogue to a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dialogue as dictionary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../annotation/index.html" class="btn btn-neutral float-left" title="dialoguekit.core.annotation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../dialogue_act/index.html" class="btn btn-neutral float-right" title="dialoguekit.core.dialogue_act" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, IAI group, University of Stavanger.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v0.0.9.dev1
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../../../main/index.html">main</a></dd>
+            <dt>Tags</dt>
+            <dd><a href="../../../../../v0.0.7/index.html">v0.0.7</a></dd>
+            <dd><a href="../../../../../v0.0.8/index.html">v0.0.8</a></dd>
+            <dd><a href="../../../../../v0.0.9/index.html">v0.0.9</a></dd>
+            <dd><a href="../../../../../v0.0.9.dev0/index.html">v0.0.9.dev0</a></dd>
+            <dd><a href="index.html">v0.0.9.dev1</a></dd>
+            <dd><a href="../../../../../v0.1.0/index.html">v0.1.0</a></dd>
+        </dl>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+dialoguekit.core.recsys.item
+============================
+
+.. py:module:: dialoguekit.core.recsys.item
+
+.. autoapi-nested-parse::
+
+   Represents an item.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.recsys.item.Item
+
+
+Module Contents
+---------------
+
+.. py:class:: Item(item_id: str, name: str, properties: Dict[str, Any] = None)
+
+   Create recsys item.
+
+   Creates an item, which minimally has an ID and a canonical name, and
+   can optionally have any number of properties, which are represented as
+   key-value pairs.
+
+   :param item_id: Item ID.
+   :param name: Item name.
+   :param properties: Dictionary of item properties (key-value pairs).
+                      Defaults to None.
+
+
+   .. py:property:: id
+      :type: str
+
+
+      Return the item id.
+
+
+   .. py:property:: name
+      :type: str
+
+
+      Return the item name.
+
+
+   .. py:method:: get_property(key: str) -> Any
+
+      Returns a given item property.
+
+      :param key: Name of property.
+
+      :returns: Value of property or None.
+
+
+
+   .. py:method:: set_property(key: str, value: Any) -> None
+
+      Sets the value of a given item property.
+
+      If the item property exists it will be overwritten.
+
+      :param key: Property name.
+      :param value: Property value.
+
+
+

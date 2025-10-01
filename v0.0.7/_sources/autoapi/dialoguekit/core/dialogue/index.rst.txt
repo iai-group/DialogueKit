@@ -1,0 +1,69 @@
+dialoguekit.core.dialogue
+=========================
+
+.. py:module:: dialoguekit.core.dialogue
+
+.. autoapi-nested-parse::
+
+   Interface representing the sequence of utterances in a dialogue.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.dialogue.Dialogue
+
+
+Module Contents
+---------------
+
+.. py:class:: Dialogue(agent_id: str, user_id: str)
+
+   Represents a dialogue.
+
+   :param agent_id: Agent ID.
+   :param user_id: User ID.
+
+
+   .. py:property:: agent_id
+      :type: str
+
+
+      Returns the agent id.
+
+
+   .. py:property:: user_id
+      :type: str
+
+
+      Returns the user id.
+
+
+   .. py:property:: utterances
+      :type: List[dialoguekit.core.annotated_utterance.AnnotatedUtterance]
+
+
+      Returns the utterances in the dialogue.
+
+
+   .. py:method:: add_utterance(utterance: dialoguekit.core.annotated_utterance.AnnotatedUtterance) -> None
+
+      Adds an utterance to the history.
+
+      :param utterance: An instance of Utterance.
+
+
+
+   .. py:method:: to_dict() -> Dict[str, Any]
+
+      Converts the dialogue to a dictionary.
+
+      TODO Finalize this method.
+
+      :returns: Dialogue as dictionary.
+
+
+

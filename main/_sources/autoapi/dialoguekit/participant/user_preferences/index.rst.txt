@@ -1,0 +1,65 @@
+dialoguekit.participant.user_preferences
+========================================
+
+.. py:module:: dialoguekit.participant.user_preferences
+
+.. autoapi-nested-parse::
+
+   General representation of user preferences.
+
+   Preferences are given to key-value pairs in terms of real values in the range
+   [-1,1].
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.participant.user_preferences.UserPreferences
+
+
+Module Contents
+---------------
+
+.. py:class:: UserPreferences(user_id: str)
+
+   Initializes the user's preference model.
+
+   :param user_id: User ID.
+
+
+   .. py:method:: set_preference(key: str, value: str, preference: float) -> None
+
+      Sets (or updates) preference for a given key-value pair.
+
+      :param key: Key.
+      :param value: Value.
+      :param preference: Preference, represented as a float in [-1,1].
+
+      :raises ValueError: Preference is outside the allowed range.
+
+
+
+   .. py:method:: get_preferences(key: str) -> Optional[Dict[str, float]]
+
+      Returns the preferences on all keys.
+
+      :param key: Key.
+
+      :returns: Preferences as key-preference pairs in a dictionary (or None).
+
+
+
+   .. py:method:: get_preference(key: str, value: str) -> Optional[float]
+
+      Returns the preference on a key-value pair (or None).
+
+      :param key: Key.
+      :param value: Value.
+
+      :returns: Preference, as a float in [-1,1] or None.
+
+
+

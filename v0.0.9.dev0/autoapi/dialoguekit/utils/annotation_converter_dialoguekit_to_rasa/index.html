@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>dialoguekit.utils.annotation_converter_dialoguekit_to_rasa &mdash; DialogueKit 0.0.9 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+
+  
+    <link rel="shortcut icon" href="../../../../_static/favicon.png"/>
+      <script src="../../../../_static/documentation_options.js?v=f7cdbf68"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="dialoguekit.utils.dialogue_evaluation" href="../dialogue_evaluation/index.html" />
+    <link rel="prev" title="dialoguekit.utils.annotation_converter" href="../annotation_converter/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            DialogueKit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../concepts.html">Main concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../components.html">Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external_agents.html">External Agents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dialogue_export.html">DialogueKit Dialogue Export Format</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">dialoguekit</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../../index.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../connector/index.html">dialoguekit.connector</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../core/index.html">dialoguekit.core</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../nlg/index.html">dialoguekit.nlg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../nlu/index.html">dialoguekit.nlu</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../participant/index.html">dialoguekit.participant</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../platforms/index.html">dialoguekit.platforms</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../index.html">dialoguekit.utils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">DialogueKit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">dialoguekit</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">dialoguekit.utils</a></li>
+      <li class="breadcrumb-item active">dialoguekit.utils.annotation_converter_dialoguekit_to_rasa</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/autoapi/dialoguekit/utils/annotation_converter_dialoguekit_to_rasa/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-dialoguekit.utils.annotation_converter_dialoguekit_to_rasa">
+<span id="dialoguekit-utils-annotation-converter-dialoguekit-to-rasa"></span><h1>dialoguekit.utils.annotation_converter_dialoguekit_to_rasa<a class="headerlink" href="#module-dialoguekit.utils.annotation_converter_dialoguekit_to_rasa" title="Link to this heading">¶</a></h1>
+<p>Convert annotations to be compatible with the rasa models.</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.converter" title="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.converter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">converter</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.LiteralString" title="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.LiteralString"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LiteralString</span></code></a></p></td>
+<td><p>Initialize self.  See help(type(self)) for accurate signature.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa" title="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AnnotationConverterRasa</span></code></a></p></td>
+<td><p>Converts annotations to be compatible with rasa.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.LiteralString">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.</span></span><span class="sig-name descname"><span class="pre">LiteralString</span></span><a class="headerlink" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.LiteralString" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.</span></span><span class="sig-name descname"><span class="pre">AnnotationConverterRasa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_to_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../annotation_converter/index.html#dialoguekit.utils.annotation_converter.AnnotationConverter" title="dialoguekit.utils.annotation_converter.AnnotationConverter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dialoguekit.utils.annotation_converter.AnnotationConverter</span></code></a></p>
+<p>Converts annotations to be compatible with rasa.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> – Training data path.</p></li>
+<li><p><strong>save_to_path</strong> – Path to store the converted annotations.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa.rasa_string">
+<span class="sig-name descname"><span class="pre">rasa_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa.rasa_string" title="Link to this definition">¶</a></dt>
+<dd><p>Reformats string to be compatible with rasa.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> – strings to be reformated.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String containing the original items to be inserted into the rasa
+training data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa.change_style">
+<span class="sig-name descname"><span class="pre">change_style</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">representer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa.change_style" title="Link to this definition">¶</a></dt>
+<dd><p>Used to change the python yaml data representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>style</strong> – Style used to represent type</p></li>
+<li><p><strong>representer</strong> – ScalerNode representer</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Representer used for rasa formatting.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa.read_original">
+<span class="sig-name descname"><span class="pre">read_original</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa.read_original" title="Link to this definition">¶</a></dt>
+<dd><p>Reads the original training data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa.run" title="Link to this definition">¶</a></dt>
+<dd><p>Generates 4 conversions of DialogueKit to Rasa compatible files.</p>
+<p>The generated files are saved in the self._save_to_path.</p>
+<dl class="simple">
+<dt>Generated files:</dt><dd><ol class="arabic simple">
+<li><dl class="simple">
+<dt>&lt;originalname&gt;_reformat.yaml</dt><dd><p>The original file saved as a yaml</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>&lt;originalname&gt;_types_w_examples.yaml</dt><dd><p>The entity types with the corresponding entities identified in
+the text. Used to debug and give an overview</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>&lt;originalname&gt;_rasa_user.yaml</dt><dd><p>Conversion of the annotation file to a rasa nlu doc.
+This file represents the USER utterances with intents</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>&lt;originalname&gt;_rasa_agent.yaml</dt><dd><p>Conversion of the annotation file to a rasa nlu doc.
+This file represents the AGENT utterances with intents</p>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>path to file pairs</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filename</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa.dialoguekit_to_rasa">
+<span class="sig-name descname"><span class="pre">dialoguekit_to_rasa</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">utterances</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/utterance/index.html#dialoguekit.core.utterance.Utterance" title="dialoguekit.core.utterance.Utterance"><span class="pre">dialoguekit.core.utterance.Utterance</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intents</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../core/intent/index.html#dialoguekit.core.intent.Intent" title="dialoguekit.core.intent.Intent"><span class="pre">dialoguekit.core.intent.Intent</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.AnnotationConverterRasa.dialoguekit_to_rasa" title="Link to this definition">¶</a></dt>
+<dd><p>Converts utterances to be rasa compatible.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>utterances</strong> – Utterances to convert.</p></li>
+<li><p><strong>intents</strong> – The intents of the utterances.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Rasa string with the utterances.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.converter">
+<span class="sig-prename descclassname"><span class="pre">dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.</span></span><span class="sig-name descname"><span class="pre">converter</span></span><a class="headerlink" href="#dialoguekit.utils.annotation_converter_dialoguekit_to_rasa.converter" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../annotation_converter/index.html" class="btn btn-neutral float-left" title="dialoguekit.utils.annotation_converter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../dialogue_evaluation/index.html" class="btn btn-neutral float-right" title="dialoguekit.utils.dialogue_evaluation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, IAI group, University of Stavanger.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v0.0.9.dev0
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../../../main/index.html">main</a></dd>
+            <dt>Tags</dt>
+            <dd><a href="../../../../../v0.0.7/index.html">v0.0.7</a></dd>
+            <dd><a href="../../../../../v0.0.8/index.html">v0.0.8</a></dd>
+            <dd><a href="../../../../../v0.0.9/index.html">v0.0.9</a></dd>
+            <dd><a href="index.html">v0.0.9.dev0</a></dd>
+            <dd><a href="../../../../../v0.0.9.dev1/index.html">v0.0.9.dev1</a></dd>
+            <dd><a href="../../../../../v0.1.0/index.html">v0.1.0</a></dd>
+        </dl>
+    </div>
+</div><script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

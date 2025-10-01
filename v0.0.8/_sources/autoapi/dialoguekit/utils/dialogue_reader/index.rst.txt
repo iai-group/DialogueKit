@@ -1,0 +1,51 @@
+dialoguekit.utils.dialogue_reader
+=================================
+
+.. py:module:: dialoguekit.utils.dialogue_reader
+
+.. autoapi-nested-parse::
+
+   Methods for reading dialogue exports.
+
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   dialoguekit.utils.dialogue_reader.json_to_annotated_utterance
+   dialoguekit.utils.dialogue_reader.json_to_dialogues
+
+
+Module Contents
+---------------
+
+.. py:function:: json_to_annotated_utterance(json_utterance: Dict[Any, Any]) -> dialoguekit.core.annotated_utterance.AnnotatedUtterance
+
+   Converts an utterance from JSON format to AnnotatedUtterance.
+
+   :param json_utterance: JSON format of an utterance, e.g.,
+
+                          .. code:: python
+
+                              {
+                                  "participant": "USER",
+                                  "utterance": "hello",
+                                  "intent": "DISCLOSE.NON-DISCLOSE"
+                              }
+
+   :returns: An AnnotatedUtterance object representation of the json utterance.
+
+
+.. py:function:: json_to_dialogues(filepath: str, agent_id: str, user_id: str) -> List[dialoguekit.core.dialogue.Dialogue]
+
+   Parses a JSON file containing dialogues.
+
+   :param filepath: Path to JSON file containing the dialogues.
+   :param agent_id: Agent ID in the dialogues.
+   :param user_id: User ID in the dialogues.
+
+   :returns: A list of Dialogue objects.
+
+

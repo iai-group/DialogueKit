@@ -1,0 +1,116 @@
+dialoguekit.core.annotated_utterance
+====================================
+
+.. py:module:: dialoguekit.core.annotated_utterance
+
+.. autoapi-nested-parse::
+
+   Interface extending utterances with annotations.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.annotated_utterance.AnnotatedUtterance
+
+
+Module Contents
+---------------
+
+.. py:class:: AnnotatedUtterance(text: str, participant: dialoguekit.participant.participant.DialogueParticipant, timestamp: Optional[datetime.datetime] = None, intent: Optional[dialoguekit.core.intent.Intent] = None, annotations: Optional[List[dialoguekit.core.annotation.Annotation]] = None, metadata: Optional[Dict[str, Any]] = None)
+
+   Bases: :py:obj:`dialoguekit.core.utterance.Utterance`
+
+
+   Represents an utterance, with additional annotations.
+
+   The AnnotatedUtterance is a Utterance with additional information.
+   In some cases we want to send an utterance with the Intent and or
+   Annotations.
+
+   :param text: Utterance text.
+   :param participant: The owner of the utterance.
+   :param timestamp: When the utterance was uttered.
+   :param intent: The intent of the utterance.
+   :param annotations: Annotations of the Utterance text.
+   :param metadata: Dict with optional attributes (satisfaction etc.).
+
+
+   .. py:property:: text
+      :type: str
+
+
+      Returns the utterance intent.
+
+
+   .. py:property:: intent
+      :type: dialoguekit.core.intent.Intent
+
+
+      Returns the utterance intent.
+
+
+   .. py:property:: utterance
+      :type: dialoguekit.core.utterance.Utterance
+
+
+      Returns the annotated utterance as a utterance.
+
+
+   .. py:property:: participant
+      :type: dialoguekit.participant.participant.DialogueParticipant
+
+
+      Returns the utterance participant.
+
+
+   .. py:property:: metadata
+      :type: Dict[str, Any]
+
+
+      Returns the utterance metadata.
+
+
+   .. py:method:: from_utterance(utterance: dialoguekit.core.utterance.Utterance)
+      :classmethod:
+
+
+      Creates an instance of AnnotatedUtterance from an utterance.
+
+
+
+   .. py:method:: add_annotation(annotation: Union[dialoguekit.core.annotation.Annotation, List[dialoguekit.core.annotation.Annotation]]) -> None
+
+      Adds an annotation to the utterance.
+
+      :param annotation: Annotation instance.
+
+
+
+   .. py:method:: get_annotations() -> List[dialoguekit.core.annotation.Annotation]
+
+      Returns the available annotations for the utterance.
+
+      Returns: List of Annotation instances.
+
+
+
+   .. py:method:: set_participant(participant: dialoguekit.participant.participant.DialogueParticipant) -> None
+
+      Sets the utterance participant type.
+
+      :param participant: Participant type who uttered the utterance.
+
+
+
+   .. py:method:: get_text_placeholders() -> str
+
+      Replaces the utterance text with placeholders.
+
+      :returns: The utterance text with annotations replaced with placeholders.
+
+
+

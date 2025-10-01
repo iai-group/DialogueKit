@@ -1,0 +1,89 @@
+dialoguekit.utils.dialogue_evaluation
+=====================================
+
+.. py:module:: dialoguekit.utils.dialogue_evaluation
+
+.. autoapi-nested-parse::
+
+   Evaluation module.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.utils.dialogue_evaluation.Evaluator
+
+
+Module Contents
+---------------
+
+.. py:class:: Evaluator(dialogues: List[dialoguekit.core.dialogue.Dialogue], reward_config: Dict[str, Any])
+
+   Dialogue evaluator.
+
+   Evaluates a set of dialogues using standard metrics.
+
+   :param dialogues: A list of Dialogue objects to be evaluated.
+   :param reward_config: A dictionary with reward settings. For an example
+                         config, consult the documentation.
+
+
+   .. py:method:: avg_turns() -> float
+
+      Calculates the AvgTurns for the dialogues.
+
+      AvgTurns reflects the average number of system-user turn pairs in a list
+      of dialogues.
+
+      :returns: The computed metric as a float value.
+
+
+
+   .. py:method:: user_act_ratio() -> Dict[str, float]
+
+      Computes the UserActRatio for the dialogues.
+
+      UserActRatio per dialogue is computed as the ratio of user actions
+      observed in the dialogue.
+
+      :returns: A dictionary with participant and ActRatio as key-value pairs.
+
+
+
+   .. py:method:: reward() -> Dict[str, List[Dict[str, float]]]
+
+      Computes reward for the dialogues, according to the reward config.
+
+      Reward is used to penalize agents that do not support a set of intents
+      defined in the config file, and long dialogues.
+
+      :returns:
+
+                .. code:: python
+
+                    {
+                        "missing_intents": [],
+                        "dialogues": [{
+                            "reward": int,
+                            "user_turns": int,
+                            "repeats": int,
+                        }]
+                    }
+      :rtype: A dictionary with following structure (most important is "reward")
+
+
+
+   .. py:method:: satisfaction(satisfaction_classifier: dialoguekit.nlu.models.satisfaction_classifier.SatisfactionClassifierSVM) -> List[int]
+
+      Classifies dialogue-level satisfaction score.
+
+      Satisfaction is scored using a SatisfactionClassifier model. Based on
+      last n turns, it computes a satisfaction score.
+
+      :returns: A list with satisfaction score for each dialogue.
+
+
+

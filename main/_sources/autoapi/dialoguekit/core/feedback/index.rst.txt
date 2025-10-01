@@ -1,0 +1,58 @@
+dialoguekit.core.feedback
+=========================
+
+.. py:module:: dialoguekit.core.feedback
+
+.. autoapi-nested-parse::
+
+   Interface representing user's feedback.
+
+   Currently only binary feedback is supported on the utterance level. Later, it
+   might be extended to graded feedback as well as with conversation-level
+   feedback.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   dialoguekit.core.feedback.BinaryFeedback
+   dialoguekit.core.feedback.UtteranceFeedback
+
+
+Module Contents
+---------------
+
+.. py:class:: BinaryFeedback(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Represents binary feedback provided by a user.
+
+
+   .. py:attribute:: NEGATIVE
+      :value: 0
+
+
+
+   .. py:attribute:: POSITIVE
+      :value: 1
+
+
+
+.. py:class:: UtteranceFeedback
+
+   Represents feedback provided for the utterance.
+
+
+   .. py:attribute:: utterance_id
+      :type:  str
+
+
+   .. py:attribute:: feedback
+      :type:  BinaryFeedback
+
+
